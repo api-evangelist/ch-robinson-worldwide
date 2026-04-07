@@ -1,7 +1,11 @@
 aid: ch-robinson-worldwide
-url: https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/refs/heads/main/apis.yml
+url: 
+  https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/refs/heads/main/apis.yml
 modified: '2026-03-21'
 apis: []
 common:
   - type: Website
     url: https://www.ch-robinson-worldwide.com
+description: >-
+  C.H. Robinson Worldwide is a third-party logistics provider offering global freight
+  transportation services, logistics outsourcing, and sourcing of fresh produce.
