@@ -2,7 +2,7 @@ aid: ch-robinson-worldwide
 url: >-
   https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/refs/heads/main/apis.yml
 name: C.H. Robinson
-x-type: company
+kind: company
 tags:
   - Freight
   - Logistics
