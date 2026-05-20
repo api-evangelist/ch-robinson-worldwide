@@ -72,6 +72,8 @@ apis:
       payment, and business intelligence access across multi-modal
       transportation (truckload, LTL, intermodal, ocean, air, customs).
 common:
+  - type: GitHubOrganization
+    url: https://github.com/ch-robinson
   - type: Website
     url: https://www.chrobinson.com
   - type: DeveloperPortal
