@@ -168,6 +168,8 @@ common:
       - name: Managed Services
       - name: Supply Chain Consulting
       - name: Robinson Fresh
+  - type: LLMsTxt
+    url: https://developer.chrobinson.com/llms.txt
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com
