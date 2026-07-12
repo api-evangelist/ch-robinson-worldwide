@@ -73,6 +73,8 @@ apis:
       payment, and business intelligence access across multi-modal
       transportation (truckload, LTL, intermodal, ocean, air, customs).
 common:
+  - type: DomainSecurity
+    url: security/ch-robinson-worldwide-domain-security.yml
   - type: GitHubOrganization
     url: https://github.com/ch-robinson
   - type: Website
