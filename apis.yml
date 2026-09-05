@@ -38,7 +38,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/ch-robinson-worldwide.png
 access: 3rd-Party
 created: '2025-01-01'
-modified: '2026-04-23'
+modified: '2026-09-05'
 position: Consuming
 description: >-
   C.H. Robinson is one of the world's largest third-party logistics (3PL)
@@ -60,12 +60,16 @@ apis:
       - Payment
       - Visibility
     humanURL: https://developer.chrobinson.com/carrier
-    baseURL: https://developer.chrobinson.com
+    baseURL: https://api.navisphere.com
     properties:
       - url: https://developer.chrobinson.com/carrier
         type: Documentation
       - url: https://www.chrobinson.com/en-us/carriers/api-connectivity/
         type: Overview
+      - url: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+        type: OpenAPI
+      - url: https://developer.chrobinson.com/api-reference
+        type: APIReference
     description: >-
       The C.H. Robinson Carrier API enables carriers to find, offer, book,
       and auto-create loads directly from their own TMS, send visibility
@@ -82,12 +86,16 @@ apis:
       - Tracking
       - TMS
     humanURL: https://www.chrobinson.com/en-us/technology/shipper-technology/navisphere/
-    baseURL: https://developer.chrobinson.com
+    baseURL: https://api.navisphere.com
     properties:
       - url: https://developer.chrobinson.com/
         type: Documentation
-      - url: https://www.chrobinson.com/en-us/technology/connectivity-integrations/
+      - url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
         type: Overview
+      - url: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+        type: OpenAPI
+      - url: https://developer.chrobinson.com/api-reference
+        type: APIReference
     description: >-
       The Navisphere Shipper API integrates C.H. Robinson's global
       transportation management system into a shipper's TMS or ERP.
@@ -96,6 +104,10 @@ apis:
       payment, and business intelligence access across multi-modal
       transportation (truckload, LTL, intermodal, ocean, air, customs).
 common:
+  - type: AgenticAccess
+    url: agentic-access/ch-robinson-worldwide-agentic-access.yml
+  - type: Authentication
+    url: authentication/ch-robinson-worldwide-authentication.yml
   - type: DomainSecurity
     url: security/ch-robinson-worldwide-domain-security.yml
   - type: GitHubOrganization
@@ -105,7 +117,7 @@ common:
   - type: DeveloperPortal
     url: https://developer.chrobinson.com/
   - type: Documentation
-    url: https://www.chrobinson.com/en-us/technology/connectivity-integrations/
+    url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
   - type: Technology
     url: https://www.chrobinson.com/en-us/technology/
   - type: Navisphere
@@ -117,7 +129,7 @@ common:
   - type: Careers
     url: https://jobs.chrobinson.com/
   - type: News
-    url: https://www.chrobinson.com/en-us/newsroom/
+    url: https://www.chrobinson.com/en-us/about-us/newsroom/
   - type: Investors
     url: https://investor.chrobinson.com/
   - type: TermsOfService
@@ -125,7 +137,7 @@ common:
   - type: PrivacyPolicy
     url: https://www.chrobinson.com/en-us/privacy-notice/
   - type: LinkedIn
-    url: https://www.linkedin.com/company/c.h.-robinson/
+    url: https://www.linkedin.com/company/c-h-robinson/
   - type: X
     url: https://x.com/CHRobinsonInc
   - name: Features
@@ -194,9 +206,55 @@ common:
       - name: Managed Services
       - name: Supply Chain Consulting
       - name: Robinson Fresh
-  - type: LlmsText
-    url: https://developer.chrobinson.com/llms.txt
+  - type: LLMsTxt
+    url: llms/ch-robinson-worldwide-llms.txt
+  - type: OpenAPI
+    url: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+  - type: APIReference
+    url: https://developer.chrobinson.com/api-reference
+  - type: GettingStarted
+    url: https://developer.chrobinson.com/carrier
+  - type: Support
+    url: https://developer.chrobinson.com/support
+  - type: Blog
+    url: https://www.chrobinson.com/en-us/resources/blog/
+  - type: Postman
+    url: https://api.navisphere.com/api/B2B/Portal/v1/documents/customerApiOnboardingCollectionPublic.json
+  - type: StatusPage
+    url: https://developer.chrobinson.com/status
+  - type: Lifecycle
+    url: lifecycle/ch-robinson-worldwide-lifecycle.yml
+  - type: Conventions
+    url: conventions/ch-robinson-worldwide-conventions.yml
+  - type: ErrorCatalog
+    url: errors/ch-robinson-worldwide-problem-types.yml
+  - type: Conformance
+    url: conformance/ch-robinson-worldwide-conformance.yml
+  - type: DataModel
+    url: data-model/ch-robinson-worldwide-data-model.yml
+  - type: Packages
+    url: packages/ch-robinson-worldwide-packages.yml
+  - type: Sandbox
+    url: sandbox/ch-robinson-worldwide-sandbox.yml
+  - type: Webhooks
+    url: asyncapi/ch-robinson-worldwide-webhooks.yml
+  - type: X-MCPServerCandidate
+    url: mcp/ch-robinson-worldwide-mcp.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: Overlay
+    url: overlays/ch-robinson-worldwide-rest-apis-overlay.yaml
+  - type: RateLimits
+    url: rate-limits/ch-robinson-worldwide-rate-limits.yml
+  - type: Plans
+    url: plans/ch-robinson-worldwide-plans-pricing.yml
 maintainers:
   - FN: Kin Lane
     email: info@apievangelist.com
 specificationVersion: '0.23'
+
+x-enrichment:
+  date: '2026-09-05'
+  status: enriched
+  artifacts_added: 21
+  pass: local-v3

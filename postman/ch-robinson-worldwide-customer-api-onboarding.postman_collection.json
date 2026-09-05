@@ -1,0 +1,931 @@
+{
+	"info": {
+		"_postman_id": "8b89101c-b9bc-49f3-a07a-99ab0eafc2ec",
+		"name": "Customer API Onboarding Collection - Public",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24152219"
+	},
+	"item": [
+		{
+			"name": "TL Rate and Simple Order Flow",
+			"item": [
+				{
+					"name": "Rate TL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"description\": \"Widgets\",\r\n            \"weight\": 20000,\r\n            \"weightUnitOfMeasure\": \"Pounds\",\r\n            \"pallets\": 20,\r\n            \"palletSpaces\": 20,\r\n            \"quantity\": 30,\r\n            \"packagingType\": \"CTN\"\r\n        }\r\n    ],\r\n    \"origin\": {\r\n        \"name\": \"Origin Name\",\r\n        \"address1\": \"123 Shipper St\",\r\n        \"city\": \"Chicago\",\r\n        \"stateProvinceCode\": \"IL\",\r\n        \"countryCode\": \"US\",\r\n        \"postalCode\": \"60612\",\r\n        \"specialRequirement\": {\r\n            \"liftGate\": \"false\",\r\n            \"insidePickup\": \"false\",\r\n            \"insideDelivery\": \"false\",\r\n            \"residentialNonCommercial\": \"false\",\r\n            \"limitedAccess\": \"false\",\r\n            \"tradeShoworConvention\": \"false\",\r\n            \"constructionSite\": \"false\",\r\n            \"dropOffAtCarrierTerminal\": \"false\",\r\n            \"pickupAtCarrierTerminal\": \"false\"\r\n        }\r\n    },\r\n    \"destination\": {\r\n        \"name\": \"Destination Name\",\r\n        \"address1\": \"123 Destination St\",\r\n        \"city\": \"NEW BRAUNFELS\",\r\n        \"stateProvinceCode\": \"TX\",\r\n        \"countryCode\": \"US\",\r\n        \"postalCode\": \"78130\",\r\n        \"specialRequirement\": {\r\n            \"liftGate\": \"false\",\r\n            \"insidePickup\": \"false\",\r\n            \"insideDelivery\": \"false\",\r\n            \"residentialNonCommercial\": \"false\",\r\n            \"limitedAccess\": \"false\",\r\n            \"tradeShoworConvention\": \"false\",\r\n            \"constructionSite\": \"false\",\r\n            \"dropOffAtCarrierTerminal\": \"false\",\r\n            \"pickupAtCarrierTerminal\": \"false\"\r\n        }\r\n    },\r\n    \"shipDate\": \"{{shipDate}}\",\r\n    \"transactionId\": \"Test_123456789\",\r\n    \"customerCode\": \"{{customerCode}}\",\r\n    \"transportModes\": [\r\n        {\r\n            \"mode\": \"TL\",\r\n            \"equipments\": [\r\n                {\r\n                    \"equipmentType\": \"Van\",\r\n                    \"quantity\": 1\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://sandbox-api.navisphere.com/v1/quotes",
+							"protocol": "https",
+							"host": [
+								"sandbox-api",
+								"navisphere",
+								"com"
+							],
+							"path": [
+								"v1",
+								"quotes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Create TL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"customers\": [\r\n\t\t{\r\n\t\t\t\"customerCode\": \"{{customerCode}}\",\r\n\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"MBOL\",\r\n\t\t\t\t\t\"value\": \"Test_123456789\"\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"contacts\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Test\",\r\n\t\t\t\t\t\"type\": \"Contact\",\r\n\t\t\t\t\t\"companyName\": \"Test\",\r\n\t\t\t\t\t\"contactMethods\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"method\": \"Phone\",\r\n\t\t\t\t\t\t\t\"value\": \"(888) 888-3888\"\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"method\": \"Email\",\r\n\t\t\t\t\t\t\t\"value\": \"someone@somecompany.com\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"billTos\": [\r\n\t\t{\r\n\t\t\t\"customerCode\": \"{{customerCode}}\",\r\n\t\t\t\"currencyCode\": \"USD\",\r\n\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"SHID\",\r\n\t\t\t\t\t\"value\": \"Test_123456789\"\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"services\": [\r\n\t\t{\r\n\t\t\t\"sellMode\": \"TL\",\r\n\t\t\t\"locations\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"origin\",\r\n\t\t\t\t\t\"name\": \"Origin Name\",\r\n\t\t\t\t\t\"address\": {\r\n\t\t\t\t\t\t\"address1\": \"123 Shipper St\",\r\n\t\t\t\t\t\t\"city\": \"Chicago\",\r\n\t\t\t\t\t\t\"stateProvinceCode\": \"IL\",\r\n\t\t\t\t\t\t\"country\": \"US\",\r\n\t\t\t\t\t\t\"postalCode\": \"60612\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"openDateTime\": \"{{originOpenCloseDateTime}}\",\r\n\t\t\t\t\t\"closeDateTime\": \"{{originOpenCloseDateTime}}\",\r\n                    \"specialRequirement\": {\r\n                        \"liftGate\": false,\r\n                        \"insidePickup\": false,\r\n                        \"residentialNonCommercial\": false,\r\n                        \"limitedAccess\": false,\r\n                        \"tradeShoworConvention\": false,\r\n                        \"constructionSite\": false,\r\n                        \"dropOffAtCarrierTerminal\": false\r\n                    },\r\n                    \"specialInstructions\": \"Shipper notes here\",\r\n\t\t\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"type\": \"PU\",\r\n\t\t\t\t\t\t\t\"value\": \"Pickup 123\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n                    \"contacts\": [\r\n                        {\r\n                            \"name\": \"Pick Location Contact\",\r\n                            \"type\": \"Contact\",\r\n                            \"companyName\": \"Pick location\",\r\n                            \"contactMethods\": [\r\n                                {\r\n                                    \"method\": \"Phone\",\r\n                                    \"value\": \"8888888888\"\r\n                                }\r\n                            ]\r\n                        }\r\n                    ]\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"destination\",\r\n\t\t\t\t\t\"name\": \"Destination Name\",\r\n\t\t\t\t\t\"address\": {\r\n\t\t\t\t\t\t\"address1\": \"123 Destination St\",\r\n\t\t\t\t\t\t\"city\": \"NEW BRAUNFELS\",\r\n\t\t\t\t\t\t\"stateProvinceCode\": \"TX\",\r\n\t\t\t\t\t\t\"country\": \"US\",\r\n\t\t\t\t\t\t\"postalCode\": \"78130\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"openDateTime\": \"{{destinationOpenCloseDateTime}}\",\r\n\t\t\t\t\t\"closeDateTime\": \"{{destinationOpenCloseDateTime}}\",\r\n                    \"specialRequirement\": {\r\n                        \"liftGate\": false,\r\n                        \"insideDelivery\": false,\r\n                        \"residentialNonCommercial\": false,\r\n                        \"limitedAccess\": false,\r\n                        \"tradeShoworConvention\": false,\r\n                        \"constructionSite\": false,\r\n                        \"pickupAtCarrierTerminal\": false,\r\n                        \"sortAndSegregate\": false,\r\n                        \"appointmentNotification\": false\r\n                    },\r\n                    \"specialInstructions\": \"Receiver notes here\",\r\n\t\t\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"type\": \"DEL\",\r\n\t\t\t\t\t\t\t\"value\": \"Deliver 123\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n                    \"contacts\": [\r\n                        {\r\n                            \"name\": \"Drop Location Contact\",\r\n                            \"type\": \"Contact\",\r\n                            \"companyName\": \"Drop location\",\r\n                            \"contactMethods\": [\r\n                                {\r\n                                    \"method\": \"Phone\",\r\n                                    \"value\": \"8888888888\"\r\n                                }\r\n                            ]\r\n                        }\r\n                    ]\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"items\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"packagingType\": \"CTN\",\r\n\t\t\t\t\t\"quantity\": 30,\r\n\t\t\t\t\t\"description\": \"Widgets\",\r\n\t\t\t\t\t\"weight\": 20000,\r\n\t\t\t\t\t\"weightUnitOfMeasure\": \"Pounds\",\r\n\t\t\t\t\t\"insuranceValue\": \"100000\",\r\n\t\t\t\t\t\"pallets\": 20,\r\n\t\t\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"type\": \"PO\",\r\n\t\t\t\t\t\t\t\"value\": \"PO123\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"referenceNumbers\": [\r\n\t\t{\r\n\t\t\t\"type\": \"CON\",\r\n\t\t\t\"value\": \"Test_123456789\"\r\n\t\t},\r\n\t\t\t\t{\r\n\t\t\t\"type\": \"CUSTQUOTID\",\r\n\t\t\t\"value\": \"2180892466\"\r\n\t\t}\r\n\t],\r\n    \"notes\": \"shipment notes here\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://sandbox-api.navisphere.com/v1/orders",
+							"protocol": "https",
+							"host": [
+								"sandbox-api",
+								"navisphere",
+								"com"
+							],
+							"path": [
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Flatbed Rate and Simple Order Flow",
+			"item": [
+				{
+					"name": "Rate Flatbed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"description\": \"Widgets\",\r\n            \"weight\": 20000,\r\n            \"weightUnitOfMeasure\": \"Pounds\",\r\n            \"pallets\": 20,\r\n            \"palletSpaces\": 20,\r\n            \"quantity\": 30,\r\n            \"packagingType\": \"CTN\"\r\n        }\r\n    ],\r\n    \"origin\": {\r\n        \"name\": \"Origin Name\",\r\n        \"address1\": \"123 Shipper St\",\r\n        \"city\": \"Chicago\",\r\n        \"stateProvinceCode\": \"IL\",\r\n        \"countryCode\": \"US\",\r\n        \"postalCode\": \"60612\",\r\n        \"specialRequirement\": {\r\n            \"liftGate\": \"false\",\r\n            \"insidePickup\": \"false\",\r\n            \"insideDelivery\": \"false\",\r\n            \"residentialNonCommercial\": \"false\",\r\n            \"limitedAccess\": \"false\",\r\n            \"tradeShoworConvention\": \"false\",\r\n            \"constructionSite\": \"false\",\r\n            \"dropOffAtCarrierTerminal\": \"false\",\r\n            \"pickupAtCarrierTerminal\": \"false\"\r\n        }\r\n    },\r\n    \"destination\": {\r\n        \"name\": \"Destination Name\",\r\n        \"address1\": \"123 Destination St\",\r\n        \"city\": \"NEW BRAUNFELS\",\r\n        \"stateProvinceCode\": \"TX\",\r\n        \"countryCode\": \"US\",\r\n        \"postalCode\": \"78130\",\r\n        \"specialRequirement\": {\r\n            \"liftGate\": \"false\",\r\n            \"insidePickup\": \"false\",\r\n            \"insideDelivery\": \"false\",\r\n            \"residentialNonCommercial\": \"false\",\r\n            \"limitedAccess\": \"false\",\r\n            \"tradeShoworConvention\": \"false\",\r\n            \"constructionSite\": \"false\",\r\n            \"dropOffAtCarrierTerminal\": \"false\",\r\n            \"pickupAtCarrierTerminal\": \"false\"\r\n        }\r\n    },\r\n    \"shipDate\": \"{{shipDate}}\",\r\n    \"transactionId\": \"Test_123456789\",\r\n    \"customerCode\": \"{{customerCode}}\",\r\n    \"transportModes\": [\r\n        {\r\n            \"mode\": \"Flatbed\",\r\n            \"equipments\": [\r\n                {\r\n                    \"equipmentType\": \"Flatbed\",\r\n                    \"quantity\": 1\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://sandbox-api.navisphere.com/v1/quotes",
+							"protocol": "https",
+							"host": [
+								"sandbox-api",
+								"navisphere",
+								"com"
+							],
+							"path": [
+								"v1",
+								"quotes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Create Flatbed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"customers\": [\r\n\t\t{\r\n\t\t\t\"customerCode\": \"{{customerCode}}\",\r\n\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"MBOL\",\r\n\t\t\t\t\t\"value\": \"Test_123456789\"\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"contacts\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Test\",\r\n\t\t\t\t\t\"type\": \"Contact\",\r\n\t\t\t\t\t\"companyName\": \"Test\",\r\n\t\t\t\t\t\"contactMethods\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"method\": \"Phone\",\r\n\t\t\t\t\t\t\t\"value\": \"(888) 888-3888\"\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"method\": \"Email\",\r\n\t\t\t\t\t\t\t\"value\": \"someone@somecompany.com\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"billTos\": [\r\n\t\t{\r\n\t\t\t\"customerCode\": \"{{customerCode}}\",\r\n\t\t\t\"currencyCode\": \"USD\",\r\n\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"SHID\",\r\n\t\t\t\t\t\"value\": \"Test_123456789\"\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"services\": [\r\n\t\t{\r\n\t\t\t\"sellMode\": \"TLFlatbed\",\r\n\t\t\t\"locations\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"origin\",\r\n\t\t\t\t\t\"name\": \"Origin Name\",\r\n\t\t\t\t\t\"address\": {\r\n\t\t\t\t\t\t\"address1\": \"123 Shipper St\",\r\n\t\t\t\t\t\t\"city\": \"Chicago\",\r\n\t\t\t\t\t\t\"stateProvinceCode\": \"IL\",\r\n\t\t\t\t\t\t\"country\": \"US\",\r\n\t\t\t\t\t\t\"postalCode\": \"60612\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"openDateTime\": \"{{originOpenCloseDateTime}}\",\r\n\t\t\t\t\t\"closeDateTime\": \"{{originOpenCloseDateTime}}\",\r\n                    \"loadingTypeCode\": \"REAR/SIDE\",\r\n                    \"specialRequirement\": {\r\n                        \"liftGate\": false,\r\n                        \"insidePickup\": false,\r\n                        \"residentialNonCommercial\": false,\r\n                        \"limitedAccess\": false,\r\n                        \"tradeShoworConvention\": false,\r\n                        \"constructionSite\": false,\r\n                        \"dropOffAtCarrierTerminal\": false\r\n                    },\r\n                    \"specialInstructions\": \"Shipper notes here\",\r\n\t\t\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"type\": \"PU\",\r\n\t\t\t\t\t\t\t\"value\": \"Pickup 123\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n                    \"contacts\": [\r\n                        {\r\n                            \"name\": \"Pick Location Contact\",\r\n                            \"type\": \"Contact\",\r\n                            \"companyName\": \"Pick location\",\r\n                            \"contactMethods\": [\r\n                                {\r\n                                    \"method\": \"Phone\",\r\n                                    \"value\": \"8888888888\"\r\n                                }\r\n                            ]\r\n                        }\r\n                    ]\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"destination\",\r\n\t\t\t\t\t\"name\": \"Destination Name\",\r\n\t\t\t\t\t\"address\": {\r\n\t\t\t\t\t\t\"address1\": \"123 Destination St\",\r\n\t\t\t\t\t\t\"city\": \"NEW BRAUNFELS\",\r\n\t\t\t\t\t\t\"stateProvinceCode\": \"TX\",\r\n\t\t\t\t\t\t\"country\": \"US\",\r\n\t\t\t\t\t\t\"postalCode\": \"78130\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"openDateTime\": \"{{destinationOpenCloseDateTime}}\",\r\n\t\t\t\t\t\"closeDateTime\": \"{{destinationOpenCloseDateTime}}\",\r\n                    \"loadingTypeCode\": \"REAR/SIDE\",\r\n                    \"specialRequirement\": {\r\n                        \"liftGate\": false,\r\n                        \"insideDelivery\": false,\r\n                        \"residentialNonCommercial\": false,\r\n                        \"limitedAccess\": false,\r\n                        \"tradeShoworConvention\": false,\r\n                        \"constructionSite\": false,\r\n                        \"pickupAtCarrierTerminal\": false,\r\n                        \"sortAndSegregate\": false,\r\n                        \"appointmentNotification\": false\r\n                    },\r\n                    \"specialInstructions\": \"Receiver notes here\",\r\n\t\t\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"type\": \"DEL\",\r\n\t\t\t\t\t\t\t\"value\": \"Deliver 123\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n                    \"contacts\": [\r\n                        {\r\n                            \"name\": \"Drop Location Contact\",\r\n                            \"type\": \"Contact\",\r\n                            \"companyName\": \"Drop location\",\r\n                            \"contactMethods\": [\r\n                                {\r\n                                    \"method\": \"Phone\",\r\n                                    \"value\": \"8888888888\"\r\n                                }\r\n                            ]\r\n                        }\r\n                    ]\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"items\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"packagingType\": \"CTN\",\r\n\t\t\t\t\t\"quantity\": 30,\r\n\t\t\t\t\t\"description\": \"Widgets\",\r\n\t\t\t\t\t\"weight\": 20000,\r\n\t\t\t\t\t\"weightUnitOfMeasure\": \"Pounds\",\r\n\t\t\t\t\t\"insuranceValue\": \"100000\",\r\n\t\t\t\t\t\"pallets\": 20,\r\n                    \"equipmentLength\": 576,\r\n                    \"equipmentWidth\": 96,\r\n                    \"equipmentHeight\": 96,\r\n                    \"equipmentUnitOfMeasure\": \"Inches\",\r\n                    \"itemEquipment\": {\r\n                        \"itemEquipmentCode\": \"F\",\r\n                        \"maxTrailerAge\": 10,\r\n                        \"tarpTypeCode\": \"NO TARP\",\r\n                        \"requiredStrapsCount\": 10,\r\n                        \"requiredChainsCount\": 10,\r\n                        \"coilRacks\": 6,\r\n                        \"locksBars\": 9,\r\n                        \"isOwOd\": false,\r\n                        \"safetyEquipmentRequired\": false\r\n                    },\r\n\t\t\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"type\": \"PO\",\r\n\t\t\t\t\t\t\t\"value\": \"PO123\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"referenceNumbers\": [\r\n\t\t{\r\n\t\t\t\"type\": \"CON\",\r\n\t\t\t\"value\": \"Test_123456789\"\r\n\t\t},\r\n\t\t\t\t{\r\n\t\t\t\"type\": \"CUSTQUOTID\",\r\n\t\t\t\"value\": \"2180892480\"\r\n\t\t}\r\n\t],\r\n    \"notes\": \"shipment notes here\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://sandbox-api.navisphere.com/v1/orders",
+							"protocol": "https",
+							"host": [
+								"sandbox-api",
+								"navisphere",
+								"com"
+							],
+							"path": [
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TL Reefer Rate and Simple Order Flow",
+			"item": [
+				{
+					"name": "Rate Reefer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"description\": \"Widgets\",\r\n            \"weight\": 20000,\r\n            \"weightUnitOfMeasure\": \"Pounds\",\r\n            \"pallets\": 20,\r\n            \"palletSpaces\": 20,\r\n            \"quantity\": 30,\r\n            \"packagingType\": \"CTN\",\r\n            \"temperatureType\": \"Custom\",\r\n            \"temperatureUnit\": \"Fahrenheit\",\r\n            \"requiredTemperatureHigh\": 39,\r\n            \"requiredTemperatureLow\": 32\r\n        }\r\n    ],\r\n    \"origin\": {\r\n        \"name\": \"Origin Name\",\r\n        \"address1\": \"123 Shipper St\",\r\n        \"city\": \"Chicago\",\r\n        \"stateProvinceCode\": \"IL\",\r\n        \"countryCode\": \"US\",\r\n        \"postalCode\": \"60612\",\r\n        \"specialRequirement\": {\r\n            \"liftGate\": \"false\",\r\n            \"insidePickup\": \"false\",\r\n            \"insideDelivery\": \"false\",\r\n            \"residentialNonCommercial\": \"false\",\r\n            \"limitedAccess\": \"false\",\r\n            \"tradeShoworConvention\": \"false\",\r\n            \"constructionSite\": \"false\",\r\n            \"dropOffAtCarrierTerminal\": \"false\",\r\n            \"pickupAtCarrierTerminal\": \"false\"\r\n        }\r\n    },\r\n    \"destination\": {\r\n        \"name\": \"Destination Name\",\r\n        \"address1\": \"123 Destination St\",\r\n        \"city\": \"NEW BRAUNFELS\",\r\n        \"stateProvinceCode\": \"TX\",\r\n        \"countryCode\": \"US\",\r\n        \"postalCode\": \"78130\",\r\n        \"specialRequirement\": {\r\n            \"liftGate\": \"false\",\r\n            \"insidePickup\": \"false\",\r\n            \"insideDelivery\": \"false\",\r\n            \"residentialNonCommercial\": \"false\",\r\n            \"limitedAccess\": \"false\",\r\n            \"tradeShoworConvention\": \"false\",\r\n            \"constructionSite\": \"false\",\r\n            \"dropOffAtCarrierTerminal\": \"false\",\r\n            \"pickupAtCarrierTerminal\": \"false\"\r\n        }\r\n    },\r\n    \"shipDate\": \"{{shipDate}}\",\r\n    \"transactionId\": \"Test_123456789\",\r\n    \"customerCode\": \"{{customerCode}}\",\r\n    \"transportModes\": [\r\n        {\r\n            \"mode\": \"TL\",\r\n            \"equipments\": [\r\n                {\r\n                    \"equipmentType\": \"Reefer\",\r\n                    \"quantity\": 1\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://sandbox-api.navisphere.com/v1/quotes",
+							"protocol": "https",
+							"host": [
+								"sandbox-api",
+								"navisphere",
+								"com"
+							],
+							"path": [
+								"v1",
+								"quotes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Create Reefer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"customers\": [\r\n\t\t{\r\n\t\t\t\"customerCode\": \"{{customerCode}}\",\r\n\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"MBOL\",\r\n\t\t\t\t\t\"value\": \"Test_123456789\"\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"contacts\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Test\",\r\n\t\t\t\t\t\"type\": \"Contact\",\r\n\t\t\t\t\t\"companyName\": \"Test\",\r\n\t\t\t\t\t\"contactMethods\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"method\": \"Phone\",\r\n\t\t\t\t\t\t\t\"value\": \"(888) 888-3888\"\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"method\": \"Email\",\r\n\t\t\t\t\t\t\t\"value\": \"someone@somecompany.com\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"billTos\": [\r\n\t\t{\r\n\t\t\t\"customerCode\": \"{{customerCode}}\",\r\n\t\t\t\"currencyCode\": \"USD\",\r\n\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"SHID\",\r\n\t\t\t\t\t\"value\": \"Test_123456789\"\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"services\": [\r\n\t\t{\r\n\t\t\t\"sellMode\": \"TL\",\r\n\t\t\t\"locations\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"origin\",\r\n\t\t\t\t\t\"name\": \"Origin Name\",\r\n\t\t\t\t\t\"address\": {\r\n\t\t\t\t\t\t\"address1\": \"123 Shipper St\",\r\n\t\t\t\t\t\t\"city\": \"Chicago\",\r\n\t\t\t\t\t\t\"stateProvinceCode\": \"IL\",\r\n\t\t\t\t\t\t\"country\": \"US\",\r\n\t\t\t\t\t\t\"postalCode\": \"60612\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"openDateTime\": \"{{originOpenCloseDateTime}}\",\r\n\t\t\t\t\t\"closeDateTime\": \"{{originOpenCloseDateTime}}\",\r\n                    \"specialRequirement\": {\r\n                        \"liftGate\": false,\r\n                        \"insidePickup\": false,\r\n                        \"residentialNonCommercial\": false,\r\n                        \"limitedAccess\": false,\r\n                        \"tradeShoworConvention\": false,\r\n                        \"constructionSite\": false,\r\n                        \"dropOffAtCarrierTerminal\": false\r\n                    },\r\n                    \"specialInstructions\": \"Shipper notes here\",\r\n\t\t\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"type\": \"PU\",\r\n\t\t\t\t\t\t\t\"value\": \"Pickup 123\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n                    \"contacts\": [\r\n                        {\r\n                            \"name\": \"Pick Location Contact\",\r\n                            \"type\": \"Contact\",\r\n                            \"companyName\": \"Pick location\",\r\n                            \"contactMethods\": [\r\n                                {\r\n                                    \"method\": \"Phone\",\r\n                                    \"value\": \"8888888888\"\r\n                                }\r\n                            ]\r\n                        }\r\n                    ]\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"destination\",\r\n\t\t\t\t\t\"name\": \"Destination Name\",\r\n\t\t\t\t\t\"address\": {\r\n\t\t\t\t\t\t\"address1\": \"123 Destination St\",\r\n\t\t\t\t\t\t\"city\": \"NEW BRAUNFELS\",\r\n\t\t\t\t\t\t\"stateProvinceCode\": \"TX\",\r\n\t\t\t\t\t\t\"country\": \"US\",\r\n\t\t\t\t\t\t\"postalCode\": \"78130\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"openDateTime\": \"{{destinationOpenCloseDateTime}}\",\r\n\t\t\t\t\t\"closeDateTime\": \"{{destinationOpenCloseDateTime}}\",\r\n                    \"specialRequirement\": {\r\n                        \"liftGate\": false,\r\n                        \"insideDelivery\": false,\r\n                        \"residentialNonCommercial\": false,\r\n                        \"limitedAccess\": false,\r\n                        \"tradeShoworConvention\": false,\r\n                        \"constructionSite\": false,\r\n                        \"pickupAtCarrierTerminal\": false,\r\n                        \"sortAndSegregate\": false,\r\n                        \"appointmentNotification\": false\r\n                    },\r\n                    \"specialInstructions\": \"Receiver notes here\",\r\n\t\t\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"type\": \"DEL\",\r\n\t\t\t\t\t\t\t\"value\": \"Deliver 123\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n                    \"contacts\": [\r\n                        {\r\n                            \"name\": \"Drop Location Contact\",\r\n                            \"type\": \"Contact\",\r\n                            \"companyName\": \"Drop location\",\r\n                            \"contactMethods\": [\r\n                                {\r\n                                    \"method\": \"Phone\",\r\n                                    \"value\": \"8888888888\"\r\n                                }\r\n                            ]\r\n                        }\r\n                    ]\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"items\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"packagingType\": \"CTN\",\r\n\t\t\t\t\t\"quantity\": 30,\r\n\t\t\t\t\t\"description\": \"Widgets\",\r\n\t\t\t\t\t\"weight\": 20000,\r\n\t\t\t\t\t\"weightUnitOfMeasure\": \"Pounds\",\r\n\t\t\t\t\t\"insuranceValue\": \"100000\",\r\n\t\t\t\t\t\"pallets\": 20,\r\n                    \"isTemperatureSensitive\": true,\r\n                    \"temperatureType\": \"Custom\",\r\n                    \"temperatureUnit\": \"Fahrenheit\",\r\n                    \"requiredTemperatureHigh\": 39,\r\n                    \"requiredTemperatureLow\": 32,\r\n\t\t\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"type\": \"PO\",\r\n\t\t\t\t\t\t\t\"value\": \"PO123\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"referenceNumbers\": [\r\n\t\t{\r\n\t\t\t\"type\": \"CON\",\r\n\t\t\t\"value\": \"Test_123456789\"\r\n\t\t},\r\n\t\t\t\t{\r\n\t\t\t\"type\": \"CUSTQUOTID\",\r\n\t\t\t\"value\": \"2180892504\"\r\n\t\t}\r\n\t],\r\n    \"notes\": \"shipment notes here\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://sandbox-api.navisphere.com/v1/orders",
+							"protocol": "https",
+							"host": [
+								"sandbox-api",
+								"navisphere",
+								"com"
+							],
+							"path": [
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "LTL Rate and Simple Order Flow",
+			"item": [
+				{
+					"name": "Rate LTL",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"description\": \"Widgets\",\r\n            \"weight\": 500,\r\n            \"freightClass\": \"100\",\r\n            \"nationalMotorFreightClass\": \"123456\",\r\n            \"weightUnitOfMeasure\": \"Pounds\",\r\n            \"pallets\": 1,\r\n            \"palletSpaces\": 1,\r\n            \"quantity\": 1,\r\n            \"insuranceValue\": 1000,\r\n            \"packagingType\": \"PLT\",\r\n            \"packagingUnitOfMeasure\": \"Inches\",\r\n            \"packagingLength\": 48,\r\n            \"packagingWidth\": 40,\r\n            \"packagingHeight\": 48\r\n        }\r\n    ],\r\n    \"origin\": {\r\n        \"name\": \"Origin Name\",\r\n        \"address1\": \"123 Shipper St\",\r\n        \"city\": \"Oakland\",\r\n        \"stateProvinceCode\": \"CA\",\r\n        \"countryCode\": \"US\",\r\n        \"postalCode\": \"94621\",\r\n        \"specialRequirement\": {\r\n            \"liftGate\": \"false\",\r\n            \"insidePickup\": \"false\",\r\n            \"insideDelivery\": \"false\",\r\n            \"residentialNonCommercial\": \"false\",\r\n            \"limitedAccess\": \"false\",\r\n            \"tradeShoworConvention\": \"false\",\r\n            \"constructionSite\": \"false\",\r\n            \"dropOffAtCarrierTerminal\": \"false\",\r\n            \"pickupAtCarrierTerminal\": \"false\"\r\n        }\r\n    },\r\n    \"destination\": {\r\n        \"name\": \"Destination Name\",\r\n        \"address1\": \"123 Destination ST\",\r\n        \"city\": \"NEW BRAUNFELS\",\r\n        \"stateProvinceCode\": \"TX\",\r\n        \"countryCode\": \"US\",\r\n        \"postalCode\": \"78130\",\r\n        \"specialRequirement\": {\r\n            \"liftGate\": \"false\",\r\n            \"insidePickup\": \"false\",\r\n            \"insideDelivery\": \"false\",\r\n            \"residentialNonCommercial\": \"false\",\r\n            \"limitedAccess\": \"false\",\r\n            \"tradeShoworConvention\": \"false\",\r\n            \"constructionSite\": \"false\",\r\n            \"dropOffAtCarrierTerminal\": \"false\",\r\n            \"pickupAtCarrierTerminal\": \"false\"\r\n        }\r\n    },\r\n    \"shipDate\": \"{{shipDate}}\",\r\n    \"customerCode\": \"{{customerCode}}\",\r\n    \"transportModes\": [\r\n        {\r\n            \"mode\": \"LTL\",\r\n            \"equipments\": [\r\n                {\r\n                    \"equipmentType\": \"Van\",\r\n                    \"quantity\": 1\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://sandbox-api.navisphere.com/v1/quotes",
+							"protocol": "https",
+							"host": [
+								"sandbox-api",
+								"navisphere",
+								"com"
+							],
+							"path": [
+								"v1",
+								"quotes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Order Create LTL",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"customers\": [\r\n\t\t{\r\n\t\t\t\"customerCode\": \"{{customerCode}}\",\r\n\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"MBOL\",\r\n\t\t\t\t\t\"value\": \"Test_123456789\"\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"contacts\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"name\": \"Test\",\r\n\t\t\t\t\t\"type\": \"Contact\",\r\n\t\t\t\t\t\"companyName\": \"Test\",\r\n\t\t\t\t\t\"contactMethods\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"method\": \"Phone\",\r\n\t\t\t\t\t\t\t\"value\": \"(888) 888-3888\"\r\n\t\t\t\t\t\t},\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"method\": \"Email\",\r\n\t\t\t\t\t\t\t\"value\": \"someone@somecompany.com\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"billTos\": [\r\n\t\t{\r\n\t\t\t\"customerCode\": \"{{customerCode}}\",\r\n\t\t\t\"currencyCode\": \"USD\",\r\n\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"SHID\",\r\n\t\t\t\t\t\"value\": \"Test_123456789\"\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"services\": [\r\n\t\t{\r\n\t\t\t\"sellMode\": \"LTL\",\r\n\t\t\t\"suggestedScac\": \"SAIA\",\r\n\t\t\t\"suggestedCarrierPartyCode\": \"T8154\",\r\n\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"PRO\",\r\n\t\t\t\t\t\"value\": \"123456789\"\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"locations\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"origin\",\r\n\t\t\t\t\t\"name\": \"Origin Name\",\r\n\t\t\t\t\t\"address\": {\r\n\t\t\t\t\t\t\"address1\": \"123 Shipper St\",\r\n\t\t\t\t\t\t\"city\": \"Oakland\",\r\n\t\t\t\t\t\t\"stateProvinceCode\": \"CA\",\r\n\t\t\t\t\t\t\"country\": \"US\",\r\n\t\t\t\t\t\t\"postalCode\": \"94621\"\r\n\t\t\t\t\t},\r\n\t\t\t\t\t\"openDateTime\": \"{{originOpenCloseDateTime}}\",\r\n\t\t\t\t\t\"closeDateTime\": \"{{originOpenCloseDateTime}}\",\r\n                    \"specialRequirement\": {\r\n                        \"liftGate\": false,\r\n                        \"insidePickup\": false,\r\n                        \"residentialNonCommercial\": false,\r\n                        \"limitedAccess\": false,\r\n                        \"tradeShoworConvention\": false,\r\n                        \"constructionSite\": false,\r\n                        \"dropOffAtCarrierTerminal\": false\r\n                    },\r\n\t\t\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"type\": \"PU\",\r\n\t\t\t\t\t\t\t\"value\": \"Pickup 123\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n                    \"specialInstructions\": \"Receiver notes here\",\r\n                    \"contacts\": [\r\n                        {\r\n                            \"name\": \"Pick Location Contact\",\r\n                            \"type\": \"Contact\",\r\n                            \"companyName\": \"Pick location\",\r\n                            \"contactMethods\": [\r\n                                {\r\n                                    \"method\": \"Phone\",\r\n                                    \"value\": \"8888888888\"\r\n                                }\r\n                            ]\r\n                        }\r\n                    ]\r\n\t\t\t\t},\r\n\t\t\t\t{\r\n\t\t\t\t\t\"type\": \"destination\",\r\n\t\t\t\t\t\"name\": \"Destination Name\",\r\n\t\t\t\t\t\"address\": {\r\n\t\t\t\t\t\t\"address1\": \"123 Destination St\",\r\n\t\t\t\t\t\t\"city\": \"NEW BRAUNFELS\",\r\n\t\t\t\t\t\t\"stateProvinceCode\": \"TX\",\r\n\t\t\t\t\t\t\"country\": \"US\",\r\n\t\t\t\t\t\t\"postalCode\": \"78130\"\r\n\t\t\t\t\t},\r\n                    \"specialRequirement\": {\r\n                        \"liftGate\": false,\r\n                        \"insideDelivery\": false,\r\n                        \"residentialNonCommercial\": false,\r\n                        \"limitedAccess\": false,\r\n                        \"tradeShoworConvention\": false,\r\n                        \"constructionSite\": false,\r\n                        \"pickupAtCarrierTerminal\": false,\r\n                        \"sortAndSegregate\": false,\r\n                        \"appointmentNotification\": false\r\n                    },\r\n\t\t\t\t\t\"openDateTime\": \"{{destinationOpenCloseDateTime}}\",\r\n\t\t\t\t\t\"closeDateTime\": \"{{destinationOpenCloseDateTime}}\",\r\n\t\t\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"type\": \"DEL\",\r\n\t\t\t\t\t\t\t\"value\": \"Deliver 123\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t],\r\n                    \"specialInstructions\": \"Receiver notes here\",\r\n                    \"contacts\": [\r\n                        {\r\n                            \"name\": \"Drop Location Contact\",\r\n                            \"type\": \"Contact\",\r\n                            \"companyName\": \"Drop location\",\r\n                            \"contactMethods\": [\r\n                                {\r\n                                    \"method\": \"Phone\",\r\n                                    \"value\": \"8888888888\"\r\n                                }\r\n                            ]\r\n                        }\r\n                    ]\r\n\t\t\t\t}\r\n\t\t\t],\r\n\t\t\t\"items\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"packagingType\": \"PLT\",\r\n\t\t\t\t\t\"quantity\": 1,\r\n\t\t\t\t\t\"description\": \"Widgets\",\r\n\t\t\t\t\t\"weight\": 500,\r\n\t\t\t\t\t\"weightUnitOfMeasure\": \"Pounds\",\r\n\t\t\t\t\t\"insuranceValue\": \"1000\",\r\n\t\t\t\t\t\"pallets\": 1,\r\n\t\t\t\t\t\"palletSpaces\": 1,\r\n\t\t\t\t\t\"freightClass\": \"100\",\r\n\t\t\t\t\t\"nationalMotorFreightClass\": \"123456\",\r\n\t\t\t\t\t\"packagingLength\": 48,\r\n\t\t\t\t\t\"packagingWidth\": 40,\r\n\t\t\t\t\t\"packagingHeight\": 48,\r\n\t\t\t\t\t\"packagingUnitOfMeasure\": \"Inches\",\r\n\t\t\t\t\t\"referenceNumbers\": [\r\n\t\t\t\t\t\t{\r\n\t\t\t\t\t\t\t\"type\": \"PO\",\r\n\t\t\t\t\t\t\t\"value\": \"PO123\"\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t]\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t],\r\n\t\"referenceNumbers\": [\r\n\t\t{\r\n\t\t\t\"type\": \"CON\",\r\n\t\t\t\"value\": \"Test_123456789\"\r\n\t\t},\r\n\t\t\t\t{\r\n\t\t\t\"type\": \"CUSTQUOTID\",\r\n\t\t\t\"value\": \"2182297278\"\r\n\t\t}\r\n\t],\r\n    \"notes\": \"shipment level notes\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://sandbox-api.navisphere.com/v1/orders",
+							"protocol": "https",
+							"host": [
+								"sandbox-api",
+								"navisphere",
+								"com"
+							],
+							"path": [
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "LTL Create Order With QuoteID",
+			"item": [
+				{
+					"name": "Rate LTL",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"items\": [\r\n        {\r\n            \"description\": \"Widgets\",\r\n            \"weight\": 500,\r\n            \"freightClass\": \"100\",\r\n            \"nationalMotorFreightClass\": \"123456\",\r\n            \"weightUnitOfMeasure\": \"Pounds\",\r\n            \"pallets\": 1,\r\n            \"palletSpaces\": 1,\r\n            \"quantity\": 1,\r\n            \"insuranceValue\": 1000,\r\n            \"packagingType\": \"PLT\",\r\n            \"packagingUnitOfMeasure\": \"Inches\",\r\n            \"packagingLength\": 48,\r\n            \"packagingWidth\": 40,\r\n            \"packagingHeight\": 48\r\n        }\r\n    ],\r\n    \"origin\": {\r\n        \"name\": \"Origin Name\",\r\n        \"address1\": \"123 Shipper St\",\r\n        \"city\": \"Oakland\",\r\n        \"stateProvinceCode\": \"CA\",\r\n        \"countryCode\": \"US\",\r\n        \"postalCode\": \"94621\",\r\n        \"specialRequirement\": {\r\n            \"liftGate\": \"false\",\r\n            \"insidePickup\": \"false\",\r\n            \"insideDelivery\": \"false\",\r\n            \"residentialNonCommercial\": \"false\",\r\n            \"limitedAccess\": \"false\",\r\n            \"tradeShoworConvention\": \"false\",\r\n            \"constructionSite\": \"false\",\r\n            \"dropOffAtCarrierTerminal\": \"false\",\r\n            \"pickupAtCarrierTerminal\": \"false\"\r\n        }\r\n    },\r\n    \"destination\": {\r\n        \"name\": \"Destination Name\",\r\n        \"address1\": \"123 Destination ST\",\r\n        \"city\": \"NEW BRAUNFELS\",\r\n        \"stateProvinceCode\": \"TX\",\r\n        \"countryCode\": \"US\",\r\n        \"postalCode\": \"78130\",\r\n        \"specialRequirement\": {\r\n            \"liftGate\": \"false\",\r\n            \"insidePickup\": \"false\",\r\n            \"insideDelivery\": \"false\",\r\n            \"residentialNonCommercial\": \"false\",\r\n            \"limitedAccess\": \"false\",\r\n            \"tradeShoworConvention\": \"false\",\r\n            \"constructionSite\": \"false\",\r\n            \"dropOffAtCarrierTerminal\": \"false\",\r\n            \"pickupAtCarrierTerminal\": \"false\"\r\n        }\r\n    },\r\n    \"shipDate\": \"{{shipDate}}\",\r\n    \"customerCode\": \"{{customerCode}}\",\r\n    \"transportModes\": [\r\n        {\r\n            \"mode\": \"LTL\",\r\n            \"equipments\": [\r\n                {\r\n                    \"equipmentType\": \"Van\",\r\n                    \"quantity\": 1\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://sandbox-api.navisphere.com/v1/quotes",
+							"protocol": "https",
+							"host": [
+								"sandbox-api",
+								"navisphere",
+								"com"
+							],
+							"path": [
+								"v1",
+								"quotes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LTL Create Order with Quote ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    {\r\n        \"quoteId\": \"2194476487\",\r\n        \"customer\": \r\n            {\r\n                \"customerCode\": \"{{customerCode}}\",\r\n                \"referenceNumbers\": [\r\n                    {\r\n                        \"type\": \"MBOL\",\r\n                        \"value\": \"Test_123456789\"\r\n                    }\r\n                ],\r\n                \"contacts\": [\r\n                    {\r\n                        \"name\": \"Test\",\r\n                        \"type\": \"Contact\",\r\n                        \"companyName\": \"Test\",\r\n                        \"contactMethods\": [\r\n                            {\r\n                                \"method\": \"Phone\",\r\n                                \"value\": \"(888) 888-3888\"\r\n                            },\r\n                            {\r\n                                \"method\": \"Email\",\r\n                                \"value\": \"someone@somecompany.com\"\r\n                            }\r\n                        ]\r\n                    }\r\n                ]\r\n            },\r\n        \"billTo\":\r\n            {\r\n                \"currencyCode\": \"USD\",\r\n                \"referenceNumbers\": [\r\n                    {\r\n                        \"type\": \"SHID\",\r\n                        \"value\": \"Test_123456789\"\r\n                    }\r\n                ]\r\n            },\r\n        \"origin\": {\r\n            \"locationName\": \"Origin Name\",\r\n            \"address\": {\r\n                \"address1\": \"123 Shipper St\",\r\n                \"city\": \"Oakland\",\r\n                \"stateProvinceCode\": \"CA\",\r\n                \"country\": \"US\",\r\n                \"postalCode\": \"94621\"\r\n            },\r\n            \"requestedShipDateOpen\": \"{{originOpenCloseDateTime}}\",\r\n            \"requestedShipDateClose\": \"{{originOpenCloseDateTime}}\",\r\n            \"contactName\": \"Pick Location Contact\",\r\n            \"phone\": \"8888888888\",\r\n            \"emailAddress\": \"test@test.com\",\r\n            \"specialInstructions\": \"pickup notes go here\",\r\n            \"referenceNumbers\": [\r\n                {\r\n                    \"type\": \"PU\",\r\n                    \"value\": \"Pickup 123\"\r\n                }\r\n            ]\r\n        },\r\n        \"destination\": {\r\n            \"locationName\": \"Destination Name\",\r\n            \"address\": {\r\n                \"address1\": \"123 Destination St\",\r\n                \"city\": \"New Braunfels\",\r\n                \"stateProvinceCode\": \"TX\",\r\n                \"country\": \"US\",\r\n                \"postalCode\": \"78130\"\r\n            },\r\n            \"requestedShipDateOpen\": \"{{originOpenCloseDateTime}}\",\r\n            \"requestedShipDateClose\": \"{{originOpenCloseDateTime}}\",\r\n            \"contactName\": \"Drop Location Contact\",\r\n            \"phone\": \"8888888888\",\r\n            \"emailAddress\": \"test@test.com\",\r\n            \"specialInstructions\": \"dropoff notes go here\",\r\n            \"referenceNumbers\": [\r\n                {\r\n                    \"type\": \"DEL\",\r\n                    \"value\": \"Delivery 123\"\r\n                }\r\n            ]\r\n        }\r\n    }\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://sandbox-api.navisphere.com/v1/orders/quotes",
+							"protocol": "https",
+							"host": [
+								"sandbox-api",
+								"navisphere",
+								"com"
+							],
+							"path": [
+								"v1",
+								"orders",
+								"quotes"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Authorization",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const authResponse = pm.response.json();\r",
+							"pm.collectionVariables.set(\"token\", authResponse.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"client_id\": \"Reach out to CHR rep for this\",\r\n\"client_secret\": \"Reach out to CHR rep for this\",\r\n\"audience\": \"https://inavisphere.chrobinson.com\",\r\n\"grant_type\": \"client_credentials\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sandbox-api.navisphere.com/v1/oauth/token",
+					"protocol": "https",
+					"host": [
+						"sandbox-api",
+						"navisphere",
+						"com"
+					],
+					"path": [
+						"v1",
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Events",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sandbox-api.navisphere.com/v2/events?to={{currentDateTime}}",
+					"protocol": "https",
+					"host": [
+						"sandbox-api",
+						"navisphere",
+						"com"
+					],
+					"path": [
+						"v2",
+						"events"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "2022-07-15T11:30:00.0000000Z",
+							"disabled": true
+						},
+						{
+							"key": "to",
+							"value": "{{currentDateTime}}"
+						},
+						{
+							"key": "billToReferenceNumber",
+							"value": "Test_123456789",
+							"disabled": true
+						},
+						{
+							"key": "loadNumber",
+							"value": "",
+							"disabled": true
+						},
+						{
+							"key": "orderNumber",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Order BOL",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sandbox-api.navisphere.com/v1/documents/generateBols?loadNumber=201253335&customerCode={{customerCode}}&orderNumber=9581989",
+					"protocol": "https",
+					"host": [
+						"sandbox-api",
+						"navisphere",
+						"com"
+					],
+					"path": [
+						"v1",
+						"documents",
+						"generateBols"
+					],
+					"query": [
+						{
+							"key": "loadNumber",
+							"value": "201253335"
+						},
+						{
+							"key": "customerCode",
+							"value": "{{customerCode}}"
+						},
+						{
+							"key": "orderNumber",
+							"value": "9581989"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate Load BOL",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJraWQiOiJYY1ZFcndQaGJkam41YmxFdVR2djBybEZvMHFlb2JEbE1QanE2UWl6clQ4IiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULmJLSWMwSkhYU1ZKM2VrbElwS1JUMzQ3cmZFLWpzQlFwWnFsZVdvSmZIamsiLCJpc3MiOiJodHRwczovL2Nocm9iaW5zb24ub2t0YS5jb20vb2F1dGgyL2F1c3VxaHprdHBCdUE5R0pKMzU2IiwiYXVkIjoiaHR0cHM6Ly9pbmF2aXNwaGVyZS5jaHJvYmluc29uLmNvbSIsImlhdCI6MTcxNjU3MjA4NSwiZXhwIjoxNzE2NjU4NDg1LCJjaWQiOiIwb2FnM3ZlcnhlZlBGOW1sMTM1NyIsInNjcCI6WyJyZWFkOnN0YXR1cyJdLCJzdWIiOiIwb2FnM3ZlcnhlZlBGOW1sMTM1NyJ9.e1nKlKt7y40Z68BLKp3tP4RVnBb9z25UimDVgIAXY0PffIFYCuOku6-oxTeurfHS_Arc7s2CTNVjE6t_10BCnzcZQkZ4mrxFvtXodBU_glwG8lWl_BzmroupSMaQ3hmQ5Sp_gDjIU5MlvjzYcEE0pBELRgAs0O14WvfssTxXAaYHEo8GFP6V-Y25nJy_iSTvT4I8UrCXxg9rUF3_vi9Lb2mhLq9xjcsgb21QZAoFn_qPvXmJfRiDEZXIevSEfmIOyRcHhCiuVVNy_GkHoqVZOFCqz6n_oHtyCvoOLiAk1JQTHVs4SIU-meMFYxIB_zuoQDyk968TDqkTGhK9ORfqGw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sandbox-api.navisphere.com/v1/documents/generateLoadBols?customerCode={{customerCode}}&loadNumber=201680887&orderNumber=11354805&showBarcode=true&barcodeIdentifier=loadNumber&barcodeType=code128",
+					"protocol": "https",
+					"host": [
+						"sandbox-api",
+						"navisphere",
+						"com"
+					],
+					"path": [
+						"v1",
+						"documents",
+						"generateLoadBols"
+					],
+					"query": [
+						{
+							"key": "customerCode",
+							"value": "{{customerCode}}"
+						},
+						{
+							"key": "loadNumber",
+							"value": "201680887"
+						},
+						{
+							"key": "orderNumber",
+							"value": "11354805"
+						},
+						{
+							"key": "showBarcode",
+							"value": "true"
+						},
+						{
+							"key": "barcodeIdentifier",
+							"value": "loadNumber"
+						},
+						{
+							"key": "barcodeType",
+							"value": "code128"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invoice Summary",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sandbox-api.navisphere.com/v1/financials/invoiceSummaries?customerCode={{customerCode}}&startDate=2022-07-15T11:30:00.0000000Z&endDate={{currentDateTime}}",
+					"protocol": "https",
+					"host": [
+						"sandbox-api",
+						"navisphere",
+						"com"
+					],
+					"path": [
+						"v1",
+						"financials",
+						"invoiceSummaries"
+					],
+					"query": [
+						{
+							"key": "customerCode",
+							"value": "{{customerCode}}"
+						},
+						{
+							"key": "startDate",
+							"value": "2022-07-15T11:30:00.0000000Z"
+						},
+						{
+							"key": "endDate",
+							"value": "{{currentDateTime}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Invoice PDF Retrieval",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://sandbox-api.navisphere.com/v1/documents/invoices/6000197005",
+					"protocol": "https",
+					"host": [
+						"sandbox-api",
+						"navisphere",
+						"com"
+					],
+					"path": [
+						"v1",
+						"documents",
+						"invoices",
+						"6000197005"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://sandbox-api.navisphere.com/v1/orders/{orderNumber}",
+					"protocol": "https",
+					"host": [
+						"sandbox-api",
+						"navisphere",
+						"com"
+					],
+					"path": [
+						"v1",
+						"orders",
+						"{orderNumber}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var shipDate = (Date.now() + 86400000) // 24hrs in ms",
+					"pm.collectionVariables.set('shipDate', new Date(shipDate).toISOString())",
+					"var originOpenCloseDateTime = (Date.now() + 86400000) // 24hrs in ms",
+					"pm.collectionVariables.set('originOpenCloseDateTime', new Date(originOpenCloseDateTime).toISOString())",
+					"var destinationOpenCloseDateTime = (Date.now() + 172800000) // 48hrs in ms",
+					"pm.collectionVariables.set('destinationOpenCloseDateTime', new Date(destinationOpenCloseDateTime).toISOString())",
+					"var currentDateTime = (Date.now()) // 24hrs in ms",
+					"pm.collectionVariables.set('currentDateTime', new Date(currentDateTime).toISOString())"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "customerCode",
+			"value": "Reach out to CHR rep for this",
+			"type": "string"
+		},
+		{
+			"key": "shipDate",
+			"value": ""
+		},
+		{
+			"key": "originOpenCloseDateTime",
+			"value": ""
+		},
+		{
+			"key": "destinationOpenCloseDateTime",
+			"value": ""
+		},
+		{
+			"key": "currentDateTime",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}

@@ -1,0 +1,71 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  openapi/ch-robinson-worldwide-rest-apis-openapi.yml (Events, Shipments and Documents tags),
+  rendered at https://developer.chrobinson.com/api-reference
+spec_type: Webhooks
+asyncapi_published: false
+asyncapi_note: >-
+  C.H. Robinson publishes no AsyncAPI document. Probed /asyncapi.yaml, /asyncapi.json and the
+  portal document catalog (https://api.navisphere.com/api/B2B/Portal/v1/documents) - the only
+  event-shaped documents there are the EDI 214 shipment-status guidelines, not an AsyncAPI.
+  The webhook surface below is real and is documented inside the OpenAPI contract itself, as
+  operations the PARTNER implements and C.H. Robinson calls.
+delivery:
+  style: http-callback
+  direction: provider-to-partner
+  transport: HTTPS POST
+  security: bearer JWT presented by C.H. Robinson to the partner endpoint (securityScheme `bearerAuth`)
+  registration: >-
+    Callback URLs are registered with C.H. Robinson during onboarding, not through a
+    self-service subscription API. The contract literally names the path
+    /REPLACE_ME_WITH_YOUR_CALLBACK_URL to make that explicit.
+  retry_policy: null
+  signature_scheme: null
+  note: >-
+    No retry policy, no delivery-attempt semantics and no payload signature scheme are
+    published. Verification relies on the bearer token C.H. Robinson presents.
+alternative:
+  style: polling
+  operation: Event Retrieval
+  path: GET /v2/events
+  note: >-
+    The Events tag states the two integration options plainly - callback/webhook is "preferred
+    and most real-time", periodic event retrieval is "easiest to implement and less real-time".
+webhooks:
+  - name: Events Callback
+    operation_id: Events Callback
+    path: POST /REPLACE_ME_WITH_YOUR_CALLBACK_URL
+    tag: Events
+    security: bearerAuth
+    responses: ['2XX']
+    description: >-
+      Near real-time order and shipment events, including all transportation updates, pushed to
+      the partner's own endpoint.
+  - name: Shipment Details Callback
+    operation_id: Shipment Details Callback
+    path: POST /shipmentDetails/callback/here
+    tag: Shipments
+    security: bearerAuth
+    responses: ['2XX']
+    description: >-
+      Load details delivered on booking so a carrier can build the load electronically in its
+      own TMS.
+  - name: Offer Response Callback
+    operation_id: Offer Response Callback
+    path: POST /offerResponse/callback/here
+    tag: Shipments
+    security: bearerAuth
+    responses: ['2XX']
+    description: Asynchronous outcome of a carrier's offer on an available shipment.
+  - name: Load Documents Callback
+    operation_id: Load Documents Callback
+    path: POST /events/LoadDocuments/here
+    tag: Documents
+    security: bearerAuth
+    responses: ['200']
+    description: Notification that documents are available for a load.
+summary:
+  webhook_count: 4
+  polling_alternative: true
+  asyncapi_count: 0

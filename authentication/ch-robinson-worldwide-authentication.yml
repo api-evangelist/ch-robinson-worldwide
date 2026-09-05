@@ -1,0 +1,67 @@
+generated: '2026-09-05'
+method: searched
+source: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+docs: https://developer.chrobinson.com/api-reference#tag/Authentication
+summary:
+  types:
+  - oauth2
+  - http
+  oauth2_flows:
+  - clientCredentials
+  api_key_in: []
+  self_service_signup: false
+model:
+  protocol: OAuth 2.0 (RFC 6749) client credentials
+  token_endpoint: https://api.navisphere.com/v1/oauth/token
+  sandbox_token_endpoint: https://sandbox-api.navisphere.com/v1/oauth/token
+  operation_id: Generate Token
+  request_body:
+    client_id: issued during onboarding
+    client_secret: issued during onboarding
+    audience: https://inavisphere.chrobinson.com
+    grant_type: client_credentials
+  content_types:
+  - application/json
+  - application/x-www-form-urlencoded
+  token_format: JWT
+  token_lifetime: 24 hours
+  presented_as: 'Authorization: Bearer <jwt>'
+  scopes: []
+  refresh: re-request with client credentials
+  provider_guidance: >-
+    The Authentication tag carries an explicit warning - "Generated tokens are valid for 24 hours.
+    Users should only be hitting the C.H. Robinson authentication endpoint once every 24 hours.
+    Calling the authentication endpoint multiple times within the same 24 hour period may result
+    in users being subjected to rate limiting."
+  flow_diagram: https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/Auth_flow.jpeg
+  code_samples:
+  - Curl
+  - Java
+  - NodeJS
+  - "C#"
+schemes:
+- name: sandbox
+  type: http
+  scheme: bearer
+  bearerFormat: jwt
+  applies_to: global security requirement in the contract
+  sources:
+  - openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: jwt
+  applies_to: >-
+    the four partner-implemented callback operations (Events Callback, Shipment Details
+    Callback, Offer Response Callback, Load Documents Callback) - this is the token
+    C.H. Robinson presents TO the partner
+  sources:
+  - openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+gaps:
+  scopes_published: false
+  discovery_document: false
+  note: >-
+    No scopes are declared anywhere in the contract and no /.well-known/oauth-authorization-server
+    or /.well-known/openid-configuration is served, so authorization is all-or-nothing per
+    credential and cannot be discovered programmatically. No scopes/ artifact is emitted -
+    there is no scope surface to record.

@@ -1,0 +1,71 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  openapi/ch-robinson-worldwide-rest-apis-openapi.yml (servers[] + the Authentication tag
+  description and x-code-samples), and the public Postman collection at
+  https://api.navisphere.com/api/B2B/Portal/v1/documents/customerApiOnboardingCollectionPublic.json
+environments:
+  - name: Test environment
+    base_url: https://sandbox-api.navisphere.com
+    role: sandbox
+    declared_in: openapi servers[0]
+    default: true
+    note: >-
+      The contract's global security requirement is the `sandbox` scheme, and every
+      x-code-sample in the Authentication operation targets sandbox-api.navisphere.com -
+      the published examples are sandbox-first by design.
+  - name: Production environment
+    base_url: https://api.navisphere.com
+    role: production
+    declared_in: openapi servers[1]
+separation:
+  mechanism: distinct hostname
+  key_prefixes: null
+  mode_flag: null
+  note: >-
+    Test and live are separated by HOST, not by a key prefix or a mode flag. There is no way to
+    tell a sandbox credential from a production credential by looking at it, which is a real
+    operational hazard for an agent holding both.
+credentials:
+  self_service: false
+  how_to_obtain: >-
+    client_id and client_secret are issued by C.H. Robinson during onboarding. Customers start at
+    https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/Customer_Integration.docx;
+    carriers start at https://developer.chrobinson.com/carrier. There is no signup form that
+    returns a key.
+  test_credentials_published: false
+magic_test_values: []
+test_clocks: false
+fixtures:
+  postman_collection:
+    url: https://api.navisphere.com/api/B2B/Portal/v1/documents/customerApiOnboardingCollectionPublic.json
+    saved: postman/ch-robinson-worldwide-customer-api-onboarding.postman_collection.json
+    schema: https://schema.getpostman.com/json/collection/v2.1.0/collection.json
+    probed: '2026-09-05'
+    http_status: 200
+    folders:
+      - TL Rate and Simple Order Flow
+      - Flatbed Rate and Simple Order Flow
+      - TL Reefer Rate and Simple Order Flow
+      - LTL Rate and Simple Order Flow
+      - LTL Create Order With QuoteID
+      - Authorization
+      - Events
+      - Generate Order BOL
+      - Generate Load BOL
+      - Invoice Summary
+      - Invoice PDF Retrieval
+      - Order Delete
+    note: >-
+      This is C.H. Robinson's actual onboarding harness - twelve runnable request flows that walk
+      a new customer from token to quote to order to document to invoice to delete.
+  in_spec_examples: true
+  in_spec_example_note: >-
+    Response examples are populated with realistic values (named LTL carriers, SCACs, rate codes
+    400/405, quote and rate ids) and the Authentication operation carries x-code-samples in
+    Curl, Java, NodeJS and C#.
+note: >-
+  No test card numbers, magic identifiers or simulated failure triggers are published - this is a
+  freight API, not a payments API, and the sandbox is a real reduced-data environment rather than
+  a value-driven simulator. Nothing here was invented; every value above is verbatim from the
+  provider's own documents.

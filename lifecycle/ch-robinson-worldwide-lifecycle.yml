@@ -1,0 +1,76 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://developer.chrobinson.com/status (developer-portal status page) backed by
+  https://api.navisphere.com/api/B2B/Portal/v1/statuses, plus the harvested contract
+  openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+versioning:
+  scheme: uri-path
+  per_resource: true
+  current:
+    - {resource: oauth/token, version: v1}
+    - {resource: quotes, version: v1}
+    - {resource: orders, version: v1}
+    - {resource: gfbookings, version: v1}
+    - {resource: financials, version: v1}
+    - {resource: documents, version: v1}
+    - {resource: labels, version: v1}
+    - {resource: shipments/books, version: v1}
+    - {resource: shipments/milestones, version: v1}
+    - {resource: "shipments/{loadNumber}/offers", version: v1}
+    - {resource: events, version: v2}
+    - {resource: shipments/available/searches, version: v2}
+    - {resource: visibility, version: v2}
+  contract_version: 2.0.0
+  docs: https://developer.chrobinson.com/api-reference
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecated_operations: []
+  note: >-
+    No deprecation or sunset policy is published, and no operation in the contract carries
+    `deprecated: true`. The v1/v2 split shows retirement has happened (v1 events, v1 available
+    shipment search and v1 visibility are gone from the current document) with no published
+    notice period. This is a real gap a partner cannot plan against.
+status_page:
+  url: https://developer.chrobinson.com/status
+  machine_readable: https://api.navisphere.com/api/B2B/Portal/v1/statuses
+  format: JSON array of {name, healthy}
+  authentication: none
+  probed: '2026-09-05'
+  http_status: 200
+  components:
+    - Orders
+    - Shipments
+    - Rating
+    - Authentication
+    - Events
+    - Financials
+    - Documents
+    - Visibility
+    - Labels
+    - Booking
+    - Milestones
+    - Offers
+  history_endpoint: https://api.navisphere.com/api/B2B/Portal/v1/statuses/{component}
+  note: >-
+    First-party, unauthenticated and machine-readable - an agent can poll component health
+    before it books freight. The portal also renders per-component history; metrics are
+    described in the UI as "only available when reported".
+sla:
+  url: null
+  uptime_target: null
+  note: No public SLA. Availability commitments sit in the partner contract.
+changelog:
+  url: null
+  note: >-
+    No dated changelog, release-notes page or version history is published on the developer
+    portal or anywhere on chrobinson.com. Probed /documentation/changelog, /releaseNotes and
+    /notifications on the portal API - all 404. No ChangeLog pointer is emitted.
+support:
+  developer_portal_form: https://developer.chrobinson.com/support
+  production_incident_email: ebizhelpdesk@chrobinson.com
+  carrier_support: https://www.chrobinson.com/en-us/carriers/carrier-support/
+  note: >-
+    The portal's own support form tells callers that a production issue should go directly to
+    ebizhelpdesk@chrobinson.com for the quickest resolution.

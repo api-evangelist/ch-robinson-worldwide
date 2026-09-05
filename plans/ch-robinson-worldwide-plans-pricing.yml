@@ -4,65 +4,80 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: C.H. Robinson
 providerId: ch-robinson-worldwide
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: false
+method: searched
+modified: '2026-09-05'
+reconciled: true
 tags:
-  - Logistics
-  - Freight
-  - Transportation
-  - Supply Chain
-description: C.H. Robinson exposes shipper, carrier, and visibility APIs through its Navisphere developer
-  portal. API access is gated to active C.H. Robinson customers and contracted carriers; pricing is
-  bundled with the underlying freight, brokerage, and TMS services rather than published as a separate
-  per-call rate card.
-notes: No public API price list. Access is contractual and tied to existing shipper/carrier relationships.
+- Logistics
+- Freight
+- Transportation
+- Supply Chain
+description: 'C.H. Robinson publishes no per-call price list for its Navisphere REST APIs. Two access tracks
+  exist and they price differently. Carrier API connectivity is stated to be FREE: the carrier connectivity
+  page says carriers ''use free application programming interface (API) connectivity to find, offer, book,
+  and auto-create C.H. Robinson loads directly in your own TMS'' at ''no additional cost''. Customer/shipper
+  API access is bundled into the commercial brokerage or Navisphere TMS relationship and is negotiated, not
+  listed; onboarding begins with the Customer_Integration document rather than a signup form. The Labels product
+  additionally requires a parcel carrier account configured in Navisphere by a C.H. Robinson or TMC representative.'
+notes: No public API price list. Carrier access is free and contractual; customer access is bundled into the
+  freight/TMS agreement. Verified 2026-09-05 against the provider's own pages - not inferred.
 sources:
-  - https://developer.chrobinson.com/
-  - https://www.chrobinson.com/en-us/
+- https://www.chrobinson.com/en-us/carriers/api-connectivity/
+- https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
+- https://developer.chrobinson.com/api-reference
 plans:
-  - id: ch-robinson-worldwide-shipper
-    name: Shipper API Access
-    type: enterprise
-    description: API access for shippers using Navisphere services (quoting, booking, tracking, documents,
-      payment). Provided as part of the commercial brokerage relationship.
-    entries:
-      - label: Shipper integration
-        name: shipper_integration
-        type: subscription
-        metric: contract
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: contract
-        userMultiplied: false
-    elements:
-      - name: Quoting and booking
-      - name: Shipment tracking and visibility
-      - name: Documents and freight payment
-  - id: ch-robinson-worldwide-carrier
-    name: Carrier API Access
-    type: enterprise
-    description: API access for contracted carriers covering loads, booking, status updates, documents,
-      and settlement.
-    entries:
-      - label: Carrier integration
-        name: carrier_integration
-        type: subscription
-        metric: contract
-        limit: -1
-        timeFrame: month
-        geo: global
-        unit: 1
-        price: contract
-        userMultiplied: false
-    elements:
-      - name: Load offers and booking
-      - name: Status updates and visibility
-      - name: Documents and settlement
+- id: ch-robinson-worldwide-shipper
+  name: Shipper API Access
+  type: enterprise
+  description: API access for customers/shippers using Navisphere services - rating, orders and booking, events,
+    visibility, documents, financials and labels. Priced inside the brokerage / TMS agreement; no separate
+    per-call rate card is published.
+  entries:
+  - label: Shipper integration
+    name: shipper_integration
+    type: subscription
+    metric: contract
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: contract
+    userMultiplied: false
+  elements:
+  - name: Quoting and booking
+  - name: Shipment tracking and visibility
+  - name: Documents and freight payment
+  price: contract
+- id: ch-robinson-worldwide-carrier
+  name: Carrier API Access
+  type: enterprise
+  description: API access for contracted carriers covering available-shipment search, offers, load booking,
+    milestone/status updates, document upload and payment status. C.H. Robinson states carrier API connectivity
+    is provided free of charge; a carrier agreement and issued credentials are still prerequisites.
+  entries:
+  - label: Carrier integration
+    name: carrier_integration
+    type: subscription
+    metric: contract
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: free
+    userMultiplied: false
+  elements:
+  - name: Load offers and booking
+  - name: Status updates and visibility
+  - name: Documents and settlement
+  price: free
 maintainers:
-  - FN: Kin Lane
-    email: kin@apievangelist.com
+- FN: Kin Lane
+  email: kin@apievangelist.com
+generated: '2026-09-05'
+plan_count: 2
+source: https://www.chrobinson.com/en-us/carriers/api-connectivity/ and https://developer.chrobinson.com/api-reference
+gates:
+  self_service_signup: false
+  public_price_list: false
+  onboarding_carrier: https://developer.chrobinson.com/carrier
+  onboarding_customer: https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/Customer_Integration.docx

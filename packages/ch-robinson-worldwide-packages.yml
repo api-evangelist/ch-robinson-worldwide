@@ -1,0 +1,105 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  NuGet registry (api.nuget.org / azuresearch-usnc.nuget.org), npm registry search,
+  PyPI, and the github.com/ch-robinson organization
+note: >-
+  C.H. Robinson publishes NO first-party client library for its REST APIs. The Navisphere
+  B2B contract is consumed directly over HTTP; the only onboarding aid the provider ships
+  is a public Postman collection (see postman/). The packages below are genuine first-party
+  C.H. Robinson open source, but they are Apache Avro / Kafka tooling from the company's
+  engineering org - they do NOT wrap the freight APIs described in
+  openapi/ch-robinson-worldwide-rest-apis-openapi.yml. For that reason this artifact carries
+  a Packages pointer only and deliberately does NOT emit an SDKs pointer: counting Avro
+  serializers as API SDKs would credit C.H. Robinson with client libraries it does not ship.
+summary:
+  first_party_api_clients: 0
+  first_party_packages: 6
+  third_party_api_clients: 1
+packages:
+  - language: csharp
+    registry: nuget
+    name: Chr.Avro
+    url: https://www.nuget.org/packages/Chr.Avro/
+    install: dotnet add package Chr.Avro
+    official: true
+    api_client: false
+    version: 10.13.1
+    published: '2026-04-09'
+    license: MIT
+    source_code: https://github.com/ch-robinson/dotnet-avro
+    description: Avro schema models. First-party C.H. Robinson OSS; not a client for the freight APIs.
+  - language: csharp
+    registry: nuget
+    name: Chr.Avro.Json
+    url: https://www.nuget.org/packages/Chr.Avro.Json/
+    install: dotnet add package Chr.Avro.Json
+    official: true
+    api_client: false
+    version: 10.13.1
+    published: '2026-04-09'
+    license: MIT
+    description: Avro JSON serialization and deserialization.
+  - language: csharp
+    registry: nuget
+    name: Chr.Avro.Binary
+    url: https://www.nuget.org/packages/Chr.Avro.Binary/
+    install: dotnet add package Chr.Avro.Binary
+    official: true
+    api_client: false
+    version: 10.13.1
+    published: '2026-04-09'
+    license: MIT
+    description: Avro binary serialization and deserialization.
+  - language: csharp
+    registry: nuget
+    name: Chr.Avro.Confluent
+    url: https://www.nuget.org/packages/Chr.Avro.Confluent/
+    install: dotnet add package Chr.Avro.Confluent
+    official: true
+    api_client: false
+    version: 10.13.1
+    published: '2026-04-09'
+    license: MIT
+    description: Integration tools for the Confluent Kafka and Schema Registry clients.
+  - language: csharp
+    registry: nuget
+    name: Chr.Avro.Cli
+    url: https://www.nuget.org/packages/Chr.Avro.Cli/
+    install: dotnet tool install --global Chr.Avro.Cli
+    official: true
+    api_client: false
+    version: 10.13.1
+    published: '2026-04-09'
+    license: MIT
+    description: >-
+      Command-line tool for working with Avro schemas. A real first-party CLI, but for Avro -
+      there is no CLI for the C.H. Robinson freight APIs, so no cli/ artifact is emitted.
+  - language: csharp
+    registry: nuget
+    name: Chr.Avro.Codegen
+    url: https://www.nuget.org/packages/Chr.Avro.Codegen/
+    install: dotnet add package Chr.Avro.Codegen
+    official: true
+    api_client: false
+    version: 10.13.1
+    published: '2026-04-09'
+    license: MIT
+    description: Experimental utilities to generate code from Avro schemas.
+  - language: javascript
+    registry: npm
+    name: "@extendapps/chrobinsonapi"
+    url: https://www.npmjs.com/package/@extendapps/chrobinsonapi
+    official: false
+    api_client: true
+    version: 1.3.0
+    published: '2023-04-03'
+    maintainer: ExtendApps (darren@extendapps.com)
+    description: >-
+      Third-party NetSuite SuiteApp module for C.H. Robinson connectivity. Not published by
+      C.H. Robinson; last release 2023-04-03, more than three years behind the v2.0.0 contract.
+registries_checked:
+  - {registry: nuget, result: 6 first-party packages (Chr.Avro family)}
+  - {registry: npm, result: no first-party package; one third-party connector}
+  - {registry: pypi, result: 404 for chrobinson and navisphere}
+  - {registry: github.com/ch-robinson, result: 3 public repos (dotnet-avro, engineering blog, vault-elastic-plugin); no API SDK}

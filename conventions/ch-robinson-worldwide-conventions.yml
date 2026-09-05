@@ -1,0 +1,146 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  https://developer.chrobinson.com/api-reference (Redoc rendering of
+  https://api.navisphere.com/api/B2B/Portal/v1/documentation/swagger.yaml), plus live response
+  headers observed on api.navisphere.com on 2026-09-05
+spec: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+authentication:
+  style: oauth2-client-credentials
+  token_endpoint: https://api.navisphere.com/v1/oauth/token
+  sandbox_token_endpoint: https://sandbox-api.navisphere.com/v1/oauth/token
+  grant_type: client_credentials
+  audience: https://inavisphere.chrobinson.com
+  presented_as: "Authorization: Bearer <jwt>"
+  token_lifetime: 24 hours
+  note: >-
+    The contract's own Authentication tag states that tokens are valid for 24 hours and that
+    callers should hit the token endpoint only once per 24 hours; repeated calls inside that
+    window may be rate limited. Credentials (client_id / client_secret) are issued during
+    onboarding, not self-service.
+  detail: authentication/ch-robinson-worldwide-authentication.yml
+idempotency:
+  supported: false
+  coverage: none
+  mechanism: null
+  header: null
+  scope: []
+  evidence: >-
+    No Idempotency-Key header, parameter or extension appears anywhere in the 1.0MB OpenAPI
+    contract (grep for /idempoten/i returns zero matches), and the API reference documents no
+    replay-protection contract. There are 20 mutating operations (POST/PUT/DELETE across Orders,
+    Booking, Shipments, Visibility, Documents, Labels), none of which is safe to retry blindly.
+    Retrying Order Create or Load Book after a timeout can create a duplicate freight order.
+pagination:
+  supported: false
+  style: null
+  evidence: >-
+    No page/pageSize/offset/limit/cursor parameters exist in the contract. Collection reads
+    (Event Retrieval, Invoice Summary Retrieval, Available Shipment Search, Visibility GET
+    Shipments) are bounded by filter parameters (date ranges, reference numbers) rather than
+    by a pagination contract.
+field_expansion:
+  supported: false
+metadata:
+  supported: partial
+  note: >-
+    Orders and shipments carry a customer-controlled referenceNumber[] array (type/value pairs,
+    e.g. MBOL, PO) that acts as the customer's own correlation key across quote, order,
+    shipment, document and invoice.
+request_tracing:
+  request_id_header: null
+  observed_response_headers: [correlation-id, X-Kong-Request-Id]
+  note: >-
+    Not documented in the contract, but the Kong 3.10 enterprise gateway in front of every host
+    returns correlation-id and X-Kong-Request-Id on each response. These are the values to quote
+    to ebizhelpdesk@chrobinson.com when reporting a production issue.
+versioning:
+  scheme: uri-path
+  current: mixed
+  note: >-
+    Versions are per resource in the path, not global - v1 for oauth/quotes/orders/gfbookings/
+    financials/documents/labels/shipments-books/shipments-milestones and v2 for events,
+    shipments/available/searches and visibility. The contract document itself is info.version 2.0.0.
+  detail: lifecycle/ch-robinson-worldwide-lifecycle.yml
+error_envelope:
+  format: vendor-json
+  rfc9457: false
+  shapes:
+    - status: 400
+      shape: array of {message, path[], type, context} (Joi validation errors)
+    - status: 401/403/404
+      shape: object of {statusCode, error, message, attributes?}
+    - status: 500
+      shape: undocumented
+  detail: errors/ch-robinson-worldwide-problem-types.yml
+rate_limit_signaling:
+  documented_in_contract: false
+  observed_headers: [RateLimit-Limit, RateLimit-Remaining, RateLimit-Reset, X-RateLimit-Limit-Minute, X-RateLimit-Remaining-Minute]
+  exhaustion_status: 429
+  detail: rate-limits/ch-robinson-worldwide-rate-limits.yml
+dry_run_mode:
+  supported: false
+  note: >-
+    No preview/validate-only/dry-run flag exists on any write operation. The sandbox environment
+    (https://sandbox-api.navisphere.com) is the only rehearsal surface - see
+    sandbox/ch-robinson-worldwide-sandbox.yml.
+reversibility:
+  grade: documented
+  note: >-
+    Three of the four mutable object families have a first-class reversal operation in the
+    contract, and one (Load Book) does not. NO reversal WINDOW is stated anywhere in the API
+    reference or the published guides, so this grades `documented` rather than `verified`.
+    Do not infer a window: an agent booking freight needs the cancellation deadline stated by
+    the provider, and C.H. Robinson has not stated it in machine-readable form.
+  write_surfaces:
+    - operation: Order Create
+      reversal: Order Delete
+      reversal_operation: DELETE /v1/orders/{orderNumber}
+      window: null
+      window_source: null
+    - operation: Order Create with Quote ID
+      reversal: Order Delete
+      reversal_operation: DELETE /v1/orders/{orderNumber}
+      window: null
+      window_source: null
+    - operation: Order Update
+      reversal: Order Update (replace with prior values) or Order Delete
+      window: null
+      window_source: null
+    - operation: Booking Create
+      reversal: Booking Delete
+      reversal_operation: DELETE /v1/gfbookings (by customerReferenceNumber + customerCode)
+      window: null
+      window_source: null
+    - operation: Visibility Shipment Create
+      reversal: Visibility Shipment Delete
+      reversal_operation: DELETE /v2/visibility/shipments/{shipmentNumber}
+      window: null
+      window_source: null
+    - operation: Load Book
+      reversal: none in contract
+      window: null
+      note: >-
+        Booking a load (POST /v1/shipments/books) has NO API reversal. Once accepted, cancelling
+        is a human process through the C.H. Robinson representative or the carrier support desk.
+        This is the highest-consequence irreversible write in the contract.
+    - operation: Load Offer
+      reversal: none in contract
+      window: null
+    - operation: Milestone Updates
+      reversal: none (append-only status stream)
+      window: null
+    - operation: Carrier Document Upload
+      reversal: none in contract
+      window: null
+    - operation: Generate label
+      reversal: none in contract
+      window: null
+      note: Creates a Navisphere order as a side effect; no void/cancel operation is published.
+cross_links:
+  errors: errors/ch-robinson-worldwide-problem-types.yml
+  lifecycle: lifecycle/ch-robinson-worldwide-lifecycle.yml
+  authentication: authentication/ch-robinson-worldwide-authentication.yml
+  rate_limits: rate-limits/ch-robinson-worldwide-rate-limits.yml
+  sandbox: sandbox/ch-robinson-worldwide-sandbox.yml
+  webhooks: asyncapi/ch-robinson-worldwide-webhooks.yml

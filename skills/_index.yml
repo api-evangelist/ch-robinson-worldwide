@@ -1,0 +1,22 @@
+generated: '2026-09-05'
+method: generated
+source: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+note: >-
+  C.H. Robinson publishes no AGENTS.md or skill files of its own. These three were generated
+  from the harvested contract; every operationId below appears verbatim in that spec, and every
+  behavioural rule (24-hour token, no idempotency, no pagination, error shapes, the missing
+  reversal on Load Book) is taken from the contract or from the conventions/ artifact derived
+  from it. Nothing was invented.
+skills:
+  - file: ch-robinson-worldwide-quote-to-order.md
+    name: Quote to order with C.H. Robinson
+    api: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+    operations: ['Generate Token', 'Rating Request', 'Estimating Freight Class', 'Order Create with Quote ID', 'Order Create', 'Order Delete']
+  - file: ch-robinson-worldwide-carrier-find-and-book.md
+    name: Find and book a C.H. Robinson load as a carrier
+    api: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+    operations: ['Generate Token', 'Available Shipment Search', 'Load Offer', 'Load Book', 'Milestone Updates', 'Carrier Document Upload', 'Payment Status Retrieval']
+  - file: ch-robinson-worldwide-track-and-reconcile.md
+    name: Track C.H. Robinson shipments and reconcile invoices
+    api: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+    operations: ['Generate Token', 'Event Retrieval', 'Visibility GET Shipments', 'Visibility GET Milestone', 'Invoice Summary Retrieval', 'Invoice Retrieval', 'Invoice Document Retrieval', 'Load Document ID Retrieval', 'Load Document Retrieval']

@@ -1,4 +1,4 @@
-generated: '2026-07-11'
+generated: '2026-09-05'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
@@ -14,6 +14,11 @@ hosts:
   cert_expires: Oct  7 03:24:35 2026 GMT
   hsts: true
   hsts_max_age: 16070400
+- host: sandbox-api.navisphere.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov 10 16:45:44 2026 GMT
+  hsts: null
 domains:
 - domain: chrobinson.com
   dnssec: false
@@ -21,3 +26,9 @@ domains:
   spf: true
   dmarc: true
   dmarc_policy: reject
+- domain: navisphere.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine

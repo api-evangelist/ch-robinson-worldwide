@@ -4,39 +4,84 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: C.H. Robinson
 providerId: ch-robinson-worldwide
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: false
+modified: '2026-09-05'
+generated: '2026-09-05'
+method: probed
+source: >-
+  live unauthenticated responses from https://api.navisphere.com observed 2026-09-05, plus the
+  Authentication tag of openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+reconciled: true
 tags:
   - Rate Limiting
   - Logistics
   - Freight
-description: C.H. Robinson does not publish numeric rate limits on its developer portal. API access
-  is gated by partner credentials issued to active customers/carriers; throttling and quotas are governed
-  by the API onboarding agreement.
-notes: No public per-second/per-minute rate limit numbers documented; partner-negotiated.
-sources:
-  - https://developer.chrobinson.com/
+description: >-
+  C.H. Robinson does not document numeric rate limits in its API reference, but the Kong
+  3.10 enterprise gateway in front of every Navisphere host returns real limit headers on
+  every response, including unauthenticated ones. Those observed values are recorded below.
+  The only limit the provider states in prose is a soft one on the token endpoint - tokens
+  last 24 hours and callers who re-authenticate more often may be throttled. Partner-specific
+  quotas remain governed by the onboarding agreement.
+notes: >-
+  The two limits below were read directly off response headers, not inferred. They are gateway
+  route limits, so a partner's contracted quota may differ; nothing published lets a caller
+  discover its own quota ahead of time.
+response_headers:
+  - RateLimit-Limit
+  - RateLimit-Remaining
+  - RateLimit-Reset
+  - X-RateLimit-Limit-Minute
+  - X-RateLimit-Remaining-Minute
+header_standard: IETF draft RateLimit header fields, plus Kong's X-RateLimit-*-Minute pair
+retry_after: not observed
 responseCodes:
   throttled: 429
   unauthorized: 401
+limit_count: 2
 limits:
-  - name: Shipper API
-    scope: api_key
-    metric: varies
-    limit: see partner agreement
-  - name: Carrier API
-    scope: api_key
-    metric: varies
-    limit: see partner agreement
+  - name: Authentication (token issuance)
+    scope: per-route
+    endpoint: POST https://api.navisphere.com/v1/oauth/token
+    metric: requests
+    limit: 3000
+    window: minute
+    observed_headers:
+      RateLimit-Limit: 3000
+      X-RateLimit-Limit-Minute: 3000
+    probed: '2026-09-05'
+    http_status_observed: 400
+    evidence: >-
+      An unauthenticated POST with an empty body returns 400 {"error":"bad_request",
+      "error_message":"\"client_id\" is required"} carrying RateLimit-Limit 3000 and
+      X-RateLimit-Limit-Minute 3000.
+  - name: Developer portal API (documentation, statuses, products, documents)
+    scope: per-route
+    endpoint: https://api.navisphere.com/api/B2B/Portal/v1/*
+    metric: requests
+    limit: 750
+    window: minute
+    observed_headers:
+      RateLimit-Limit: 750
+      X-RateLimit-Limit-Minute: 750
+    probed: '2026-09-05'
+    http_status_observed: 200
+    evidence: >-
+      GET /api/B2B/Portal/v1/documentation/swagger.yaml returns 200 with RateLimit-Limit 750,
+      X-RateLimit-Limit-Minute 750 and RateLimit-Reset.
 policies:
+  - name: Token reuse
+    description: >-
+      Tokens are valid for 24 hours. The provider's own Authentication documentation instructs
+      callers to hit the token endpoint once per 24 hours; more frequent calls may be rate limited.
   - name: Backoff Strategy
     description: Use exponential backoff with jitter on 429 / 503 responses; honor Retry-After when present.
   - name: Partner credential scope
-    description: Credentials are scoped to the contracted shipper or carrier; calls outside the agreed
+    description: >-
+      Credentials are scoped to the contracted shipper or carrier; calls outside the agreed
       surface return 401/403.
+sources:
+  - https://developer.chrobinson.com/api-reference#tag/Authentication
+  - https://api.navisphere.com/api/B2B/Portal/v1/documentation/swagger.yaml
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

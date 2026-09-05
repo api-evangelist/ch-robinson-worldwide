@@ -1,0 +1,222 @@
+generated: '2026-09-05'
+method: derived
+source: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+status: candidate
+note: 'C.H. Robinson publishes no MCP server. Searched the developer portal (developer.chrobinson.com routes: /,
+  /carrier, /api-reference, /file-transfer, /status, /support, /questionnaire/:id, /otp/:pin), the portal product
+  catalog at https://api.navisphere.com/api/B2B/Portal/v1/products, the github.com/ch-robinson org and the public
+  web. The company has publicly announced ~30 internal AI agents inside Navisphere, but none is exposed as an MCP
+  endpoint or a distributable MCP package. The tools below are a CANDIDATE list derived one-per-operation from the
+  harvested OpenAPI - nobody ships this server.'
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: oauth
+  verified: searched
+server:
+  name: ch-robinson-worldwide
+  transport: null
+  url: null
+tools:
+- name: generate_token
+  description: Allows partner to retrieve their own auth token.
+  category: auth
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Generate Token
+  method: POST
+  path: /v1/oauth/token
+- name: rating_request
+  description: Allows partner to generate quote from posted shipment information.
+  category: rating
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Rating Request
+  method: POST
+  path: /v1/quotes
+- name: estimating_freight_class
+  description: Allows partner to retrieve the estimated classification, based solely on density, for further use
+    in the actual rate requests.
+  category: rating
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Estimating Freight Class
+  method: POST
+  path: /v1/quotes/freight-class-estimate
+- name: order_create
+  description: Allows partner to create an order in C.H. Robinson's Navisphere® Order Management system.
+  category: orders
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Order Create
+  method: POST
+  path: /v1/orders
+- name: order_update
+  description: Allows partner to update an existing order in C.H. Robinson's Navisphere® Order Management system.
+  category: orders
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Order Update
+  method: PUT
+  path: /v1/orders
+- name: order_create_with_quote_id
+  description: Allows partner to create an order in C.H. Robinson's Navisphere® Order Management system using a
+    Quote ID. See [Rating](https://developer.chrobinson.com/api-reference#tag/Rating) f
+  category: orders
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Order Create with Quote ID
+  method: POST
+  path: /v1/orders/quotes
+- name: order_delete
+  description: Allows partner to delete an existing order in C.H. Robinson's Navisphere® Order Management system.
+  category: orders
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Order Delete
+  method: DELETE
+  path: /v1/orders/{orderNumber}
+- name: booking_create
+  description: Allows partner to send a Global Forwarding Booking request to CH Robinson's Navisphere system
+  category: orders
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Booking Create
+  method: POST
+  path: /v1/gfbookings
+- name: booking_update
+  description: Allows partner to send a Global Forwarding Booking request to CH Robinson's Navisphere system
+  category: orders
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Booking Update
+  method: PUT
+  path: /v1/gfbookings
+- name: booking_delete
+  description: Allows partner to send a Global Forwarding Booking request to CH Robinson's Navisphere system
+  category: orders
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Booking Delete
+  method: DELETE
+  path: /v1/gfbookings?{customerReferenceNumber}&{customerCode}
+- name: event_retrieval
+  description: "For customers that cannot integrate via callbacks, C.H. Robinson also provides an Event Retrieval\
+    \ solution.\n\nThis retrieval product provides the following features:\n  - Updates fro"
+  category: events
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Event Retrieval
+  method: GET
+  path: /v2/events
+- name: payment_status_retrieval
+  description: Allows partners access to the payment processing status of an invoice.
+  category: financials
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Payment Status Retrieval
+  method: GET
+  path: /v1/financials/payments
+- name: invoice_summary_retrieval
+  description: Allows partner to retrieve list summary of their invoices.
+  category: financials
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Invoice Summary Retrieval
+  method: GET
+  path: /v1/financials/invoiceSummaries
+- name: invoice_retrieval
+  description: Allows partner to retrieve specifics of an invoice.
+  category: financials
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Invoice Retrieval
+  method: GET
+  path: /v1/financials/invoiceSummaries/{invoiceNumber}
+- name: generated_bol_retrieval_order_level
+  description: Allows partner to generate the blank order-level BOL for the load. A load can have many orders, and
+    this BOL would reflect the individual order details. This route is intended to b
+  category: documents
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#GENERATED BOL RETRIEVAL - Order Level
+  method: GET
+  path: /v1/documents/generateBols
+- name: generated_bol_retrieval_load_level
+  description: Allows partner to generate the blank load-level BOL for the shipment. This BOL would reflect load
+    details. A load can have many orders. The load-level BOL may also contain API-retr
+  category: documents
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#GENERATED BOL RETRIEVAL - Load Level
+  method: GET
+  path: /v1/documents/generateLoadBols
+- name: invoice_document_retrieval
+  description: Allows partner to retrieve PDF document of an invoice.
+  category: documents
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Invoice Document Retrieval
+  method: GET
+  path: /v1/documents/invoices/{invoiceNumber}
+- name: load_document_id_retrieval
+  description: Allows partner to retrieve list of document IDs.
+  category: documents
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Load Document ID Retrieval
+  method: GET
+  path: /v1/documents/retrieveDocumentIds
+- name: load_document_retrieval
+  description: Allows partner to retrieve BOLs, PODs, and Lumper receipts.
+  category: documents
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Load Document Retrieval
+  method: GET
+  path: /v1/documents/{documentId}
+- name: load_documents_callback
+  description: This is the endpoint where load documents can be pushed.
+  category: documents
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Load Documents Callback
+  method: POST
+  path: /events/LoadDocuments/here
+- name: carrier_document_upload
+  description: Both base64 and binary can be accepted by making a selection in the dropdown next to "Request Body
+    Schema". Binary is form-data, base64 is application/json.
+  category: documents
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Carrier Document Upload
+  method: POST
+  path: /v1/documents/{loadNumber}
+- name: available_shipment_search
+  description: Allows partner to retrieve list summary of shipments available for transportation.
+  category: shipments
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Available Shipment Search
+  method: POST
+  path: /v2/shipments/available/searches
+- name: load_offer
+  description: Allows carrier to submit an offer on a load found through the Available Shipment search if load has
+    associated availableLoadCost(s).
+  category: shipments
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Load Offer
+  method: POST
+  path: /v1/shipments/{loadNumber}/offers
+- name: load_book
+  description: Allows carrier to book a load found through the Available Shipment search if load has associated
+    availableLoadCost(s).
+  category: shipments
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Load Book
+  method: POST
+  path: /v1/shipments/books
+- name: milestone_updates
+  description: Allows carrier, vendor, or other updating entity to update C.H. Robinson on any shipment.
+  category: shipments
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Milestone Updates
+  method: POST
+  path: /v1/shipments/milestones
+- name: visibility_shipment_create
+  description: Post a shipment create into Navisphere® Vision and/or Navisphere® Analytics.
+  category: visibility
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Visibility Shipment Create
+  method: POST
+  path: /v2/visibility/shipments
+- name: visibility_get_shipments
+  description: Allows partner to retrieve shipments.
+  category: visibility
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Visibility GET Shipments
+  method: GET
+  path: /v2/visibility/shipments
+- name: visibility_shipment_delete
+  description: Allows partner to delete an existing shipment in Navisphere® Vision and/or Navisphere® Analytics.
+  category: visibility
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Visibility Shipment Delete
+  method: DELETE
+  path: /v2/visibility/shipments/{shipmentNumber}
+- name: visibility_invoice_create
+  description: Post a shipment invoice into Navisphere® Vision and/or Navisphere® Analytics.
+  category: visibility
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Visibility Invoice Create
+  method: POST
+  path: /v2/visibility/invoices
+- name: visibility_order_create
+  description: Post an order into Navisphere® Vision and/or Navisphere® Analytics.
+  category: visibility
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Visibility Order Create
+  method: POST
+  path: /v2/visibility/orders
+- name: visibility_get_milestone
+  description: Allows partner to retrieve events during the life cycle of the order and shipment.
+  category: visibility
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Visibility GET Milestone
+  method: GET
+  path: /v2/visibility/milestones
+- name: generate_label
+  description: Generate label
+  category: labels
+  source_operation: openapi/ch-robinson-worldwide-rest-apis-openapi.yml#Generate label
+  method: POST
+  path: /v1/labels

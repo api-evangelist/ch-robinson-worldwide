@@ -1,0 +1,1112 @@
+generated: '2026-09-05'
+method: derived
+source: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+note: Entity graph derived from the $ref links in the harvested OpenAPI 3.0.0 contract. The contract is one document
+  across ten product tags; entities are the request/response root schemas each operation binds to. C.H. Robinson
+  publishes no separate object reference, so id-prefix/domain enrichment is not available.
+summary:
+  schemas_total: 321
+  root_entities: 38
+  relationships: 110
+identifier_fields:
+- field: stateProvinceCode
+  schemas: 14
+- field: postalCode
+  schemas: 14
+- field: customerCode
+  schemas: 13
+- field: currencyCode
+  schemas: 13
+- field: loadNumber
+  schemas: 13
+- field: carrierCode
+  schemas: 11
+- field: orderNumber
+  schemas: 10
+- field: customerLocationId
+  schemas: 9
+- field: sequenceNumber
+  schemas: 9
+- field: trackingNumber
+  schemas: 7
+- field: countryCode
+  schemas: 6
+- field: containerNumber
+  schemas: 6
+- field: customerReferenceNumber
+  schemas: 6
+- field: productCode
+  schemas: 5
+- field: skuNumber
+  schemas: 5
+- field: statusCode
+  schemas: 5
+- field: pluNumber
+  schemas: 4
+- field: unNumber
+  schemas: 4
+- field: containerId
+  schemas: 4
+- field: billToReferenceNumber
+  schemas: 4
+- field: bookingNumber
+  schemas: 4
+- field: trailerNumber
+  schemas: 4
+- field: stopSequenceNumber
+  schemas: 4
+- field: upcNumber
+  schemas: 3
+- field: suggestedCarrierPartyCode
+  schemas: 3
+entities:
+- entity: tokenRequest
+  tags:
+  - Authentication
+  used_as:
+  - request
+  operations:
+  - Generate Token
+  property_count: 4
+  references: []
+- entity: tokenSuccessResponse
+  tags:
+  - Authentication
+  used_as:
+  - response
+  operations:
+  - Generate Token
+  property_count: 4
+  references: []
+- entity: error400
+  tags:
+  - Authentication
+  - Documents
+  - Events
+  - Financials
+  - Labels
+  - Orders and Booking
+  - Rating
+  - Shipments
+  - Visibility
+  used_as:
+  - response
+  operations:
+  - Available Shipment Search
+  - Booking Create
+  - Booking Delete
+  - Booking Update
+  - Carrier Document Upload
+  - Estimating Freight Class
+  - Event Retrieval
+  - GENERATED BOL RETRIEVAL - Load Level
+  - GENERATED BOL RETRIEVAL - Order Level
+  - Generate Token
+  - Generate label
+  - Invoice Document Retrieval
+  - Invoice Retrieval
+  - Invoice Summary Retrieval
+  - Load Book
+  - Load Document ID Retrieval
+  - Load Document Retrieval
+  - Load Offer
+  - Milestone Updates
+  - Order Create
+  - Order Create with Quote ID
+  - Order Delete
+  - Order Update
+  - Payment Status Retrieval
+  - Rating Request
+  - Visibility GET Milestone
+  - Visibility GET Shipments
+  - Visibility Invoice Create
+  - Visibility Order Create
+  - Visibility Shipment Create
+  - Visibility Shipment Delete
+  property_count: 4
+  references: []
+- entity: error401
+  tags:
+  - Authentication
+  - Documents
+  - Events
+  - Financials
+  - Labels
+  - Orders and Booking
+  - Rating
+  - Shipments
+  - Visibility
+  used_as:
+  - response
+  operations:
+  - Available Shipment Search
+  - Booking Create
+  - Booking Delete
+  - Booking Update
+  - Carrier Document Upload
+  - Estimating Freight Class
+  - Event Retrieval
+  - GENERATED BOL RETRIEVAL - Load Level
+  - GENERATED BOL RETRIEVAL - Order Level
+  - Generate Token
+  - Generate label
+  - Invoice Document Retrieval
+  - Invoice Retrieval
+  - Invoice Summary Retrieval
+  - Load Book
+  - Load Document ID Retrieval
+  - Load Document Retrieval
+  - Load Offer
+  - Milestone Updates
+  - Order Create
+  - Order Create with Quote ID
+  - Order Delete
+  - Order Update
+  - Payment Status Retrieval
+  - Rating Request
+  - Visibility GET Milestone
+  - Visibility GET Shipments
+  - Visibility Invoice Create
+  - Visibility Order Create
+  - Visibility Shipment Create
+  - Visibility Shipment Delete
+  property_count: 4
+  references: []
+- entity: error403
+  tags:
+  - Authentication
+  - Documents
+  - Events
+  - Financials
+  - Labels
+  - Orders and Booking
+  - Rating
+  - Shipments
+  - Visibility
+  used_as:
+  - response
+  operations:
+  - Available Shipment Search
+  - Booking Create
+  - Booking Delete
+  - Booking Update
+  - Carrier Document Upload
+  - Estimating Freight Class
+  - Event Retrieval
+  - GENERATED BOL RETRIEVAL - Load Level
+  - GENERATED BOL RETRIEVAL - Order Level
+  - Generate Token
+  - Generate label
+  - Invoice Document Retrieval
+  - Invoice Retrieval
+  - Invoice Summary Retrieval
+  - Load Book
+  - Load Document ID Retrieval
+  - Load Document Retrieval
+  - Load Offer
+  - Milestone Updates
+  - Order Create
+  - Order Create with Quote ID
+  - Order Delete
+  - Order Update
+  - Payment Status Retrieval
+  - Rating Request
+  - Visibility GET Milestone
+  - Visibility GET Shipments
+  - Visibility Invoice Create
+  - Visibility Order Create
+  - Visibility Shipment Create
+  - Visibility Shipment Delete
+  property_count: 3
+  references: []
+- entity: error404
+  tags:
+  - Authentication
+  - Documents
+  - Events
+  - Financials
+  - Labels
+  - Orders and Booking
+  - Rating
+  - Shipments
+  - Visibility
+  used_as:
+  - response
+  operations:
+  - Available Shipment Search
+  - Booking Create
+  - Booking Delete
+  - Booking Update
+  - Carrier Document Upload
+  - Estimating Freight Class
+  - Event Retrieval
+  - GENERATED BOL RETRIEVAL - Load Level
+  - GENERATED BOL RETRIEVAL - Order Level
+  - Generate Token
+  - Generate label
+  - Invoice Document Retrieval
+  - Invoice Retrieval
+  - Invoice Summary Retrieval
+  - Load Book
+  - Load Document ID Retrieval
+  - Load Document Retrieval
+  - Load Offer
+  - Milestone Updates
+  - Order Create
+  - Order Create with Quote ID
+  - Order Delete
+  - Order Update
+  - Payment Status Retrieval
+  - Rating Request
+  - Visibility GET Milestone
+  - Visibility GET Shipments
+  - Visibility Invoice Create
+  - Visibility Order Create
+  - Visibility Shipment Create
+  - Visibility Shipment Delete
+  property_count: 3
+  references: []
+- entity: ratingPost
+  tags:
+  - Rating
+  used_as:
+  - request
+  operations:
+  - Rating Request
+  property_count: 12
+  references:
+  - ratingItem
+  - ratingLocation
+  - referenceNumber
+  - specialServicesEnum
+  - transportMode
+- entity: quoteSummaries
+  tags:
+  - Rating
+  - Visibility
+  used_as:
+  - response
+  operations:
+  - Rating Request
+  - Visibility Invoice Create
+  property_count: 1
+  references:
+  - cargoLiability
+  - equipmentCodeEnum
+  - rates
+  - transportModeEnum
+- entity: freightClassEstimate
+  tags:
+  - Rating
+  used_as:
+  - request
+  operations:
+  - Estimating Freight Class
+  property_count: 12
+  references:
+  - countryCodeEnum
+  - linearUomEnum
+  - weightUomEnum
+- entity: freightClassEstimateResponse
+  tags:
+  - Rating
+  used_as:
+  - response
+  operations:
+  - Estimating Freight Class
+  property_count: 1
+  references:
+  - freightEstimateResponseEnum
+- entity: order
+  tags:
+  - Orders and Booking
+  used_as:
+  - request
+  operations:
+  - Order Create
+  - Order Update
+  property_count: 14
+  references:
+  - AESTransactionNumber
+  - additionalLocation
+  - bookingNumber
+  - countryCodeEnum
+  - dutyPayerAccountNumber
+  - exportReasonCode
+  - labelReferenceData1
+  - labelReferenceData2
+  - labelReferenceData3
+  - movementTypeEnum
+  - orderBillTo
+  - orderCustomer
+  - orderService
+  - payerTypeEnum
+  - referenceNumber
+  - shippingContainerItems
+  - shippingContainers
+- entity: orderResponse
+  tags:
+  - Orders and Booking
+  used_as:
+  - response
+  operations:
+  - Order Create
+  property_count: 1
+  references: []
+- entity: quotes
+  tags:
+  - Orders and Booking
+  used_as:
+  - request
+  operations:
+  - Order Create with Quote ID
+  property_count: 0
+  references:
+  - quote
+- entity: quoteOrderResponse
+  tags:
+  - Orders and Booking
+  used_as:
+  - response
+  operations:
+  - Order Create with Quote ID
+  property_count: 3
+  references: []
+- entity: gfBooking
+  tags:
+  - Orders and Booking
+  used_as:
+  - request
+  operations:
+  - Booking Create
+  - Booking Update
+  property_count: 14
+  references:
+  - BookingContainer
+  - BookingFreightTerm
+  - BookingIncoTerms
+  - BookingLocation
+  - BookingMode
+  - BookingParty
+  - BookingServiceLevel
+  - CommodityItem
+  - ReferenceNumber
+- entity: eventResponse
+  tags:
+  - Events
+  used_as:
+  - request
+  operations:
+  - Events Callback
+  property_count: 6
+  references:
+  - appointmentEvent
+  - globalForwardingShipmentEvent
+  - inTransitEvent
+  - loadEvent
+  - orderEvent
+  - packageInTransitEvent
+  - packageStopEvent
+  - stopEvent
+  - trackingNumberEvent
+- entity: eventResponses
+  tags:
+  - Events
+  used_as:
+  - response
+  operations:
+  - Event Retrieval
+  property_count: 2
+  references:
+  - eventResponse
+- entity: payments
+  tags:
+  - Financials
+  used_as:
+  - response
+  operations:
+  - Payment Status Retrieval
+  property_count: 0
+  references: []
+- entity: invoiceSummaries
+  tags:
+  - Financials
+  used_as:
+  - response
+  operations:
+  - Invoice Summary Retrieval
+  property_count: 0
+  references:
+  - currencyCodeEnum
+  - invoiceShipments
+- entity: invoiceSummary
+  tags:
+  - Financials
+  used_as:
+  - response
+  operations:
+  - Invoice Retrieval
+  property_count: 11
+  references:
+  - currencyCodeEnum
+  - invoiceShipmentsWithRates
+- entity: documentIdResults
+  tags:
+  - Documents
+  used_as:
+  - response
+  operations:
+  - Load Document ID Retrieval
+  property_count: 0
+  references:
+  - docTypeEnum
+- entity: loadDocumentCallback
+  tags:
+  - Documents
+  used_as:
+  - request
+  operations:
+  - Load Documents Callback
+  property_count: 6
+  references:
+  - referenceNumber
+- entity: docTypeEnum
+  tags:
+  - Documents
+  used_as:
+  - request
+  operations:
+  - Carrier Document Upload
+  property_count: 0
+  references: []
+- entity: availableShipmentsSearchV2
+  tags:
+  - Shipments
+  used_as:
+  - request
+  operations:
+  - Available Shipment Search
+  property_count: 22
+  references:
+  - availableShipmentsModeEnum
+  - radiusSearch
+  - specializedEquipmentCodeEUEnum
+  - specializedEquipmentCodeNAEnum
+  - unitOfMeasure
+- entity: availableShipmentsResponseV2
+  tags:
+  - Shipments
+  used_as:
+  - response
+  operations:
+  - Available Shipment Search
+  property_count: 2
+  references:
+  - availableShipmentV2
+- entity: loadOffer
+  tags:
+  - Shipments
+  used_as:
+  - request
+  operations:
+  - Load Offer
+  property_count: 4
+  references: []
+- entity: offerAcknowledgment
+  tags:
+  - Shipments
+  used_as:
+  - response
+  operations:
+  - Load Offer
+  property_count: 1
+  references: []
+- entity: error422
+  tags:
+  - Shipments
+  used_as:
+  - response
+  operations:
+  - Load Book
+  - Load Offer
+  property_count: 3
+  references: []
+- entity: offerResponse
+  tags:
+  - Shipments
+  used_as:
+  - request
+  operations:
+  - Offer Response Callback
+  property_count: 8
+  references: []
+- entity: loadBookV2
+  tags:
+  - Shipments
+  used_as:
+  - request
+  operations:
+  - Load Book
+  property_count: 6
+  references:
+  - binCost
+  - emptyLocationV2
+  - rateConfirmation
+- entity: shipmentDetail
+  tags:
+  - Shipments
+  used_as:
+  - request
+  operations:
+  - Shipment Details Callback
+  property_count: 7
+  references:
+  - shipmentDetailEvent
+- entity: milestone
+  tags:
+  - Shipments
+  used_as:
+  - request
+  operations:
+  - Milestone Updates
+  property_count: 8
+  references:
+  - airMilestoneEventCodeEnum
+  - dateTime
+  - milestoneCarrier
+  - milestoneItem
+  - milestoneLocation
+  - oceanMilestoneEventCodeEnum
+  - railMilestoneEventCodeEnum
+  - roadMilestoneEventCodeEnum
+  - shipmentIdentifier
+  - supplementalInformation
+- entity: shipments
+  tags:
+  - Visibility
+  used_as:
+  - request
+  operations:
+  - Visibility Shipment Create
+  property_count: 27
+  references:
+  - containerInformation
+  - distanceUomEnum
+  - handlingUnit
+  - incoTermsEnum
+  - referenceNumber
+  - stop
+- entity: invoice
+  tags:
+  - Visibility
+  used_as:
+  - request
+  operations:
+  - Visibility Invoice Create
+  property_count: 12
+  references:
+  - referenceNumber
+  - visibilityCharge
+  - weightUomEnum
+- entity: visibilityOrder
+  tags:
+  - Visibility
+  used_as:
+  - request
+  operations:
+  - Visibility Order Create
+  property_count: 21
+  references:
+  - handlingUnit
+  - linearUomEnum
+  - packageCodeEnum
+  - visibilityLocation
+  - volumeUomEnum
+  - weightUomEnum
+- entity: label
+  tags:
+  - Labels
+  used_as:
+  - request
+  operations:
+  - Generate label
+  property_count: 25
+  references:
+  - additionalLocationLabels
+  - billTo
+  - bookingNumber
+  - carrierEnum
+  - customer
+  - document
+  - internationalShipping
+  - location
+  - package
+  - payer
+  - referenceNumber
+  - serviceLevelLabelsEnum
+- entity: successLabelCreate
+  tags:
+  - Labels
+  used_as:
+  - response
+  operations:
+  - Generate label
+  property_count: 12
+  references:
+  - bookingNumber
+  - carrierEnum
+  - carrierMessage
+  - documentInfo
+  - packageShippingInfo
+  - referenceNumber
+  - serviceLevelEnum
+- entity: error424
+  tags:
+  - Labels
+  used_as:
+  - response
+  operations:
+  - Generate label
+  property_count: 4
+  references: []
+relationships:
+- from: ratingPost
+  to: ratingItem
+  kind: has_one_or_many
+  via: $ref
+- from: ratingPost
+  to: ratingLocation
+  kind: has_one_or_many
+  via: $ref
+- from: ratingPost
+  to: referenceNumber
+  kind: has_one_or_many
+  via: $ref
+- from: ratingPost
+  to: specialServicesEnum
+  kind: has_one_or_many
+  via: $ref
+- from: ratingPost
+  to: transportMode
+  kind: has_one_or_many
+  via: $ref
+- from: quoteSummaries
+  to: cargoLiability
+  kind: has_one_or_many
+  via: $ref
+- from: quoteSummaries
+  to: equipmentCodeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: quoteSummaries
+  to: rates
+  kind: has_one_or_many
+  via: $ref
+- from: quoteSummaries
+  to: transportModeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: freightClassEstimate
+  to: countryCodeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: freightClassEstimate
+  to: linearUomEnum
+  kind: has_one_or_many
+  via: $ref
+- from: freightClassEstimate
+  to: weightUomEnum
+  kind: has_one_or_many
+  via: $ref
+- from: freightClassEstimateResponse
+  to: freightEstimateResponseEnum
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: AESTransactionNumber
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: additionalLocation
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: bookingNumber
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: countryCodeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: dutyPayerAccountNumber
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: exportReasonCode
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: labelReferenceData1
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: labelReferenceData2
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: labelReferenceData3
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: movementTypeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: orderBillTo
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: orderCustomer
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: orderService
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: payerTypeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: referenceNumber
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: shippingContainerItems
+  kind: has_one_or_many
+  via: $ref
+- from: order
+  to: shippingContainers
+  kind: has_one_or_many
+  via: $ref
+- from: quotes
+  to: quote
+  kind: has_one_or_many
+  via: $ref
+- from: gfBooking
+  to: BookingContainer
+  kind: has_one_or_many
+  via: $ref
+- from: gfBooking
+  to: BookingFreightTerm
+  kind: has_one_or_many
+  via: $ref
+- from: gfBooking
+  to: BookingIncoTerms
+  kind: has_one_or_many
+  via: $ref
+- from: gfBooking
+  to: BookingLocation
+  kind: has_one_or_many
+  via: $ref
+- from: gfBooking
+  to: BookingMode
+  kind: has_one_or_many
+  via: $ref
+- from: gfBooking
+  to: BookingParty
+  kind: has_one_or_many
+  via: $ref
+- from: gfBooking
+  to: BookingServiceLevel
+  kind: has_one_or_many
+  via: $ref
+- from: gfBooking
+  to: CommodityItem
+  kind: has_one_or_many
+  via: $ref
+- from: gfBooking
+  to: ReferenceNumber
+  kind: has_one_or_many
+  via: $ref
+- from: eventResponse
+  to: appointmentEvent
+  kind: has_one_or_many
+  via: $ref
+- from: eventResponse
+  to: globalForwardingShipmentEvent
+  kind: has_one_or_many
+  via: $ref
+- from: eventResponse
+  to: inTransitEvent
+  kind: has_one_or_many
+  via: $ref
+- from: eventResponse
+  to: loadEvent
+  kind: has_one_or_many
+  via: $ref
+- from: eventResponse
+  to: orderEvent
+  kind: has_one_or_many
+  via: $ref
+- from: eventResponse
+  to: packageInTransitEvent
+  kind: has_one_or_many
+  via: $ref
+- from: eventResponse
+  to: packageStopEvent
+  kind: has_one_or_many
+  via: $ref
+- from: eventResponse
+  to: stopEvent
+  kind: has_one_or_many
+  via: $ref
+- from: eventResponse
+  to: trackingNumberEvent
+  kind: has_one_or_many
+  via: $ref
+- from: eventResponses
+  to: eventResponse
+  kind: has_one_or_many
+  via: $ref
+- from: invoiceSummaries
+  to: currencyCodeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: invoiceSummaries
+  to: invoiceShipments
+  kind: has_one_or_many
+  via: $ref
+- from: invoiceSummary
+  to: currencyCodeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: invoiceSummary
+  to: invoiceShipmentsWithRates
+  kind: has_one_or_many
+  via: $ref
+- from: documentIdResults
+  to: docTypeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: loadDocumentCallback
+  to: referenceNumber
+  kind: has_one_or_many
+  via: $ref
+- from: availableShipmentsSearchV2
+  to: availableShipmentsModeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: availableShipmentsSearchV2
+  to: radiusSearch
+  kind: has_one_or_many
+  via: $ref
+- from: availableShipmentsSearchV2
+  to: specializedEquipmentCodeEUEnum
+  kind: has_one_or_many
+  via: $ref
+- from: availableShipmentsSearchV2
+  to: specializedEquipmentCodeNAEnum
+  kind: has_one_or_many
+  via: $ref
+- from: availableShipmentsSearchV2
+  to: unitOfMeasure
+  kind: has_one_or_many
+  via: $ref
+- from: availableShipmentsResponseV2
+  to: availableShipmentV2
+  kind: has_one_or_many
+  via: $ref
+- from: loadBookV2
+  to: binCost
+  kind: has_one_or_many
+  via: $ref
+- from: loadBookV2
+  to: emptyLocationV2
+  kind: has_one_or_many
+  via: $ref
+- from: loadBookV2
+  to: rateConfirmation
+  kind: has_one_or_many
+  via: $ref
+- from: shipmentDetail
+  to: shipmentDetailEvent
+  kind: has_one_or_many
+  via: $ref
+- from: milestone
+  to: airMilestoneEventCodeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: milestone
+  to: dateTime
+  kind: has_one_or_many
+  via: $ref
+- from: milestone
+  to: milestoneCarrier
+  kind: has_one_or_many
+  via: $ref
+- from: milestone
+  to: milestoneItem
+  kind: has_one_or_many
+  via: $ref
+- from: milestone
+  to: milestoneLocation
+  kind: has_one_or_many
+  via: $ref
+- from: milestone
+  to: oceanMilestoneEventCodeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: milestone
+  to: railMilestoneEventCodeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: milestone
+  to: roadMilestoneEventCodeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: milestone
+  to: shipmentIdentifier
+  kind: has_one_or_many
+  via: $ref
+- from: milestone
+  to: supplementalInformation
+  kind: has_one_or_many
+  via: $ref
+- from: shipments
+  to: containerInformation
+  kind: has_one_or_many
+  via: $ref
+- from: shipments
+  to: distanceUomEnum
+  kind: has_one_or_many
+  via: $ref
+- from: shipments
+  to: handlingUnit
+  kind: has_one_or_many
+  via: $ref
+- from: shipments
+  to: incoTermsEnum
+  kind: has_one_or_many
+  via: $ref
+- from: shipments
+  to: referenceNumber
+  kind: has_one_or_many
+  via: $ref
+- from: shipments
+  to: stop
+  kind: has_one_or_many
+  via: $ref
+- from: invoice
+  to: referenceNumber
+  kind: has_one_or_many
+  via: $ref
+- from: invoice
+  to: visibilityCharge
+  kind: has_one_or_many
+  via: $ref
+- from: invoice
+  to: weightUomEnum
+  kind: has_one_or_many
+  via: $ref
+- from: visibilityOrder
+  to: handlingUnit
+  kind: has_one_or_many
+  via: $ref
+- from: visibilityOrder
+  to: linearUomEnum
+  kind: has_one_or_many
+  via: $ref
+- from: visibilityOrder
+  to: packageCodeEnum
+  kind: has_one_or_many
+  via: $ref
+- from: visibilityOrder
+  to: visibilityLocation
+  kind: has_one_or_many
+  via: $ref
+- from: visibilityOrder
+  to: volumeUomEnum
+  kind: has_one_or_many
+  via: $ref
+- from: visibilityOrder
+  to: weightUomEnum
+  kind: has_one_or_many
+  via: $ref
+- from: label
+  to: additionalLocationLabels
+  kind: has_one_or_many
+  via: $ref
+- from: label
+  to: billTo
+  kind: has_one_or_many
+  via: $ref
+- from: label
+  to: bookingNumber
+  kind: has_one_or_many
+  via: $ref
+- from: label
+  to: carrierEnum
+  kind: has_one_or_many
+  via: $ref
+- from: label
+  to: customer
+  kind: has_one_or_many
+  via: $ref
+- from: label
+  to: document
+  kind: has_one_or_many
+  via: $ref
+- from: label
+  to: internationalShipping
+  kind: has_one_or_many
+  via: $ref
+- from: label
+  to: location
+  kind: has_one_or_many
+  via: $ref
+- from: label
+  to: package
+  kind: has_one_or_many
+  via: $ref
+- from: label
+  to: payer
+  kind: has_one_or_many
+  via: $ref
+- from: label
+  to: referenceNumber
+  kind: has_one_or_many
+  via: $ref
+- from: label
+  to: serviceLevelLabelsEnum
+  kind: has_one_or_many
+  via: $ref
+- from: successLabelCreate
+  to: bookingNumber
+  kind: has_one_or_many
+  via: $ref
+- from: successLabelCreate
+  to: carrierEnum
+  kind: has_one_or_many
+  via: $ref
+- from: successLabelCreate
+  to: carrierMessage
+  kind: has_one_or_many
+  via: $ref
+- from: successLabelCreate
+  to: documentInfo
+  kind: has_one_or_many
+  via: $ref
+- from: successLabelCreate
+  to: packageShippingInfo
+  kind: has_one_or_many
+  via: $ref
+- from: successLabelCreate
+  to: referenceNumber
+  kind: has_one_or_many
+  via: $ref
+- from: successLabelCreate
+  to: serviceLevelEnum
+  kind: has_one_or_many
+  via: $ref

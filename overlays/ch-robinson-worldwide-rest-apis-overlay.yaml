@@ -1,0 +1,84 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the C.H. Robinson REST APIs
+  version: 1.0.0
+extends: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+x-provenance:
+  generated: '2026-09-05'
+  method: generated
+  source: >-
+    Derived from the verbatim contract harvested from
+    https://api.navisphere.com/api/B2B/Portal/v1/documentation/swagger.yaml on 2026-09-05.
+    The original document is never mutated; every enhancement below is expressed as an action.
+actions:
+  - target: $.info
+    description: Record provenance and the discovery path that found this contract.
+    update:
+      contact:
+        name: C.H. Robinson eBiz Help Desk
+        email: ebizhelpdesk@chrobinson.com
+        url: https://developer.chrobinson.com/support
+      x-apievangelist-slug: ch-robinson-worldwide
+      x-apievangelist-harvested: '2026-09-05'
+      x-apievangelist-spec-url: https://api.navisphere.com/api/B2B/Portal/v1/documentation/swagger.yaml
+      x-apievangelist-discovery: >-
+        Not linked from any HTML page. Found by reading the developer portal's webpack chunk
+        600.a73490e9.chunk.js, which passes specUrl `${portalUrl}/documentation/swagger.yaml`
+        to RedocStandalone, with portalUrl read from
+        https://developer.chrobinson.com/app-config.json.
+  - target: $.info
+    description: Add the machine-readable status surface, which the contract itself does not mention.
+    update:
+      x-status-page: https://developer.chrobinson.com/status
+      x-status-api: https://api.navisphere.com/api/B2B/Portal/v1/statuses
+  - target: $.info
+    description: Record the observed rate-limit contract, which is returned as headers but undocumented.
+    update:
+      x-rate-limit-headers:
+        - RateLimit-Limit
+        - RateLimit-Remaining
+        - RateLimit-Reset
+        - X-RateLimit-Limit-Minute
+        - X-RateLimit-Remaining-Minute
+      x-rate-limit-observed:
+        token_endpoint_per_minute: 3000
+        portal_endpoint_per_minute: 750
+  - target: $.info
+    description: Record the absence of replay protection, so an agent does not assume retries are safe.
+    update:
+      x-idempotency:
+        supported: false
+        coverage: none
+        note: >-
+          No Idempotency-Key contract exists. Retrying Order Create, Booking Create or Load Book
+          after a timeout can duplicate real freight.
+  - target: $.servers
+    description: Label the environments explicitly for agent consumption.
+    update:
+      x-environment-note: >-
+        servers[0] is the sandbox and is the target of every published code sample; servers[1]
+        is production. Test and live are separated by host only - credentials carry no
+        distinguishing prefix.
+  - target: $.paths['/v1/shipments/books'].post
+    description: Flag the one high-consequence write with no reversal operation in the contract.
+    update:
+      x-reversibility:
+        reversal: none
+        window: null
+        note: >-
+          Booking a load has no API-level cancel. Reversal is a human process through the
+          C.H. Robinson representative or carrier support.
+  - target: $.paths['/v1/orders'].post
+    description: Bind the create operation to its published reversal.
+    update:
+      x-reversibility:
+        reversal_operation: Order Delete
+        reversal_path: DELETE /v1/orders/{orderNumber}
+        window: null
+        window_note: C.H. Robinson does not publish a cancellation window.
+  - target: $.tags[?(@.name=='Authentication')]
+    description: Surface the 24-hour token lifetime as structured data rather than prose.
+    update:
+      x-token-lifetime-hours: 24
+      x-grant-type: client_credentials
+      x-audience: https://inavisphere.chrobinson.com

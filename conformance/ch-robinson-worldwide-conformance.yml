@@ -1,0 +1,108 @@
+generated: '2026-09-05'
+method: searched
+source: >-
+  openapi/ch-robinson-worldwide-rest-apis-openapi.yml, the portal document catalog at
+  https://api.navisphere.com/api/B2B/Portal/v1/documents, and
+  https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
+standards:
+  - id: openapi-3.0
+    conforms: true
+    evidence: >-
+      openapi: 3.0.0 document, 32 paths / 35 operations / 321 component schemas, served at
+      https://api.navisphere.com/api/B2B/Portal/v1/documentation/swagger.yaml
+  - id: oauth2-client-credentials
+    conforms: true
+    evidence: >-
+      POST /v1/oauth/token with grant_type=client_credentials, client_id, client_secret and
+      audience; the Authentication tag states "C.H. Robinson uses OAuth v2.0 to secure
+      connections to its APIs"
+  - id: rfc6750-bearer-token
+    conforms: true
+    evidence: components.securitySchemes.bearerAuth = {type http, scheme bearer, bearerFormat jwt}
+  - id: rfc7519-jwt
+    conforms: true
+    evidence: bearerFormat jwt on both declared security schemes
+  - id: oidc
+    conforms: false
+    evidence: no /.well-known/openid-configuration on any host (see well-known/ probe)
+  - id: rfc8414-oauth-authorization-server-metadata
+    conforms: false
+    evidence: /.well-known/oauth-authorization-server returns 404 or an HTML catch-all on every host
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      no application/problem+json anywhere in the contract; errors are vendor JSON
+      ({statusCode, error, message} and a Joi validation array)
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: no /.well-known/security.txt served on any host probed 2026-09-05
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: no Sunset/Deprecation header support and no deprecation policy published
+  - id: json-api
+    conforms: false
+    evidence: plain JSON resource bodies, no JSON:API document structure
+  - id: idempotency-key
+    conforms: false
+    evidence: zero matches for /idempoten/i across the 1.0MB contract
+  - id: rate-limit-headers-draft
+    conforms: true
+    evidence: >-
+      live responses from api.navisphere.com carry RateLimit-Limit / RateLimit-Remaining /
+      RateLimit-Reset alongside the Kong X-RateLimit-*-Minute pair (probed 2026-09-05)
+domain_standards:
+  - id: ansi-asc-x12-transportation
+    conforms: true
+    market: freight and transportation EDI
+    evidence: >-
+      C.H. Robinson publishes its own X12 implementation guidelines through the developer
+      portal document catalog: CHR_EDI_IB_204_LoadTenderGuidelines.pdf (204 Motor Carrier Load
+      Tender), CHR_EDI_OB_990_LoadTenderResponseGuidelines.pdf (990 Response to a Load Tender),
+      CHR_EDI_OB_214_ShipmentStatusGuidelines.pdf (214 Transportation Carrier Shipment Status
+      Message), CHR_EDI_OB_210_InvoiceGuidelines.pdf (210 Motor Carrier Freight Details and
+      Invoice) and CHR_EDI_OB_220_LoadPlanGuidelines.pdf. Fetched 200 from
+      https://api.navisphere.com/api/B2B/Portal/v1/documents/<name> on 2026-09-05. The carrier
+      onboarding questionnaire on developer.chrobinson.com collects exactly these message
+      types (doc204 / doc210 / doc214 / doc990).
+    note: >-
+      A shipper or carrier that already speaks X12 transportation sets integrates with the
+      documented guideline rather than a bespoke connector. This is the sector's real
+      interoperability standard and C.H. Robinson supports it as a first-class channel
+      alongside REST.
+  - id: as2-ediint
+    conforms: true
+    market: EDI transport
+    evidence: >-
+      The developer portal's file-transfer questionnaire configures AS2 endpoints verbatim -
+      https://as2-prod.chrobinson.com:4443/as2 and https://as2-test.chrobinson.com:4443/as2 -
+      together with MDN request, document encryption, encryption key length and digest fields.
+  - id: nmfta-freight-class
+    conforms: true
+    market: LTL freight classification
+    evidence: >-
+      POST /v1/quotes/freight-class-estimate ("Estimating Freight Class"); the Rating tag
+      describes density-based freight classification against the NMFTA scheme.
+  - id: scac
+    conforms: true
+    market: carrier identification
+    evidence: >-
+      Standard Carrier Alpha Codes are returned as first-class fields in quote responses
+      (carrier.scac, e.g. FWDA, AVRT, UPGF).
+  - id: incoterms-2020
+    conforms: true
+    market: international trade terms
+    evidence: >-
+      Incoterms are a modelled enum in the global-forwarding booking schemas and C.H. Robinson
+      publishes an Incoterms tool at
+      https://www.chrobinson.com/en-us/resources/resource-center/guides/incoterms-tool/
+compliance_program:
+  published: false
+  certifications: []
+  note: >-
+    No trust center, no named certifications (SOC 2 / ISO 27001 / PCI / HIPAA / FedRAMP) and no
+    security or compliance landing page were found. trust.chrobinson.com and
+    security.chrobinson.com do not resolve; probe-security-programs.py returned vdp=none
+    trust=none on 2026-09-05. Trade-compliance pages exist
+    (/en-us/shippers/supply-chain-and-logistics-services/trade-policy/us-compliance/) but those
+    are customs and trade services, not an information-security compliance posture - so NO
+    Compliance pointer is emitted.

@@ -1,0 +1,310 @@
+generated: '2026-09-05'
+method: probed
+source: live HTTPS probes of the named /.well-known path list on every host in the record
+note: 'No host C.H. Robinson operates serves a real /.well-known document. Three hosts answer 200 with HTML for
+  paths that do not exist: developer.chrobinson.com is a React SPA catch-all (its negative control returned 200,
+  so every 200 on that host is discarded), and both chrobinson.com and www.chrobinson.com return the 287KB marketing
+  page or the CMS "Page Not Found" body. api.navisphere.com / sandbox-api.navisphere.com / inavisphere.chrobinson.com
+  are Kong gateways that answer a JSON no-route 404. hit_count is 0 on every host, so NO WellKnown, SecurityTxt,
+  AgentCard or APICatalog pointer is emitted - this file records a measured absence, not a served surface.'
+summary:
+  hosts_probed: 7
+  documents_found: 0
+  security_txt: false
+  api_catalog: false
+  agent_card: false
+  apis_json: false
+  aauth_resource: false
+hosts:
+- host: https://www.chrobinson.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/ch-robinson-worldwide-negative-control-7f3ab91c.json
+    status: 404
+    note: negative control - path cannot exist
+  hit_count: 0
+  path_echo_control: passed
+  soft_404_control: soft-404 HTML
+- host: https://chrobinson.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/ch-robinson-worldwide-negative-control-7f3ab91c.json
+    status: 404
+    note: negative control - path cannot exist
+  hit_count: 0
+  path_echo_control: passed
+  soft_404_control: soft-404 HTML
+- host: https://developer.chrobinson.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/ucp.json
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/acp.json
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/aauth-resource.json
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/apis.json
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /apis.json
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /apis.yml
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+    note: HTML body, not a document - soft-404 / catch-all
+  - path: /.well-known/ch-robinson-worldwide-negative-control-7f3ab91c.json
+    status: 200
+    note: negative control - path cannot exist
+  hit_count: 0
+  path_echo_control: failed
+  soft_404_control: SPA catch-all
+- host: https://api.chrobinson.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/ch-robinson-worldwide-negative-control-7f3ab91c.json
+    status: 404
+    note: negative control - path cannot exist
+  hit_count: 0
+  path_echo_control: passed
+  soft_404_control: IIS 404
+- host: https://api.navisphere.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/ch-robinson-worldwide-negative-control-7f3ab91c.json
+    status: 404
+    note: negative control - path cannot exist
+  hit_count: 0
+  path_echo_control: passed
+  soft_404_control: Kong no-route JSON
+- host: https://sandbox-api.navisphere.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/ch-robinson-worldwide-negative-control-7f3ab91c.json
+    status: 404
+    note: negative control - path cannot exist
+  hit_count: 0
+  path_echo_control: passed
+  soft_404_control: Kong no-route JSON
+- host: https://inavisphere.chrobinson.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/ucp.json
+    status: 404
+  - path: /.well-known/acp.json
+    status: 404
+  - path: /.well-known/aauth-resource.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /apis.yml
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /.well-known/ch-robinson-worldwide-negative-control-7f3ab91c.json
+    status: 404
+    note: negative control - path cannot exist
+  hit_count: 0
+  path_echo_control: passed
+  soft_404_control: Kong no-route JSON

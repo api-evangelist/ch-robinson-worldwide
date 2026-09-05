@@ -1,0 +1,218 @@
+generated: '2026-09-05'
+method: derived
+source: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+format: vendor-json
+note: 'C.H. Robinson''s REST APIs do not use RFC 9457 application/problem+json. 4xx bodies are vendor
+  JSON: 400 returns a Joi-style validation array ({message, path[], type, context}); 401/403/404 return
+  {statusCode, error, message}. 500 has no documented body. Derived from the response objects in the harvested
+  OpenAPI; no separate error-code reference is published.'
+envelope:
+  validation_400:
+    fields:
+    - message
+    - path
+    - type
+    - context
+    shape: array of validation errors
+    schema: '#/components/schemas/error400'
+  standard_4xx:
+    fields:
+    - statusCode
+    - error
+    - message
+    - attributes
+    shape: object
+    schema: '#/components/schemas/error401 | error403 | error404'
+problems:
+- status: 400
+  title: Bad Request
+  schema: '#/components/schemas/error400'
+  operation_count: 31
+  operations:
+  - Available Shipment Search
+  - Booking Create
+  - Booking Delete
+  - Booking Update
+  - Carrier Document Upload
+  - Estimating Freight Class
+  - Event Retrieval
+  - GENERATED BOL RETRIEVAL - Load Level
+  - GENERATED BOL RETRIEVAL - Order Level
+  - Generate Token
+  - Generate label
+  - Invoice Document Retrieval
+  - Invoice Retrieval
+  - Invoice Summary Retrieval
+  - Load Book
+  - Load Document ID Retrieval
+  - Load Document Retrieval
+  - Load Offer
+  - Milestone Updates
+  - Order Create
+  - Order Create with Quote ID
+  - Order Delete
+  - Order Update
+  - Payment Status Retrieval
+  - Rating Request
+  - Visibility GET Milestone
+  - Visibility GET Shipments
+  - Visibility Invoice Create
+  - Visibility Order Create
+  - Visibility Shipment Create
+  - Visibility Shipment Delete
+- status: 401
+  title: Unauthorized
+  schema: '#/components/schemas/error401'
+  operation_count: 31
+  operations:
+  - Available Shipment Search
+  - Booking Create
+  - Booking Delete
+  - Booking Update
+  - Carrier Document Upload
+  - Estimating Freight Class
+  - Event Retrieval
+  - GENERATED BOL RETRIEVAL - Load Level
+  - GENERATED BOL RETRIEVAL - Order Level
+  - Generate Token
+  - Generate label
+  - Invoice Document Retrieval
+  - Invoice Retrieval
+  - Invoice Summary Retrieval
+  - Load Book
+  - Load Document ID Retrieval
+  - Load Document Retrieval
+  - Load Offer
+  - Milestone Updates
+  - Order Create
+  - Order Create with Quote ID
+  - Order Delete
+  - Order Update
+  - Payment Status Retrieval
+  - Rating Request
+  - Visibility GET Milestone
+  - Visibility GET Shipments
+  - Visibility Invoice Create
+  - Visibility Order Create
+  - Visibility Shipment Create
+  - Visibility Shipment Delete
+- status: 403
+  title: Forbidden
+  schema: '#/components/schemas/error403'
+  operation_count: 31
+  operations:
+  - Available Shipment Search
+  - Booking Create
+  - Booking Delete
+  - Booking Update
+  - Carrier Document Upload
+  - Estimating Freight Class
+  - Event Retrieval
+  - GENERATED BOL RETRIEVAL - Load Level
+  - GENERATED BOL RETRIEVAL - Order Level
+  - Generate Token
+  - Generate label
+  - Invoice Document Retrieval
+  - Invoice Retrieval
+  - Invoice Summary Retrieval
+  - Load Book
+  - Load Document ID Retrieval
+  - Load Document Retrieval
+  - Load Offer
+  - Milestone Updates
+  - Order Create
+  - Order Create with Quote ID
+  - Order Delete
+  - Order Update
+  - Payment Status Retrieval
+  - Rating Request
+  - Visibility GET Milestone
+  - Visibility GET Shipments
+  - Visibility Invoice Create
+  - Visibility Order Create
+  - Visibility Shipment Create
+  - Visibility Shipment Delete
+- status: 404
+  title: Not Found
+  schema: '#/components/schemas/error404'
+  operation_count: 31
+  operations:
+  - Available Shipment Search
+  - Booking Create
+  - Booking Delete
+  - Booking Update
+  - Carrier Document Upload
+  - Estimating Freight Class
+  - Event Retrieval
+  - GENERATED BOL RETRIEVAL - Load Level
+  - GENERATED BOL RETRIEVAL - Order Level
+  - Generate Token
+  - Generate label
+  - Invoice Document Retrieval
+  - Invoice Retrieval
+  - Invoice Summary Retrieval
+  - Load Book
+  - Load Document ID Retrieval
+  - Load Document Retrieval
+  - Load Offer
+  - Milestone Updates
+  - Order Create
+  - Order Create with Quote ID
+  - Order Delete
+  - Order Update
+  - Payment Status Retrieval
+  - Rating Request
+  - Visibility GET Milestone
+  - Visibility GET Shipments
+  - Visibility Invoice Create
+  - Visibility Order Create
+  - Visibility Shipment Create
+  - Visibility Shipment Delete
+- status: 422
+  title: Unprocessable Entity
+  schema: '#/components/schemas/error422'
+  operation_count: 2
+  operations:
+  - Load Book
+  - Load Offer
+- status: 424
+  title: Failed Dependency
+  schema: '#/components/schemas/error424'
+  operation_count: 1
+  operations:
+  - Generate label
+- status: 500
+  title: Internal Server Error. Please contact you C.H. Robinson rep.
+  schema: null
+  operation_count: 30
+  operations:
+  - Available Shipment Search
+  - Booking Create
+  - Booking Delete
+  - Booking Update
+  - Carrier Document Upload
+  - Estimating Freight Class
+  - Event Retrieval
+  - GENERATED BOL RETRIEVAL - Load Level
+  - GENERATED BOL RETRIEVAL - Order Level
+  - Generate Token
+  - Invoice Document Retrieval
+  - Invoice Retrieval
+  - Invoice Summary Retrieval
+  - Load Book
+  - Load Document ID Retrieval
+  - Load Document Retrieval
+  - Load Offer
+  - Milestone Updates
+  - Order Create
+  - Order Create with Quote ID
+  - Order Delete
+  - Order Update
+  - Payment Status Retrieval
+  - Rating Request
+  - Visibility GET Milestone
+  - Visibility GET Shipments
+  - Visibility Invoice Create
+  - Visibility Order Create
+  - Visibility Shipment Create
+  - Visibility Shipment Delete
