@@ -1,16 +1,15 @@
 aid: ch-robinson-worldwide
-url: >-
-  https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/refs/heads/main/apis.yml
 name: C.H. Robinson
 kind: company
 tags:
-  - Freight
-  - Logistics
-  - Shipping
-  - Supply Chain
-  - Transportation
-  - Transportation Management
-  - Fortune 500
+- Freight
+- Logistics
+- Shipping
+- Supply Chain
+- Transportation
+- Transportation Management
+- Fortune 500
 type: Index
 deliveryModel:
   model: saas
@@ -38,221 +37,411 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/ch-robinson-worldwide.png
 access: 3rd-Party
 created: '2025-01-01'
-modified: '2026-09-05'
+modified: '2026-09-16'
 position: Consuming
-description: >-
-  C.H. Robinson is one of the world's largest third-party logistics (3PL)
-  providers, offering global freight transportation, supply chain management,
-  customs brokerage, and sourcing of fresh produce. Its Navisphere
-  transportation management system provides end-to-end supply chain planning,
-  purchase order management, execution, freight payment, and business
-  intelligence. C.H. Robinson exposes APIs that allow shippers and carriers to
-  integrate quoting, booking, tracking, documents, and payment workflows
+description: C.H. Robinson is one of the world's largest third-party logistics (3PL) providers, offering
+  global freight transportation, supply chain management, customs brokerage, and sourcing of fresh produce.
+  Its Navisphere transportation management system provides end-to-end supply chain planning, purchase
+  order management, execution, freight payment, and business intelligence. C.H. Robinson exposes APIs
+  that allow shippers and carriers to integrate quoting, booking, tracking, documents, and payment workflows
   directly into their own TMS or ERP platforms.
 apis:
-  - aid: ch-robinson:carrier-api
-    name: C.H. Robinson Carrier API
-    tags:
-      - Booking
-      - Carriers
-      - Documents
-      - Loads
-      - Payment
-      - Visibility
-    humanURL: https://developer.chrobinson.com/carrier
-    baseURL: https://api.navisphere.com
-    properties:
-      - url: https://developer.chrobinson.com/carrier
-        type: Documentation
-      - url: https://www.chrobinson.com/en-us/carriers/api-connectivity/
-        type: Overview
-      - url: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
-        type: OpenAPI
-      - url: https://developer.chrobinson.com/api-reference
-        type: APIReference
-    description: >-
-      The C.H. Robinson Carrier API enables carriers to find, offer, book,
-      and auto-create loads directly from their own TMS, send visibility
-      updates, upload documents for faster invoicing, and check payment
-      status. The API is offered free to carriers to streamline integration
-      with C.H. Robinson's logistics network.
-  - aid: ch-robinson:shipper-navisphere-api
-    name: C.H. Robinson Navisphere Shipper API
-    tags:
-      - Navisphere
-      - Quoting
-      - Shipments
-      - Shippers
-      - Tracking
-      - TMS
-    humanURL: https://www.chrobinson.com/en-us/technology/shipper-technology/navisphere/
-    baseURL: https://api.navisphere.com
-    properties:
-      - url: https://developer.chrobinson.com/
-        type: Documentation
-      - url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
-        type: Overview
-      - url: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
-        type: OpenAPI
-      - url: https://developer.chrobinson.com/api-reference
-        type: APIReference
-    description: >-
-      The Navisphere Shipper API integrates C.H. Robinson's global
-      transportation management system into a shipper's TMS or ERP.
-      Capabilities include real-time rate quoting, load tendering, shipment
-      tracking and visibility, document exchange, freight audit and
-      payment, and business intelligence access across multi-modal
-      transportation (truckload, LTL, intermodal, ocean, air, customs).
-common:
-  - type: AgenticAccess
-    url: agentic-access/ch-robinson-worldwide-agentic-access.yml
-  - type: Authentication
-    url: authentication/ch-robinson-worldwide-authentication.yml
-  - type: DomainSecurity
-    url: security/ch-robinson-worldwide-domain-security.yml
-  - type: GitHubOrganization
-    url: https://github.com/ch-robinson
-  - type: Website
-    url: https://www.chrobinson.com
-  - type: DeveloperPortal
-    url: https://developer.chrobinson.com/
-  - type: Documentation
-    url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
-  - type: Technology
-    url: https://www.chrobinson.com/en-us/technology/
-  - type: Navisphere
-    url: https://www.chrobinson.com/en-us/technology/shipper-technology/navisphere/
-  - type: CarrierPortal
-    url: https://www.chrobinson.com/en-us/carriers/api-connectivity/
-  - type: About
-    url: https://www.chrobinson.com/en-us/about-us/
-  - type: Careers
-    url: https://jobs.chrobinson.com/
-  - type: News
-    url: https://www.chrobinson.com/en-us/about-us/newsroom/
-  - type: Investors
-    url: https://investor.chrobinson.com/
-  - type: TermsOfService
-    url: https://www.chrobinson.com/en-us/terms-of-use/
-  - type: PrivacyPolicy
-    url: https://www.chrobinson.com/en-us/privacy-notice/
-  - type: LinkedIn
-    url: https://www.linkedin.com/company/c-h-robinson/
-  - type: X
-    url: https://x.com/CHRobinsonInc
-  - name: Features
-    type: Features
-    data:
-      - name: Rate Quoting
-      - name: Load Booking
-      - name: Load Tendering
-      - name: Shipment Tracking
-      - name: Real-Time Visibility
-      - name: Document Exchange
-      - name: Payment Status
-      - name: Freight Audit
-      - name: Freight Payment
-      - name: Business Intelligence
-      - name: EDI
-      - name: XML
-      - name: API Connectivity
-      - name: Carrier Onboarding
-      - name: Load Matching
-      - name: Capacity Search
-      - name: Automated Booking
-      - name: Tracking Webhooks
-      - name: Proof of Delivery
-      - name: Invoice Upload
-  - name: UseCases
-    type: UseCases
-    data:
-      - name: TMS Integration
-      - name: Carrier Load Booking
-      - name: Shipper Rate Shopping
-      - name: Multi-Modal Transportation
-      - name: Customs Brokerage
-      - name: Global Forwarding
-      - name: Produce Sourcing
-      - name: Managed Transportation
-      - name: Supply Chain Consulting
-      - name: Fresh Produce Logistics
-  - name: Integrations
-    type: Integrations
-    data:
-      - name: Navisphere
-      - name: Axele
-      - name: Beyond Trucks
-      - name: SmartHop
-      - name: Geotab
-      - name: SOS Trucking
-      - name: SAP
-      - name: Oracle
-      - name: NetSuite
-      - name: Microsoft Dynamics
-      - name: Manhattan Associates
-      - name: Blue Yonder
-      - name: MercuryGate
-      - name: Kuebix
-  - name: Services
-    type: Services
-    data:
-      - name: Truckload
-      - name: Less Than Truckload
-      - name: Intermodal
-      - name: Ocean Freight
-      - name: Air Freight
-      - name: Customs Brokerage
-      - name: Global Forwarding
-      - name: Managed Services
-      - name: Supply Chain Consulting
-      - name: Robinson Fresh
-  - type: LLMsTxt
-    url: llms/ch-robinson-worldwide-llms.txt
+- aid: ch-robinson-worldwide:ch-robinson-worldwide-authentication-api
+  name: C.H. Robinson Authentication API
+  description: "C.H. Robinson uses OAuth v2.0 to secure connections to its APIs. oAuth v2 works by delegating\
+    \ user authentication to the service that hosts the user account and authorizing third-party applications\
+    \ to access the user account. For a user to authenticate and use any of C.H. Robinson's APIs, the\
+    \ user must [generate a token](https://developer.chrobinson.com/api-reference#operation/Generate%20Token).\
+    \ \n\n <span style=\"color:red\">**Special Note**</span> \n\n <span style=\"color:red\">Generated\
+    \ tokens are valid for 24 hours. Users should only be hitting the C.H. Robinson authentication endpoint\
+    \ once every 24 hours. Calling the authentication endpoint multiple times within the same 24 hour\
+    \ period may result in users being subjected to rate limiting.</span> \n\nClick the image to open\
+    \ it in a new tab to resize it.\n\n<a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/Auth_flow.jpeg\"\
+    \ target=\"_blank\"><img src=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/Auth_flow.jpeg\"\
+    \ alt=\"Authorization Object Model Diagram\"></a>"
+  humanURL: https://developer.chrobinson.com/carrier
+  baseURL: https://api.navisphere.com
+  tags:
+  - Authentication
+  properties:
   - type: OpenAPI
-    url: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+    url: openapi/ch-robinson-worldwide-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://developer.chrobinson.com/carrier
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/carriers/api-connectivity/
   - type: APIReference
     url: https://developer.chrobinson.com/api-reference
-  - type: GettingStarted
+  - type: Documentation
+    url: https://developer.chrobinson.com/
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
+- aid: ch-robinson-worldwide:ch-robinson-worldwide-documents-api
+  name: C.H. Robinson Documents API
+  description: C.H. Robinson's Documents product allows our partners to generate, post, and retrieve documents.
+    C.H. Robinson currently offers customers the ability to generate blank BOLs and retrieve signed BOLs,
+    PODs, and Lumper receipts. Additionally, carriers can post documents to their shipments.
+  humanURL: https://developer.chrobinson.com/carrier
+  baseURL: https://api.navisphere.com
+  tags:
+  - Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/ch-robinson-worldwide-documents-api-openapi.yml
+  - type: Documentation
     url: https://developer.chrobinson.com/carrier
-  - type: Support
-    url: https://developer.chrobinson.com/support
-  - type: Blog
-    url: https://www.chrobinson.com/en-us/resources/blog/
-  - type: Postman
-    url: https://api.navisphere.com/api/B2B/Portal/v1/documents/customerApiOnboardingCollectionPublic.json
-  - type: StatusPage
-    url: https://developer.chrobinson.com/status
-  - type: Lifecycle
-    url: lifecycle/ch-robinson-worldwide-lifecycle.yml
-  - type: Conventions
-    url: conventions/ch-robinson-worldwide-conventions.yml
-  - type: ErrorCatalog
-    url: errors/ch-robinson-worldwide-problem-types.yml
-  - type: Conformance
-    url: conformance/ch-robinson-worldwide-conformance.yml
-  - type: DataModel
-    url: data-model/ch-robinson-worldwide-data-model.yml
-  - type: Packages
-    url: packages/ch-robinson-worldwide-packages.yml
-  - type: Sandbox
-    url: sandbox/ch-robinson-worldwide-sandbox.yml
-  - type: Webhooks
-    url: asyncapi/ch-robinson-worldwide-webhooks.yml
-  - type: X-MCPServerCandidate
-    url: mcp/ch-robinson-worldwide-mcp.yml
-  - type: AgentSkill
-    url: skills/_index.yml
-  - type: Overlay
-    url: overlays/ch-robinson-worldwide-rest-apis-overlay.yaml
-  - type: RateLimits
-    url: rate-limits/ch-robinson-worldwide-rate-limits.yml
-  - type: Plans
-    url: plans/ch-robinson-worldwide-plans-pricing.yml
-maintainers:
-  - FN: Kin Lane
-    email: info@apievangelist.com
-specificationVersion: '0.23'
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/carriers/api-connectivity/
+  - type: APIReference
+    url: https://developer.chrobinson.com/api-reference
+  - type: Documentation
+    url: https://developer.chrobinson.com/
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
+- aid: ch-robinson-worldwide:ch-robinson-worldwide-events-api
+  name: C.H. Robinson Events API
+  description: 'C.H. Robinson''s Events product gives complete, near real-time order and shipment information,
+    including all transportation updates.
 
+    Integrating with C.H. Robinson''s Events API give partners near visibility into their supply chain
+    directly to their own TMS or ERP system.
+
+    There are two ways to integrate with C.H. Robinson events: via a callback/webhook (preferred and most
+    real-time) or via a periodic event retrieval (easiest to implement and less real-time).'
+  humanURL: https://developer.chrobinson.com/carrier
+  baseURL: https://api.navisphere.com
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/ch-robinson-worldwide-events-api-openapi.yml
+  - type: Documentation
+    url: https://developer.chrobinson.com/carrier
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/carriers/api-connectivity/
+  - type: APIReference
+    url: https://developer.chrobinson.com/api-reference
+  - type: Documentation
+    url: https://developer.chrobinson.com/
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
+- aid: ch-robinson-worldwide:ch-robinson-worldwide-financials-api
+  name: C.H. Robinson Financials API
+  description: "C.H. Robinson's financial product provides customers and carriers insight into their invoicing.\
+    \ \n\nCurrently, customers can retrieve their invoice information from the Financials product. C.H.\
+    \ Robinson gives customers the ability to retrieve all active invoices in a single call along with\
+    \ the flexibility to retrieve detailed information from each invoice if desired. \n\n Carries can\
+    \ use C.H. Robinsons Financials product to check the status of payment for invoices they have submitted."
+  humanURL: https://developer.chrobinson.com/carrier
+  baseURL: https://api.navisphere.com
+  tags:
+  - Financials
+  properties:
+  - type: OpenAPI
+    url: openapi/ch-robinson-worldwide-financials-api-openapi.yml
+  - type: Documentation
+    url: https://developer.chrobinson.com/carrier
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/carriers/api-connectivity/
+  - type: APIReference
+    url: https://developer.chrobinson.com/api-reference
+  - type: Documentation
+    url: https://developer.chrobinson.com/
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
+- aid: ch-robinson-worldwide:ch-robinson-worldwide-labels-api
+  name: C.H. Robinson Labels API
+  description: 'A service for generating small parcel shipping labels. An associated C.H. Robinson order
+    is also created to track the package updates through Navisphere®. Note: Configuration of your company’s
+    parcel carrier account details within Navisphere® is required as a prerequisite for using this API.
+    Contact your C.H. Robinson or TMC account representative to begin this process.'
+  humanURL: https://developer.chrobinson.com/carrier
+  baseURL: https://api.navisphere.com
+  tags:
+  - Labels
+  properties:
+  - type: OpenAPI
+    url: openapi/ch-robinson-worldwide-labels-api-openapi.yml
+  - type: Documentation
+    url: https://developer.chrobinson.com/carrier
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/carriers/api-connectivity/
+  - type: APIReference
+    url: https://developer.chrobinson.com/api-reference
+  - type: Documentation
+    url: https://developer.chrobinson.com/
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
+- aid: ch-robinson-worldwide:ch-robinson-worldwide-orders-and-booking-api
+  name: C.H. Robinson Orders and Booking API
+  description: C.H. Robinson’s Orders and Bookings products are the starting point for all freight execution
+    in Navisphere®. They provide a unified gateway for customers to submit and manage shipment and booking
+    details—whether leveraging C.H. Robinson’s brokerage services or using Navisphere® for tracking and
+    transportation management.
+  humanURL: https://developer.chrobinson.com/carrier
+  baseURL: https://api.navisphere.com
+  tags:
+  - Orders and Booking
+  properties:
+  - type: OpenAPI
+    url: openapi/ch-robinson-worldwide-orders-and-booking-api-openapi.yml
+  - type: Documentation
+    url: https://developer.chrobinson.com/carrier
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/carriers/api-connectivity/
+  - type: APIReference
+    url: https://developer.chrobinson.com/api-reference
+  - type: Documentation
+    url: https://developer.chrobinson.com/
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
+- aid: ch-robinson-worldwide:ch-robinson-worldwide-rating-api
+  name: C.H. Robinson Rating API
+  description: "C.H. Robinson's rating product allows our customers to retrieve contractual or transactional\
+    \ quotes. Customers can generate quotes with nothing more than weights and zip codes! However, the\
+    \ more detailed the rate request, the more refined the quote is. C.H. Robinson has taken this functionality\
+    \ a step further and can accommodate our customer's e-commerce platforms to be the rating engine they\
+    \ use to give their customers shipping costs. One of the great features of C.H. Robinson's rating\
+    \ API is the ability for customers to turn the received quote into an order. \n## Rating and Quote\
+    \ to Order \n\nTo maximize the quote to order experience, we require more information than the bare\
+    \ minimum required parameters. Each parameter that has these \"conditional\" requirements has been\
+    \ specifically called out in the parameter description.\n See [Order Create With Quote ID](https://developer.chrobinson.com/api-reference#operation/Order%20Create%20with%20Quote%20ID)\
+    \ to learn more about the Quote to Order process. \n\n #### Notes: \n * **Multi-Stop Shipments:**\
+    \ For shipments with more than two stops (that is more than one pick and one drop), the Order Create\
+    \ with Quote ID endpoint can receive only a quote ID and no other supplemental shipment data. \n *\
+    \ **Incomplete Orders:** Orders created in C.H. Robinson's Navisphere® Order Management system will\
+    \ be marked as incomplete if any data fields marked as “required” are not included. Incomplete orders\
+    \ will require manual intervention by C.H. Robinson team members to be processed.\n\n## Rating and\
+    \ Order Create \n\nAlternatively, you may also use the rating endpoint to retrieve a quote and use\
+    \ the Order Create method to complete the resulting order tender into C.H. Robinson. Please review\
+    \ the <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/RatingWorkflowOptionsGuide.pdf\"\
+    \ target=\"_blank\">Rating Workflow Options Guide</a> to understand the advantages and tradeoffs between\
+    \ the Order Create and Order Create with QuoteID workflows. \n## Rating and Transactional Truckload\
+    \ Quotes \n\nOur rating API can provide Real-time Transactional truckload quotes. These are also known\
+    \ as Spot-Bid quotes or market rates. Please review the <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/TransactionalTruckloadQuotingAndEquipmentGuide.pdf\"\
+    \ target=\"_blank\">Transactional Truckload and Equipment Handling Guide</a> for more detail. \n##\
+    \ Density Based Freight Classification \n\nThe NMFTA (National Motor Freight Traffic Association)\
+    \ publishes the NMFC (National Motor Freight Classification) which is a standard for evaluating product\
+    \ classifications for use in transportation. There are four transportation characteristics that are\
+    \ used to determine product classifications: \n * Density \n * Stowability \n * Handling \n * Liability\n\
+    \nIn many instances, all four characteristics hold equal weight in determining the product's classification.\
+    \ However, in some instances, one characteristic can hold more weight than the other. For those commodities\
+    \ that use Density as the primary determining factor for freight classification, C.H. Robinson provides\
+    \ a service for retrieving the estimated classification, based solely on density, for further use\
+    \ in the actual rate requests."
+  humanURL: https://developer.chrobinson.com/carrier
+  baseURL: https://api.navisphere.com
+  tags:
+  - Rating
+  properties:
+  - type: OpenAPI
+    url: openapi/ch-robinson-worldwide-rating-api-openapi.yml
+  - type: Documentation
+    url: https://developer.chrobinson.com/carrier
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/carriers/api-connectivity/
+  - type: APIReference
+    url: https://developer.chrobinson.com/api-reference
+  - type: Documentation
+    url: https://developer.chrobinson.com/
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
+- aid: ch-robinson-worldwide:ch-robinson-worldwide-shipments-api
+  name: C.H. Robinson Shipments API
+  description: C.H. Robinson's Shipments product allows our partner base to access C.H. Robinson's available
+    shipments, send offers on those shipments, and book those shipments. Additionally, our partners can
+    update C.H. Robinson on any shipments that C.H. Robinson is responsible for, as well as view status
+    of payment.
+  humanURL: https://developer.chrobinson.com/carrier
+  baseURL: https://api.navisphere.com
+  tags:
+  - Shipments
+  properties:
+  - type: OpenAPI
+    url: openapi/ch-robinson-worldwide-shipments-api-openapi.yml
+  - type: Documentation
+    url: https://developer.chrobinson.com/carrier
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/carriers/api-connectivity/
+  - type: APIReference
+    url: https://developer.chrobinson.com/api-reference
+  - type: Documentation
+    url: https://developer.chrobinson.com/
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
+- aid: ch-robinson-worldwide:ch-robinson-worldwide-visibility-api
+  name: C.H. Robinson Visibility API
+  description: Navisphere® Vision and Visibility tool is a global visibility technology that allows select
+    customers to view and proactively manage their supply chain movements from a single platform. The
+    tool combines real-time order and shipment information with transportation updates and external factors
+    that can influence a supply chain, including weather, traffic, and current events to help customers
+    prevent potential disruptions.
+  humanURL: https://developer.chrobinson.com/carrier
+  baseURL: https://api.navisphere.com
+  tags:
+  - Visibility
+  properties:
+  - type: OpenAPI
+    url: openapi/ch-robinson-worldwide-visibility-api-openapi.yml
+  - type: Documentation
+    url: https://developer.chrobinson.com/carrier
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/carriers/api-connectivity/
+  - type: APIReference
+    url: https://developer.chrobinson.com/api-reference
+  - type: Documentation
+    url: https://developer.chrobinson.com/
+  - type: Overview
+    url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
+common:
+- type: AgenticAccess
+  url: agentic-access/ch-robinson-worldwide-agentic-access.yml
+- type: Authentication
+  url: authentication/ch-robinson-worldwide-authentication.yml
+- type: DomainSecurity
+  url: security/ch-robinson-worldwide-domain-security.yml
+- type: GitHubOrganization
+  url: https://github.com/ch-robinson
+- type: Website
+  url: https://www.chrobinson.com
+- type: DeveloperPortal
+  url: https://developer.chrobinson.com/
+- type: Documentation
+  url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
+- type: Technology
+  url: https://www.chrobinson.com/en-us/technology/
+- type: Navisphere
+  url: https://www.chrobinson.com/en-us/technology/shipper-technology/navisphere/
+- type: CarrierPortal
+  url: https://www.chrobinson.com/en-us/carriers/api-connectivity/
+- type: About
+  url: https://www.chrobinson.com/en-us/about-us/
+- type: Careers
+  url: https://jobs.chrobinson.com/
+- type: News
+  url: https://www.chrobinson.com/en-us/about-us/newsroom/
+- type: Investors
+  url: https://investor.chrobinson.com/
+- type: TermsOfService
+  url: https://www.chrobinson.com/en-us/terms-of-use/
+- type: PrivacyPolicy
+  url: https://www.chrobinson.com/en-us/privacy-notice/
+- type: LinkedIn
+  url: https://www.linkedin.com/company/c-h-robinson/
+- type: X
+  url: https://x.com/CHRobinsonInc
+- name: Features
+  type: Features
+  data:
+  - name: Rate Quoting
+  - name: Load Booking
+  - name: Load Tendering
+  - name: Shipment Tracking
+  - name: Real-Time Visibility
+  - name: Document Exchange
+  - name: Payment Status
+  - name: Freight Audit
+  - name: Freight Payment
+  - name: Business Intelligence
+  - name: EDI
+  - name: XML
+  - name: API Connectivity
+  - name: Carrier Onboarding
+  - name: Load Matching
+  - name: Capacity Search
+  - name: Automated Booking
+  - name: Tracking Webhooks
+  - name: Proof of Delivery
+  - name: Invoice Upload
+- name: UseCases
+  type: UseCases
+  data:
+  - name: TMS Integration
+  - name: Carrier Load Booking
+  - name: Shipper Rate Shopping
+  - name: Multi-Modal Transportation
+  - name: Customs Brokerage
+  - name: Global Forwarding
+  - name: Produce Sourcing
+  - name: Managed Transportation
+  - name: Supply Chain Consulting
+  - name: Fresh Produce Logistics
+- name: Integrations
+  type: Integrations
+  data:
+  - name: Navisphere
+  - name: Axele
+  - name: Beyond Trucks
+  - name: SmartHop
+  - name: Geotab
+  - name: SOS Trucking
+  - name: SAP
+  - name: Oracle
+  - name: NetSuite
+  - name: Microsoft Dynamics
+  - name: Manhattan Associates
+  - name: Blue Yonder
+  - name: MercuryGate
+  - name: Kuebix
+- name: Services
+  type: Services
+  data:
+  - name: Truckload
+  - name: Less Than Truckload
+  - name: Intermodal
+  - name: Ocean Freight
+  - name: Air Freight
+  - name: Customs Brokerage
+  - name: Global Forwarding
+  - name: Managed Services
+  - name: Supply Chain Consulting
+  - name: Robinson Fresh
+- type: LLMsTxt
+  url: llms/ch-robinson-worldwide-llms.txt
+- type: OpenAPI
+  url: openapi/_original/ch-robinson-worldwide-rest-apis-openapi.yml
+- type: APIReference
+  url: https://developer.chrobinson.com/api-reference
+- type: GettingStarted
+  url: https://developer.chrobinson.com/carrier
+- type: Support
+  url: https://developer.chrobinson.com/support
+- type: Blog
+  url: https://www.chrobinson.com/en-us/resources/blog/
+- type: Postman
+  url: https://api.navisphere.com/api/B2B/Portal/v1/documents/customerApiOnboardingCollectionPublic.json
+- type: StatusPage
+  url: https://developer.chrobinson.com/status
+- type: Lifecycle
+  url: lifecycle/ch-robinson-worldwide-lifecycle.yml
+- type: Conventions
+  url: conventions/ch-robinson-worldwide-conventions.yml
+- type: ErrorCatalog
+  url: errors/ch-robinson-worldwide-problem-types.yml
+- type: Conformance
+  url: conformance/ch-robinson-worldwide-conformance.yml
+- type: DataModel
+  url: data-model/ch-robinson-worldwide-data-model.yml
+- type: Packages
+  url: packages/ch-robinson-worldwide-packages.yml
+- type: Sandbox
+  url: sandbox/ch-robinson-worldwide-sandbox.yml
+- type: Webhooks
+  url: asyncapi/ch-robinson-worldwide-webhooks.yml
+- type: X-MCPServerCandidate
+  url: mcp/ch-robinson-worldwide-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Overlay
+  url: overlays/ch-robinson-worldwide-rest-apis-overlay.yaml
+- type: RateLimits
+  url: rate-limits/ch-robinson-worldwide-rate-limits.yml
+- type: Plans
+  url: plans/ch-robinson-worldwide-plans-pricing.yml
+maintainers:
+- FN: Kin Lane
+  email: info@apievangelist.com
+specificationVersion: '0.23'
 x-enrichment:
   date: '2026-09-05'
   status: enriched
