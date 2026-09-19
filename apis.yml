@@ -111,6 +111,8 @@ apis:
   humanURL: https://developer.chrobinson.com/carrier
   baseURL: https://api.navisphere.com
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -135,6 +137,8 @@ apis:
   humanURL: https://developer.chrobinson.com/carrier
   baseURL: https://api.navisphere.com
   tags:
+  - Financial
+  tags_raw:
   - Financials
   properties:
   - type: OpenAPI
@@ -232,6 +236,8 @@ apis:
   humanURL: https://developer.chrobinson.com/carrier
   baseURL: https://api.navisphere.com
   tags:
+  - Ratings
+  tags_raw:
   - Rating
   properties:
   - type: OpenAPI
