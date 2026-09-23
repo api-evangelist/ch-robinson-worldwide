@@ -1,0 +1,1443 @@
+openapi: 3.2.0
+info:
+  version: 2.0.0
+  title: A guide to C.H. Robinson's REST Financials API
+  description: '# Introduction
+
+    Welcome to C.H.'
+servers:
+- url: https://sandbox-api.navisphere.com
+  description: Test environment.
+- url: https://api.navisphere.com
+  description: Production environment.
+security:
+- sandbox: []
+tags:
+- name: Financials
+  description: 'C.H. Robinson''s financial product provides customers and carriers insight into their invoicing.
+
+
+    Currently, customers can retrieve their invoice information from the Financials product. C.H. Robinson gives customers the ability to retrieve all active invoices in a single call along with the flexibility to retrieve detailed information from each invoice if desired.
+
+
+    Carries can use C.H. Robinsons Financials product to check the status of payment for invoices they have submitted.'
+paths:
+  /v1/financials/payments:
+    get:
+      description: Allows partners access to the payment processing status of an invoice.
+      operationId: Payment Status Retrieval
+      tags:
+      - Financials
+      parameters:
+      - name: shipmentNumber
+        in: query
+        description: C.H. Robinson defined shipment (load) number.
+        required: true
+        schema:
+          type: integer
+          example: 123456789
+      - name: scac
+        in: query
+        description: Standard carrier alpha code.
+        required: false
+        schema:
+          type: string
+          example: RBTW
+      - name: carrierCode
+        in: query
+        description: C.H. Robinson defined code for a given carrier.
+        required: false
+        schema:
+          type: string
+          example: T451674
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X GET \\ \n 'https://sandbox-api.navisphere.com/v1/financials/payments?shipmentNumber=123456789' \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.get(\"https://sandbox-api.navisphere.com/v1/financials/payments?shipmentNumber=123456789\")\n .header(\"Content-Type\", \"application/json\")\n .header(\"Authorization\", \"Bearer YOU TOKEN\")\n .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\");\n\n var options = { method: 'GET',\n \turl: 'https://sandbox-api.navisphere.com/v1/financials/payments',\n \tqs: { shipmentNumber: '123456789' },\n \theaders: \n \t{ Authorization: 'Bearer YOU TOKEN',\n \t'Content-Type': 'application/json' } };\n\n\nrequest(options, function (error, response, body) {\n \tif (error) throw new Error(error);\n\n\n\tconsole.log(body);\n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v1/financials/payments?shipmentNumber=123456789\"); \n var request = new RestRequest(Method.GET);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n IRestResponse response = client.Execute(request);"
+      responses:
+        '200':
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/payments'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact your C.H. Robinson rep.
+      summary: Payment status retrieval
+      x-summary-source: derived
+  /v1/financials/invoiceSummaries:
+    get:
+      description: Allows partner to retrieve list summary of their invoices.
+      operationId: Invoice Summary Retrieval
+      tags:
+      - Financials
+      parameters:
+      - name: customerCode
+        in: query
+        description: C.H. Robinson defined customer code.
+        required: true
+        schema:
+          type: string
+          example: C123456
+      - name: orderNumber
+        in: query
+        description: C.H. Robinson defined order number.
+        required: false
+        schema:
+          type: integer
+          example: 8231546
+      - name: loadNumber
+        in: query
+        description: C.H. Robinson defined shipment number.
+        required: false
+        schema:
+          type: integer
+          example: 213512468
+      - name: startDate
+        in: query
+        description: Starting date/time of event search that utilizes printDate as the source.
+        required: false
+        schema:
+          type: string
+          example: '2019-04-20T20:30:00.0000000Z'
+      - name: endDate
+        in: query
+        description: Ending date/time of event search that utilizes printDate as the source. **If you use startDate, then endDate is required.**
+        required: false
+        schema:
+          type: string
+          example: '2019-04-27T20:30:00.0000000Z'
+      - name: take
+        in: query
+        description: Identify how many results the call will retrieve.
+        required: false
+        schema:
+          type: integer
+          default: 10
+          example: 25
+      - name: skip
+        in: query
+        description: Identify how many results the call will skip.
+        required: false
+        schema:
+          type: integer
+          example: 1
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X GET \\ \n 'https://sandbox-api.navisphere.com/v1/financials/invoiceSummaries?customerCode=C123456' \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.get(\"https://sandbox-api.navisphere.com/v1/financials/invoiceSummaries?customerCode=C123456\")\n .header(\"Content-Type\", \"application/json\")\n .header(\"Authorization\", \"Bearer YOU TOKEN\")\n .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\");\n\n var options = { method: 'GET',\n \turl: 'https://sandbox-api.navisphere.com/v1/financials/invoiceSummaries',\n \tqs: { customerCode: 'C123456' },\n \theaders: \n \t{ Authorization: 'Bearer YOU TOKEN',\n \t'Content-Type': 'application/json' } };\n\n\nrequest(options, function (error, response, body) {\n \tf (error) throw new Error(error);\n\n\n\tconsole.log(body);\n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v1/financials/invoiceSummaries?customerCode=C123456\");\n var request = new RestRequest(Method.GET);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n IRestResponse response = client.Execute(request);"
+      responses:
+        '200':
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invoiceSummaries'
+              example:
+                invoiceSummaries:
+                - currencyCode: USD
+                  customerCode: C1313307
+                  dueDate: '2019-08-05T05:00:00.000Z'
+                  invoiceAmount: 158.77
+                  invoiceBalance: 158.77
+                  invoiceDate: '2019-06-07T19:34:37.777Z'
+                  invoiceNumber: 6101050076
+                  invoiceShipments:
+                  - branchCode: 0290
+                    chrOrderNumber: 81986238
+                    currencyCode: USD
+                    customerReferenceNumber: '55921'
+                    invoiceAmount: 158.77
+                    invoiceBalance: 158.77
+                    loadNumber: 296565499
+                    receivedAmount: 0
+                    salesRep: SCAGMIC
+                  receivedAmount: 0
+                  releasedDate: '2019-06-07T20:01:00.000Z'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact your C.H. Robinson rep.
+      summary: Invoice summary retrieval
+      x-summary-source: derived
+  /v1/financials/invoiceSummaries/{invoiceNumber}:
+    get:
+      description: Allows partner to retrieve specifics of an invoice.
+      operationId: Invoice Retrieval
+      tags:
+      - Financials
+      parameters:
+      - name: invoiceNumber
+        in: path
+        description: Invoice number. Invoice number is retrieved from the invoiceSummaries call.
+        required: true
+        schema:
+          type: integer
+          example: 51421684
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X GET \\ \n https://sandbox-api.navisphere.com/v1/financials/invoiceSummaries/51421684 \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.get(\"https://sandbox-api.navisphere.com/v1/financials/invoiceSummaries/51421684\")\n .header(\"Content-Type\", \"application/json\")\n .header(\"Authorization\", \"Bearer YOU TOKEN\")\n .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\"); \n\n var options = { method: 'GET',\n \turl: 'https://sandbox-api.navisphere.com/v1/financials/invoiceSummaries/51421684',\n \theaders: \n \t{ Authorization: 'Bearer YOU TOKEN',\n \t'Content-Type': 'application/json' } };\n\n\nrequest(options, function (error, response, body) {\n \tif (error) throw new Error(error);\n\n\n\tconsole.log(body);\n });\n"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v1/financials/invoiceSummaries/51421684\");\n var request = new RestRequest(Method.GET);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n IRestResponse response = client.Execute(request);"
+      responses:
+        '200':
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/invoiceSummary'
+              example:
+                currencyCode: USD
+                customerCode: C1313307
+                dueDate: '2019-08-05T05:00:00.000Z'
+                invoiceAmount: 158.77
+                invoiceBalance: 158.77
+                invoiceDate: '2019-06-07T19:34:37.777Z'
+                invoiceNumber: 6101050076
+                invoiceShipments:
+                - branchCode: 0290
+                  chrOrderNumber: 81986238
+                  currencyCode: USD
+                  customerReferenceNumber: '55921'
+                  invoiceAmount: 158.77
+                  invoiceBalance: 158.77
+                  loadNumber: 296565499
+                  receivedAmount: 0
+                  salesRep: SCAGMIC
+                  invoiceRates:
+                  - balance: 26.34
+                    notes: 405 - Fuel Surcharge
+                    totalRateAmount: 26.34
+                    rateCode: '405'
+                    ratePerUnit: 26.3375
+                    rateType: Flat - Fla
+                    units: 1
+                  - balance: 132.43
+                    notes: 400 - Line Haul
+                    totalRateAmount: 132.43
+                    rateCode: '400'
+                    ratePerUnit: 132.434
+                    rateType: Flat - Fla
+                    units: 1
+                receivedAmount: 0
+                releasedDate: '2019-06-07T20:01:00.000Z'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact your C.H. Robinson rep.
+      summary: Invoice retrieval
+      x-summary-source: derived
+components:
+  schemas:
+    invoiceShipments:
+      type: array
+      description: Contains high level shipment charge information.
+      items:
+        type: object
+        properties:
+          branchCode:
+            type: string
+            description: C.H Robinson code identifying the internal C.H. Robinson owning branch.
+          chrOrderNumber:
+            type: integer
+            description: C.H. Robinson defined order number.
+          currencyCode:
+            $ref: '#/components/schemas/currencyCodeEnum'
+          customerReferenceNumber:
+            type: string
+            description: Customer defined reference number.
+          invoiceAmount:
+            type: integer
+            description: Total currency amount of shipment.
+          invoiceBalance:
+            type: integer
+            description: Remaining currency amount left to be paid on the shipment.
+          loadNumber:
+            type: integer
+            format: base32 integer
+            description: C.H. Robinson provided shipment identifier.
+          printDate:
+            type: string
+            format: date-time
+            description: An ISO8601 UTC date-time indicating when the invoice was provided to the customer.
+          receivedAmount:
+            type: integer
+            description: Currency amount C.H. Robinson has received as payment for the charge.
+          salesRep:
+            type: string
+            description: C.H. Robinson representative's 7 letter.
+    error404:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 404
+        error:
+          type: string
+          description: Detail about the error status code
+          example: Not Found
+        message:
+          type: string
+          description: Specifies issue
+          example: Not Found
+    error401:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 401
+        error:
+          type: string
+          description: Detail about the error status code
+        message:
+          type: string
+          description: Specifies issue
+        attributes:
+          type: object
+          properties:
+            error:
+              type: string
+    invoiceSummary:
+      type: object
+      description: All properties returned on the invoice get call.
+      properties:
+        invoiceNumber:
+          type: integer
+          description: C.H. Robinson defined invoice number.
+        customerCode:
+          type: string
+          description: C.H. Robinson defined code for a given customer i.e. C124516.
+        currencyCode:
+          $ref: '#/components/schemas/currencyCodeEnum'
+        invoiceAmount:
+          type: integer
+          description: Currency amount of entire invoice.
+        invoiceBalance:
+          type: integer
+          description: Remaining currency amount to be paid of entire invoice.
+        receivedAmount:
+          type: integer
+          description: Currency amount C.H. Robinson has received as payment for the entire invoice.
+        invoiceDate:
+          type: string
+          description: An ISO8601 UTC date-time indicating when order was invoiced.
+        dueDate:
+          type: string
+          description: An ISO8601 UTC date-time indicating the date invoice must be paid.
+        releasedDate:
+          type: string
+          description: An ISO8601 UTC date-time indicating when invoice was available.
+        printDate:
+          type: string
+          format: date-time
+          description: An ISO8601 UTC date-time indicating when the invoice was provided to the customer.
+        invoiceShipments:
+          $ref: '#/components/schemas/invoiceShipmentsWithRates'
+    invoiceRates:
+      type: array
+      description: Defines all charges properties
+      items:
+        type: object
+        properties:
+          balance:
+            type: integer
+            description: Currency amount left to pay.
+          notes:
+            type: string
+            description: Notes about the charge.
+          totalRateAmount:
+            type: number
+            description: Total currency amount of specific charge.
+          rateCode:
+            $ref: '#/components/schemas/rateCodeEnum'
+          ratePerUnit:
+            type: number
+            description: Amount of each unit.
+          rateType:
+            type: string
+            description: Rate type
+          units:
+            type: number
+            description: Total count of units per rate.
+    invoiceSummaries:
+      type: array
+      description: All properties returned on the invoice get call.
+      items:
+        type: object
+        properties:
+          invoiceNumber:
+            type: integer
+            description: C.H. Robinson defined invoice number.
+          customerCode:
+            type: string
+            description: C.H. Robinson defined code for a given customer i.e. C124516.
+          currencyCode:
+            $ref: '#/components/schemas/currencyCodeEnum'
+          invoiceAmount:
+            type: integer
+            description: Currency amount of entire invoice.
+          invoiceBalance:
+            type: integer
+            description: Remaining currency amount to be paid of entire invoice.
+          receivedAmount:
+            type: integer
+            description: Currency amount C.H. Robinson has received as payment for the entire invoice.
+          invoiceDate:
+            type: string
+            description: An ISO8601 UTC date-time indicating when order was invoiced.
+          dueDate:
+            type: string
+            description: An ISO8601 UTC date-time indicating the date invoice must be paid.
+          releasedDate:
+            type: string
+            description: An ISO8601 UTC date-time indicating when invoice was available.
+          printDate:
+            type: string
+            format: date-time
+            description: An ISO8601 UTC date-time indicating when the invoice was provided to the customer.
+          invoiceShipments:
+            $ref: '#/components/schemas/invoiceShipments'
+    invoiceShipmentsWithRates:
+      type: array
+      description: Contains detailed shipment charge information.
+      items:
+        type: object
+        properties:
+          branchCode:
+            type: string
+            description: C.H Robinson code identifying the internal C.H. Robinson owning branch.
+          chrOrderNumber:
+            type: integer
+            description: C.H. Robinson defined order number.
+          currencyCode:
+            $ref: '#/components/schemas/currencyCodeEnum'
+          customerReferenceNumber:
+            type: string
+            description: Customer defined reference number.
+          invoiceAmount:
+            type: integer
+            description: Total currency amount of shipment.
+          invoiceBalance:
+            type: integer
+            description: Remaining currency amount left to be paid on the shipment.
+          loadNumber:
+            type: integer
+            format: base32 integer
+            description: C.H. Robinson provided shipment identifier.
+          receivedAmount:
+            type: integer
+            description: Currency amount C.H. Robinson has received as payment for the charge.
+          salesRep:
+            type: string
+            description: C.H. Robinson representative's 7 letter.
+          invoiceRates:
+            $ref: '#/components/schemas/invoiceRates'
+    error400:
+      properties:
+        message:
+          type: string
+        path:
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+        context:
+          type: object
+          properties:
+            child:
+              type: string
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+            key:
+              type: string
+            label:
+              type: string
+    error403:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 403
+        error:
+          type: string
+          description: detail about the error status code
+          example: Forbidden
+        message:
+          type: string
+          description: Specifies issue
+          example: Invalid customerCode
+    rateCodeEnum:
+      type: string
+      description: "C.H. Robinson defined code for rating code. Here is a list of the most commonly used rate codes: \n\n`400` - Line Haul, `405` - Fuel Surchage, `260` - Deliver Surchage, `IDL` - Inside Delivery, `IPU` - Inside Pickup \n`LFT` - Lift Gate or Forklift Service, `DET` - Detention, `DLA` - Delivery Limited Access, `PLA` - Pickup Limited Access \n`RES` - Residential Delivery Fee, `REP` - Residential Pickup Fee, `CSD` - Construction Site Delivery <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/RateCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - Customer
+      - '20'
+      - '55'
+      - '65'
+      - '115'
+      - '170'
+      - '180'
+      - '205'
+      - '215'
+      - '230'
+      - '260'
+      - '275'
+      - '280'
+      - '285'
+      - '300'
+      - '315'
+      - '350'
+      - '360'
+      - '365'
+      - '370'
+      - '385'
+      - '400'
+      - '405'
+      - '420'
+      - '425'
+      - '445'
+      - '450'
+      - '455'
+      - '470'
+      - '485'
+      - '495'
+      - '497'
+      - '510'
+      - '520'
+      - '540'
+      - '545'
+      - '590'
+      - '593'
+      - '605'
+      - '635'
+      - '665'
+      - '670'
+      - '685'
+      - '690'
+      - '695'
+      - '740'
+      - '761'
+      - '800'
+      - '801'
+      - '802'
+      - '803'
+      - '804'
+      - '898'
+      - '899'
+      - '900'
+      - '901'
+      - '902'
+      - '903'
+      - '904'
+      - '905'
+      - '906'
+      - '907'
+      - '908'
+      - '909'
+      - '910'
+      - '911'
+      - ACC
+      - AGR
+      - AGS
+      - AIR
+      - ALH
+      - AMC
+      - AMS
+      - APT
+      - ATR
+      - BAT
+      - BIO
+      - BLC
+      - BLK
+      - BND
+      - BRD
+      - BSC
+      - CAA
+      - CEX
+      - CHE
+      - CHN
+      - CIS
+      - CLA
+      - CLN
+      - CLS
+      - CNS
+      - COA
+      - COL
+      - COU
+      - CPC
+      - CPE
+      - CRE
+      - CRS
+      - CSE
+      - CTC
+      - CTG
+      - CTL
+      - CUF
+      - CUS
+      - DAM
+      - DCF
+      - DEL
+      - DEN
+      - DEP
+      - DET
+      - DFD
+      - DFG
+      - DHF
+      - DIC
+      - DIS
+      - DMC
+      - DOC
+      - DOV
+      - DRC
+      - DRF
+      - DSC
+      - DTC
+      - DTL
+      - DTU
+      - DTV
+      - DUT
+      - DYA
+      - EBD
+      - EEX
+      - EMT
+      - ENC
+      - ESD
+      - EUC
+      - EXC
+      - EXD
+      - EXL
+      - EXM
+      - EXP
+      - EXR
+      - EXW
+      - FDA
+      - FDT
+      - FFR
+      - FLP
+      - FTH
+      - FTW
+      - FTZ
+      - FWA
+      - FWC
+      - GST
+      - HMF
+      - HOL
+      - HST
+      - IDL
+      - IFS
+      - IHT
+      - INC
+      - INS
+      - INV
+      - IPU
+      - ISO
+      - IST
+      - ITS
+      - LAA
+      - LAY
+      - LEC
+      - LFT
+      - LMF
+      - LOA
+      - LOC
+      - MIC
+      - MPF
+      - MRK
+      - MSG
+      - NDD
+      - NYD
+      - NYP
+      - OFU
+      - OHF
+      - OPT
+      - ORD
+      - ORF
+      - ORM
+      - OVR
+      - PAE
+      - PCS
+      - PEC
+      - PER
+      - PFA
+      - PKG
+      - PMT
+      - POD
+      - PPH
+      - PPN
+      - PRT
+      - PSC
+      - PSH
+      - PSS
+      - PST
+      - PUC
+      - QST
+      - RAJ
+      - RCC
+      - RCL
+      - REC
+      - REF
+      - REP
+      - RES
+      - RET
+      - SAT
+      - SCL
+      - SCS
+      - SDL
+      - SEC
+      - SEG
+      - SER
+      - SET
+      - SOC
+      - SPS
+      - SPT
+      - SRA
+      - SRG
+      - SUR
+      - SYA
+      - TAK
+      - TAL
+      - TAR
+      - TDT
+      - THC
+      - TMF
+      - TRC
+      - TRL
+      - TTC
+      - UNL
+      - URC
+      - VOR
+      - WAR
+      - WBF
+      - WBL
+      - WCT
+      - WDC
+      - WFL
+      - WHC
+      - WHF
+      - WIO
+      - WIS
+      - WKT
+      - WLB
+      - WLC
+      - WLS
+      - WMS
+      - WOP
+      - WOT
+      - WPC
+      - WPK
+      - WPL
+      - WPP
+      - WRC
+      - WRE
+      - WRI
+      - WRS
+      - WSS
+      - WSW
+      - WTV
+      - WWT
+      - WXD
+      - XTN
+      - '496'
+      - BYD
+      - BYP
+      - DCV
+      - ICT
+      - PDD
+      - PDO
+      - TSA
+      - UND
+      - HAZ
+      - ISF
+      - '913'
+      - '914'
+      - '915'
+      - '916'
+      - '316'
+      - BPC
+      - BPR
+      - BPS
+      - BPT
+      - CEM
+      - CMX
+      - COT
+      - CUV
+      - MXC
+      - MXH
+      - MXR
+      - MXV
+      - OVT
+      - PEN
+      - CTS
+      - LRC
+      - AMF
+      - BPI
+      - SCR
+      - AES
+      - NAV
+      - DLA
+      - PLA
+      - PSF
+      - CSF
+      - '894'
+      - '895'
+      - '896'
+      - '897'
+      - EMN
+      - SPF
+      - TSC
+      - HCR
+      - CNT
+      - CMM
+      - RNT
+      - PRF
+      - CSD
+      - HCD
+      - CSP
+      - GVP
+      - GVD
+      - HCP
+      - NCP
+      - NCD
+      - BUV
+      - COW
+      - HOS
+      - INP
+      - RAP
+      - SIE
+      - TAW
+      - OTD
+      - MES
+      - ENS
+      - ACF
+      - SLF
+      - BLR
+      - FLT
+      - '917'
+      - FCP
+      - GSI
+      - SMA
+      - CFI
+      - EXT
+      - EXY
+      - AAI
+      - CAS
+      - CCF
+      - CMC
+      - DCC
+      - DOF
+      - EDC
+      - EMS
+      - ERF
+      - FLC
+      - FUC
+      - GAS
+      - GTA
+      - HBL
+      - LBE
+      - LUC
+      - MLC
+      - PAC
+      - PCH
+      - PRC
+      - PRS
+      - PUD
+      - SCH
+      - STR
+      - STU
+      - TPA
+      - OCT
+      - STC
+      - EPC
+      - DPC
+      - STD
+      - RFC
+      - SYC
+      - SED
+      - MEC
+      - SUF
+      - IAC
+      - CFS
+      - BTF
+      - ESS
+      - AMD
+      - ORC
+      - LIF
+      - PCF
+      - GIO
+      - TLX
+      - GAT
+      - LBL
+      - LCG
+      - LBF
+      - HLS
+      - IMP
+      - CIF
+      - CCE
+      - EDN
+      - HET
+      - PMU
+      - HEL
+      - STM
+      - TOL
+      - VAC
+      - PRP
+      - PDC
+      - SBC
+      - PFC
+      - TDR
+      - OTH
+      - DTH
+      - ODO
+      - DDO
+      - AWB
+      - CYC
+      - DEC
+      - FAF
+      - GRI
+      - LCL
+      - PCC
+      - PPF
+      - TPF
+      - WVF
+      - CSR
+      - '27'
+      - GSC
+      - ATC
+      - ECV
+      - GAR
+      - BTR
+      - CRD
+      - IVT
+      - TAP
+      - SEN
+      - IVP
+      - IBP
+      - COC
+      - DRY
+      - FOB
+      - EWC
+      - HTS
+      - DSB
+      - HTC
+      - FAH
+      - EIC
+      - NPC
+      - LSF
+      - AHD
+      - ESV
+      - FCC
+      - PEP
+      - OGA
+      - MFE
+      - CAH
+      - GOA
+      - '75'
+      - CBT
+      - DCT
+      - '921'
+      - '922'
+      - COV
+      - DBR
+      - IAT
+      - POM
+      - ACI
+      - ASF
+      - BOK
+      - CDD
+      - CDF
+      - COF
+      - CVE
+      - DCH
+      - DDP
+      - DKF
+      - DMI
+      - ESC
+      - EXA
+      - EXO
+      - LCH
+      - PES
+      - VMS
+      - SRC
+      - CFE
+      - CDA
+      - IEC
+      - DGS
+      - HAS
+      - '701'
+      - '750'
+      - '751'
+      - '753'
+      - '754'
+      - '755'
+      - '756'
+      - '1401'
+      - '1402'
+      - '1403'
+      - DTF
+      - OTF
+      - SRD
+      - SRO
+      - '1900'
+      - '2000'
+      - '2100'
+      - INF
+      - DDT
+      - DUF
+      - EMF
+      - LYO
+      - LYD
+      - '999'
+      - '145'
+      - ADV
+      - AMB
+      - ARB
+      - BEY
+      - BKA
+      - BSS
+      - CBL
+      - CFL
+      - CTF
+      - DAA
+      - DEM
+      - FAK
+      - FCB
+      - GSS
+      - HAN
+      - HHB
+      - HRS
+      - HZC
+      - IFC
+      - LAB
+      - LFC
+      - MIN
+      - MNC
+      - MSC
+      - OCH
+      - PIR
+      - POS
+      - PTS
+      - PWT
+      - PYS
+      - RAM
+      - RLS
+      - RMC
+      - SPC
+      - SSF
+      - STO
+      - STP
+      - SWC
+      - TAY
+      - TER
+      - TRM
+      - WEA
+      - WFG
+      - WFH
+      - IFF
+      - CME
+      - MDF
+      - CPV
+      - EMA
+      - EPF
+      - TPC
+      - GOF
+      - LOM
+      - ISE
+      - STF
+      - CSU
+      - AHF
+      - MEF
+      - FID
+      - LCK
+      - BYC
+      - BCD
+      - SO1
+      - SO2
+      - SO3
+      - COR
+      - TRE
+      - LSK
+      - DON
+      - CTM
+      - DCK
+      - RPK
+      - FGT
+      - CHF
+      - BRF
+      - MKF
+      - FES
+      - CLM
+      - PDR
+      - AVP
+      - GBB
+      - GLF
+      - GLT
+      - MOTLF
+      - MOTMF
+      - TROLF
+      - TROMF
+      - REBAT
+      - ASCMB
+      - SPCRV
+      - SPCAS
+      - PENNY
+      - WELLF
+      - WELMF
+      - BAMLF
+      - BAMMF
+      - SWTLF
+      - ECOLF
+      - ECOMF
+      - SRVLF
+      - SRVMF
+      - N22LF
+      - N23LF
+      - OURLF
+      - GLYLF
+      - GLYMF
+      - PNKLF
+      - PECLF
+      - GRNLF
+      - SWTMF
+      - MKU
+      - EVC
+      - APA
+      - ARA
+      - GAV
+      - REB
+      - SEL
+      - ABG
+      - ICG
+      - TET
+      - PAF
+      - OSO
+      - RSP
+      - MIF
+      - SPL
+      - SPA
+      - SPO
+      - AFS
+      - NCH
+      - ASM
+      - LGP
+      - '444'
+      - CNA
+      - DEB
+      - DOM
+      - EGY
+      - FER
+      - FIM
+      - FOR
+      - FRA
+      - FUM
+      - HRT
+      - MAU
+      - PCD
+      - PNL
+      - PPC
+      - RED
+      - REI
+      - SLU
+      - VET
+      - WAS
+      - WAT
+      - BIN
+      - '206'
+      - PLS
+      - OCS
+      - TPS
+      - BUP
+      - RBU
+      - CMR
+      - SPQ
+      - IMF
+      - IMV
+      - BLD
+      - '1404'
+      - '1405'
+      - '1406'
+      - ENF
+      - ENV
+      - PRO
+      - PRV
+      - WAF
+      - WAV
+      - EPS
+      - AKS
+      - CCT
+      - ECC
+      - HIS
+      - PRD
+      - TRR
+      - RIT
+      - GIT
+      - BAC
+      - CCR
+      - CLC
+      - DCR
+      - SC1
+      - FCH
+      - AFC
+      - WMF
+      - IFP
+      - OSP
+      - OCP
+      - DSP
+      - DCP
+      - CBC
+      - BRT
+      - ECH
+      - OID
+      - OCR
+      - RPT
+      - SOS
+      - TGS
+      - TKP
+      - WSC
+      - SFA
+      - HHC
+      - RHC
+      - IFA
+      - FLB
+      - LWS
+      - MFD
+      - SEP
+      - SCA
+      - PHL
+      - JAM
+      - VGM
+      - HSB
+      - PFS
+      - CCS
+      - DTY
+      - RNR
+      - RCD
+      - DRP
+      - PKU
+      - EBP
+      - LFD
+      - CPL
+      - AGM
+      - APH
+      - FSI
+      - FWS
+      - NHT
+      - EPA
+      - CPS
+      - USL
+      - NMF
+      - RCO
+      - ROS
+      - OVS
+      - TIV
+      - TMR
+      - RER
+      - FTA
+      - RBY
+      - RBI
+      - RBV
+      - RBE
+      - WAC
+      - ABT
+      - CON
+      - QCC
+      - SUN
+      - SBS
+      - SDV
+      - NGT
+      - GTD
+      - ASR
+      - SGR
+      - SOG
+      - '1013'
+      - '101'
+      - '1014'
+      - DTZ
+      - '919'
+      - '923'
+      - WTT
+    currencyCodeEnum:
+      type: string
+      description: "Code to indicate the currency being used. The most common currently in use with C.H. Robinson:\n\n* `USD` - US Dollar\n* `CAD` - Canadian Dollar \n* `MXN` - Mexican Peso\n* `EUR` - European Euro\n\n\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CurrencyCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - USD
+      - CAD
+      - EUR
+      - MXN
+      - CHF
+      - GBP
+      - HUF
+      - CZK
+      - NZD
+      - PLN
+      - ZAR
+      - VEB
+      - VND
+      - TWD
+      - TRY
+      - SEK
+      - SGD
+      - RUB
+      - NOK
+      - HKD
+      - INR
+      - JPY
+      - CLP
+      - CNY
+      - DKK
+      - AUD
+      - BRL
+      - AED
+      - PEN
+      - THB
+      - ARS
+      - MYR
+      - VEF
+      - SAR
+      - BBD
+      - BHD
+      - BMD
+      - BSD
+      - ILS
+      - ISK
+      - KES
+      - KRW
+      - KWD
+      - OMR
+      - PHP
+      - PKR
+      - QAR
+      - RON
+      - TTD
+      - UAH
+      - LKR
+      - XPF
+      - UYU
+      - COP
+      - CRC
+      - FJD
+    payments:
+      type: array
+      description: All properties returned on the payment's get call.
+      items:
+        type: object
+        properties:
+          shipmentNumber:
+            type: integer
+            description: C.H. Robinson defined shipment number.
+          billingStatus:
+            type: string
+            description: The Status of the Bill that is being requested
+          carrierInvoiceNumber:
+            type: string
+            description: Carrier invoice number.
+  securitySchemes:
+    sandbox:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt

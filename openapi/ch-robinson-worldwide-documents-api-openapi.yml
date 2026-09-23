@@ -1,0 +1,1241 @@
+openapi: 3.2.0
+info:
+  version: 2.0.0
+  title: A guide to C.H. Robinson's REST Documents API
+  description: '# Introduction
+
+    Welcome to C.H.'
+servers:
+- url: https://sandbox-api.navisphere.com
+  description: Test environment.
+- url: https://api.navisphere.com
+  description: Production environment.
+security:
+- sandbox: []
+tags:
+- name: Documents
+  description: C.H. Robinson's Documents product allows our partners to generate, post, and retrieve documents. C.H. Robinson currently offers customers the ability to generate blank BOLs and retrieve signed BOLs, PODs, and Lumper receipts. Additionally, carriers can post documents to their shipments.
+paths:
+  /v1/documents/generateBols:
+    get:
+      description: Allows partner to generate the blank order-level BOL for the load. A load can have many orders, and this BOL would reflect the individual order details. This route is intended to be called once the customer retrieves the `LOAD BOOKED` event from the Events product. This route produces the original "Generated BOL Retrieval" that provides a BOL for a single order on any shipment.
+      operationId: GENERATED BOL RETRIEVAL - Order Level
+      tags:
+      - Documents
+      parameters:
+      - name: loadNumber
+        in: query
+        description: The load number that the BOL is associated with.
+        required: true
+        schema:
+          type: integer
+      - name: customerCode
+        in: query
+        description: The customer code that is linked to the load number.
+        required: true
+        schema:
+          type: string
+      - name: orderNumber
+        in: query
+        description: The order number that the load is associated with.
+        required: true
+        schema:
+          type: integer
+      - name: showItemNotes
+        in: query
+        description: Show item notes on the BOL.
+        schema:
+          type: boolean
+          default: false
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X GET \\ \n https://sandbox-api.navisphere.com/v1/documents/generateBols?loadNumber=1234567&customerCode=C123456&orderNumber=123456 \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.get(\"https://sandbox-api.navisphere.com/v1/documents/generateBols?loadNumber=1234567&customerCode=C123456&orderNumber=123456\") \n .header(\"Content-Type\", \"application/json\") \n .header(\"Authorization\", \"Bearer YOU TOKEN\") \n .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\"); \n\n\nvar options = { method: 'GET', \n url: 'https://sandbox-api.navisphere.com/v1/documents/generateBols?loadNumber=1234567&customerCode=C123456&orderNumber=123456',\n headers: { \n \tAuthorization: 'Bearer YOU TOKEN',\n \t'Content-Type': 'application/json'\n }};\n\n request(options, function (error, response, body) {\n \tif (error) throw new Error(error);\n\n \tconsole.log(body);\n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v1/documents/generateBols?loadNumber=1234567&customerCode=C123456&orderNumber=123456\"); \n var request = new RestRequest(Method.GET);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n IRestResponse response = client.Execute(request);"
+      responses:
+        '201':
+          description: Request successful
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact your C.H. Robinson rep.
+      summary: GENERATED BOL RETRIEVAL order level
+      x-summary-source: derived
+  /v1/documents/generateLoadBols:
+    get:
+      description: Allows partner to generate the blank load-level BOL for the shipment. This BOL would reflect load details. A load can have many orders. The load-level BOL may also contain API-retrieved end-carrier pro number and barcode, useful in LTL operations, tracking, and billing. This route is intended to be called once the customer retrieves the `LOAD BOOKED` or `PRO NUMBER ADDED` event from the Events product.
+      operationId: GENERATED BOL RETRIEVAL - Load Level
+      tags:
+      - Documents
+      parameters:
+      - name: loadNumber
+        in: query
+        description: The load number that the BOL is associated with.
+        required: true
+        schema:
+          type: integer
+      - name: customerCode
+        in: query
+        description: The customer code that is linked to the load number.
+        required: true
+        schema:
+          type: string
+      - name: orderNumber
+        in: query
+        description: The order number that the load is associated with.
+        required: true
+        schema:
+          type: integer
+      - name: showItemNotes
+        in: query
+        description: Show item notes on the BOL.
+        schema:
+          type: boolean
+          default: false
+      - name: barcodeType
+        in: query
+        description: Show the barcode in different format types.
+        schema:
+          default: UNKNOWN
+          enum:
+          - UNKNOWN
+          - CODE39
+          - CODE128
+          type: string
+      - name: barcodeIdentifier
+        in: query
+        description: What the barcode will have as an Identifier.
+        schema:
+          type: string
+          default: UNKNOWN
+          enum:
+          - UNKNOWN
+          - LoadNumber
+          - ProNumber
+          - BillToReferenceNumber
+      - name: showBarcode
+        in: query
+        description: Show barcode on the BOL.
+        schema:
+          type: boolean
+          default: false
+      - name: responseFileType
+        in: query
+        description: Defines the desired BOL file type. ZIP format is required if multiple documents are expected. PDF format is only capable of returning a single BOL page, and will error if there are multiple documents. It is recommended to set responseFileType to ZIP at all times if multi-stop is a possibility.
+        schema:
+          type: string
+          default: application/pdf
+          enum:
+          - application/pdf
+          - application/zip
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X GET \\ \n https://sandbox-api.navisphere.com/v1/documents/generateLoadBols?loadNumber=1234567&customerCode=C123456&orderNumber=123456 \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.get(\"https://sandbox-api.navisphere.com/v1/documents/generateLoadBols?loadNumber=1234567&customerCode=C123456&orderNumber=123456\") \n .header(\"Content-Type\", \"application/json\") \n .header(\"Authorization\", \"Bearer YOU TOKEN\") \n .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\"); \n\n\nvar options = { method: 'GET', \n url: 'https://sandbox-api.navisphere.com/v1/documents/generateLoadBols?loadNumber=1234567&customerCode=C123456&orderNumber=123456',\n headers: { \n \tAuthorization: 'Bearer YOU TOKEN',\n \t'Content-Type': 'application/json'\n }};\n\n request(options, function (error, response, body) {\n \tif (error) throw new Error(error);\n\n \tconsole.log(body);\n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v1/documents/generateLoadBols?loadNumber=1234567&customerCode=C123456&orderNumber=123456\"); \n var request = new RestRequest(Method.GET);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n IRestResponse response = client.Execute(request);"
+      responses:
+        '201':
+          description: Request successful
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact your C.H. Robinson rep.
+      summary: GENERATED BOL RETRIEVAL load level
+      x-summary-source: derived
+  /v1/documents/invoices/{invoiceNumber}:
+    get:
+      description: Allows partner to retrieve PDF document of an invoice.
+      operationId: Invoice Document Retrieval
+      tags:
+      - Documents
+      parameters:
+      - name: invoiceNumber
+        in: path
+        description: The invoice number tied to the PDF. invoiceNumber is retrieved using the invoice calls in our financials product.
+        required: true
+        schema:
+          type: integer
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X GET \\ \n https://sandbox-api.navisphere.com/v1/documents/invoices/12345 \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.get(\"https://sandbox-api.navisphere.com/v1/documents/invoices/12345\") \n .header(\"Content-Type\", \"application/json\") \n .header(\"Authorization\", \"Bearer YOU TOKEN\") \n .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\"); \n\n\nvar options = { method: 'GET', \n url: 'https://sandbox-api.navisphere.com/v1/documents/invoices/12345',\n headers: { \n \tAuthorization: 'Bearer YOU TOKEN',\n \t'Content-Type': 'application/json'\n }};\n\n request(options, function (error, response, body) {\n \tif (error) throw new Error(error);\n\n \tconsole.log(body);\n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v1/documents/invoices/12345\"); \n var request = new RestRequest(Method.GET);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n IRestResponse response = client.Execute(request);"
+      responses:
+        '200':
+          description: Request successful
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact your C.H. Robinson rep.
+      summary: Invoice document retrieval
+      x-summary-source: derived
+  /v1/documents/retrieveDocumentIds:
+    get:
+      description: Allows partner to retrieve list of document IDs.
+      operationId: Load Document ID Retrieval
+      tags:
+      - Documents
+      parameters:
+      - name: loadNumber
+        in: query
+        description: C.H. Robinson load number.
+        required: true
+        schema:
+          type: integer
+      - name: documentTypes
+        in: query
+        description: "Identifies the document type that is being requested. If querying more than one document type, list needs to be comma-separated. Below are the most common documents to pull \n\n`BOL` - Bill of Lading, `POD` - Proof of Delivery, `LUMPER` - Lumper Receipt \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/DocTypeDescriptions.xlsx\" target=\"_blank\">here</a>."
+        required: true
+        schema:
+          type: array
+          items:
+            enum:
+            - ACCESSOR
+            - AG
+            - AGT_PRE
+            - AS_CONFRM
+            - AWBLABEL
+            - BAD
+            - BANKINGLC
+            - BLINSTRUCT
+            - BOL
+            - BOOKADVICE
+            - BOOKCONF
+            - BOOKORDER
+            - BROK_AN
+            - CANADAA8A
+            - CARARRNOT
+            - CARBOOKNOT
+            - CARGOREL
+            - CARNOTIF
+            - CARRPTHBL
+            - CARRPTHBLR
+            - CARSELFBIL
+            - CBP28
+            - CBP29
+            - CBP301SEB
+            - CBP3229
+            - CBP3299
+            - CBP3311
+            - CBP3461
+            - CBP349
+            - CBP3499
+            - CBP4811
+            - CBP5106
+            - CBP5297
+            - CBP7501
+            - CBP7512
+            - CBP7514
+            - CBP7551
+            - CBPADCVD
+            - CBPCarnet
+            - CBPCW
+            - CBPMRK
+            - CBPPEA
+            - CBPPROTEST
+            - CLAIM
+            - CLN_CER
+            - COA
+            - COMDOCS
+            - COMM_INV
+            - CONFIRM
+            - COO
+            - COURTNOTE
+            - CREDIT
+            - CROSSTOWN
+            - CUSFRTAV
+            - CUST_AN
+            - CUST_OTHER
+            - CUST_PRE
+            - CUSTDO
+            - CUSTOMS
+            - CUSTRATEAG
+            - DAIRDALRT
+            - DAIRPRDET
+            - DAIRWAYBIL
+            - DANGERCHK
+            - DAWB
+            - DE_ExportA
+            - DE_ExportV
+            - DE_Ocean
+            - DE_OceanAB
+            - DE_OceanAK
+            - DE_OceanAT
+            - DE_OceanGP
+            - DE_OceanHZ
+            - DE_OceanKN
+            - DE_OceanKS
+            - DE_OceanVN
+            - DEDUCT
+            - DELIVERY
+            - DELORDER
+            - DEMMURAGE
+            - DESTCUST
+            - DOCKRCPT
+            - DRAFTHBL
+            - DRAFTHBLR
+            - EMLCOOR
+            - EVENTNOTE
+            - EXPHBL
+            - EXPHBLR
+            - EXPSHIPINV
+            - FCONFIRM
+            - FCR
+            - FCRA
+            - FF_BOL
+            - FUMC
+            - HAWB
+            - HAZMAT
+            - HAZMATDEC
+            - IMPSHIPINV
+            - INSDOCS
+            - INSPC
+            - INTL_10PLY
+            - INTL_ACN
+            - INTL_ARASL
+            - INTL_BOL
+            - INTL_BVA
+            - INTL_CMR
+            - INTL_POD
+            - INTLOTHINV
+            - INTLREL
+            - INVOICE
+            - ISFDOC
+            - J1
+            - LINESREP
+            - LUMPER
+            - MANIFEST
+            - MAWB
+            - MBL
+            - MBL_PROOF
+            - MBL_RATE
+            - MBL_UNRATE
+            - MRN
+            - MSDS
+            - NA_INLAND
+            - NONEHBL
+            - NONEHBLR
+            - NONNEGHBL
+            - NONNEGHBLR
+            - ODOMETER
+            - OGA
+            - ORGHBL
+            - ORGHBLR
+            - ORIGINCUST
+            - OTHER
+            - OVERDIM
+            - PACK_LIST
+            - PALLETS
+            - PARCELLBL
+            - PICKUP
+            - PIXOS_EP
+            - PO
+            - POD
+            - PROINV
+            - PTT
+            - PUORDER
+            - RATEFILING
+            - RCARD
+            - RHC
+            - SA_BACKUP
+            - SACARINV
+            - SEAWYHBL
+            - SEAWYHBLR
+            - SED
+            - SELFBILL
+            - SHIP
+            - SHIPINST
+            - SHIPINV
+            - SQUOTE
+            - SRNDRHBL
+            - SRNDRHBLR
+            - STATACCT
+            - TELXHBL
+            - TELXHBLR
+            - TENDER
+            - THERMO
+            - TSACCSF
+            - TSAKNOWN
+            - TSAUNKNOWN
+            - UNDET
+            - WAYBILL
+            - WHSE_OSD
+            - WOODPACK
+            - WT
+      - name: from
+        in: query
+        description: Starting date/time of document search.
+        required: false
+        schema:
+          type: string
+          format: date-time
+      - name: to
+        in: query
+        description: Ending date/time of document search.
+        required: false
+        schema:
+          type: string
+          format: date-time
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X GET \\ \n https://sandbox-api.navisphere.com/v1/documents/retrieveDocumentIds?loadNumber=315545893&documentTypes=BOL,POD,LUMPER \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.get(\"https://sandbox-api.navisphere.com/v1/documents/retrieveDocumentIds?loadNumber=315545893&documentTypes=BOL,POD,LUMPER\") \n .header(\"Content-Type\", \"application/json\") \n .header(\"Authorization\", \"Bearer YOU TOKEN\") \n .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\"); \n\n\nvar options = { method: 'GET', \n url: 'https://sandbox-api.navisphere.com/v1/documents/retrieveDocumentIds?loadNumber=315545893&documentTypes=BOL,POD,LUMPER',\n headers: { \n \tAuthorization: 'Bearer YOU TOKEN',\n \t'Content-Type': 'application/json'\n }};\n\n request(options, function (error, response, body) {\n \tif (error) throw new Error(error);\n\n \tconsole.log(body);\n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v1/documents/retrieveDocumentIds?loadNumber=315545893&documentTypes=BOL,POD,LUMPER\"); \n var request = new RestRequest(Method.GET);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n IRestResponse response = client.Execute(request);"
+      responses:
+        '200':
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/documentIdResults'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact your C.H. Robinson rep.
+      summary: Load document ID retrieval
+      x-summary-source: derived
+  /v1/documents/{documentId}:
+    get:
+      description: Allows partner to retrieve BOLs, PODs, and Lumper receipts.
+      operationId: Load Document Retrieval
+      tags:
+      - Documents
+      parameters:
+      - name: documentId
+        in: path
+        description: The document ID that links to image. documentId is retrieved using our retrieveDocumentIds route.
+        required: true
+        schema:
+          type: integer
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X GET \\ \n https://sandbox-api.navisphere.com/v1/documents/862077900 \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.get(\"https://sandbox-api.navisphere.com/v1/documents/862077900\") \n .header(\"Content-Type\", \"application/json\") \n .header(\"Authorization\", \"Bearer YOU TOKEN\") \n .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\"); \n\n\nvar options = { method: 'GET', \n url: 'https://sandbox-api.navisphere.com/v1/documents/862077900',\n headers: { \n \tAuthorization: 'Bearer YOU TOKEN',\n \t'Content-Type': 'application/json'\n }};\n\n request(options, function (error, response, body) {\n \tif (error) throw new Error(error);\n\n \tconsole.log(body);\n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v1/documents/862077900\"); \n var request = new RestRequest(Method.GET);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n IRestResponse response = client.Execute(request);"
+      responses:
+        '200':
+          description: Request successful. **Multiple file formats that can be returned.**
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact your C.H. Robinson rep.
+      summary: Load document retrieval
+      x-summary-source: derived
+  /events/LoadDocuments/here:
+    servers:
+    - url: https://yourserver.com
+      description: partner defined endpoint for documents
+    post:
+      security:
+      - bearerAuth: []
+      description: This is the endpoint where load documents can be pushed.
+      x-beta: true
+      operationId: Load Documents Callback
+      tags:
+      - Documents
+      requestBody:
+        description: JSON object of Load Detail message.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loadDocumentCallback'
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+      summary: Load documents callback
+      x-summary-source: derived
+  /v1/documents/{loadNumber}:
+    post:
+      description: Both base64 and binary can be accepted by making a selection in the dropdown next to "Request Body Schema". Binary is form-data, base64 is application/json.
+      operationId: Carrier Document Upload
+      x-tryit: false
+      tags:
+      - Documents
+      parameters:
+      - name: loadNumber
+        in: path
+        description: The C.H. Robinson load number the document will be tied too.
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        description: File upload.
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+              - file
+              - docType
+              properties:
+                file:
+                  type: string
+                  description: Max file size is 40 MB.
+                  format: binary
+                docType:
+                  $ref: '#/components/schemas/docTypeEnum'
+          application/json:
+            schema:
+              type: object
+              required:
+              - fileName
+              - mimeType
+              - data
+              - docType
+              properties:
+                fileName:
+                  type: string
+                  description: Name of the file.
+                mimeType:
+                  type: string
+                  description: MIME type of the file.
+                  enum:
+                  - application/pdf
+                  - image/tiff
+                  - image/jpeg
+                  - image/png
+                  - image/gif
+                  - image/bmp
+                data:
+                  type: string
+                  description: Base64 encoded file data. Max file size is 40 MB.
+                docType:
+                  $ref: '#/components/schemas/docTypeEnum'
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X POST \\ \n 'https://sandbox-api.navisphere.com/v1/documents/20015434520' \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: multipart/form-data'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.post(\"https://sandbox-api.navisphere.com/v1/documents/20015434520\")\n .header(\"Content-Type\", \"multipart/form-data\")\n .header(\"Authorization\", \"Bearer YOU TOKEN\")\n .asString();"
+      - lang: NodeJS
+        source: " const request = require(\"request\");\n const fs = require(\"fs\"); \n\n var options = { method: 'POST',\n url: 'https://sandbox-api.navisphere.com/v1/documents/20015434520',\n headers: { \n \tAuthorization: 'Bearer YOU TOKEN',\n \tContent-Type: 'multipart/form-data' \n }, \n formData: { \tdocType: 'BOL'\n \tfile: fs.createReadStream(\"/Users/guest/Desktop/test.png\"); \n }};\n\n request(options, function (error, response, body) {\n \tif (error) throw new Error(error);\n\n \tconsole.log(body);\n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v1/documents/20015434520\");\n var request = new RestRequest(Method.POST);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"multipart/form-data\");\n IRestResponse response = client.Execute(request);"
+      responses:
+        '201':
+          description: Request successful
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact your C.H. Robinson rep.
+      summary: Carrier document upload
+      x-summary-source: derived
+components:
+  schemas:
+    error404:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 404
+        error:
+          type: string
+          description: Detail about the error status code
+          example: Not Found
+        message:
+          type: string
+          description: Specifies issue
+          example: Not Found
+    error401:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 401
+        error:
+          type: string
+          description: Detail about the error status code
+        message:
+          type: string
+          description: Specifies issue
+        attributes:
+          type: object
+          properties:
+            error:
+              type: string
+    error400:
+      properties:
+        message:
+          type: string
+        path:
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+        context:
+          type: object
+          properties:
+            child:
+              type: string
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+            key:
+              type: string
+            label:
+              type: string
+    docTypeEnum:
+      type: string
+      description: "C.H. Robinson codes for the different types of documents. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/DocTypeDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - ACCESSOR
+      - AG
+      - AGT_PRE
+      - AS_CONFRM
+      - AWBLABEL
+      - BAD
+      - BANKINGLC
+      - BLINSTRUCT
+      - BOL
+      - BOOKADVICE
+      - BOOKCONF
+      - BOOKORDER
+      - BROK_AN
+      - CANADAA8A
+      - CARARRNOT
+      - CARBOOKNOT
+      - CARGOREL
+      - CARNOTIF
+      - CARRPTHBL
+      - CARRPTHBLR
+      - CARSELFBIL
+      - CBP28
+      - CBP29
+      - CBP301SEB
+      - CBP3229
+      - CBP3299
+      - CBP3311
+      - CBP3461
+      - CBP349
+      - CBP3499
+      - CBP4811
+      - CBP5106
+      - CBP5297
+      - CBP7501
+      - CBP7512
+      - CBP7514
+      - CBP7551
+      - CBPADCVD
+      - CBPCarnet
+      - CBPCW
+      - CBPMRK
+      - CBPPEA
+      - CBPPROTEST
+      - CLAIM
+      - CLN_CER
+      - COA
+      - COMDOCS
+      - COMM_INV
+      - CONFIRM
+      - COO
+      - COURTNOTE
+      - CREDIT
+      - CROSSTOWN
+      - CUSFRTAV
+      - CUST_AN
+      - CUST_OTHER
+      - CUST_PRE
+      - CUSTDO
+      - CUSTOMS
+      - CUSTRATEAG
+      - DAIRDALRT
+      - DAIRPRDET
+      - DAIRWAYBIL
+      - DANGERCHK
+      - DAWB
+      - DE_ExportA
+      - DE_ExportV
+      - DE_Ocean
+      - DE_OceanAB
+      - DE_OceanAK
+      - DE_OceanAT
+      - DE_OceanGP
+      - DE_OceanHZ
+      - DE_OceanKN
+      - DE_OceanKS
+      - DE_OceanVN
+      - DEDUCT
+      - DELIVERY
+      - DELORDER
+      - DEMMURAGE
+      - DESTCUST
+      - DOCKRCPT
+      - DRAFTHBL
+      - DRAFTHBLR
+      - EMLCOOR
+      - EVENTNOTE
+      - EXPHBL
+      - EXPHBLR
+      - EXPSHIPINV
+      - FCONFIRM
+      - FCR
+      - FCRA
+      - FF_BOL
+      - FUMC
+      - HAWB
+      - HAZMAT
+      - HAZMATDEC
+      - IMPSHIPINV
+      - INSDOCS
+      - INSPC
+      - INTL_10PLY
+      - INTL_ACN
+      - INTL_ARASL
+      - INTL_BOL
+      - INTL_BVA
+      - INTL_CMR
+      - INTL_POD
+      - INTLOTHINV
+      - INTLREL
+      - INVOICE
+      - ISFDOC
+      - J1
+      - LINESREP
+      - LUMPER
+      - MANIFEST
+      - MAWB
+      - MBL
+      - MBL_PROOF
+      - MBL_RATE
+      - MBL_UNRATE
+      - MRN
+      - MSDS
+      - NA_INLAND
+      - NONEHBL
+      - NONEHBLR
+      - NONNEGHBL
+      - NONNEGHBLR
+      - ODOMETER
+      - OGA
+      - ORGHBL
+      - ORGHBLR
+      - ORIGINCUST
+      - OTHER
+      - OVERDIM
+      - PACK_LIST
+      - PALLETS
+      - PARCELLBL
+      - PICKUP
+      - PIXOS_EP
+      - PO
+      - POD
+      - PROINV
+      - PTT
+      - PUORDER
+      - RATEFILING
+      - RCARD
+      - RHC
+      - SA_BACKUP
+      - SACARINV
+      - SEAWYHBL
+      - SEAWYHBLR
+      - SED
+      - SELFBILL
+      - SHIP
+      - SHIPINST
+      - SHIPINV
+      - SQUOTE
+      - SRNDRHBL
+      - SRNDRHBLR
+      - STATACCT
+      - TELXHBL
+      - TELXHBLR
+      - TENDER
+      - THERMO
+      - TSACCSF
+      - TSAKNOWN
+      - TSAUNKNOWN
+      - UNDET
+      - WAYBILL
+      - WHSE_OSD
+      - WOODPACK
+      - WT
+    error403:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 403
+        error:
+          type: string
+          description: detail about the error status code
+          example: Forbidden
+        message:
+          type: string
+          description: Specifies issue
+          example: Invalid customerCode
+    loadDocumentCallback:
+      type: object
+      description: Object containing the search event response.
+      properties:
+        billToReferenceNumber:
+          type: string
+          description: Primary bill to reference number
+        customerReferenceNumber:
+          type: string
+          description: Primary customer reference number
+        event:
+          type: object
+          description: Object containing document saved detail
+          properties:
+            billTos:
+              type: array
+              description: Array containing bill to entities and references by customerCode
+              items:
+                type: object
+                properties:
+                  customerCode:
+                    type: string
+                    description: CHR defined Bill to customerCode
+                  referenceNumbers:
+                    description: Array containing bill to references
+                    items:
+                      $ref: '#/components/schemas/referenceNumber'
+            customer:
+              type: array
+              description: Array containing customer entities and references by customerCode
+              items:
+                type: object
+                properties:
+                  customerCode:
+                    type: string
+                    description: CHR defined customer code
+                  referenceNumbers:
+                    description: Array containing customer references
+                    items:
+                      $ref: '#/components/schemas/referenceNumber'
+            documentFileName:
+              type: string
+              description: Filename and extension of the carrier document
+            documentType:
+              type: string
+              enum:
+              - BOL
+              - POD
+              - LUMPER
+              - INTL_BOL
+              - INTL_POD
+              description: Defines type of carrier document, such as POD (Proof of Delivery), BOL (Bill of Lading), LMP (Lumper Receipt) - see enums
+            eventType:
+              type: string
+              description: DOCUMENT SAVED
+            loadNumber:
+              type: string
+              description: CHR load number
+        eventTime:
+          type: string
+          format: date-time
+          description: The date/time in ISO8601 UTC format when the event was reported to have occured.
+        time:
+          type: string
+          format: date-time
+          description: The date/time in ISO8601 UTC format when the event was written to the Enterprise API database.
+        documentFileData:
+          type: object
+          description: Object containing image byte array and contentType
+          properties:
+            document:
+              type: string
+              description: Base64 encoded carrier document
+            contentType:
+              type: string
+              description: String showing Content-type of the document, such as application/pdf
+              enum:
+              - application/pdf
+              - application/tif
+              - application/jpeg
+    referenceNumber:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          type: string
+          description: "C.H. Robinson defined code for reference number types. Here is a list of the most commonly used reference number types: \n\n`SHID` - Shipment ID #, `MBOL` - Master Bill of Lading #, `PO` - Purchase Order #, `BOL` - Bill of Lading #, `CRID` - Customer Specific Ref Number, `CUSTPO` - Customer PO Number, `DEL` - Delivery #, `JNO` - Job Number, `PU` - Pickup #, `CON` - Customer Order Number, `APPT` - Appointment Number \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ReferenceNumberTypes.xlsx\" target=\"_blank\">here</a>."
+          enum:
+          - SHID
+          - MBOL
+          - PO
+          - BOL
+          - CFRM
+          - CRID
+          - CUSTPO
+          - DEL
+          - DIST
+          - FIN
+          - GL
+          - JNO
+          - PU
+          - RANumber
+          - RLPRO
+          - MREF
+          - Empty
+          - PRO
+          - CCN
+          - SBOL
+          - CON
+          - APPT
+          - CHRW_ID
+          - FDA
+          - IREF
+          - LIC
+          - ORD
+          - PLU
+          - SCAC
+          - SEAL
+          - SKU
+          - SREF
+          - STCC
+          - TEB
+          - VPO
+          - WB
+          - XXXX
+          - TRIA
+          - TRANS
+          - GCC
+          - SDATE
+          - CDATE
+          - ACCT
+          - CCTR
+          - IGM
+          - GIGM
+          - LIGM
+          - SMTP
+          - PERMIT
+          - RNO
+          - DVCN
+          - PRCL
+          - CPUC
+          - SHPMD
+          - AFR
+          - BUYID
+          - VNDID
+          - DIV
+          - DEPT
+          - POTYPE
+          - GRGI
+          - DUNS
+          - PALLETREF
+          - CITTN
+          - CIN
+          - SHIPWITH
+          - PN
+          - UPC
+          - PRCD
+          - VESSEL
+          - VOYAGE
+          - FN
+          - FEEDVESS
+          - FEEDVOY
+          - SHIPREF
+          - CBL
+          - SPAC
+          - POLN
+          - VPOLN
+          - EIN
+          - CNSG
+          - PROFITCTR
+          - MFGPART
+          - PACKSLIP
+          - THIRDPRTY
+          - DEFATTR
+          - FSTRK
+          - FOItemID
+          - POLineNum
+          - PARCELSPC
+          - CNS1
+          - CNS2
+          - CNS3
+          - CNS4
+          - CNS5
+          - CNS6
+          - CNS7
+          - TREF
+          - VREF
+          - UPRICE
+          - FWPARTY
+          - BYPARTY
+          - HBL
+          - CBP
+          - TRANSFER
+          - SO
+          - ORDTRK
+          - QUOTEID
+          - EQT
+          - BOOTH
+          - TS
+          - 'OH #'
+          - CNTNR
+          - VAS
+          - Size
+          - Color
+          - Style
+          - HCERT
+          - B#
+          - ETMSID
+          - 214-IMO
+          - SHPWeight
+          - SHPVolume
+          - SHPDims
+          - SERIALIZED
+          - SERIALNUM
+          - CPSIA
+          - EDIINVREF
+          - SQID
+          - QSeqNum
+          - OuterPkStu
+          - GLC
+          - COMP
+          - COST
+          - DTYGL
+          - DTYCC
+          - BRKGL
+          - BRKCC
+          - GPS
+          - IAC
+          - WHRCT
+          - ERGUID
+          - SONUM
+          - CCNUM
+          - PrimCCNUM
+          - PrevCCNUM
+          - CMRN
+          - TRANSSHIP
+          - PGIDATE
+          - AESFIL
+          - CUSTQUOTID
+          - QUOTETRACE
+          - ODATE
+          - FRCLS
+          - NMFC
+          - OrderItemId
+        value:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: The actual value of the reference number.
+    documentIdResults:
+      type: array
+      description: Document ID results.
+      items:
+        type: object
+        properties:
+          doumentType:
+            $ref: '#/components/schemas/docTypeEnum'
+          documentId:
+            type: integer
+            description: Identifing ID that matches to a specific image.
+          documentEnteredDateTime:
+            type: string
+            format: date-time
+            description: The date/time in ISO8601 format when the document was attached to the load.
+  securitySchemes:
+    sandbox:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt

@@ -1,7 +1,9 @@
 ---
 title: More than 100 trillion data points fuel ...
 url: https://www.chrobinson.com/en-us/about-us/newsroom/press-releases/2026/100-trillion-data-points-fuel-chrobinson-agentic-supply-chains/
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"C.H. Robinson Worldwide" press release artificial intelligence'
 position: 1
 source: serpapi-google

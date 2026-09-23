@@ -1,0 +1,216 @@
+openapi: 3.2.0
+info:
+  version: 2.0.0
+  title: A guide to C.H. Robinson's REST Authentication API
+  description: '# Introduction
+
+    Welcome to C.H.'
+servers:
+- url: https://sandbox-api.navisphere.com
+  description: Test environment.
+- url: https://api.navisphere.com
+  description: Production environment.
+security:
+- sandbox: []
+tags:
+- name: Authentication
+  description: C.H.
+paths:
+  /v1/oauth/token:
+    post:
+      description: Allows partner to retrieve their own auth token.
+      operationId: Generate Token
+      security: []
+      tags:
+      - Authentication
+      requestBody:
+        description: generate auth token
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tokenRequest'
+          application/ x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/tokenRequest'
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X POST \\ \n https://sandbox-api.navisphere.com/v1/oauth/token \\ \n -H 'Content-Type: application/json' \\ \n -d '{ \n \"client_id\": \"Your Client ID\", \n \"client_secret\": \"Your Client Secret\", \n \"audience\": \"https://inavisphere.chrobinson.com\", \n \"grant_type\": \"client_credentials\" \n }'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.post(\"https://sandbox-api.navisphere.com/v1/oauth/token\") \n .header(\"Content-Type\", \"application/json\") \n .body(\"{\n    \"client_id\": \"Your Client ID\",\n    \"client_secret\": \"Your Client Secret\",\n    \"audience\": \"https://inavisphere.chrobinson.com\",\n    \"grant_type\": \"client_credentials\"\n}\") \n .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\"); \n\n var options = { method: 'POST', \n url: 'https://sandbox-api.navisphere.com/v1/oauth/token', \n headers: { 'Content-Type': 'application/json' }, \n body: { \n \tclient_id: 'Your Client ID', \n \tclient_secret: 'Your Client Secret', \n \taudience: 'https://inavisphere.chrobinson.com', \n \tgrant_type: 'client_credentials' \n }, \n json: true }; \n\n request(options, function (error, response, body) { \n \tif (error) throw new Error(error); \n\n \tconsole.log(body);\n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v1/oauth/token\"); \n var request = new RestRequest(Method.POST); \n request.AddHeader(\"Content-Type\", \"application/json\"); \n request.AddParameter(\"undefined\", \n \"{\n    \"client_id\": \"Your Client ID\",\n    \"client_secret\": \"Your Client Secret\",\n    \"audience\": \"https://inavisphere.chrobinson.com\",\n    \"grant_type\": \"client_credentials\"\n}\", ParameterType.RequestBody); \n IRestResponse response = client.Execute(request);"
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tokenSuccessResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact you C.H. Robinson rep.
+      summary: Generate token
+      x-summary-source: derived
+components:
+  schemas:
+    error404:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 404
+        error:
+          type: string
+          description: Detail about the error status code
+          example: Not Found
+        message:
+          type: string
+          description: Specifies issue
+          example: Not Found
+    error401:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 401
+        error:
+          type: string
+          description: Detail about the error status code
+        message:
+          type: string
+          description: Specifies issue
+        attributes:
+          type: object
+          properties:
+            error:
+              type: string
+    tokenSuccessResponse:
+      properties:
+        token_type:
+          type: string
+          description: Indicates type of token received. **Will always be a Bearer token.**
+          example: Bearer
+        expires_in:
+          type: integer
+          description: Amount of time token is valid. **Will always be 86400 seconds (24 hours).**
+          example: 86400
+        access_token:
+          type: string
+          description: Returned token that will be used as the bearer token on all subsequent API calls.
+          example: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik1This is just an example token that won't work for anyone.FpbmluZy1hdXRoLmNocm9iaW5zb24uY29tLyIsInN1YiI6Im1BbVJ6RXVGejdQWUpYcVFXSlh4cnBldWdrN2tEQXdCQGNsaWVudHMiLCJhdWQiOiJodHRwczovL2luYXZpc3BoZXJlLmNocm9iaW5zb24uY29tIiwiaWF0IjoxNTUxMTk0MzQ5LCJleHAiOjE1NTEyODA3NDksImF6cCI6Im1BbVJ6RXVGejdQWUpYcVFXSlh4cnBldWdrN2tEQXdCIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.YsDMHGaPBuLOgBCDmhLm9xyVwyxHWueefrcVpSNOIbRuQYd0Sua68znIQENFEolCbipwH8npCCSl2eGXrhmP2kALhDtPcLyypjzhCPS-4lqT4iDOa7Ll9Ek2H2sSPb4ix91bp7Up25sAROHY8nq16SR160vePelmt78q-akrD_KDVBgToLLaV0Eukpim_H2aEspIaVby6eCehc40bFuCQuipSWZXafh5pnp1j2dS6JP4yL2JrvDTUem6_oEdEWY4Q-ppvIj8JA4zU4qjidNI59RZPNWAo8BiHk0yD7sGiPQrm4l7ZFLRkO4SnCl88n9Y7bgL02JCOjRVXiqKDPUCMw
+        scope:
+          type: string
+          description: Defines token access.
+          example: read:status
+    error400:
+      properties:
+        message:
+          type: string
+        path:
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+        context:
+          type: object
+          properties:
+            child:
+              type: string
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+            key:
+              type: string
+            label:
+              type: string
+    error403:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 403
+        error:
+          type: string
+          description: detail about the error status code
+          example: Forbidden
+        message:
+          type: string
+          description: Specifies issue
+          example: Invalid customerCode
+    tokenRequest:
+      required:
+      - client_id
+      - client_secret
+      - audience
+      - grant_type
+      properties:
+        client_id:
+          type: string
+          description: ID that will be provided by C.H. Robinson used to retrieve authorization tokens.
+          example: Partner client_id
+        client_secret:
+          type: string
+          description: Secret that will be provided by C.H. Robinson used to retrieve authorization tokens.
+          example: Partner client_secret
+        audience:
+          type: string
+          description: Static audience URL allowing authorization token to be created. "https://inavisphere.chrobinson.com"
+          example: https://inavisphere.chrobinson.com
+        grant_type:
+          type: string
+          description: Static identifier allowing authorization token to be created. "client_credentials"
+          example: client_credentials
+  securitySchemes:
+    sandbox:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt

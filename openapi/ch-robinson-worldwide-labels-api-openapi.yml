@@ -1,0 +1,2527 @@
+openapi: 3.2.0
+info:
+  version: 2.0.0
+  title: A guide to C.H. Robinson's REST Labels API
+  description: '# Introduction
+
+    Welcome to C.H.'
+servers:
+- url: https://sandbox-api.navisphere.com
+  description: Test environment.
+- url: https://api.navisphere.com
+  description: Production environment.
+security:
+- sandbox: []
+tags:
+- name: Labels
+  description: 'A service for generating small parcel shipping labels. An associated C.H. Robinson order is also created to track the package updates through Navisphere®. Note: Configuration of your company’s parcel carrier account details within Navisphere® is required as a prerequisite for using this API. Contact your C.H. Robinson or TMC account representative to begin this process.'
+paths:
+  /v1/labels:
+    post:
+      operationId: Generate label
+      tags:
+      - Labels
+      requestBody:
+        description: JSON object of label information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/label'
+            example:
+              customer:
+                customerCode: C8283603
+              billTo:
+                customerCode: C8283603
+                currencyCode: USD
+              payer:
+                type: Sender
+              rateShopType: BestCost
+              shipDate: '2020-05-26T00:00:00.000Z'
+              desiredDeliveryDate: '2020-05-29T00:00:00.000Z'
+              origin:
+                customerLocationId: 12345
+                name: Test origin
+                contactName: Origin Contact Name
+                contactPhoneNumber: 5555555555
+                address:
+                  address1: 14900 Charlson Rd.
+                  city: Eden Prairie
+                  stateProvinceCode: MN
+                  postalCode: 55347
+                  countryCode: US
+              destination:
+                customerLocationId: 67890
+                name: Test Destination
+                contactName: Destination Contact Name
+                contactPhoneNumber: 5555555555
+                address:
+                  address1: 315 N Racine Ave.
+                  address2: '#501'
+                  city: Chicago
+                  stateProvinceCode: IL
+                  postalCode: 60607
+                  countryCode: US
+              packages:
+              - contents:
+                - countryOfOriginCode: US
+                  description: Test widget
+                  value: 123.45
+                  currencyCode: USD
+                  quantity: 100
+                  quantityUnitOfMeasure: No_Unit_Required
+                  weight: 5
+                  weightUnitOfMeasure: Pounds
+                receiverName: Test Receiver
+                receiverPhoneNumber: 555-555-5555
+                documentsOnly: false
+                height: 10
+                length: 11
+                linearUnitOfMeasure: Inches
+                description: Test Package
+                packagingType: Customer_Package
+                weight: 5
+                weightUnitOfMeasure: Pounds
+                width: 12
+                labelCustomerReferenceNumber: 9876543210
+                labelReferenceData1: 12345
+                labelReferenceData2: 67890
+              referenceNumbers:
+              - type: CON
+                value: 325423455
+              description: Test Shipment
+      responses:
+        '201':
+          description: Request Successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/successLabelCreate'
+              example:
+                labelResponseId: 9dab96ff-5dea-459e-a549-f1808c8259c6
+                orderNumber: 7030640
+                carrier: FDX
+                serviceLevel: FedEx_Ground
+                shipDate: '2020-05-26T00:00:00.0000000'
+                scheduledDeliveryDate: '2020-05-28T23:59:00.0000000'
+                shippingPackages:
+                - id: 794613487241
+                  labels:
+                  - labelData: iVBORw0KGgoAAAANSUhEUgAAAyAAAASwAQAAAAAryhMIAAAjtUlEQVR42u3d34/bSJ4YcHI5EG9x3uZentRYQTVBguxj7GsgJyNaMcABtwhwuP0DgmDacND9EFzcHSNrad1WUdeL5gYwWknmId2IT8pfkLmn8V28ttirgXkLGNY9nbHrtUWaBzHAYkbUCGcVLaoqVaTUP9zutlpNam1PESNOW3bzI7Lq+/1WkZQkkDkswjuOqBzhyDcK0S4qqKxWk0ZkK3suJFDbbF0AJyP1vmNug+NIXzfQddL0CMCq0rTg64je+FxGYKB9DIbt9kvcfvqb1mlIv/UYKMf+0pUM7zKpWBAEWblyHLnZ+Hw4dH877JJBt
+                    labelFormat: image/png
+                  rate: 10.2
+                  rateCurrencyCode: USD
+                  trackingNumber: 794613487321
+                referenceNumbers:
+                - type: VPO
+                  value: Jason
+                - type: CON
+                  value: 325423455
+                carrierMessages:
+                - source: Rating
+                  carrier: DHL
+                  message: DHL returned a zero price for ParcelServiceLevelRDN 5304 (EXPRESS DOMESTIC)
+                - source: Rating
+                  message: Your invoice may vary from the displayed reference rates
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '424':
+          description: Failed Dependency
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error424'
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X POST \\ \n https://sandbox-api.navisphere.com/v1/labels \\\n -H 'Authorization: Bearer YOUR TOKEN' \\\n 'Content-Type: application/json' \\\n -d '{\n \t\"customer\": { \n \t\t\"customerCode\": \"C8283603\" \n \t}, \n \t\"billTo\": { \n \t\t\"customerCode\": \"C8283603\", \n \t\t\"currencyCode\": \"USD\" \n \t}, \n \t\"payer\": { \n \t\t\"Type\": \"Sender\" \n \t}, \n \t\"rateShopType\": \"BestCost\", \n \t\"shipDate\": \"2020-05-26T00:00:00.000Z\", \n \t\"desiredDeliveryDate\": \"2020-05-29T00:00:00.000Z\", \n \t\"origin\": {\n \t\t\"customerLocationId\": \"12345\", \n \t\t\"name\": \"Test Origin\", \n \t\t\"contactName\": \"Origin Contact Name\", \n \t\t\"contactPhoneNumber\": \"5555555555\", \n \t\t\"address\": { \n \t\t\t\"address1\": \"14900 Charlson Rd.\", \n \t\t\t\"city\": \"Eden Prairie\", \n \t\t\t\"stateProvinceCode\": \"MN\", \n \t\t\t\"postalCode\": \"55347\", \n \t\t\t\"countryCode\": \"US\" \n \t\t} \n \t}, \n \t\"destination\": {\n \t\t\"customerLocationId\": \"67890\", \n \t\t\"name\": \"Test Destination\", \n \t\t\"contactName\": \"Destination Contact Name\", \n \t\t\"contactPhoneNumber\": \"5555555555\", \n \t\t\"address\": { \n \t\t\t\"address1\": \"315 N Racine Ave.\", \n \t\t\t\"address2\": \"#501\", \n \t\t\t\"city\": \"Chicago\", \n \t\t\t\"stateProvinceCode\": \"IL\", \n \t\t\t\"postalCode\": \"60607\", \n \t\t\t\"countryCode\": \"US\" \n \t\t} \n \t}, \n \t\"packages\": [{ \n \t\t\"contents\": [{ \n \t\t\t\"countryOfOriginCode\": \"US\", \n \t\t\t\"description\": \"Test Widget\", \n \t\t\t\"value\": 123.45, \n \t\t\t\"currencyCode\": \"USD\", \n \t\t\t\"quantity\": 100, \n \t\t\t\"quantityUnitOfMeasure\": \"No_Unit_Required\", \n \t\t\t\"weight\": 5, \n \t\t\t\"weightUnitOfMeasure\": \"Pounds\"\n \t\t}], \n \t\t\"receiverName\": \"Test Receiver\", \n \t\t\"receiverPhoneNumber\"555-555-5555\", \n \t\t\"documentsOnly\": false, \n \t\t\"height\": 10, \n \t\t\"length\": 11, \n \t\t\"linearUnitOfMeasure\": \"Inches\": \n \t\t\"description\": \"Test Package\", \n \t\t\"packagingType\": \"Customer_Package\", \n \t\t\"weight\": 5, \"weightUnitOfMeasure\": \"Pounds\", \n \t\t\"width\": 12, \n \t\t\"labelCustomerReferenceNumber\": \"9876543210\", \n \t\t\"labelReferenceData1\": \"12345\", \n \t\t\"labelReferenceData2\": \"67890\" \n \t}], \n \t\"referenceNumbers\": [{ \n \t\t\"type\": \"CON\", \n \t\t\"value\": \"325423455\" \n\t}], \n \t\"description\": \"Test Shipment\" \n\t}"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.post(\"https://sandbox-api.navisphere.com/v1/labels\") .header(\"Authorization\", \"Bearer YOUR TOKEN\") .header(\"Content-Type\", \"application/json\") .header(\"Cookie\", \"ss-pid=reeoYH8VnxJJxE2wjdeR; ss-id=wz344wwbPiSmNAQ6R3L0\") .body(\"{\n  \"customer\": {\n      \"customerCode\": \"C8283603\"\n  },\n  \"billTo\": {\n      \"customerCode\": \"C8283603\",\n      \"currencyCode\": \"USD\"\n  },\n  \"payer\": {\n      \"type\": \"Sender\"\n  },\n  \"rateShopType\": \"BestCost\",\n  \"shipDate\": \"2020-05-26T00:00:00.000Z\",\n  \"desiredDeliveryDate\": \"2020-05-29T00:00:00.000Z\",\n  \"origin\": {\n      \"customerLocationId\": \"12345\",\n      \"name\": \"Test Origin\",\n      \"contactName\": \"Origin Contact Name\",\n      \"contactPhoneNumber\": \"5555555555\",\n      \"address\": {\n          \"address1\": \"14900 Charlson Rd.\",\n          \"city\": \"Eden Prairie\",\n          \"stateProvinceCode\": \"MN\",\n          \"postalCode\": \"55347\",\n          \"countryCode\": \"US\"\n      }\n  },\n  \"destination\": {\n      \"customerLocationId\": \"67890\",\n      \"name\": \"Test Destination\",\n      \"contactName\": \"Destination Contact Name\",\n      \"contactPhoneNumber\": \"5555555555\",\n      \"address\": {\n          \"address1\": \"315 N Racine Ave.\",\n          \"address2\": \"#501\",\n          \"city\": \"Chicago\",\n          \"stateProvinceCode\": \"IL\",\n          \"postalCode\": \"60607\",\n          \"countryCode\": \"US\"\n      }\n  },\n  \"Packages\": [\n      {\n          \"contents\": [\n              {\n                  \"countryOfOriginCode\": \"US\",\n                  \"description\": \"Test Widget\",\n                  \"value\": 123.45,\n                  \"currencyCode\": \"USD\",\n                  \"quantity\": 100,\n                  \"quantityUnitOfMeasure\": \"No_Unit_Required\",\n                  \"weight\": 5,\n                  \"weightUnitOfMeasure\": \"Pounds\"\n              }\n          ],\n          \"receiverName\": \"Test Receiver\",\n          \"receiverPhoneNumber\": \"555-555-5555\",\n          \"documentsOnly\": false,\n          \"height\": 10,\n          \"length\": 11,\n          \"linearUnitOfMeasure\": \"Inches\",\n          \"description\": \"Test Package\",\n          \"packagingType\": \"Customer_Package\",\n          \"weight\": 5,\n          \"weightUnitOfMeasure\": \"Pounds\",\n          \"width\": 12,\n          \"labelCustomerReferenceNumber\": \"9876543210\",\n          \"labelReferenceData1\": \"12345\",\n          \"labelReferenceData2\": \"67890\"\n      },\n      {\n          \"contents\": [\n              {\n                  \"countryOfOriginCode\": \"US\",\n                  \"description\": \"Test Widget\",\n                  \"value\": 123.45,\n                  \"currencyCode\": \"USD\",\n                  \"quantity\": 100,\n                  \"quantityUnitOfMeasure\": \"No_Unit_Required\",\n                  \"weight\": 5,\n                  \"weightUnitOfMeasure\": \"Pounds\",\n                  \"eccn\": \"3A001\"\n              }\n          ],\n          \"receiverName\": \"Test Receiver\",\n          \"receiverPhoneNumber\": \"555-555-5555\",\n          \"documentsOnly\": false,\n          \"height\": 10,\n          \"length\": 11,\n          \"linearUnitOfMeasure\": \"Inches\",\n          \"description\": \"Test Package\",\n          \"packagingType\": \"Customer_Package\",\n          \"weight\": 5,\n          \"weightUnitOfMeasure\": \"Pounds\",\n          \"width\": 12\n      }\n  ],\n  \"referenceNumbers\": [\n    {\n        \"type\": \"CON\",\n        \"value\": \"325423455\"\n    }\n  ],\n  \"description\": \"Test Shipment\"\n  }\")\n  .asString();"
+      - lang: C#
+        source: "  var client = new RestClient(\"https://sandbox-api.navisphere.com/v1/labels\");\n  var request = new RestRequest(Method.POST);\n  request.AddHeader(\"Authorization\", \"Bearer YOUR TOKEN\");\n  request.AddHeader(\"Content-Type\", \"application/json\");\n  request.AddParameter(\"application/json\", \"{\n    \"customer\": {\n        \"customerCode\": \"C8283603\"\n    },\n    \"billTo\": {\n        \"customerCode\": \"C8283603\",\n        \"currencyCode\": \"USD\"\n    },\n    \"payer\": {\n        \"type\": \"Sender\"\n    },\n    \"rateShopType\": \"BestCost\",\n    \"shipDate\": \"2020-05-26T00:00:00.000Z\",\n    \"desiredDeliveryDate\": \"2020-05-29T00:00:00.000Z\",\n    \"origin\": {\n        \"customerLocationId\": \"12345\",\n        \"name\": \"Test Origin\",\n        \"contactName\": \"Origin Contact Name\",\n        \"contactPhoneNumber\": \"5555555555\",\n        \"address\": {\n            \"address1\": \"14900 Charlson Rd.\",\n            \"city\": \"Eden Prairie\",\n            \"stateProvinceCode\": \"MN\",\n            \"postalCode\": \"55347\",\n            \"countryCode\": \"US\"\n        }\n    },\n    \"destination\": {\n        \"customerLocationId\": \"67890\",\n        \"name\": \"Test Destination\",\n        \"contactName\": \"Destination Contact Name\",\n        \"contactPhoneNumber\": \"5555555555\",\n        \"address\": {\n            \"address1\": \"315 N Racine Ave.\",\n            \"address2\": \"#501\",\n            \"city\": \"Chicago\",\n            \"stateProvinceCode\": \"IL\",\n            \"postalCode\": \"60607\",\n            \"countryCode\": \"US\"\n        }\n    },\n    \"Packages\": [\n        {\n            \"contents\": [\n                {\n                    \"countryOfOriginCode\": \"US\",\n                    \"description\": \"Test Widget\",\n                    \"value\": 123.45,\n                    \"currencyCode\": \"USD\",\n                    \"quantity\": 100,\n                    \"quantityUnitOfMeasure\": \"No_Unit_Required\",\n                    \"weight\": 5,\n                    \"weightUnitOfMeasure\": \"Pounds\"\n                }\n            ],\n            \"receiverName\": \"Test Receiver\",\n            \"receiverPhoneNumber\": \"555-555-5555\",\n            \"documentsOnly\": false,\n            \"height\": 10,\n            \"length\": 11,\n            \"linearUnitOfMeasure\": \"Inches\",\n            \"description\": \"Test Package\",\n            \"packagingType\": \"Customer_Package\",\n            \"weight\": 5,\n            \"weightUnitOfMeasure\": \"Pounds\",\n            \"width\": 12,\n            \"labelCustomerReferenceNumber\": \"9876543210\",\n            \"labelReferenceData1\": \"12345\",\n            \"labelReferenceData2\": \"67890\"\n        },\n        {\n            \"contents\": [\n                {\n                    \"countryOfOriginCode\": \"US\",\n                    \"description\": \"Test Widget\",\n                    \"value\": 123.45,\n                    \"currencyCode\": \"USD\",\n                    \"quantity\": 100,\n                    \"quantityUnitOfMeasure\": \"No_Unit_Required\",\n                    \"weight\": 5,\n                    \"weightUnitOfMeasure\": \"Pounds\",\n                    \"eccn\": \"3A001\"\n                }\n            ],\n            \"receiverName\": \"Test Receiver\",\n            \"receiverPhoneNumber\": \"555-555-5555\",\n            \"documentsOnly\": false,\n            \"height\": 10,\n            \"length\": 11,\n            \"linearUnitOfMeasure\": \"Inches\",\n            \"description\": \"Test Package\",\n            \"packagingType\": \"Customer_Package\",\n            \"weight\": 5,\n            \"weightUnitOfMeasure\": \"Pounds\",\n            \"width\": 12\n        }\n    ],\n    \"referenceNumbers\": [\n      {\n          \"type\": \"CON\",\n          \"value\": \"325423455\"\n      }\n    ],\n    \"description\": \"Test Shipment\"\n  }\", ParameterType.RequestBody);\nIRestResponse response = client.Execute(request);"
+      summary: Generate label
+      x-summary-source: derived
+components:
+  schemas:
+    exportReasonCode:
+      type: string
+      description: A value required for DHL international shipments indicating why the shipment is being exported.
+      enum:
+      - Permanent
+      - Temporary
+      - Re_Export
+    packageLabel:
+      properties:
+        labelData:
+          description: The base 64 encoded label data.
+          type: string
+        labelFormat:
+          description: The format (PNG image, PDF document, etc.) of the label data.
+          type: string
+          enum:
+          - PDF
+          - PNG
+          - GIF
+          - ZPL
+          - EPL
+          - DPL
+        mimeType:
+          description: The MIME type of the label data.
+          type: string
+    hazardousPackageInformation:
+      type: object
+      description: Additional information about any hazardous materials or dangerous goods in the package.
+      required:
+      - hazardousMaterials
+      properties:
+        hazardousMaterials:
+          type: array
+          description: The list of hazardous materials in the package.
+          items:
+            $ref: '#/components/schemas/hazardousMaterial'
+        signatory:
+          $ref: '#/components/schemas/signatory'
+        packagingType:
+          type: string
+          description: The outermost type of packaging used for package containing hazardous materials. Ex. fiberboard box, steel drum, plastic jug; Reserved for future use.
+          minLength: 1
+          maxLength: 100
+        isOverpack:
+          type: boolean
+          description: A flag indicating if the package containing hazardous materials is an overpack; Optional.
+        isAllPackedInOne:
+          type: boolean
+          description: A flag indicating if the package contains multiple containers with different hazardous materials; Optional.
+        qValue:
+          type: string
+          description: The Q-Value of the package containing hazardous materials; Optional.
+          minLength: 1
+          maxLength: 3
+        offeror:
+          type: string
+          description: The offeror of the package containing hazardous materials; Required for FedEx.
+          minLength: 1
+          maxLength: 100
+    labelReferenceData2:
+      type: string
+      description: Second piece of reference data to be used on the package label. This is used as the PO Number for FedEx or Reference Number 2 for UPS (not used for DHL or TNT).
+      minLength: 1
+      maxLength: 35
+    packageShippingInfo:
+      properties:
+        id:
+          type: string
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/packageLabel'
+        rate:
+          type: string
+        rateCurrencyCode:
+          type: string
+        trackingNumber:
+          type: string
+    internationalShipping:
+      type: object
+      description: Elements specific to international shipping scenarios.
+      properties:
+        isDutiable:
+          type: boolean
+          description: A flag required for DHL international shipments indicating whether or not the shipment is dutiable.
+        exportReasonCode:
+          $ref: '#/components/schemas/exportReasonCode'
+        AESTransactionNumber:
+          $ref: '#/components/schemas/AESTransactionNumber'
+        AESExempt:
+          type: boolean
+          description: Indicates that goods being shipped are exempt from AES Export Filing; FedEx only, Optional.
+        dutyPayerType:
+          $ref: '#/components/schemas/payerTypeEnum'
+          description: Indicates which party involved in a shipment is responsible for duty payment; Required for all international shipments (including when the isDutiable flag is false).
+        dutyPayerAccountNumber:
+          $ref: '#/components/schemas/dutyPayerAccountNumber'
+        dutyPayerPostalCode:
+          type: string
+          description: Postal code of the party paying the duty charges; Used for a dutyPayerType of Third_Party.
+          minLength: 1
+          maxLength: 20
+        dutyPayerCountryCode:
+          $ref: '#/components/schemas/countryCodeEnum'
+          description: Country code of the party paying the duty charges; Used for a dutyPayerType of Third_Party.
+        dutyPayerName:
+          type: string
+          description: Indicates the company name tied to the duty payer account; Reserved for future use.
+          minimum: 1
+          maximum: 35
+        dutyPayerAddress1:
+          type: string
+          description: Indicates address line one tied to the duty payer account; Reserved for future use.
+          minimum: 1
+          maximum: 35
+        dutyPayerAddress2:
+          type: string
+          description: Indicates address line two tied to the duty payer account; Reserved for future use.
+          minimum: 1
+          maximum: 35
+        dutyPayerCity:
+          type: string
+          description: Indicates the city tied to the duty payer account; Reserved for future use.
+          minimum: 1
+          maximum: 100
+        dutyPayerStateProvinceCode:
+          type: string
+          description: Indicates the state or province of the tied to the duty payer account; Reserved for future use.
+          minimum: 1
+          maximum: 20
+        dutyPayerContactName:
+          type: string
+          description: Indicates the name of the contact person tied to the duty payer account; Reserved for future use.
+          minimum: 1
+          maximum: 35
+        dutyPayerContactPhoneNumber:
+          type: string
+          description: Indicates the phone number tied to the duty payer account; Reserved for future use.
+          minimum: 1
+          maximum: 20
+        incoTerms:
+          type: string
+          description: Specifies who is responsible for paying for and managing the shipment; Optional - FedEx and DHL only.
+          enum:
+          - CFR
+          - CIF
+          - CIP
+          - CPT
+          - DAF
+          - DAP
+          - DAT
+          - DDP
+          - DDU
+          - DEQ
+          - DES
+          - DPU
+          - EXW
+          - FAS
+          - FCA
+          - FOB
+    carrierMessage:
+      properties:
+        source:
+          type: string
+        carrier:
+          type: string
+        message:
+          type: string
+    billTo:
+      description: The bill to on the order.
+      required:
+      - customerCode
+      - currencyCode
+      properties:
+        customerCode:
+          type: string
+          description: C.H. Robinson defined bill to customer code. This will be provided by your C.H. Robinson rep.
+          minimum: 1
+          maximum: 50
+        currencyCode:
+          type: string
+          $ref: '#/components/schemas/currencyCodeEnum'
+          description: "Code to indicate the currency being used. The most common currently in use with C.H. Robinson:\n\n* `USD` - US Dollar\n* `CAD` - Canadian Dollar \n* `MXN` - Mexican Peso\n* `EUR` - European Euro"
+        referenceNumbers:
+          type: array
+          description: Additional reference number objects pertaining to the customer object.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    customer:
+      description: The customer on the order.
+      required:
+      - customerCode
+      properties:
+        customerCode:
+          type: string
+          description: C.H. Robinson defined customer code. This will be provided by your C.H. Robinson rep.
+          minimum: 1
+          maximum: 50
+        referenceNumbers:
+          type: array
+          description: Additional reference number objects pertaining to the customer object.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    content:
+      required:
+      - countryOfOriginCode
+      - description
+      - value
+      - currencyCode
+      - quantity
+      - weight
+      - weightUnitOfMeasure
+      properties:
+        countryOfOriginCode:
+          description: Indicates country of origin of the contents; Required for all international shipments.
+          $ref: '#/components/schemas/countryCodeEnum'
+        description:
+          type: string
+          description: Description of the contents of the package; Required for all international shipments.
+          maxLength: 35
+        commodityCode:
+          type: string
+          description: Code used by customs authorities to identify products when assessing duties and taxes. Required for DHL Paperless International Shipments.
+          minimum: 6
+          maximum: 10
+        value:
+          type: number
+          description: Approximate value of the contents for customs purposes; Required for all international shipments.
+          format: float
+          minimum: 0.01
+        currencyCode:
+          $ref: '#/components/schemas/currencyCodeLabelsEnum'
+          description: Currency code tied to the value; Required for all international shipments.
+        quantity:
+          type: number
+          description: Number of pieces in the package; Required for all international shipments.
+          format: integer
+          minimum: 1
+        quantityUnitOfMeasure:
+          type: string
+          description: Quantity unit of measurement for the contents of the package. Required for UPS Paperless Invoice.
+          enum:
+          - Pieces
+          - Dozen
+          - Dozen_Pieces
+          - Dozen_Pairs
+          - Hundred
+          - Kilograms
+          - Meters
+          - Number
+          - Packs
+          - Pairs
+          - No_Unit_Required
+          - Thousand
+        weight:
+          type: number
+          description: Weight of the contents of the package; Required for all international shipments. For a given package, the sum of the weight of the contents must be less than or equal to the package weight.
+          format: float
+          minimum: 0.01
+        weightUnitOfMeasure:
+          type: string
+          description: Weight unit of measurement for the contents of the package; Required for all international shipments, and must match package weightUnitOfMeasure.
+          enum:
+          - Pounds
+          - Kilograms
+        eccn:
+          type: string
+          description: Export Control Classification Number; reserved for future use.
+          minLength: 5
+          maxLength: 5
+    countryCodeLabelsEnum:
+      type: string
+      description: Indicates the country.
+      enum:
+      - AD
+      - AE
+      - AF
+      - AG
+      - AI
+      - AL
+      - AM
+      - AO
+      - AQ
+      - AR
+      - AS
+      - AT
+      - AU
+      - AW
+      - AX
+      - AZ
+      - BA
+      - BB
+      - BD
+      - BE
+      - BF
+      - BG
+      - BH
+      - BI
+      - BJ
+      - BM
+      - BN
+      - BO
+      - BQ
+      - BR
+      - BS
+      - BT
+      - BW
+      - BY
+      - BZ
+      - CA
+      - CC
+      - CD
+      - CF
+      - CG
+      - CH
+      - CI
+      - CK
+      - CL
+      - CM
+      - CN
+      - CO
+      - CR
+      - CU
+      - CV
+      - CW
+      - CX
+      - CY
+      - CZ
+      - DE
+      - DJ
+      - DK
+      - DM
+      - DO
+      - DZ
+      - EC
+      - EE
+      - EG
+      - EH
+      - ER
+      - ES
+      - ET
+      - FI
+      - FJ
+      - FK
+      - FM
+      - FO
+      - FR
+      - GA
+      - GB
+      - GD
+      - GE
+      - GF
+      - GG
+      - GH
+      - GI
+      - GL
+      - GM
+      - GN
+      - GP
+      - GQ
+      - GR
+      - GS
+      - GT
+      - GU
+      - GW
+      - GY
+      - HK
+      - HN
+      - HR
+      - HT
+      - HU
+      - ID
+      - IE
+      - IL
+      - IM
+      - IN
+      - IO
+      - IQ
+      - IR
+      - IS
+      - IT
+      - JE
+      - JM
+      - JO
+      - JP
+      - KE
+      - KG
+      - KH
+      - KI
+      - KM
+      - KN
+      - KP
+      - KR
+      - KW
+      - KY
+      - KZ
+      - LA
+      - LB
+      - LC
+      - LI
+      - LK
+      - LR
+      - LS
+      - LT
+      - LU
+      - LV
+      - LY
+      - MA
+      - MC
+      - MD
+      - ME
+      - MF
+      - MG
+      - MH
+      - MK
+      - ML
+      - MM
+      - MN
+      - MO
+      - MP
+      - MQ
+      - MR
+      - MS
+      - MT
+      - MU
+      - MV
+      - MW
+      - MX
+      - MY
+      - MZ
+      - NA
+      - NC
+      - NE
+      - NF
+      - NG
+      - NI
+      - NL
+      - 'NO'
+      - NP
+      - NR
+      - NU
+      - NZ
+      - OM
+      - PA
+      - PE
+      - PF
+      - PG
+      - PH
+      - PK
+      - PL
+      - PM
+      - PN
+      - PR
+      - PS
+      - PT
+      - PW
+      - PY
+      - QA
+      - RE
+      - RO
+      - RS
+      - RU
+      - RW
+      - SA
+      - SB
+      - SC
+      - SD
+      - SE
+      - SG
+      - SH
+      - SI
+      - SJ
+      - SK
+      - SL
+      - SM
+      - SN
+      - SO
+      - SR
+      - SS
+      - ST
+      - SV
+      - SX
+      - SY
+      - SZ
+      - TC
+      - TD
+      - TF
+      - TG
+      - TH
+      - TJ
+      - TK
+      - TL
+      - TM
+      - TN
+      - TO
+      - TR
+      - TT
+      - TV
+      - TW
+      - TZ
+      - UA
+      - UG
+      - UM
+      - US
+      - USA
+      - UY
+      - UZ
+      - VA
+      - VC
+      - VE
+      - VG
+      - VI
+      - VN
+      - VU
+      - WF
+      - WS
+      - YE
+      - YT
+      - ZA
+      - ZM
+      - ZW
+      - IC
+      - XC
+      - XL
+    signatory:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the hazardous shipment signatory; Required for FedEx Express Service Levels.
+          minLength: 1
+          maxLength: 35
+        title:
+          type: string
+          description: The title of the hazardous shipment signatory; Required for FedEx Express Service Levels.
+          minLength: 1
+          maxLength: 35
+        place:
+          type: string
+          description: The place of the hazardous shipment signatory; Required for FedEx Express Service Levels.
+          minLength: 1
+          maxLength: 35
+    serviceLevelEnum:
+      type: string
+      description: 'C.H. Robinson defined code for a service offering.
+
+
+        For a detailed description of all enumerated codes please find them <a href="https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ServiceOfferingDescriptions.xlsx" target="_blank">here</a>.'
+      enum:
+      - S
+      - P
+      - EXP
+      - T/R
+      - DED
+      - TD
+      - SD-NFO
+      - SD-CH
+      - ND-AM
+      - ND-PM
+      - 3RD
+      - ECON
+      - BOX
+      - BTC
+      - HOP
+      - ISO
+      - COFC
+      - TOFC
+      - LB
+      - PC
+      - S-AIR
+      - FCL
+      - LCL
+      - MCL
+      - RORO
+      - NFO
+      - SAMEDAY
+      - NEXT-CARGO
+      - PRTY AM
+      - SD-CARGO
+      - SD-AM
+      - SD-PM
+      - TD-NEXT
+      - TD-2D
+      - TD-3D
+      - TD-ECO
+      - CHARTER
+      - CORP-ND
+      - SEC-ND
+      - ECON-ND
+      - DEF
+      - PRTY
+      - DC
+      - OGC
+      - CARGO
+      - COMM
+      - SD-US
+      - ND-8
+      - ND-10
+      - ND-3
+      - 2D-AM
+      - 2D-PM
+      - 3D
+      - DEF-R
+      - DEF-G
+      - DEF-CAD
+      - INTL-S
+      - INTL-3
+      - INTL-5
+      - FDXSTNDRDVRNGHT
+      - FDXFRSTVRNGHT
+      - FDX2DY
+      - FDXXPRSSSVR
+      - FDXINTLPRRTY
+      - FDXINTLCNMY
+      - FDXINTLFRST
+      - FDX1DYFRGHT
+      - FDX2DYFRGHT
+      - FDX3DYFRGHT
+      - FDXGRND
+      - FDXGRNDHMDLVRY
+      - FDXINTLPRRTYFRGHT
+      - FDXINTLCNMYFRGHT
+      - FDXRPFRSTINTLPRRTY
+      - UPSNXTDYR
+      - UPS2NDDYR
+      - UPSGRUND
+      - UPSWRLDWDXPRSSSM
+      - UPSWRLDWDXPDTDSM
+      - UPSSTNDRD
+      - UPS3DYSLCT
+      - UPSNXTDYRSVR
+      - UPSNXTDYRRLY.M.
+      - UPSWRLDWDXPRSSPLUSSM
+      - UPS2NDDYR.M.
+      - UPSSVR
+      - USPSFRST-CLSSML
+      - USPSPRRTYML
+      - USPSMDML(SNGL-PC)
+      - USPSNTLRMLM-BGS
+      - USPSPRRTYMLINTL
+      - USPSXPRSSML
+      - DHLINTLDOCSRVC
+      - DHLINTLDOCLTTRSRVC
+      - DHLWRLDWDPRRTYXPRSS
+      - PRLTRAIR9:00A
+      - PRLTRAIR10:30A
+      - PRLTRR
+      - PRLTRGRND
+      - PRLTRGRND9:00A
+      - PRLTRGRND10:30A
+      - PRLTRAIRUSA
+      - PRLTRGRNDUSA
+      - PRLTRINTLAIR
+      - FDXPRRTYVRNGHT
+      - Same
+      - Next
+      - 2Day
+      - 3Day
+      - Ground
+      - FDXHOMEDEL
+      - FDX2DYAM
+      - UPSWRLDWDXPRSSS
+      - UPSBSC
+      - UPSSP
+      - UPSSPU1LB
+      - UPSSPM
+      - UPSSPBPM
+      - UPSRTRNSFLEX
+      - USPSLibraryMail
+      - USPSStandardPost
+      - USPSFirstClassMailInt
+      - USPSPriorityMailInt
+      - USPSParcelSelect
+      - USPSStandardMail
+      - USPSCriticalMail
+      - USPSFirstClassPkgInt
+      - FDXSMPSTSELECT
+      - FDXSMPSTMEDIA
+      - FDXSMPSTBOUND
+      - FDXSMPSTPRESORT
+      - BARTOLINIXPRSS
+      - SEURXPRSS
+      - DHLDOMXPRSS
+      - DHLDOMXPRSS9
+      - DHLDOMXPRSS12
+      - DHLXPRSS9
+      - DHLXPRSS12
+      - DHLECONSELECT
+      - DHLXPRSSWWDOCECX
+      - DHLXPRSSWWDOCDOX
+      - DHLECONSELECTDOC
+      - DHLXPRSS9DOC
+      - DHLXPRSS12DOC
+      - FDXINTLPRRTYDIRECT
+      - TNTXPRSS9
+      - TNTXPRSS10
+      - TNTXPRSS12
+      - TNTXPRSS
+      - TNTECONXPRSS
+      - TNTDOMXPRSS
+      - TNTECONXPRSS12
+      - TNTNEXTDAY9
+      - TNTNEXTDAY10
+      - TNTNEXTDAY12
+      - TNTNEXTDAY
+      - DHLPEPFORYOU
+      - DHLPEPEUROPACK
+      - DHLPEPEUROPLUS
+      - DHLDOMECONSELECT
+      - UPSEXPEDITED
+      - SINGPOST
+      - CORREIOS
+      - TNTXPRSS8
+      - TNTBUSPAK8
+      - TNTBUSPAK9
+      - TNTBUSPAK10
+      - TNTBUSPAK12
+      - TH
+      - IHRC
+      - IHPR
+      - IHPA
+      - QSEZPRRTYDM
+      - SPPRRTYSGI
+      - SPPRRTYSGO
+      - SFXSTANDARD
+      - SFXSSAMEDAY
+      - SFXNEXTDAY
+      - SFXECON
+      - QSDSTD
+      - CHD
+      - OHD
+    additionalLocationLabels:
+      type: object
+      description: List of additional locations to provide extra information for customs purposes. (Only supported for UPS paperless Invoice and FedEx).
+      required:
+      - additionalLocationType
+      - address
+      - name
+      - contactName
+      - contactPhoneNumber
+      properties:
+        additionalLocationType:
+          type: string
+          description: Required; List of supported additional location types for UPS and FedEx customs purposes.
+          enum:
+          - SoldTo
+          - Customs_Importer
+          - Importer_Of_Record
+          - Customs_Exporter
+        customerLocationId:
+          type: string
+          minimum: 1
+          maximum: 80
+          description: Customer defined identifier associated to a specific location; Optional, but required if C.H. Robinson has parcel account information on file for the location that must be passed to the carrier.
+        name:
+          type: string
+          minimum: 1
+          maximum: 200
+          description: Required; Name of the location.
+        address:
+          $ref: '#/components/schemas/address'
+        contactName:
+          type: string
+          minLength: 1
+          maxLength: 35
+          description: Required; The name of the contact person for the location.
+        contactPhoneNumber:
+          type: string
+          minLength: 1
+          maxLength: 20
+          description: Required; The phone number of the contact person for the location. For UPS, the max length is shorter at 15 characters.
+    hazardousClassDivisionNumberEnum:
+      type: string
+      description: The list of supported hazardous material classes
+      enum:
+      - '1.1'
+      - '1.2'
+      - '1.3'
+      - '1.4'
+      - '1.5'
+      - '1.6'
+      - '2.1'
+      - '2.2'
+      - '2.3'
+      - '3'
+      - '4.1'
+      - '4.2'
+      - '4.3'
+      - '5.1'
+      - '5.2'
+      - '6.1'
+      - '6.2'
+      - '7'
+      - '8'
+      - '9'
+    error424:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Failed Dependency
+          example: 424
+        error:
+          type: string
+          description: Detail about the error status code
+        message:
+          type: string
+          description: Specifies issue
+        attributes:
+          type: object
+          properties:
+            error:
+              type: string
+    AESTransactionNumber:
+      type: string
+      description: AES ITN may be required if shipping internationally from the US and the value is over 2,500.00 USD; must be exactly 14 digits and prefixed with X.
+    dutyPayerAccountNumber:
+      type: string
+      description: Account number of the party paying the duty charges; Required for a dutyPayerType of Third_Party or if C.H. Robinson does not have the billing account to use on file.
+    currencyCodeEnum:
+      type: string
+      description: "Code to indicate the currency being used. The most common currently in use with C.H. Robinson:\n\n* `USD` - US Dollar\n* `CAD` - Canadian Dollar \n* `MXN` - Mexican Peso\n* `EUR` - European Euro\n\n\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CurrencyCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - USD
+      - CAD
+      - EUR
+      - MXN
+      - CHF
+      - GBP
+      - HUF
+      - CZK
+      - NZD
+      - PLN
+      - ZAR
+      - VEB
+      - VND
+      - TWD
+      - TRY
+      - SEK
+      - SGD
+      - RUB
+      - NOK
+      - HKD
+      - INR
+      - JPY
+      - CLP
+      - CNY
+      - DKK
+      - AUD
+      - BRL
+      - AED
+      - PEN
+      - THB
+      - ARS
+      - MYR
+      - VEF
+      - SAR
+      - BBD
+      - BHD
+      - BMD
+      - BSD
+      - ILS
+      - ISK
+      - KES
+      - KRW
+      - KWD
+      - OMR
+      - PHP
+      - PKR
+      - QAR
+      - RON
+      - TTD
+      - UAH
+      - LKR
+      - XPF
+      - UYU
+      - COP
+      - CRC
+      - FJD
+    payerTypeEnum:
+      type: string
+      description: Indicates which party involved in the shipment is responsible for payment.
+      enum:
+      - Sender
+      - Recipient
+      - Third_Party
+    documentInfo:
+      properties:
+        fileName:
+          type: string
+        documentId:
+          type: string
+        documentGroupId:
+          type: string
+    countryCodeEnum:
+      type: string
+      description: "Indicate the country of the location. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CountryCodes.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - AD
+      - AE
+      - AF
+      - AG
+      - AI
+      - AL
+      - AM
+      - AO
+      - AQ
+      - AR
+      - AS
+      - AT
+      - AU
+      - AW
+      - AZ
+      - BA
+      - BB
+      - BD
+      - BE
+      - BF
+      - BG
+      - BH
+      - BI
+      - BJ
+      - BM
+      - BN
+      - BO
+      - BR
+      - BS
+      - BT
+      - MM
+      - BV
+      - BW
+      - BY
+      - BZ
+      - CA
+      - CC
+      - CD
+      - CF
+      - CG
+      - CH
+      - CI
+      - CK
+      - CL
+      - CM
+      - CN
+      - CO
+      - CR
+      - RS
+      - CU
+      - CV
+      - CX
+      - CY
+      - CZ
+      - DE
+      - DJ
+      - DK
+      - DM
+      - DO
+      - DZ
+      - EC
+      - EE
+      - EG
+      - EH
+      - ER
+      - ES
+      - ET
+      - FI
+      - FJ
+      - FK
+      - FM
+      - FO
+      - FR
+      - GA
+      - GD
+      - GE
+      - GF
+      - GH
+      - GI
+      - GL
+      - GM
+      - GN
+      - GP
+      - GQ
+      - GR
+      - GS
+      - GT
+      - GU
+      - GW
+      - GY
+      - HK
+      - HM
+      - HN
+      - HR
+      - HT
+      - HU
+      - ID
+      - IE
+      - IL
+      - IN
+      - IO
+      - IQ
+      - IR
+      - IS
+      - IT
+      - JM
+      - JO
+      - JP
+      - KE
+      - KG
+      - KH
+      - KI
+      - KM
+      - KN
+      - KP
+      - KR
+      - KW
+      - KY
+      - KZ
+      - LA
+      - LB
+      - LC
+      - LI
+      - LK
+      - LR
+      - LS
+      - LT
+      - LU
+      - LV
+      - LY
+      - MA
+      - MC
+      - MD
+      - MG
+      - MH
+      - MK
+      - ML
+      - MN
+      - MO
+      - MP
+      - MQ
+      - MR
+      - MS
+      - MT
+      - MU
+      - MV
+      - MW
+      - MX
+      - MY
+      - MZ
+      - NA
+      - NC
+      - NE
+      - NF
+      - NG
+      - NI
+      - NL
+      - 'NO'
+      - NP
+      - NR
+      - NU
+      - NZ
+      - OM
+      - PA
+      - PE
+      - PF
+      - PG
+      - PH
+      - PK
+      - PL
+      - PM
+      - PN
+      - PR
+      - PS
+      - PT
+      - PW
+      - PY
+      - QA
+      - RE
+      - RO
+      - RU
+      - RW
+      - SA
+      - SB
+      - SC
+      - SD
+      - SE
+      - SG
+      - SH
+      - SI
+      - SJ
+      - SK
+      - SL
+      - SM
+      - SN
+      - SO
+      - SR
+      - ST
+      - SV
+      - SY
+      - SZ
+      - TC
+      - TD
+      - TF
+      - TG
+      - TH
+      - TJ
+      - TK
+      - TL
+      - TM
+      - TN
+      - TO
+      - TP
+      - TR
+      - TT
+      - TV
+      - TW
+      - TZ
+      - UA
+      - UG
+      - GB
+      - UM
+      - US
+      - UY
+      - UZ
+      - VA
+      - VC
+      - VE
+      - VG
+      - VI
+      - VN
+      - VU
+      - WF
+      - WS
+      - YE
+      - YT
+      - ZA
+      - ZM
+      - ZR
+      - ZW
+      - AX
+      - GG
+      - IM
+      - JE
+      - ME
+      - MF
+      - CW
+      - SX
+      - SS
+      - IC
+      - XC
+      - XL
+    bookingNumber:
+      type: string
+      description: The booking number for FedEx heavy air shipments.
+    currencyCodeLabelsEnum:
+      type: string
+      description: "Code to indicate the currency being used. The most common currently in use with C.H. Robinson:\n\n* `USD` - US Dollar\n* `CAD` - Canadian Dollar \n* `MXN` - Mexican Peso\n* `EUR` - European Euro"
+      enum:
+      - USD
+      - CAD
+      - EUR
+      - MXN
+      - CHF
+      - GBP
+      - HUF
+      - CZK
+      - NZD
+      - PLN
+      - ZAR
+      - VES
+      - VND
+      - TWD
+      - TRY
+      - SEK
+      - SGD
+      - RUB
+      - NOK
+      - HKD
+      - INR
+      - JPY
+      - CLP
+      - CNY
+      - DKK
+      - AUD
+      - BRL
+      - AED
+      - PEN
+      - THB
+      - ARS
+      - MYR
+      - SAR
+      - BBD
+      - BHD
+      - BMD
+      - BSD
+      - ILS
+      - ISK
+      - KES
+      - KRW
+      - KWD
+      - OMR
+      - PHP
+      - PKR
+      - QAR
+      - RON
+      - TTD
+      - UAH
+      - LKR
+      - XPF
+      - UYU
+      - COP
+      - CRC
+      - FJD
+      - CLF
+      - RSD
+      - BAM
+      - BGN
+      - GEL
+      - HRK
+      - IDR
+    label:
+      type: object
+      description: Object containing information for the label
+      required:
+      - billTo
+      - customer
+      - origin
+      - destination
+      - packages
+      - payer
+      - shipDate
+      properties:
+        customer:
+          $ref: '#/components/schemas/customer'
+        billTo:
+          $ref: '#/components/schemas/billTo'
+        payer:
+          $ref: '#/components/schemas/payer'
+        carrier:
+          $ref: '#/components/schemas/carrierEnum'
+          description: The carrier for this shipment; Required if rateShopType is not defined.
+        serviceLevel:
+          $ref: '#/components/schemas/serviceLevelLabelsEnum'
+          description: The service level for this shipment; Required if rateShopType is not defined.
+        rateShopType:
+          type: string
+          description: "Required if serviceLevel is undefined and ignored if serviceLevel is defined; used to set the logic for determining the serviceLevel from rate shop results for label generation.\n  * `BestCostPromisedDelivery` - Returns the lowest cost serviceLevel that meets the desiredDeliveryDate exactly, and fails if no serviceLevel qualifies. Also returns the shipDate that must be used to achieve the desiredDeliveryDate.\n  * `BestCostMandatoryTransit` - Returns the lowest cost serviceLevel that is on or before the desiredDeliveryDate, and fails if no serviceLevel qualifies.\n  * `BestCostOptionalTransit` - Returns the lowest cost serviceLevel that is on or before the desiredDeliveryDate; if no serviceLevel qualifies, returns the lowest cost serviceLevel overall.\n  * `BestCost` - Returns the lowest cost serviceLevel; ignores desiredDeliveryDate.\n"
+          enum:
+          - BestCostPromisedDelivery
+          - BestCostMandatoryTransit
+          - BestCostOptionalTransit
+          - BestCost
+        shipDate:
+          type: string
+          description: Required; must be in ISO 8601 format. For FedEx, shipDate must not be more than 10 days in the future.
+          format: date-time
+        invoiceDate:
+          type: string
+          description: Required for UPS shipments only. Must be in ISO 8601 format (YYYY-MM-DDTHH:MM:SSZ). Used exclusively for UPS Paperless Invoice to process customs declarations, and must match the shipment's invoice date.
+          format: date-time
+        rateShopCarrierList:
+          type: array
+          description: Optional; limits the rate shop to only the carriers specified. By default, all configured carriers are rated.
+          items:
+            $ref: '#/components/schemas/carrierEnum'
+        transactionId:
+          type: string
+          description: Optional; Unique identifier to correlate to the label request. If not populated, a random GUID will be used.
+          minimum: 1
+          maximum: 36
+        desiredDeliveryDate:
+          type: string
+          description: Required if rateShopType is set to BestCostOptionalTransit, BestCostMandatoryTransit, or BestCostPromisedDelivery; must be in ISO 8601 format
+          format: date-time
+        origin:
+          $ref: '#/components/schemas/location'
+        destination:
+          $ref: '#/components/schemas/location'
+        additionalLocationList:
+          type: array
+          items:
+            $ref: '#/components/schemas/additionalLocationLabels'
+        packages:
+          type: array
+          description: Can define multiple packages to create multiple labels if destinations are identical.
+          items:
+            $ref: '#/components/schemas/package'
+        isHazardous:
+          type: boolean
+          description: Indicates whether the shipment contains hazardous materials.
+          default: false
+        deliveryServiceList:
+          type: array
+          description: Used to specify special delivery service options (these services may incur additional charges).
+          items:
+            type: string
+            enum:
+            - SaturdayDelivery
+            - NeutralDelivery
+        documents:
+          type: array
+          description: Supporting documents to send to the carrier as part of the label request.
+          items:
+            $ref: '#/components/schemas/document'
+        referenceNumbers:
+          type: array
+          description: Additional reference number objects pertaining to the whole order.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+        description:
+          type: string
+          description: A description of the shipment.
+        internationalShipping:
+          $ref: '#/components/schemas/internationalShipping'
+        rmaReason:
+          type: string
+          description: The RMA reason for FedEx return shipments.
+        purposeOfShipment:
+          type: string
+          description: Required if FedEx intra-India shipment.
+          enum:
+          - GIFT
+          - NOT_SOLD
+          - PERSONAL_EFFECTS
+          - REPAIR_AND_RETURN
+          - SAMPLE
+          - SOLD
+        bookingNumber:
+          $ref: '#/components/schemas/bookingNumber'
+        labelResolution:
+          type: integer
+          description: The DPI value to use for ZPL label generation; applies to UPS, FedEx, DHL and Purolator.
+          default: 203
+          enum:
+          - 203
+          - 300
+    error404:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 404
+        error:
+          type: string
+          description: Detail about the error status code
+          example: Not Found
+        message:
+          type: string
+          description: Specifies issue
+          example: Not Found
+    hazardousMaterial:
+      type: object
+      required:
+      - hazardousMaterials
+      properties:
+        massCapacity:
+          type: number
+          format: float
+          description: The mass capacity of the hazardous material; Required for FedEx Express Service Levels and for UPS if commodityRegulationType is ExceptedQuantity, LimitedQuantity, or FullyRegulated and if the field applies to the material by regulation.
+          minimum: 0.0
+        massCapacityUnitOfMeasure:
+          type: string
+          description: The unit of measure for the mass capacity of the hazardous material; Required when massCapacity is provided.
+          enum:
+          - Pounds
+          - Ounces
+          - Kilograms
+          - Grams
+          - Liters
+          - Milliliters
+          - Pints
+          - Quarts
+          - Gallons
+          - Curies
+          - Millicuries
+          - Gigabecquerels
+          - Megabecquerels
+        containerType:
+          type: string
+          description: The type of container used to hold the hazardous material. Ex. glass jug, fiberboard box, plastic bottle; Required for FedEx Express Service Levels and for UPS if commodityRegulationType is LimitedQuantity or FullyRegulated and if the field applies to the material by regulation.
+          minLength: 1
+          maxLength: 100
+        containerQuantity:
+          type: string
+          description: The number of identical containers in the package holding the same hazardous material; Required for UPS if commodityRegulationType is LimitedQuantity or FullyRegulated and if the field applies to the material by regulation.
+          minimum: 1
+        outerPackagingType:
+          type: string
+          description: The type of nested packaging used to encapsulate the inner containers with the hazardous material. Ex. For a large box containing plastic bottles of alcohol inside small boxes, this would describe the small boxes containing the plastic bottles; Reserved for future use.
+          minLength: 1
+          maxLength: 100
+        outerPackagingQuantity:
+          type: string
+          description: The number of nested packages used to encapsulate the inner containers with the hazardous material. Ex. For a large box containing plastic bottles of alcohol inside small boxes, this would count the small boxes containing the plastic bottles; Reserved for future use.
+          minimum: 1
+        regulationSet:
+          type: string
+          description: The hazardous material shipping regulation set applicable to the hazardous material; Required for UPS.
+          enum:
+          - IATA
+          - TDG
+          - DOT
+          - ORMD
+          - ADR
+          - CFR
+        regulatoryIdNumber:
+          type: string
+          description: Required; The UN/NA/ID Identification Number assigned to the hazardous material.
+          minLength: 1
+          maxLength: 10
+        hazardClassDivisionNumber:
+          type: string
+          description: The primary hazard class or division number assigned to the hazardous material; Required for UPS if commodityRegulationType is ExceptedQuantity, LimitedQuantity, or FullyRegulated and if the field applies to the material by regulation.
+          $ref: '#/components/schemas/hazardousClassDivisionNumberEnum'
+        subHazardClassDivisions:
+          type: array
+          description: The subsidary hazard class or division numbers assigned to the hazardous material; Optional.
+          items:
+            type: string
+            $ref: '#/components/schemas/hazardousClassDivisionNumberEnum'
+        packingGroup:
+          type: string
+          description: The IATA packing group for the hazardous material; Required for FedEx and TNT, and required for UPS if commodityRegulationType is LimitedQuantity or FullyRegulated and if the field applies to the material by regulation.
+          enum:
+          - I
+          - II
+          - III
+        packagingInstructionCode:
+          type: string
+          description: The code for the packaging instructions used to pack the hazardous material; Required for FedEx Express Service Levels and for UPS if commodityRegulationType is LimitedQuantity or FullyRegulated and if the field applies to the material by regulation.
+          minLength: 1
+          maxLength: 10
+        properShippingName:
+          type: string
+          description: The proper shipping name for the hazardous material assigned by ADR, CFR or IATA; Required for UPS and TNT.
+          minLength: 1
+          maxLength: 150
+        technicalName:
+          type: string
+          description: The technical name for the hazardous material; Required for UPS if commodityRegulationType is LimitedQuantity or FullyRegulated and if the field applies to the material by regulation and if the field applies to the material by regulation.
+          minLength: 1
+          maxLength: 200
+        isAccessible:
+          type: boolean
+          description: Indicates whether or not the hazardous material is accessible by the carrier during transport (ex. accessible by the flight crew in-flight); FedEx Only.
+        commodityRegulationLevel:
+          type: string
+          description: The regulation level for the hazardous material; Required for UPS and TNT.
+          enum:
+          - LightlyRegulated
+          - FullyRegulated
+          - LimitedQuantity
+          - ExceptedQuantity
+        transportationMode:
+          type: string
+          description: The transportation mode that the hazardous material was prepared for; Required for UPS if regulationSet is anything other than ADR or if commodityRegulationType is LimitedQuantity or FullyRegulated.
+          enum:
+          - Ground
+          - Highway
+          - PassengerAircraft
+          - CargoAircraftOnly
+        emergencyContact:
+          type: string
+          description: The name of the person to contact in the event of an emergency; Optional.
+          minLength: 1
+          maxLength: 35
+        emergencyPhoneNumber:
+          type: string
+          description: The telephone number to contact in the event of an emergency; Required for FedEx.
+          minLength: 1
+          maxLength: 25
+        additionalDescription:
+          type: string
+          description: Additional information about the hazardous material. This could be additional regulatory information, additional handling details, etc; Required for UPS if commodityRegulationType is LimitedQuantity or FullyRegulated and if the field applies to the material by regulation.
+          maxLength: 250
+        chemicalRecordIdentifier:
+          type: string
+          description: Identifies the hazardous material in a package. If a package contains multiple hazardous materials, each one should be clearly labeled with an identifier so that it can be easily recognized; Required for UPS.
+          minLength: 1
+          maxLength: 3
+        hazardousMaterialType:
+          type: string
+          description: The type of hazardous material; Required for FedEx.
+          enum:
+          - HazardousMaterials
+          - LimitedQuantitiesCommodities
+          - Battery
+          - ORMD
+          - ReportableQuantities
+          - SmallQuantityException
+        hazardousContentDescription:
+          type: string
+          description: The hazardous material content ID; Required for DHL.
+          enum:
+          - DryIceUN1845
+          - LithiumIonBatteryPI965SectionII
+          - LithiumIonBatteryWithEquipmentPI966SectionII
+          - LithiumIonBatteryInEquipmentPI967SectionII
+          - LithiumMetalBatteryWithEquipmentPI969SectionII
+          - LithiumMetalBatteryInEquipmentPI970SectionII
+          - LimitedQuantitiesADR
+          - ExceptedQuantitiesIATA
+          - BiologicalSubstancesUN3373
+          - DGPerAttachedDGDPAX
+          - DGPerAttachedDGDCAO
+          - GeneticallyModifiedOrganisms
+          - Class9ConsumerCommodities
+          - ADRLoadExemptions
+          - UN2807MagnetizedMaterial
+          - UN3164PI208aArticlesPressurizedHydraulic
+          - UN3164PI208aArticlesPressurizedPneumatic
+          - ExemptHumanSpecimen
+          - ExemptAnimalSpecimen
+          - NotRestrictedSpecialProvision
+    payer:
+      type: object
+      description: The party responsible for paying the shipping charges.
+      required:
+      - type
+      properties:
+        type:
+          $ref: '#/components/schemas/payerTypeEnum'
+          description: The payer type.
+        accountNumber:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: Account number of the party paying the shipping charges; Required for a payer type of Third_Party or if C.H. Robinson does not have the billing account to use on file.
+        postalCode:
+          type: string
+          description: Indicates the postal code tied to the payer account; Required if accountNumber is specified.
+        countryCode:
+          description: Indicates the country code tied to the payer account; Required if accountNumber is specified.
+          $ref: '#/components/schemas/countryCodeEnum'
+        name:
+          type: string
+          description: Indicates the company name tied to the payer account; Required for TNT Australia domestic Third Party shipments.
+          minimum: 1
+          maximum: 35
+        address1:
+          type: string
+          description: Indicates address line one tied to the payer account; Required for TNT Australia domestic Third Party shipments.
+          minimum: 1
+          maximum: 35
+        address2:
+          type: string
+          description: Indicates address line two tied to the payer account; Required for TNT Australia domestic Third Party shipments.
+          minimum: 1
+          maximum: 35
+        city:
+          type: string
+          description: Indicates the city tied to the payer account; Required for TNT Australia domestic Third Party shipments.
+          minimum: 1
+          maximum: 100
+        stateProvinceCode:
+          type: string
+          description: Indicates the state or province of the tied to the payer account; Required for TNT Australia domestic Third Party shipments.
+          minimum: 1
+          maximum: 20
+        contactName:
+          type: string
+          description: Indicates the name of the contact person tied to the payer account; Required for TNT Australia domestic Third Party shipments.
+          minimum: 1
+          maximum: 35
+        contactPhoneNumber:
+          type: string
+          description: Indicates the phone number tied to the payer account; Required for TNT Australia domestic Third Party shipments.
+          minimum: 1
+          maximum: 20
+    document:
+      type: object
+      description: Defines document content and metadata.
+      required:
+      - fileName
+      - documentUploadType
+      - content
+      properties:
+        fileName:
+          type: string
+          description: Filename with extension; supported extensions are PDF, TXT, PNG, JPG/JPEG, GIF, BMP, TIF/TIFF, RTF, DOC, DOCX, XLS and XLSX.
+        documentUploadType:
+          type: string
+          description: The type of document being uploaded.
+          enum:
+          - AirwayBill
+          - AuthorizationForm
+          - CommercialInvoice
+          - CertificateOfOrigin
+          - CustomsDeclaration
+          - ExportAccompanyingDocument
+          - ExportLicense
+          - ImportPermit
+          - Invoice
+          - NAFTACertificateOfOrigin
+          - Other
+          - PackingList
+          - PowerOfAttorney
+          - ProFormaInvoice
+          - SEDDocument
+          - ShippersLetterOfInstruction
+        documentUploadCategory:
+          type: string
+          description: The category of the document being uploaded. FedEx only.
+          enum:
+          - CustomerInformation
+          - ElectronicTradeDocuments
+          - PricingDocuments
+        expirationDate:
+          type: string
+          description: Date upon which the carrier can discard the document, and must be in ISO 8601 format. FedEx only.
+          format: date-time
+        content:
+          type: string
+          description: Base64 encoded file data; maximum size per file is 10MB for UPS, 5MB for FedEx, and 2MB for DHL.
+    error400:
+      properties:
+        message:
+          type: string
+        path:
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+        context:
+          type: object
+          properties:
+            child:
+              type: string
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+            key:
+              type: string
+            label:
+              type: string
+    serviceLevelLabelsEnum:
+      type: string
+      description: The list of supported small parcel carrier service levels
+      enum:
+      - DHL_Domestic_Express
+      - DHL_Domestic_Express_12PM
+      - DHL_Domestic_Express_9AM
+      - DHL_Economy_Select
+      - DHL_Express_12PM
+      - DHL_Express_9AM
+      - DHL_Express_Worldwide_Doc_DOX
+      - DHL_Worldwide_Priority_Express
+      - DHL_Worldwide_Express_EU
+      - FedEx_2Day
+      - FedEx_2Day_AM
+      - FedEx_Europe_First
+      - FedEx_Express_Saver
+      - FedEx_First_Freight
+      - FedEx_First_Overnight
+      - FedEx_Ground
+      - FedEx_Ground_Home_Delivery
+      - FedEx_Home_Delivery
+      - FedEx_International_Economy
+      - FedEx_International_Economy_Freight
+      - FedEx_International_First
+      - FedEx_International_Priority
+      - FedEx_International_Priority_Express
+      - FedEx_International_Priority_Freight
+      - FedEx_International_Connect_Plus
+      - FedEx_Next_Day_UK_9AM
+      - FedEx_Next_Day_UK_10AM
+      - FedEx_Next_Day_UK_12PM
+      - FedEx_Next_Day_UK_End_Of_Day
+      - FedEx_Next_Day_UK_Freight
+      - FedEx_First
+      - FedEx_Priority_Express
+      - FedEx_Priority
+      - FedEx_Priority_Freight
+      - FedEx_Economy_Select
+      - FedEx_Priority_Express_Freight
+      - FedEx_Priority_Overnight
+      - FedEx_Standard_Overnight
+      - FedEx_1Day_Freight
+      - FedEx_2Day_Freight
+      - FedEx_3Day_Freight
+      - UPS_2nd_Day_Air
+      - UPS_2nd_Day_Air_AM
+      - UPS_3_Day_Select
+      - UPS_Ground
+      - UPS_Next_Day_Air
+      - UPS_Next_Day_Air_Early_AM
+      - UPS_Next_Day_Air_Saver
+      - UPS_Saver
+      - UPS_Standard
+      - UPS_Worldwide_Expedited_SM
+      - UPS_Worldwide_Express_Plus_SM
+      - UPS_Worldwide_Express_Saver
+      - UPS_Worldwide_Express_SM
+      - UPS_Worldwide_Saver
+      - UPS_Canada_Domestic_Expedited
+      - TNT_Express_9AM
+      - TNT_Express_10AM
+      - TNT_Express_12PM
+      - TNT_Express
+      - TNT_Economy_Express
+      - TNT_Domestic_Express
+      - TNT_Economy_Express_12PM
+      - TNT_Next_Day_9AM
+      - TNT_Next_Day_10AM
+      - TNT_Next_Day_12PM
+      - TNT_Next_Day
+      - TNT_Express_8AM
+      - TNT_Business_Pak_8AM
+      - TNT_Business_Pak_9AM
+      - TNT_Business_Pak_10AM
+      - TNT_Business_Pak_12PM
+      - TNT_Australia_Sameday
+      - TNT_Australia_Overnight_Express
+      - TNT_Australia_Road_Express
+      - TNT_Australia_Premium_Express
+      - TNT_Australia_Sensitive_Express
+      - TNT_Italy_10_Express
+      - TNT_Italy_12_Express
+      - TNT_Italy_Express
+      - TNT_IDE_Mastercon_Road
+      - TNT_IDE_Economy
+      - SingaporePost_Quantium_Solutions_Ezyparcels_Priority_Domestic
+      - SingaporePost_Speedpost_Priority_Singapore_Inbound
+      - SingaporePost_Speedpost_Priority_Singapore_Outbound
+      - SingaporePost_Quantium_Solutions_Domestic_Standard
+      - SFExpress_Speedy_Express
+      - SFExpress_Same_Day
+      - SFExpress_Standard
+      - SFExpress_Freight_Standard
+      - Purolator_Ground
+      - Purolator_Ground_Evening
+      - Purolator_Express_1030AM
+      - Purolator_Express
+      - Purolator_Express_Evening
+      - Purolator_Express_12PM
+      - Purolator_Express_Pack_9AM
+      - Purolator_Express_Pack_1030AM
+      - Purolator_Express_Pack_12PM
+      - Purolator_Express_Pack
+      - Purolator_Express_Pack_Evening
+      - Purolator_Express_Box_9AM
+      - Purolator_Express_Box_1030AM
+      - Purolator_Express_Box_12PM
+      - Purolator_Express_Box
+      - Purolator_Express_Box_Evening
+      - Purolator_Express_US
+      - Purolator_Express_US_9AM
+      - Purolator_Express_US_1030AM
+      - Purolator_Express_US_12PM
+      - Purolator_Express_Envelope_US
+      - Purolator_Express_US_Envelope_9AM
+      - Purolator_Express_US_Envelope_1030AM
+      - Purolator_Express_US_Envelope_12PM
+      - Purolator_Express_Pack_US
+      - Purolator_Express_US_Pack_9AM
+      - Purolator_Express_US_Pack_1030AM
+      - Purolator_Express_US_Pack_12PM
+      - Purolator_Express_Box_US
+      - Purolator_Express_US_Box_9AM
+      - Purolator_Express_US_Box_1030AM
+      - Purolator_Express_US_Box_12PM
+      - Purolator_Ground_US
+      - Purolator_Express_International
+      - Purolator_Express_International_9AM
+      - Purolator_Express_International_1030AM
+      - Purolator_Express_International_12PM
+      - Purolator_Express_Envelope_International
+      - Purolator_Express_International_Envelope_9AM
+      - Purolator_Express_International_Envelope_1030AM
+      - Purolator_Express_International_Envelope_12PM
+      - Purolator_Express_Pack_International
+      - Purolator_Express_International_Pack_9AM
+      - Purolator_Express_International_Pack_1030AM
+      - Purolator_Express_International_Pack_12PM
+      - Purolator_Express_Box_International
+      - Purolator_Express_International_Box_9AM
+      - Purolator_Express_International_Box_1030AM
+      - Purolator_Express_International_Box_12PM
+      - Purolator_Ground_1030AM
+      - Purolator_Ground_9AM
+      - Purolator_Express_9AM
+      - DPD_Deferred
+      - DPD_Seur_24
+      - DPD_Seur_48
+      - DPD_Seur_72
+      - DPD_Seur_10
+      - DPD_Seur_1330
+      - DPD_Seur_Maritimo
+      - DPD_Bartolini_Priority_1200
+      - DPD_Bartolini_1030
+      - TGE_Priority_Australia_Overnight
+      - TGE_Priority_Australia_DangerousGoods_Overnight
+      - TGE_Priority_Australia_SameDay
+      - TGE_Priority_Australia_OffPeak
+      - TGE_Priority_Australia_5kg_Satchel
+      - TGE_Priority_Australia_3kg_Satchel
+      - TGE_Priority_Australia_1kg_Satchel
+      - TGE_IPEC_Sensitive
+      - TGE_IPEC_Road
+      - CorreosExpress_Paq10
+      - CorreosExpress_Paq14
+      - CorreosExpress_Paq24
+      - CorreosExpress_Entrega_Plus
+      - CorreosExpress_Paq14
+      - CorreosExpress_ Internacional_Express
+      - CorreosExpress_PAQ_Empresa14
+      - CorreosExpress_ePAQ24
+      - CorreosExpress_Islas_Express
+      - CorreosExpress_Islas_Documentacion
+      - CorreosExpress_Islas_Maritimo
+      - USPS_Parcel_Select
+      - USPS_Connect_Local
+      - USPS_Connect_Regional
+      - USPS_Connect_Mail
+      - USPS_Ground_Advantage
+      - USPS_Priority_Mail_Express
+      - USPS_Priority_Mail
+    address:
+      description: Object that contains address specific information.
+      required:
+      - address1
+      - city
+      - countryCode
+      properties:
+        address1:
+          type: string
+          description: Required; Indicates address line one of the location.
+          minLength: 1
+          maxLength: 35
+        address2:
+          type: string
+          description: Indicates address line two of the location.
+          minLength: 1
+          maxLength: 35
+        address3:
+          type: string
+          description: Indicates address line three of the location.
+          minLength: 1
+          maxLength: 35
+        address4:
+          type: string
+          description: Indicates address line four of the location.
+          minLength: 1
+          maxLength: 35
+        city:
+          type: string
+          description: Required; Indicates the city of the location.
+          minLength: 1
+          maxLength: 100
+        stateProvinceCode:
+          type: string
+          description: Indicates the state or province of the location. Required if countryCode is one of the following - AF, AR, AU, BR, CA, CN, ES, IT, KR, MX, PF, PG, PW, RU, SC, TH, TO, TV, US, USA, UY, VE, VN
+          minLength: 1
+          maxLength: 20
+        postalCode:
+          type: string
+          description: Indicates the postal code of the location, sometimes refered to as the zip code. Required unless countryCode is one of the following - AE, AG, AO, AW, BF, BI, BJ, BM, BO, BQ, BS, BW, BZ, CD, CF, CG, CI, CK, CM, CW, DJ, DM, ER, FJ, GA, GD, GH, GM, GQ, GY, HK, JM, KI, KM, KN, KP, LY, MO, MR, MW, PS, QA, RW, SB, SC, SL, SR, SS, ST, SX, SY, TD, TF, TG, TK, TL, TO, TV, UG, VU, YE, ZW
+          minLength: 1
+          maxLength: 20
+        countryCode:
+          $ref: '#/components/schemas/countryCodeLabelsEnum'
+    successLabelCreate:
+      properties:
+        labelResponseId:
+          type: string
+        orderNumber:
+          description: C.H. Robinson order number received on successful order create.
+          type: number
+        carrier:
+          $ref: '#/components/schemas/carrierEnum'
+        serviceLevel:
+          $ref: '#/components/schemas/serviceLevelEnum'
+        shipDate:
+          description: The date on which the shipment will be picked up.
+          type: string
+          format: date-time
+        scheduledDeliveryDate:
+          description: The date on which the shipment should be delivered.
+          type: string
+          format: date-time
+        shippingPackages:
+          description: Shipping info about the packages included in the shipment.
+          type: array
+          items:
+            $ref: '#/components/schemas/packageShippingInfo'
+        airWaybillNumber:
+          description: The air waybill number for the shipment.
+          type: string
+        bookingNumber:
+          $ref: '#/components/schemas/bookingNumber'
+        shippingDocuments:
+          description: Metadata returned from the carrier for any uploaded documents.
+          type: array
+          items:
+            $ref: '#/components/schemas/documentInfo'
+        referenceNumbers:
+          description: Reference number objects pertaining to the whole order.
+          type: array
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+        carrierMessages:
+          description: Messages returned from the carrier(s).
+          type: array
+          items:
+            $ref: '#/components/schemas/carrierMessage'
+    error401:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 401
+        error:
+          type: string
+          description: Detail about the error status code
+        message:
+          type: string
+          description: Specifies issue
+        attributes:
+          type: object
+          properties:
+            error:
+              type: string
+    package:
+      description: Describes a package
+      required:
+      - packagingType
+      - weight
+      - weightUnitOfMeasure
+      - length
+      - width
+      - height
+      - linearUnitOfMeasure
+      properties:
+        contents:
+          type: array
+          description: Required for international shipments (origin and destination countryCode do not match). Itemized package contents.
+          items:
+            $ref: '#/components/schemas/content'
+        deliveryConfirmation:
+          type: string
+          description: Used on specify if signature is required on delivery (this service may incur additional charges).
+          enum:
+          - SignatureRequired
+          - AdultSignatureRequired
+        documentsOnly:
+          type: boolean
+          description: Used on DHL shipments to indicate if the package only contains documents.
+          default: false
+        declaredValue:
+          type: number
+          description: Used to request package insurance (this service may incur additional charges)
+          format: currency
+        declaredValueCurrencyCode:
+          type: string
+          description: Code to indicate the currency being used for insurance; Required if declaredValue is populated.
+        collectOnDelivery:
+          type: string
+          description: Used to request COD service from the parcel provider; Reserved for future use.
+          enum:
+          - Guaranteed
+          - NonGuaranteed
+        collectOnDeliveryAmount:
+          type: number
+          description: Money value to collect upon delivery; Reserved for future use.
+          format: currency
+        collectOnDeliveryCurrencyCode:
+          description: Code to indicate the currency being used; Reserved for future use.
+          type: string
+        description:
+          type: string
+          description: General description of the package contents for Returns Services.
+          maxLength: 35
+          default: Consumer Items
+        packagingType:
+          type: string
+          description: Required; Used to specify if prepaid carrier-branded envelopes or boxes are being used; Customer_Package should be passed if this is unknown.
+          enum:
+          - USPS_Flat_Rate_Padded_Envelope
+          - USPS_Flat_Rate_Legal_Envelope
+          - USPS_Flat_Rate_Window_Envelope
+          - USPS_Flat_Rate_Gift_Card_Envelope
+          - USPS_Small_Flat_Rate_Box
+          - USPS_Large_Flat_Rate_Box
+          - USPS_Irregular_Parcel
+          - USPS_Oversized_Parcel
+          - USPS_Large_Parcel
+          - USPS_Flat_Rate_Cardboard_Envelope
+          - DHL_Box
+          - DHL_Lab_Pak
+          - Customer_Package
+          - DHL_Letter
+          - USPS_Regional_Rate_Box_B
+          - USPS_DVD_Flat_Rate_Box
+          - USPS_Small_Flat_Rate_Envelope
+          - USPS_Regional_Rate_Box_A
+          - USPS_Large_Video_Flat_Rate_Box
+          - USPS_Flat_Rate_Envelope
+          - UPS_Letter
+          - FedEx_25kg_Box
+          - UPS_Pak
+          - UPS_Tube
+          - FedEx_10kg_Box
+          - FedEx_Pak
+          - FedEx_Envelope
+          - FedEx_Tube
+          - FedEx_Box
+          - UPS_Express_Box
+          - USPS_Flat
+          - USPS_Letter
+          - USPS_Medium_Flat_Rate_Box
+          - USPS_Parcel
+          - USPS_Card
+          - UPS_10_KG_Box
+          - UPS_25_KG_Box
+          - USPS_Package
+          - UPS_Pallet
+          - UPS_Large_Express_Box
+          - UPS_Medium_Express_Box
+          - UPS_Small_Express_Box
+        weight:
+          type: number
+          description: Required; weight of the package. Most parcel carriers enforce a maximum of 150 lbs or 68 kg.
+          format: float
+          minimum: 0.01
+          maximum: 999.99
+        weightUnitOfMeasure:
+          type: string
+          description: Required; weight unit of measurement.
+          enum:
+          - Pounds
+          - Kilograms
+        length:
+          type: number
+          description: Required; length of the package. Most parcel carriers enforce a maximum of 108 inches.
+          format: float
+          minimum: 0.01
+          maximum: 999.99
+        width:
+          type: number
+          description: Required; width of the package.
+          format: float
+          minimum: 0.01
+          maximum: 999.99
+        height:
+          type: number
+          description: Required; height of the package.
+          format: float
+          minimum: 0.01
+          maximum: 999.99
+        linearUnitOfMeasure:
+          type: string
+          description: Required; units of measurement the length, width, and height are defined in. Metric values require the Package weightUnitOfMeasure to be Kilograms, and Imperial values require Pounds.
+          enum:
+          - Inches
+          - Feet
+          - Centimeters
+          - Meters
+        labelReferenceData1:
+          $ref: '#/components/schemas/labelReferenceData1'
+        labelReferenceData2:
+          $ref: '#/components/schemas/labelReferenceData2'
+        labelReferenceData3:
+          $ref: '#/components/schemas/labelReferenceData3'
+        referenceNumbers:
+          type: array
+          description: Additional reference number objects pertaining to the package object (do not show on label).
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+        hazardousPackageInformation:
+          description: Additional information about any hazardous materials or dangerous goods in the package.
+          $ref: '#/components/schemas/hazardousPackageInformation'
+    labelReferenceData3:
+      type: string
+      description: Third piece of reference data to be used on the package label. This is used as the Invoice Number for FedEx (not used for UPS, DHL, or TNT).
+      minLength: 1
+      maxLength: 35
+    isResidential:
+      type: boolean
+      description: A flag indicating whether or not this is a residential location. Used ONLY FOR PARCEL Shipments. For FedEx, FedEx_Ground_Home_Delivery or Fedex_Home_Delivery must be used if the destination is residential.
+    carrierEnum:
+      type: string
+      description: The list of supported small parcel carriers
+      enum:
+      - UPS
+      - FDX
+      - DHL
+      - TNT
+      - SNGPST
+      - SFX
+      - PUR
+      - DPD
+      - TGE
+      - CEX
+      - USPS
+    location:
+      description: The locations on the label.
+      required:
+      - address
+      - name
+      - contactName
+      - contactPhoneNumber
+      properties:
+        customerLocationId:
+          type: string
+          minLength: 1
+          maxLength: 50
+          default: null
+          description: Customer defined identifier associated to a specific location; Optional, but required if C.H. Robinson has parcel account information on file for the location that must be passed to the carrier.
+        name:
+          type: string
+          minLength: 1
+          maxLength: 35
+          description: Required; The name of the location.
+        address:
+          $ref: '#/components/schemas/address'
+        isResidential:
+          $ref: '#/components/schemas/isResidential'
+        contactName:
+          type: string
+          minLength: 1
+          maxLength: 35
+          description: Required; The name of the contact person for the location.
+        contactPhoneNumber:
+          type: string
+          minLength: 1
+          maxLength: 20
+          description: Required; The phone number of the contact person for the location. For UPS, the max length is shorter at 15 characters.
+        email:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: The email address of the contact person for the location.
+        specialInstructions:
+          type: string
+          minimum: 1
+          maximum: 100
+        referenceNumbers:
+          type: array
+          description: Additional reference number objects pertaining to this location.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    error403:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 403
+        error:
+          type: string
+          description: detail about the error status code
+          example: Forbidden
+        message:
+          type: string
+          description: Specifies issue
+          example: Invalid customerCode
+    labelReferenceData1:
+      type: string
+      description: First piece of reference data to be used on the package label. This is used as the customer/shipper reference number on the label for FedEx, UPS, DHL, and TNT.
+      minLength: 1
+      maxLength: 35
+    referenceNumber:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          type: string
+          description: "C.H. Robinson defined code for reference number types. Here is a list of the most commonly used reference number types: \n\n`SHID` - Shipment ID #, `MBOL` - Master Bill of Lading #, `PO` - Purchase Order #, `BOL` - Bill of Lading #, `CRID` - Customer Specific Ref Number, `CUSTPO` - Customer PO Number, `DEL` - Delivery #, `JNO` - Job Number, `PU` - Pickup #, `CON` - Customer Order Number, `APPT` - Appointment Number \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ReferenceNumberTypes.xlsx\" target=\"_blank\">here</a>."
+          enum:
+          - SHID
+          - MBOL
+          - PO
+          - BOL
+          - CFRM
+          - CRID
+          - CUSTPO
+          - DEL
+          - DIST
+          - FIN
+          - GL
+          - JNO
+          - PU
+          - RANumber
+          - RLPRO
+          - MREF
+          - Empty
+          - PRO
+          - CCN
+          - SBOL
+          - CON
+          - APPT
+          - CHRW_ID
+          - FDA
+          - IREF
+          - LIC
+          - ORD
+          - PLU
+          - SCAC
+          - SEAL
+          - SKU
+          - SREF
+          - STCC
+          - TEB
+          - VPO
+          - WB
+          - XXXX
+          - TRIA
+          - TRANS
+          - GCC
+          - SDATE
+          - CDATE
+          - ACCT
+          - CCTR
+          - IGM
+          - GIGM
+          - LIGM
+          - SMTP
+          - PERMIT
+          - RNO
+          - DVCN
+          - PRCL
+          - CPUC
+          - SHPMD
+          - AFR
+          - BUYID
+          - VNDID
+          - DIV
+          - DEPT
+          - POTYPE
+          - GRGI
+          - DUNS
+          - PALLETREF
+          - CITTN
+          - CIN
+          - SHIPWITH
+          - PN
+          - UPC
+          - PRCD
+          - VESSEL
+          - VOYAGE
+          - FN
+          - FEEDVESS
+          - FEEDVOY
+          - SHIPREF
+          - CBL
+          - SPAC
+          - POLN
+          - VPOLN
+          - EIN
+          - CNSG
+          - PROFITCTR
+          - MFGPART
+          - PACKSLIP
+          - THIRDPRTY
+          - DEFATTR
+          - FSTRK
+          - FOItemID
+          - POLineNum
+          - PARCELSPC
+          - CNS1
+          - CNS2
+          - CNS3
+          - CNS4
+          - CNS5
+          - CNS6
+          - CNS7
+          - TREF
+          - VREF
+          - UPRICE
+          - FWPARTY
+          - BYPARTY
+          - HBL
+          - CBP
+          - TRANSFER
+          - SO
+          - ORDTRK
+          - QUOTEID
+          - EQT
+          - BOOTH
+          - TS
+          - 'OH #'
+          - CNTNR
+          - VAS
+          - Size
+          - Color
+          - Style
+          - HCERT
+          - B#
+          - ETMSID
+          - 214-IMO
+          - SHPWeight
+          - SHPVolume
+          - SHPDims
+          - SERIALIZED
+          - SERIALNUM
+          - CPSIA
+          - EDIINVREF
+          - SQID
+          - QSeqNum
+          - OuterPkStu
+          - GLC
+          - COMP
+          - COST
+          - DTYGL
+          - DTYCC
+          - BRKGL
+          - BRKCC
+          - GPS
+          - IAC
+          - WHRCT
+          - ERGUID
+          - SONUM
+          - CCNUM
+          - PrimCCNUM
+          - PrevCCNUM
+          - CMRN
+          - TRANSSHIP
+          - PGIDATE
+          - AESFIL
+          - CUSTQUOTID
+          - QUOTETRACE
+          - ODATE
+          - FRCLS
+          - NMFC
+          - OrderItemId
+        value:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: The actual value of the reference number.
+  securitySchemes:
+    sandbox:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt

@@ -1,0 +1,4837 @@
+openapi: 3.2.0
+info:
+  version: 2.0.0
+  title: A guide to C.H. Robinson's REST Shipments API
+  description: '# Introduction
+
+    Welcome to C.H.'
+servers:
+- url: https://sandbox-api.navisphere.com
+  description: Test environment.
+- url: https://api.navisphere.com
+  description: Production environment.
+security:
+- sandbox: []
+tags:
+- name: Shipments
+  description: C.H. Robinson's Shipments product allows our partner base to access C.H. Robinson's available shipments, send offers on those shipments, and book those shipments. Additionally, our partners can update C.H. Robinson on any shipments that C.H. Robinson is responsible for, as well as view status of payment.
+paths:
+  /v2/shipments/available/searches:
+    post:
+      description: Allows partner to retrieve list summary of shipments available for transportation.
+      operationId: Available Shipment Search
+      tags:
+      - Shipments
+      requestBody:
+        description: Returns a list of available shipments.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/availableShipmentsSearchV2'
+            examples:
+              RequestByRadius:
+                value:
+                  pageIndex: 0
+                  pageSize: 100
+                  regionCode: NA
+                  modes:
+                  - V
+                  - R
+                  originRadiusSearch:
+                    coordinate:
+                      lat: 37.775
+                      lon: -122.41833
+                    radius:
+                      value: 1000
+                      unitOfMeasure: Standard
+                  destinationRadiusSearch:
+                    coordinate:
+                      lat: 37.775
+                      lon: -122.41833
+                    radius:
+                      value: 1000
+                      unitOfMeasure: Standard
+                  loadDistanceRange:
+                    unitOfMeasure: Standard
+                    min: 0
+                    max: 5000
+                  loadWeightRange:
+                    unitOfMeasure: Standard
+                    min: 0
+                    max: 48000
+                  equipmentLengthRange:
+                    unitOfMeasure: Standard
+                    min: 0
+                    max: 53
+                  availableForPickUpByDateRange:
+                    min: '2021-06-29'
+                    max: '2021-06-30'
+                  teamLoad: true
+                  stfLoad: true
+                  hazMatLoad: true
+                  tankerLoad: true
+                  chemicalSolutionLoad: true
+                  highValueLoad: true
+                  sortCriteria:
+                    field: LoadNumber
+                    direction: ascending
+              RequestByStates:
+                value:
+                  pageIndex: 0
+                  pageSize: 100
+                  regionCode: NA
+                  excludedModes:
+                  - B
+                  origins:
+                  - countryCode: US
+                    stateCodes:
+                    - CA
+                    - MN
+                    - GA
+                    - IA
+                  destinations:
+                  - countryCode: US
+                    stateCodes:
+                    - CA
+                    - MN
+                    - GA
+                    - IA
+                  loadDistanceRange:
+                    unitOfMeasure: Standard
+                    min: 0
+                    max: 5000
+                  loadWeightRange:
+                    unitOfMeasure: Standard
+                    min: 0
+                    max: 48000
+                  equipmentLengthRange:
+                    unitOfMeasure: Standard
+                    min: 0
+                    max: 53
+                  availableForPickUpByDateRange:
+                    min: '2021-06-29'
+                    max: '2021-06-30'
+                  teamLoad: true
+                  stfLoad: true
+                  hazMatLoad: true
+                  tankerLoad: true
+                  chemicalSolutionLoad: true
+                  highValueLoad: true
+                  sortCriteria:
+                    field: LoadNumber
+                    direction: ascending
+      responses:
+        '200':
+          description: The available shipments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/availableShipmentsResponseV2'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact your C.H. Robinson rep.
+      summary: Available shipment search
+      x-summary-source: derived
+  /v1/shipments/{loadNumber}/offers:
+    post:
+      description: Allows carrier to submit an offer on a load found through the Available Shipment search if load has associated availableLoadCost(s).
+      x-beta: true
+      operationId: Load Offer
+      tags:
+      - Shipments
+      parameters:
+      - in: path
+        name: loadNumber
+        schema:
+          type: integer
+        required: true
+      requestBody:
+        description: JSON object of offer request.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loadOffer'
+            example:
+              carrierCode: T100
+              offerPrice: 500
+              offerNote: Note goes here
+              currencyCode: USD
+              availableLoadCost: 600
+      responses:
+        202:
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/offerAcknowledgment'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+              example:
+              - message: '"referenceNumber" is not allowed'
+                path:
+                - referenceNumber
+                type: object.allowUnknown
+                context:
+                  child: referenceNumber
+                  value:
+                  - type: MBOL
+                    value: MBOL12345
+                  key: referenceNumber
+                  label: referenceNumber
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/error401'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        422:
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error422'
+        500:
+          description: Internal Server Error. Please contact your C.H. Robinson Rep.
+      summary: Load offer
+      x-summary-source: derived
+  /offerResponse/callback/here:
+    servers:
+    - url: https://yourserver.com
+      description: partner defined endpoint
+    post:
+      security:
+      - bearerAuth: []
+      description: This is the endpoint on your server where we will send the offer response for loads you have made offers on.
+      x-beta: true
+      operationId: Offer Response Callback
+      tags:
+      - Shipments
+      requestBody:
+        description: JSON object of Offer Response message.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/offerResponse'
+      responses:
+        2XX:
+          description: Your server returns this code if it accepts the callback
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+      summary: Offer response callback
+      x-summary-source: derived
+  /v1/shipments/books:
+    post:
+      description: Allows carrier to book a load found through the Available Shipment search if load has associated availableLoadCost(s).
+      operationId: Load Book
+      tags:
+      - Shipments
+      requestBody:
+        description: JSON object of booking request.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/loadBookV2'
+            example:
+              loadNumber: 102888682
+              carrierCode: T100
+              emptyDateTime: '2021-08-11T16:43:18.574Z'
+              emptyLocation:
+                city: Kansas City
+                state: MO
+                country: US
+                zip: '64155'
+              availableLoadCosts:
+              - type: Flat
+                code: '400'
+                description: Line Haul
+                currencyCode: USD
+                sourceCostPerUnit: 100.95
+                units: 1
+              rateConfirmation:
+                email: test@chrobinson.com
+                name: Test User
+      responses:
+        202:
+          description: Request successful
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+              example:
+              - message: '"referenceNumber" is not allowed'
+                path:
+                - referenceNumber
+                type: object.allowUnknown
+                context:
+                  child: referenceNumber
+                  value:
+                  - type: MBOL
+                    value: MBOL12345
+                  key: referenceNumber
+                  label: referenceNumber
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/error401'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        422:
+          description: Unprocessable Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error422'
+        500:
+          description: Internal Server Error. Please contact your C.H. Robinson Rep.
+      summary: Load book
+      x-summary-source: derived
+  /shipmentDetails/callback/here:
+    servers:
+    - url: https://yourserver.com
+      description: partner defined endpoint
+    post:
+      security:
+      - bearerAuth: []
+      description: This is the endpoint on your server where we will send the shipment details for loads you have booked.
+      x-beta: true
+      operationId: Shipment Details Callback
+      tags:
+      - Shipments
+      requestBody:
+        description: JSON object of Load Detail message.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/shipmentDetail'
+      responses:
+        2XX:
+          description: Your server returns this code if it accepts the callback
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: OK
+      summary: Shipment details callback
+      x-summary-source: derived
+  /v1/shipments/milestones:
+    post:
+      description: Allows carrier, vendor, or other updating entity to update C.H. Robinson on any shipment.
+      operationId: Milestone Updates
+      tags:
+      - Shipments
+      requestBody:
+        description: JSON object of mileston Update.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/milestone'
+            example:
+              eventCode: X3
+              shipmentIdentifier:
+                shipmentNumber: '123456789'
+                shipperBillToId: '123456789'
+                proNumber: PRO512461
+                trackingNumber: 1Z1245132579423
+                containerNumber: HBJ51423
+              dateTime:
+                eventDateTime: '2019-06-05T18:36:13.131Z'
+                estimatedTimeOfArrival: '2019-06-05T18:36:13.131Z'
+                appointmentWindow:
+                  openDateTime: '2019-06-05T18:36:13.131Z'
+                  closeDateTime: '2019-06-05T18:36:13.131Z'
+              carrier:
+                name: Test Carrier
+                dotNumber: Test
+                mcNumber: MC Number
+                scac: RBTW
+                temperature: 32
+                temperatureUnitOfMeasure: Fahrenheit
+                vehicleDetail:
+                  tractorNumber: '375'
+                  trailerNumber: PV5346
+                  licensePlate: MCV246
+                  licensePlateState: MN
+                  vin: 1HGBH41JXMN109186
+                  contactInformation:
+                    driverName: Red Barkley
+                    driverPhone: '5556129457'
+                    secondDriverName: Lincoln Hawk
+                    secondDriverPhone: '5554843167'
+                    dispatchName: Kylo Ren
+                    dispatchPhone: '5558675309'
+              location:
+                type: drop
+                stopSequenceNumber: 2
+                sequenceNumber: 1
+                name: Bulk Goods Warehouse
+                locationId: W4875164
+                address:
+                  address1: 14800 Charlson Rd
+                  address2: Building 1
+                  city: Eden Prairie
+                  latitude: 44.820538
+                  longitude: -93.464427
+                  stateProvinceCode: MN
+                  postalCode: '55347'
+                  country: US
+              items:
+              - itemId: '123456'
+                weight: 45
+                weightUnitOfMeasure: Pounds
+                quantity: 12
+                pallets: 1
+              supplementalInformation:
+                reasonCode: '1'
+                notes: Truck broke its axle
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X POST \\ \n 'https://sandbox-api.navisphere.com/v1/shipments/milestones' \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json' \n -d '{ \t\"eventCode\": \"X3\",\n \t\"shipmentIdentifier\": {\n \t\t\"shipmentNumber\": \"123456789\",\n \t\t\"shipperBillToId\": \"123456789\",\n \t\t\"proNumber\": \"PRO512461\",\n \t\t\"trackingNumber\": \"1Z1245132579423\",\n \t\t\"containerNumber\": \"HBJ51423\" \n \t }, \n \t\"dateTime\": {\n \t\t\"eventDateTime\": \"2019-06-05T18:36:13.131Z\",\n \t\t\"estimatedTimeOfArrival\": \"2019-06-05T18:36:13.131Z\",\n \t\t\"appointmentWindow\": {\n \t\t\t\"openDateTime\": \"2019-06-05T18:36:13.131Z\",\n \t\t\t\"closeDateTime\": \"2019-06-05T18:36:13.131Z\"\n \t\t } \n \t }, \n \t\"carrier\": {\n \t\t\"name\": \"Test Carrier\",\n \t\t\"dotNumber\": \"Test\",\n \t\t\"scac\": \"RBTW\",\n \t\t\"temperature\": 32,\n \t\t\"temperatureUnitOfMeasure\": \"Fahrenheit\",\n \t\t\"vehicleDetail\": {\n \t\t\t\"tractorNumber\": \"375\",\n \t\t\t\"trailerNumber\": \"PV5346\",\n \t\t\t\"licensePlate\": \"MCV246\",\n \t\t\t\"licensePlateState\": \"MN\",\n \t\t\t\"vin\": \"1HGBH41JXMN109186\",\n \t\t\t\"contactInformation\": {\n \t\t\t\t\"driverName\": \"Red Barkley\",\n \t\t\t\t\"driverPhone\": \"5556129457\",\n \t\t\t\t\"secondDriverName\": \"Lincoln Hawk\",\n \t\t\t\t\"secondDriverPhone\": \"5554843167\",\n \t\t\t\t\"dispatchName\": \"Kylo Ren\",\n \t\t\t\t\"dispatchPhone\": \"5558675309\"\n \t\t\t } \n \t\t } \n \t }, \n \t\"location\": {\n \t\t\"type\": \"drop\",\n \t\t\"stopSequenceNumber\": 2,\n \t\t\"sequenceNumber\": 1,\n \t\t\"name\": \"Bulk Goods Warehouse\",\n \t\t\"locationId\": \"W4875164\",\n \t\t\"address\": {\n \t\t\t\"address1\": \"14800 Charlson Rd\",\n \t\t\t\"address2\": \"Building 1\",\n \t\t\t\"city\": \"Eden Prairie\",\n \t\t\t\"latitude\": 44.820538,\n \t\t\t\"longitude\": -93.464427,\n \t\t\t\"stateProvinceCode\": \"MN\",\n \t\t\t\"postalCode\": \"55347\",\n \t\t\t\"country\": \"US\"\n \t\t } \n \t }, \n \t\"items\": [{\n \t\t\"itemId\": \"123456\",\n \t\t\"weight\": 45,\n \t\t\"weightUnitOfMeasure\": \"Pounds\",\n \t\t\"quantity\": 12,\n \t\t\"pallets\": 1\n \t }], \n \t\"supplementalInformation\": {\n \t\t\"reasonCode\": \"1\",\n \t\t\"notes\": \"Truck broke its axle\"\n \t } \n }'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.post(\"https://sandbox-api.navisphere.com/v1/shipments/milestones\")\n .header(\"Content-Type\", \"application/json\")\n .header(\"Authorization\", \"Bearer YOU TOKEN\")\n .body(\"{\n \t\"eventCode\": \"X3\",\n \t\"shipmentIdentifier\": {\n \t\t\"shipmentNumber\": \"123456789\",\n \t\t\"shipperBillToId\": \"123456789\",\n \t\t\"proNumber\": \"PRO512461\",\n \t\t\"trackingNumber\": \"1Z1245132579423\",\n \t\t\"containerNumber\": \"HBJ51423\" \n \t }, \n \t\"dateTime\": {\n \t\t\"eventDateTime\": \"2019-06-05T18:36:13.131Z\",\n \t\t\"estimatedTimeOfArrival\": \"2019-06-05T18:36:13.131Z\",\n \t\t\"appointmentWindow\": {\n \t\t\t\"openDateTime\": \"2019-06-05T18:36:13.131Z\",\n \t\t\t\"closeDateTime\": \"2019-06-05T18:36:13.131Z\"\n \t\t } \n \t }, \n \t\"carrier\": {\n \t\t\"name\": \"Test Carrier\",\n \t\t\"dotNumber\": \"Test\",\n \t\t\"scac\": \"RBTW\",\n \t\t\"temperature\": 32,\n \t\t\"temperatureUnitOfMeasure\": \"Fahrenheit\",\n \t\t\"vehicleDetail\": {\n \t\t\t\"tractorNumber\": \"375\",\n \t\t\t\"trailerNumber\": \"PV5346\",\n \t\t\t\"licensePlate\": \"MCV246\",\n \t\t\t\"licensePlateState\": \"MN\",\n \t\t\t\"vin\": \"1HGBH41JXMN109186\",\n \t\t\t\"contactInformation\": {\n \t\t\t\t\"driverName\": \"Red Barkley\",\n \t\t\t\t\"driverPhone\": \"5556129457\",\n \t\t\t\t\"secondDriverName\": \"Lincoln Hawk\",\n \t\t\t\t\"secondDriverPhone\": \"5554843167\",\n \t\t\t\t\"dispatchName\": \"Kylo Ren\",\n \t\t\t\t\"dispatchPhone\": \"5558675309\"\n \t\t\t } \n \t\t } \n \t }, \n \t\"location\": {\n \t\t\"type\": \"drop\",\n \t\t\"stopSequenceNumber\": 2,\n \t\t\"sequenceNumber\": 1,\n \t\t\"name\": \"Bulk Goods Warehouse\",\n \t\t\"locationId\": \"W4875164\",\n \t\t\"address\": {\n \t\t\t\"address1\": \"14800 Charlson Rd\",\n \t\t\t\"address2\": \"Building 1\",\n \t\t\t\"city\": \"Eden Prairie\",\n \t\t\t\"latitude\": 44.820538,\n \t\t\t\"longitude\": -93.464427,\n \t\t\t\"stateProvinceCode\": \"MN\",\n \t\t\t\"postalCode\": \"55347\",\n \t\t\t\"country\": \"US\"\n \t\t } \n \t }, \n \t\"items\": [{\n \t\t\"itemId\": \"123456\",\n \t\t\"weight\": 45,\n \t\t\"weightUnitOfMeasure\": \"Pounds\",\n \t\t\"quantity\": 12,\n \t\t\"pallets\": 1\n \t }], \n \t\"supplementalInformation\": {\n \t\t\"reasonCode\": \"1\",\n \t\t\"notes\": \"Truck broke its axle\"\n \t } \n } \") .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\");\n\n var options = { method: 'POST',\n url: 'https://sandbox-api.navisphere.com/v1/shipments/milestones',\n headers: { \n \tAuthorization: 'Bearer YOU TOKEN',\n \t'Content-Type': 'application/json'} \n body: { \n \t\"eventCode\": \"X3\",\n \t\"shipmentIdentifier\": {\n \t\t\"shipmentNumber\": \"123456789\",\n \t\t\"shipperBillToId\": \"123456789\",\n \t\t\"proNumber\": \"PRO512461\",\n \t\t\"trackingNumber\": \"1Z1245132579423\",\n \t\t\"containerNumber\": \"HBJ51423\" \n \t }, \n \t\"dateTime\": {\n \t\t\"eventDateTime\": \"2019-06-05T18:36:13.131Z\",\n \t\t\"estimatedTimeOfArrival\": \"2019-06-05T18:36:13.131Z\",\n \t\t\"appointmentWindow\": {\n \t\t\t\"openDateTime\": \"2019-06-05T18:36:13.131Z\",\n \t\t\t\"closeDateTime\": \"2019-06-05T18:36:13.131Z\"\n \t\t } \n \t }, \n \t\"carrier\": {\n \t\t\"name\": \"Test Carrier\",\n \t\t\"dotNumber\": \"Test\",\n \t\t\"scac\": \"RBTW\",\n \t\t\"temperature\": 32,\n \t\t\"temperatureUnitOfMeasure\": \"Fahrenheit\",\n \t\t\"vehicleDetail\": {\n \t\t\t\"tractorNumber\": \"375\",\n \t\t\t\"trailerNumber\": \"PV5346\",\n \t\t\t\"licensePlate\": \"MCV246\",\n \t\t\t\"licensePlateState\": \"MN\",\n \t\t\t\"vin\": \"1HGBH41JXMN109186\",\n \t\t\t\"contactInformation\": {\n \t\t\t\t\"driverName\": \"Red Barkley\",\n \t\t\t\t\"driverPhone\": \"5556129457\",\n \t\t\t\t\"secondDriverName\": \"Lincoln Hawk\",\n \t\t\t\t\"secondDriverPhone\": \"5554843167\",\n \t\t\t\t\"dispatchName\": \"Kylo Ren\",\n \t\t\t\t\"dispatchPhone\": \"5558675309\"\n \t\t\t } \n \t\t } \n \t }, \n \t\"location\": {\n \t\t\"type\": \"drop\",\n \t\t\"stopSequenceNumber\": 2,\n \t\t\"sequenceNumber\": 1,\n \t\t\"name\": \"Bulk Goods Warehouse\",\n \t\t\"locationId\": \"W4875164\",\n \t\t\"address\": {\n \t\t\t\"address1\": \"14800 Charlson Rd\",\n \t\t\t\"address2\": \"Building 1\",\n \t\t\t\"city\": \"Eden Prairie\",\n \t\t\t\"latitude\": 44.820538,\n \t\t\t\"longitude\": -93.464427,\n \t\t\t\"stateProvinceCode\": \"MN\",\n \t\t\t\"postalCode\": \"55347\",\n \t\t\t\"country\": \"US\"\n \t\t } \n \t }, \n \t\"items\": [{\n \t\t\"itemId\": \"123456\",\n \t\t\"weight\": 45,\n \t\t\"weightUnitOfMeasure\": \"Pounds\",\n \t\t\"quantity\": 12,\n \t\t\"pallets\": 1\n \t }], \n \t\"supplementalInformation\": {\n \t\t\"reasonCode\": \"1\",\n \t\t\"notes\": \"Truck broke its axle\"\n \t } \n }};\n\n request(options, function (error, response, body) {\n \tif (error) throw new Error(error);\n\n \tconsole.log(body);\n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v1/shipments/milestones\");\n var request = new RestRequest(Method.POST);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n request.AddParameter(\"undefined\", \"{ \t\"eventCode\": \"X3\",\n \t\"shipmentIdentifier\": {\n \t\t\"shipmentNumber\": \"123456789\",\n \t\t\"shipperBillToId\": \"123456789\",\n \t\t\"proNumber\": \"PRO512461\",\n \t\t\"trackingNumber\": \"1Z1245132579423\",\n \t\t\"containerNumber\": \"HBJ51423\" \n \t }, \n \t\"dateTime\": {\n \t\t\"eventDateTime\": \"2019-06-05T18:36:13.131Z\",\n \t\t\"estimatedTimeOfArrival\": \"2019-06-05T18:36:13.131Z\",\n \t\t\"appointmentWindow\": {\n \t\t\t\"openDateTime\": \"2019-06-05T18:36:13.131Z\",\n \t\t\t\"closeDateTime\": \"2019-06-05T18:36:13.131Z\"\n \t\t } \n \t }, \n \t\"carrier\": {\n \t\t\"name\": \"Test Carrier\",\n \t\t\"dotNumber\": \"Test\",\n \t\t\"scac\": \"RBTW\",\n \t\t\"temperature\": 32,\n \t\t\"temperatureUnitOfMeasure\": \"Fahrenheit\",\n \t\t\"vehicleDetail\": {\n \t\t\t\"tractorNumber\": \"375\",\n \t\t\t\"trailerNumber\": \"PV5346\",\n \t\t\t\"licensePlate\": \"MCV246\",\n \t\t\t\"licensePlateState\": \"MN\",\n \t\t\t\"vin\": \"1HGBH41JXMN109186\",\n \t\t\t\"contactInformation\": {\n \t\t\t\t\"driverName\": \"Red Barkley\",\n \t\t\t\t\"driverPhone\": \"5556129457\",\n \t\t\t\t\"secondDriverName\": \"Lincoln Hawk\",\n \t\t\t\t\"secondDriverPhone\": \"5554843167\",\n \t\t\t\t\"dispatchName\": \"Kylo Ren\",\n \t\t\t\t\"dispatchPhone\": \"5558675309\"\n \t\t\t } \n \t\t } \n \t }, \n \t\"location\": {\n \t\t\"type\": \"drop\",\n \t\t\"stopSequenceNumber\": 2,\n \t\t\"sequenceNumber\": 1,\n \t\t\"name\": \"Bulk Goods Warehouse\",\n \t\t\"locationId\": \"W4875164\",\n \t\t\"address\": {\n \t\t\t\"address1\": \"14800 Charlson Rd\",\n \t\t\t\"address2\": \"Building 1\",\n \t\t\t\"city\": \"Eden Prairie\",\n \t\t\t\"latitude\": 44.820538,\n \t\t\t\"longitude\": -93.464427,\n \t\t\t\"stateProvinceCode\": \"MN\",\n \t\t\t\"postalCode\": \"55347\",\n \t\t\t\"country\": \"US\"\n \t\t } \n \t }, \n \t\"items\": [{\n \t\t\"itemId\": \"123456\",\n \t\t\"weight\": 45,\n \t\t\"weightUnitOfMeasure\": \"Pounds\",\n \t\t\"quantity\": 12,\n \t\t\"pallets\": 1\n \t }], \n \t\"supplementalInformation\": {\n \t\t\"reasonCode\": \"1\",\n \t\t\"notes\": \"Truck broke its axle\"\n \t } \n }\") IRestResponse response = client.Execute(request);"
+      responses:
+        201:
+          description: Request successful
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+              example:
+              - message: '"referenceNumber" is not allowed'
+                path:
+                - referenceNumber
+                type: object.allowUnknown
+                context:
+                  child: referenceNumber
+                  value:
+                  - type: MBOL
+                    value: MBOL12345
+                  key: referenceNumber
+                  label: referenceNumber
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/error401'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        500:
+          description: Internal Server Error. Please contact your C.H. Robinson Rep.
+      summary: Milestone updates
+      x-summary-source: derived
+components:
+  schemas:
+    milestoneLocation:
+      type: object
+      description: Location information associated to the milestone.
+      required:
+      - address
+      properties:
+        type:
+          $ref: '#/components/schemas/milestoneStoptypeEnum'
+        stopSequenceNumber:
+          type: integer
+          description: "Identifies the stop number the milestone is associated to. \n\n ### <span style=\"color:DeepPink\">If location is for a milestone that isn't tied to a stop then this field should be set to null.</span>"
+        sequenceNumber:
+          type: integer
+          description: "Identifies the sequence number the milestone is associated to. \n\n ### <span style=\"color:DeepPink\">If location is for a milestone that isn't tied to a stop then this field should be set to null.</span>"
+        name:
+          type: string
+          description: Identifies the name of the location the milestone is associated to. If location is for a milestone that isn't tied to a stop then this field should be set to null.
+        locationId:
+          type: string
+          description: Milestone location identifier.
+        unlocationCode:
+          type: string
+          description: The UN Location Code for the milestone location.
+          minimum: 1
+          maximum: 10
+        iata:
+          type: string
+          description: The IATA code for the milestone location.
+        address:
+          $ref: '#/components/schemas/milestoneLocationAddress'
+    availableShipmentsRateEnum:
+      type: string
+      description: 'C.H. Robinson defined rate code.
+
+
+        For a detailed description of all enumerated codes please find them <a href="https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/AvailableShipmentsRateCodeDescriptions.xlsx" target="_blank">here</a>.'
+      enum:
+      - C
+      - CPU
+      - CRI
+      - CS
+      - D
+      - DE
+      - E
+      - FBL
+      - FP
+      - H
+      - HV
+      - IC
+      - N
+      - ND
+      - P
+      - S
+      - SD
+      - SH
+      - TC
+      - VC
+    offerResponse:
+      type: object
+      description: Object with response to carrier offer.
+      properties:
+        loadNumber:
+          type: string
+          description: ID of the shipment the offer was made on.
+        carrierCode:
+          type: string
+          description: C.H. Robinson defined code for the carrier making the offer.
+        offerRequestId:
+          type: string
+          description: Unique identifier that is associated with the offer request. This is the ID received in the response when making the offer.
+        offerId:
+          type: string
+          description: C.H. Robinson's internal id associated to the offer.
+        offerResult:
+          type: string
+          description: Current status of the offer. Rejected and NotConsidered can both be considered declining the offer. Counter means C.H. Robinson has countered with a new price.
+          enum:
+          - Accepted
+          - Rejected
+          - NotConsidered
+          - Counter
+        price:
+          type: integer
+          description: Price of the offer. If the offerResult is "Counter" then the price displayed is C.H. Robinson's counter offer price.
+        currencyCode:
+          type: string
+          description: Currency code of the offer amount.
+        rejectReasons:
+          type: array
+          description: If offer is rejected this details the reason(s).
+          items:
+            type: string
+    availableShipmentStop:
+      type: object
+      properties:
+        stopNumber:
+          type: integer
+          description: Number to indicate where in the order of stops the location is. C.H. Robinson uses a zero index. This means the \"0\" will indicate the first stop in the sequence of stops.
+        sequenceNumber:
+          type: integer
+          description: System generated number applied to the location when it is entered into the system.
+        stopType:
+          type: string
+          description: Stop type associated to this location.
+          enum:
+          - Pick
+          - Drop
+          - CrossDock
+          - DestinationAirport
+          - DestinationPort
+          - DestinationTerminal
+          - IntermediaryAirport
+          - IntermediaryPort
+          - IntermediaryRamp
+          - OriginAirport
+          - OriginPort
+          - OriginRamp
+          - OriginTerminal
+        calculatedArriveByStartDateTime:
+          type: string
+          format: date-time
+        calculatedArriveByEndDateTime:
+          type: string
+          format: date-time
+        heavyWeight:
+          type: integer
+        maxWeight:
+          type: integer
+        warehouseInformation:
+          $ref: '#/components/schemas/availableShipmentLocation'
+        isScheduledOpenTimeSpecified:
+          type: boolean
+        isScheduledCloseTimeSpecified:
+          type: boolean
+    railMilestoneEventCodeEnum:
+      type: string
+      description: Code that indicates the type of milestone being sent for a shipment being moved by train. For a detailed description of all enumerated codes please find them <a href="https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/RailMilestoneEventCodes.xlsx" target="_blank">here</a>.
+      enum:
+      - '3'
+      - '6'
+      - '7'
+      - '9'
+      - A
+      - B
+      - C
+      - D
+      - E
+      - F
+      - G
+      - I
+      - J
+      - K
+      - L
+      - M
+      - P
+      - Q
+      - R
+      - S
+      - U
+      - V
+      - W
+      - X
+      - Y
+      - Z
+    vehicleContact:
+      type: object
+      description: Contact information.
+      properties:
+        driverName:
+          type: string
+          description: Name of the driver associated to the milestone.
+        driverPhone:
+          type: string
+          description: Phone number of the driver associated to the milestone.
+        secondDriverName:
+          type: string
+          description: In instances of driver teams, name of the second driver associated to the milestone.
+        secondDriverPhone:
+          type: string
+          description: In instances of driver teams, phone number of the second driver associated to the milestone.
+        dispatchName:
+          type: string
+          description: Name of individual at carrier dispatch center.
+        dispatchPhone:
+          type: string
+          description: Phone number of carrier dispatcher.
+    packageCodeEnum:
+      type: string
+      description: "C.H. Robinson defined code for packaging type/code. Here is a list of the most commonly used packagingCodes: \n\n`BAL` - Bale, `BAG` - Bags, `BIN` - Bin, `BOX` - Boxes, `CTN` - Cartons  \n`CAS` - Case, `CRT` - Crates, `PKG` - Package, `EAC` - Eaches, `PLT` - Pallet, `PCS` - Pieces \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/PackageDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - BAL
+      - BIN
+      - BOT
+      - BXT
+      - JAR
+      - LSE
+      - LUG
+      - OTHR
+      - REL
+      - SAK
+      - SKD
+      - SKE
+      - SLP
+      - TLD
+      - TRY
+      - Empty
+      - BAG
+      - BOX
+      - BDL
+      - CTN
+      - CAS
+      - CRT
+      - DZ
+      - DRM
+      - EAC
+      - GYL
+      - HDW
+      - LNFT
+      - PKG
+      - PAL
+      - PLT
+      - PCS
+      - LBS
+      - ROL
+      - TOT
+      - YD
+      - Skids
+      - GAL
+      - KIT
+      - FT
+      - PAD
+      - PR
+      - SET
+      - SHT
+      - M
+      - KG
+      - IBC
+      - BAT
+      - AST
+      - CUB
+      - RKS
+      - PCK
+      - TH
+      - 24BIN
+      - 30BIN
+      - 36BIN
+      - 40BIN
+      - BSHL
+      - CLLPK
+      - DRC
+      - ECO
+      - EURO
+      - FLAT
+      - HFBIN
+      - HFCTN
+      - HVYPK
+      - IFCO
+      - I6408
+      - I6411
+      - I6413
+      - I6416
+      - I6419
+      - I6423
+      - I6425
+      - I6428
+      - ORBIS
+      - O6409
+      - O6411
+      - O6413
+      - O6416
+      - O6419
+      - O6425
+      - O6428
+      - P4311
+      - P4317
+      - P6408
+      - P6411
+      - P6413
+      - P6416
+      - P6419
+      - P6423
+      - P6425
+      - P6428
+      - RPC
+      - R6411
+      - R6413
+      - R6416
+      - TNBIN
+      - TOSCA
+      - T6408
+      - T6411
+      - T6413
+      - T6416
+      - T6419
+      - T6423
+      - T6425
+      - T6428
+      - WDCRT
+      - BRL
+      - RCK
+      - TUB
+      - CG
+      - DSP
+      - SQF
+      - CYL
+      - KEG
+      - IFCLB
+      - PLT1
+      - PLT2
+      - PLT3
+      - CAR
+      - COIL
+      - PI
+      - GOH
+      - BLK
+      - POG
+      - L
+      - IPLT
+      - RORO
+      - 45HC
+      - 45HR
+      - 40HC
+      - 40
+      - 40OT
+      - 40HR
+      - 40RF
+      - 40FR
+      - 20HC
+      - 20
+      - 20OT
+      - 20FR
+      - 45GP
+    milestoneStoptypeEnum:
+      type: string
+      description: "Identifies the type of stop the milestone is referencing.\n### <span style=\"color:DeepPink\">If location is for a milestone that isn't tied to a stop then this field should be set to null.</span> \n- 'P' - Pick \n- 'OA' - Origin Airport \n- 'OP' - Origin Port \n- 'OR' - Origin Ramp \n- 'OT' - Origin Terminal \n- 'D' - Drop \n- 'DA' - Destination Airport \n- 'DP' - Destination Port \n- 'DR' - Destination Ramp \n- 'DT' - Destination Terminal \n- 'IA' - Intermediate Airport \n- 'IP' - Intermediate Port \n- 'IR' - Intermediate Ramp \n- 'X' - Cross Dock \n- 'OF' - Origin Forwarder \n- 'OC' - Origin Crossdock \n- 'DF' - Destination Forwarder \n- 'DC' - Destination Crossdock \n- 'DY' - Dropyard"
+      enum:
+      - P
+      - OA
+      - OP
+      - OR
+      - OT
+      - D
+      - DA
+      - DP
+      - DR
+      - DT
+      - IA
+      - IP
+      - IR
+      - X
+      - OF
+      - OC
+      - DF
+      - DC
+      - DY
+    vehicleDetail:
+      type: object
+      description: Identifies vehicle information.
+      properties:
+        tractorNumber:
+          type: string
+          description: Identifier of the powered unit transporting the shipment.
+        trailerNumber:
+          type: string
+          description: Identifier of the trailer the shipment resides in.
+        licensePlate:
+          type: string
+          description: License plate of the powered unit.
+        licensePlateState:
+          type: string
+          description: State the license plate was issued
+        vin:
+          type: string
+          description: Vehicle idendification number of the powered unit.
+        contactInformation:
+          $ref: '#/components/schemas/vehicleContact'
+    emptyLocationV2:
+      type: object
+      required:
+      - city
+      - state
+      - country
+      description: Indicates the location of the carrier where they are empty and moving towards the pick up location.
+      properties:
+        city:
+          type: string
+          description: Indicates the city the carrier is empty.
+        state:
+          type: string
+          description: Indicates the state/province code where the carrier is empty.
+        country:
+          $ref: '#/components/schemas/countryCodeEnum'
+        zip:
+          type: string
+          description: Indicates the postal code the carrier is empty.
+    unitOfMeasure:
+      type: string
+      description: Indicates Standard or Metric.
+      default: Standard
+      enum:
+      - Standard
+      - Metric
+    specializedEquipmentCodeNAEnum:
+      type: string
+      description: "Code to indicate specialized equipment for NA. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/SpecializedEquipmentCodeDescription.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - 2T
+      - B
+      - BARGE
+      - BDPT
+      - BEAM
+      - BEND
+      - BFGD
+      - BHOP
+      - BISO
+      - BLADE
+      - BLAT
+      - BLFGT
+      - BLFRPT
+      - BLRL
+      - BLSS
+      - BST
+      - BSTR
+      - BT
+      - BVT
+      - BX50
+      - BX50100S
+      - BX50100SH
+      - BX60
+      - BX6070SC
+      - CH
+      - CN
+      - CO
+      - CT
+      - CV
+      - D
+      - DAIR
+      - DD
+      - DDC
+      - DR
+      - ET
+      - F
+      - FC
+      - FD
+      - FO
+      - FS
+      - FV
+      - GNDL
+      - HFD
+      - HFM
+      - HOP
+      - HS
+      - IC
+      - IR
+      - IT
+      - LT
+      - LTL
+      - MF
+      - MT
+      - MX
+      - OCEAN
+      - OT
+      - P
+      - PB
+      - PLT
+      - PO
+      - PT
+      - PU
+      - QA
+      - R
+      - RGN
+      - RM
+      - SA
+      - SD
+      - SDC
+      - SDD
+      - SETT
+      - SF
+      - SFD
+      - SFM
+      - SRGN
+      - SS
+      - SSD
+      - STR
+      - TA
+      - TK
+      - TKR
+      - TM
+      - TP
+      - TT
+      - UC
+      - V
+      - VI
+      - VS
+      - VV
+    milestoneCarrier:
+      type: object
+      description: Carrier information associated to the milestone.
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Name of carrier executing shipment.
+        milestoneSource:
+          type: string
+          description: Source of the milestone, if not sent by the carrier.
+        dotNumber:
+          type: string
+          description: United States of America government issued identification number for a carrier.
+        mcNumber:
+          type: string
+          description: A legal serialization each carrier has from an operating authority to operate their carrier business.
+        carrierCode:
+          type: string
+          description: "C.H. Robinson defined code for the carrier. \n\n ### <span style=\"color:DeepPink\">Although not a validation requirement, not having carrierCode could impact the update from applying to the shipment that is managed by C.H. Robinson.</span>"
+        scac:
+          type: string
+          description: In North America this is the Nmfta defined standard carrier alpha code.
+        sealNumber:
+          type: string
+          description: If trailer has a seal, the identifier of the seal.
+        temperature:
+          type: number
+          format: float
+          description: Idenifies the temperature at the time of the milestone.
+        temperatureUnitOfMeasure:
+          $ref: '#/components/schemas/temperatureUomEnum'
+        vehicleDetail:
+          $ref: '#/components/schemas/vehicleDetail'
+        flightDetail:
+          $ref: '#/components/schemas/flightDetail'
+        vesselDetail:
+          $ref: '#/components/schemas/vesselDetail'
+        railDetail:
+          $ref: '#/components/schemas/railDetail'
+    railDetail:
+      type: object
+      description: Identifies rail information.
+      properties:
+        sightingCode:
+          type: string
+          description: Rail specific event codes.
+        trainNumber:
+          type: string
+          description: Identifies the train the miletsone refers to.
+    offerAcknowledgment:
+      type: object
+      properties:
+        offerRequestId:
+          type: string
+          description: Unique identifier that is associated with the offer request.
+    radiusSearch:
+      type: object
+      required:
+      - coordinate
+      - radius
+      description: Sets the coordinates and radial distance.
+      properties:
+        coordinate:
+          $ref: '#/components/schemas/coordinate'
+        radius:
+          type: object
+          required:
+          - value
+          - unitOfMeasure
+          description: Allows the setting of radius with the lat/long being the center of the radius.
+          properties:
+            value:
+              type: number
+              format: float
+              description: Indicates the distance of radial circle around lat/lon point.
+            unitOfMeasure:
+              $ref: '#/components/schemas/unitOfMeasure'
+    milestoneItem:
+      type: object
+      description: Item totals associated to milestone.
+      properties:
+        itemId:
+          type: string
+          description: Unique identifier of line item.
+        weight:
+          type: number
+          description: Acutal weight of line item.
+        weightUnitOfMeasure:
+          $ref: '#/components/schemas/weightUomEnum'
+        quantity:
+          type: number
+          description: Acutal quantity of line item.
+        pallets:
+          type: number
+          description: Quantity of pallet(s).
+    distance:
+      type: object
+      description: Total miles and kilometers of the load.
+      properties:
+        miles:
+          type: number
+          format: float
+          description: Total distance in miles of the load.
+        kilometers:
+          type: number
+          format: float
+          description: Total distance in kilometers of the load.
+    stateProvinceCodeEnum:
+      type: string
+      description: "Indicate the state or province of the location. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/StateProvinceCodes.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - '1'
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '2'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '27'
+      - '28'
+      - '29'
+      - '3'
+      - '30'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '35'
+      - '36'
+      - '37'
+      - '38'
+      - '39'
+      - '4'
+      - '40'
+      - '41'
+      - '42'
+      - '43'
+      - '44'
+      - '45'
+      - '46'
+      - '47'
+      - '48'
+      - '49'
+      - '5'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '6'
+      - '61'
+      - '62'
+      - '63'
+      - '64'
+      - '65'
+      - '67'
+      - '7'
+      - '71'
+      - '76'
+      - '79'
+      - '8'
+      - '81'
+      - '84'
+      - '86'
+      - '89'
+      - '9'
+      - '91'
+      - '92'
+      - '95'
+      - A
+      - AA
+      - AB
+      - AC
+      - AE
+      - AG
+      - AGU
+      - AI
+      - AK
+      - AL
+      - AM
+      - AN
+      - AO
+      - AP
+      - AQ
+      - AR
+      - AS
+      - AT
+      - AUK
+      - AV
+      - AZ
+      - B
+      - BA
+      - BC
+      - BCN
+      - BCS
+      - BG
+      - BI
+      - BL
+      - BM
+      - BN
+      - BO
+      - BOP
+      - BR
+      - BS
+      - BT
+      - BZ
+      - C
+      - CA
+      - CAM
+      - CAN
+      - CB
+      - CE
+      - CH
+      - CHH
+      - CHP
+      - CI
+      - CL
+      - CN
+      - CO
+      - COA
+      - COL
+      - CR
+      - CS
+      - CT
+      - CZ
+      - D
+      - DC
+      - DD
+      - DE
+      - DF
+      - DL
+      - DN
+      - DUR
+      - E
+      - EN
+      - ES
+      - F
+      - FC
+      - FE
+      - FG
+      - FI
+      - FL
+      - FM
+      - FR
+      - G
+      - GA
+      - GE
+      - GIS
+      - GJ
+      - GO
+      - GR
+      - GRO
+      - GU
+      - GUA
+      - H
+      - HI
+      - HID
+      - HKB
+      - HP
+      - HR
+      - IA
+      - ID
+      - IL
+      - IM
+      - IN
+      - IS
+      - J
+      - JAL
+      - JH
+      - JK
+      - K
+      - KA
+      - KL
+      - KR
+      - KS
+      - KY
+      - L
+      - LA
+      - LC
+      - LD
+      - LE
+      - LI
+      - LL
+      - LO
+      - LT
+      - LU
+      - M
+      - MA
+      - MB
+      - MBH
+      - MC
+      - MD
+      - ME
+      - MEX
+      - MG
+      - MH
+      - MI
+      - MIC
+      - ML
+      - MN
+      - MO
+      - MOR
+      - MP
+      - MS
+      - MT
+      - MWT
+      - MZ
+      - N
+      - NA
+      - NAY
+      - NB
+      - NC
+      - ND
+      - NE
+      - NH
+      - NJ
+      - NL
+      - NLE
+      - NM
+      - 'NO'
+      - NS
+      - NSN
+      - NSW
+      - NT
+      - NTL
+      - NU
+      - NV
+      - NY
+      - O
+      - OAX
+      - OG
+      - OH
+      - OI
+      - OK
+      - 'ON'
+      - OR
+      - OT
+      - OTA
+      - P
+      - PA
+      - PB
+      - PC
+      - PD
+      - PE
+      - PG
+      - PI
+      - PN
+      - PO
+      - PR
+      - PT
+      - PU
+      - PUE
+      - PV
+      - PY
+      - PZ
+      - Q
+      - QC
+      - QLD
+      - QU
+      - QUE
+      - R
+      - RA
+      - RC
+      - RE
+      - RG
+      - RI
+      - RJ
+      - RM
+      - RN
+      - RO
+      - ROO
+      - RR
+      - RS
+      - S
+      - SA
+      - SC
+      - SD
+      - SE
+      - SI
+      - SIN
+      - SJ
+      - SK
+      - SLP
+      - SO
+      - SON
+      - SP
+      - SR
+      - SS
+      - STL
+      - SV
+      - T
+      - TA
+      - TAB
+      - TAM
+      - TAS
+      - TE
+      - TG
+      - TKI
+      - TLA
+      - TN
+      - TO
+      - TP
+      - TR
+      - TS
+      - TV
+      - TX
+      - U
+      - UD
+      - UL
+      - UM
+      - UP
+      - UT
+      - V
+      - VA
+      - VB
+      - VC
+      - VE
+      - VER
+      - VI
+      - VIC
+      - VR
+      - VS
+      - VT
+      - VV
+      - W
+      - WA
+      - WB
+      - WGN
+      - WI
+      - WKO
+      - WTC
+      - WV
+      - WY
+      - X
+      - Y
+      - YT
+      - YUC
+      - Z
+      - ZAC
+    shipmentDetail:
+      type: object
+      description: null
+      properties:
+        time:
+          type: string
+          format: date
+          description: The date/time in ISO8601 format when the event was written to the Enterprise API database.
+        carrierCode:
+          type: string
+          description: C.H. Robinson defined carrier code.
+        scac:
+          type: string
+          description: Standard carrier alpha code.
+        loadNumber:
+          type: string
+          description: C.H. Robinson shipment number.
+        clientId:
+          type: string
+          description: API clientId tied to the profile of the carrier.
+        eventTime:
+          type: string
+          format: date
+          description: The date/time in ISO8601 format when the event was reported to have occured.
+        event:
+          $ref: '#/components/schemas/shipmentDetailEvent'
+    availableShipmentsSearchV2:
+      type: object
+      required:
+      - regionCode
+      properties:
+        pageIndex:
+          type: integer
+          description: Sets the page of results.
+          default: 0
+        pageSize:
+          type: integer
+          description: Sets the amount of results on the page.
+          maximum: 100
+          default: 100
+        regionCode:
+          type: string
+          description: Indicates the region code for the request.
+          enum:
+          - NA
+          - EU
+        carrierCode:
+          type: string
+          description: C.H. Robinson define code that identifies a carrier.
+        originRadiusSearch:
+          $ref: '#/components/schemas/radiusSearch'
+        destinationRadiusSearch:
+          $ref: '#/components/schemas/radiusSearch'
+        origins:
+          type: array
+          description: Indicates the country and state(s) to be considered for the origin. Only use this if originRadiusSearch isn't being used.
+          items:
+            type: object
+            required:
+            - countryCode
+            - stateCodes
+            properties:
+              countryCode:
+                type: string
+                description: Indicate the country code.
+              stateCodes:
+                type: array
+                description: Indicate state code(s) wanting to be considered.
+                items:
+                  type: string
+        destinations:
+          type: array
+          description: Indicates the country and state(s) to be considered for the destination. Only use this if destinationRadiusSearch isn't being used.
+          items:
+            type: object
+            required:
+            - countryCode
+            - stateCodes
+            properties:
+              countryCode:
+                type: string
+                description: Indicate the country code.
+              stateCodes:
+                type: array
+                description: Indicate state code(s) wanting to be considered.
+                items:
+                  type: string
+        modes:
+          $ref: '#/components/schemas/availableShipmentsModeEnum'
+        excludedModes:
+          $ref: '#/components/schemas/availableShipmentsModeEnum'
+        loadDistanceRange:
+          type: object
+          required:
+          - unitOfMeasure
+          - min
+          - max
+          description: Indicates min/max distance wanted.
+          properties:
+            unitOfMeasure:
+              $ref: '#/components/schemas/unitOfMeasure'
+            min:
+              type: integer
+              description: Minimum distance desired.
+            max:
+              type: integer
+              description: Maximum distance desired.
+        loadWeightRange:
+          type: object
+          required:
+          - unitOfMeasure
+          - min
+          - max
+          description: Indicates min/max weight wanted.
+          properties:
+            unitOfMeasure:
+              $ref: '#/components/schemas/unitOfMeasure'
+            min:
+              type: integer
+              description: Minimum weight desired.
+            max:
+              type: integer
+              description: Maximum weight desired.
+        equipmentLengthRange:
+          type: object
+          required:
+          - unitOfMeasure
+          - min
+          - max
+          description: Indicates min/max equipment length wanted.
+          properties:
+            unitOfMeasure:
+              $ref: '#/components/schemas/unitOfMeasure'
+            min:
+              type: integer
+              description: Minimum length desired.
+            max:
+              type: integer
+              description: Maximum length desired.
+        availableForPickUpByDateRange:
+          type: object
+          description: Set earliest and latest date window for a load to be ready by.
+          properties:
+            min:
+              type: string
+              format: date
+              description: An ISO8601 UTC date used to indicate the earliest ready by date.
+            max:
+              type: string
+              format: date
+              description: An ISO8601 UTC date used to indicate the latest ready by date.
+        specializedEquipmentCode:
+          description: Depending on the region code you will use a code from one of the lists below.
+          oneOf:
+          - $ref: '#/components/schemas/specializedEquipmentCodeNAEnum'
+          - $ref: '#/components/schemas/specializedEquipmentCodeEUEnum'
+        teamLoad:
+          type: boolean
+          description: Indicate if team loads are returned in results alongside non-teamLoad loads. If exluding these types of loads is desired, "false" must be sent.
+          default: true
+        stfLoad:
+          type: boolean
+          description: Indicate if STF loads are returned in results alongside non-STF loads. If exluding these types of loads is desired, "false" must be sent.
+          default: true
+        hazMatLoad:
+          type: boolean
+          description: Indicate if Hazmat loads are returned in results alongside non-hazmat loads. If exluding these types of loads is desired, "false" must be sent.
+          default: true
+        tankerLoad:
+          type: boolean
+          default: true
+          description: Indicate if Tanker loads are returned in results alongside non-tanker loads. If exluding these types of loads is desired, "false" must be sent.
+        chemicalSolutionLoad:
+          type: boolean
+          description: Indicate if Chemical Solution loads are returned in results alongside non-Chemical solution loads. If exluding these types of loads is desired, "false" must be sent.
+          default: true
+        highValueLoad:
+          type: boolean
+          description: Indicate if High Value loads are returned in results alongside non-High value loads. If exluding these types of loads is desired, "false" must be sent.
+          default: true
+        sortCriteria:
+          type: object
+          description: Allows user to sort results.
+          required:
+          - field
+          - direction
+          properties:
+            field:
+              type: string
+              description: Selection the criteria for sorting results.
+              enum:
+              - LoadNumber
+              - OriginCity
+              - CalculatedPickupByDateTime
+              - Distance
+              - DestinationCity
+              - CalculatedDeliverByDateTime
+              - Weight
+              - Mode
+              - OriginDeadHeadDistance
+            direction:
+              type: string
+              description: Select either Ascending or Descending.
+              enum:
+              - ascending
+              - descending
+    loadBookV2:
+      type: object
+      description: JSON payload to book a carrier to an available shipment.
+      required:
+      - loadNumber
+      - carrierCode
+      - emailAddress
+      - availableLoadCosts
+      - rateConEmail
+      - rateConName
+      properties:
+        loadNumber:
+          type: integer
+          format: base32 integer
+          description: C.H. Robinson provided shipment identifier.
+        carrierCode:
+          type: string
+          description: C.H. Robinson defined code for the carrier.
+        emptyDateTime:
+          type: string
+          format: date-time
+          description: ISO8601 UTC date-time the trailer is empty and driver is on his way to the pick up.
+        emptyLocation:
+          $ref: '#/components/schemas/emptyLocationV2'
+        availableLoadCosts:
+          type: array
+          description: Array of the bin cost object. The fields for this object are informed by the avaialble shipments response message (availableLoadCost)
+          minimum: 1
+          items:
+            $ref: '#/components/schemas/binCost'
+        rateConfirmation:
+          $ref: '#/components/schemas/rateConfirmation'
+    freightTermEnum:
+      type: string
+      description: "Code to indicate the freight term type:\n\n* `CL` - Collect\n* `PP` - Prepaid \n* `TP` - Third Party\n* `PC` - Prepaid and Add\n* `CC` - The Bill To is paying via a Credit Card\n\n"
+      enum:
+      - CL
+      - PP
+      - TP
+      - PC
+      - CC
+    availableShipmentsResponseV2:
+      type: object
+      properties:
+        results:
+          $ref: '#/components/schemas/availableShipmentV2'
+        totalResults:
+          type: integer
+          description: Number of loads available from the query.
+    availableShipmentEquipment:
+      type: object
+      properties:
+        length:
+          $ref: '#/components/schemas/dimension'
+        width:
+          $ref: '#/components/schemas/dimension'
+        height:
+          $ref: '#/components/schemas/dimension'
+    availableShipmentLocation:
+      type: object
+      description: Location information.
+      properties:
+        warehouseCode:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: C.H. Robinson defined identifier of a location.
+        city:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: City where load is picked up or deliverd.
+        stateCode:
+          type: string
+          minimum: 1
+          maximum: 5
+          description: State where load is picked up or deliverd.
+        postalCode:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: State where load is picked up or deliverd.
+        county:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: County where load is picked up or deliverd.
+        countryCode:
+          type: string
+          minimum: 1
+          maximum: 5
+          description: Country where load is picked up or deliverd.
+        coordinate:
+          $ref: '#/components/schemas/coordinate'
+        openTime:
+          type: string
+          description: The time the location opens as defined by the ISO 8601 duration standar https://en.wikipedia.org/wiki/ISO_8601#Durations.
+        closeTime:
+          type: string
+          description: The time the location closes defined by the ISO 8601 duration standar https://en.wikipedia.org/wiki/ISO_8601#Durations.
+        name:
+          type: string
+          description: Name of the location.
+        scheduleRequest:
+          type: string
+    shipmentIdentifier:
+      type: object
+      description: "A list of different common reference numbers that can be used to identify the shipment the milestone is intended for. \n\n ### <span style=\"color:DeepPink\">At least one ship identifier needs to be present.</span>"
+      properties:
+        shipmentNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Defined ID for the shipment. Usually the C.H. Robinson load number.
+        shipperBillToId:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Shipper defined Bill To reference number for the shipment.
+        proNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Carrier defined pro number for the shipment.
+        trackingNumber:
+          type: string
+          minimum: 1
+          maximum: 150
+          description: Carrier or customer defined tracking number for the shipment.
+        containerNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Carrier or customer defined container number for the shipment.
+    availableShipmentsModeEnum:
+      type: array
+      description: 'C.H. Robinson defined code for mode.
+
+
+        For a detailed description of all enumerated codes please find them <a href="https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/AvailableShipmentsModeCodeDescription.xlsx" target="_blank">here</a>.'
+      items:
+        type: string
+        enum:
+        - A
+        - B
+        - D
+        - F
+        - H
+        - I
+        - J
+        - L
+        - M
+        - O
+        - P
+        - R
+        - S
+        - T
+        - V
+        - W
+        - Y
+    currencyCodeEnum:
+      type: string
+      description: "Code to indicate the currency being used. The most common currently in use with C.H. Robinson:\n\n* `USD` - US Dollar\n* `CAD` - Canadian Dollar \n* `MXN` - Mexican Peso\n* `EUR` - European Euro\n\n\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CurrencyCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - USD
+      - CAD
+      - EUR
+      - MXN
+      - CHF
+      - GBP
+      - HUF
+      - CZK
+      - NZD
+      - PLN
+      - ZAR
+      - VEB
+      - VND
+      - TWD
+      - TRY
+      - SEK
+      - SGD
+      - RUB
+      - NOK
+      - HKD
+      - INR
+      - JPY
+      - CLP
+      - CNY
+      - DKK
+      - AUD
+      - BRL
+      - AED
+      - PEN
+      - THB
+      - ARS
+      - MYR
+      - VEF
+      - SAR
+      - BBD
+      - BHD
+      - BMD
+      - BSD
+      - ILS
+      - ISK
+      - KES
+      - KRW
+      - KWD
+      - OMR
+      - PHP
+      - PKR
+      - QAR
+      - RON
+      - TTD
+      - UAH
+      - LKR
+      - XPF
+      - UYU
+      - COP
+      - CRC
+      - FJD
+    lateCodeEnum:
+      type: string
+      description: "C.H. Robinson defined code for a carrier being late to a stop or reason to schedule new appiontment. Here is a list of the most commonly used late reason codes: \n* `1` - Missed Delivery - Transportation carrier missed customer delivery\n* `3` - Returned to Shipper\n* `9` - Mechanical breakdown\n* `14` - Weather or Natural Disaster Related - Shipment delayed by natural disaster or severe weather\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/LateReasonCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      - '6'
+      - '7'
+      - '8'
+      - '9'
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '27'
+      - '28'
+      - '29'
+      - '30'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '35'
+      - '36'
+      - '37'
+      - '38'
+      - '39'
+      - '40'
+      - '41'
+      - '42'
+      - '43'
+      - '44'
+      - '45'
+      - '46'
+      - '47'
+      - '48'
+      - '49'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
+      - '56'
+      - '57'
+      - '58'
+      - '59'
+      - '60'
+      - '61'
+      - '62'
+      - '63'
+      - '64'
+      - '65'
+      - '66'
+      - '67'
+      - '68'
+      - '69'
+      - '70'
+      - '71'
+      - '72'
+      - '73'
+      - '74'
+      - '75'
+      - '76'
+      - '77'
+      - '78'
+      - '79'
+      - '80'
+      - '81'
+      - '82'
+      - '83'
+      - '84'
+      - '85'
+      - '86'
+      - '87'
+      - '88'
+      - '89'
+      - '90'
+      - CSC
+      - CSCCHR
+      - '91'
+      - '92'
+      - AE
+      - BH
+      - BO
+      - CA
+      - CR
+      - CSCCAR
+      - CSCCUS
+      - CSCEDI
+      - CSCREQ
+      - CSCWEA
+      - DR
+      - EE
+      - MA
+      - ME
+      - VI
+      - WR
+      - '93'
+      - '94'
+      - '95'
+      - '96'
+      - '97'
+      - '98'
+      - '99'
+      - '100'
+      - '0'
+    countryCodeEnum:
+      type: string
+      description: "Indicate the country of the location. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CountryCodes.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - AD
+      - AE
+      - AF
+      - AG
+      - AI
+      - AL
+      - AM
+      - AO
+      - AQ
+      - AR
+      - AS
+      - AT
+      - AU
+      - AW
+      - AZ
+      - BA
+      - BB
+      - BD
+      - BE
+      - BF
+      - BG
+      - BH
+      - BI
+      - BJ
+      - BM
+      - BN
+      - BO
+      - BR
+      - BS
+      - BT
+      - MM
+      - BV
+      - BW
+      - BY
+      - BZ
+      - CA
+      - CC
+      - CD
+      - CF
+      - CG
+      - CH
+      - CI
+      - CK
+      - CL
+      - CM
+      - CN
+      - CO
+      - CR
+      - RS
+      - CU
+      - CV
+      - CX
+      - CY
+      - CZ
+      - DE
+      - DJ
+      - DK
+      - DM
+      - DO
+      - DZ
+      - EC
+      - EE
+      - EG
+      - EH
+      - ER
+      - ES
+      - ET
+      - FI
+      - FJ
+      - FK
+      - FM
+      - FO
+      - FR
+      - GA
+      - GD
+      - GE
+      - GF
+      - GH
+      - GI
+      - GL
+      - GM
+      - GN
+      - GP
+      - GQ
+      - GR
+      - GS
+      - GT
+      - GU
+      - GW
+      - GY
+      - HK
+      - HM
+      - HN
+      - HR
+      - HT
+      - HU
+      - ID
+      - IE
+      - IL
+      - IN
+      - IO
+      - IQ
+      - IR
+      - IS
+      - IT
+      - JM
+      - JO
+      - JP
+      - KE
+      - KG
+      - KH
+      - KI
+      - KM
+      - KN
+      - KP
+      - KR
+      - KW
+      - KY
+      - KZ
+      - LA
+      - LB
+      - LC
+      - LI
+      - LK
+      - LR
+      - LS
+      - LT
+      - LU
+      - LV
+      - LY
+      - MA
+      - MC
+      - MD
+      - MG
+      - MH
+      - MK
+      - ML
+      - MN
+      - MO
+      - MP
+      - MQ
+      - MR
+      - MS
+      - MT
+      - MU
+      - MV
+      - MW
+      - MX
+      - MY
+      - MZ
+      - NA
+      - NC
+      - NE
+      - NF
+      - NG
+      - NI
+      - NL
+      - 'NO'
+      - NP
+      - NR
+      - NU
+      - NZ
+      - OM
+      - PA
+      - PE
+      - PF
+      - PG
+      - PH
+      - PK
+      - PL
+      - PM
+      - PN
+      - PR
+      - PS
+      - PT
+      - PW
+      - PY
+      - QA
+      - RE
+      - RO
+      - RU
+      - RW
+      - SA
+      - SB
+      - SC
+      - SD
+      - SE
+      - SG
+      - SH
+      - SI
+      - SJ
+      - SK
+      - SL
+      - SM
+      - SN
+      - SO
+      - SR
+      - ST
+      - SV
+      - SY
+      - SZ
+      - TC
+      - TD
+      - TF
+      - TG
+      - TH
+      - TJ
+      - TK
+      - TL
+      - TM
+      - TN
+      - TO
+      - TP
+      - TR
+      - TT
+      - TV
+      - TW
+      - TZ
+      - UA
+      - UG
+      - GB
+      - UM
+      - US
+      - UY
+      - UZ
+      - VA
+      - VC
+      - VE
+      - VG
+      - VI
+      - VN
+      - VU
+      - WF
+      - WS
+      - YE
+      - YT
+      - ZA
+      - ZM
+      - ZR
+      - ZW
+      - AX
+      - GG
+      - IM
+      - JE
+      - ME
+      - MF
+      - CW
+      - SX
+      - SS
+      - IC
+      - XC
+      - XL
+    specializedEquipmentCodeEUEnum:
+      type: string
+      description: "Code to indicate specialized equipment for EU. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/SpecializedEquipmentCodeDescription.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - AIR
+      - B
+      - BOAT
+      - BX
+      - CAR
+      - COIL
+      - DD
+      - DDF
+      - F
+      - FO
+      - FRI
+      - IC
+      - IR
+      - IT
+      - LTL
+      - MT
+      - MTIL
+      - PT
+      - RD
+      - SIL
+      - STK
+      - T
+      - TCOI
+      - TIL
+      - TIP
+      - TK
+      - TNK
+      - V
+      - WK
+    dateTime:
+      type: object
+      description: "Object containing the different types of dates that can apply to a milestone. \n\n ### <span style=\"color:DeepPink\">At least one needs to be present.</span>"
+      properties:
+        eventDateTime:
+          type: string
+          format: date-time
+          description: ISO8601 UTC date-time of the milestone for event code not pertaining to ETA or appointment.
+        estimatedTimeOfArrival:
+          type: string
+          format: date-time
+          description: ISO8601 UTC date-time when event code pertains to ETA.
+        appointmentWindow:
+          type: object
+          description: The date/time window when an appointment has been set. If there is no window, put the same date/time in both the openDateTime and closeDateTime fields.
+          properties:
+            openDateTime:
+              type: string
+              format: date-time
+              description: ISO8601 UTC date-time of earliest time carrier will be arriving.
+            closeDateTime:
+              type: string
+              format: date-time
+              description: ISO8601 UTC date-time of latest time carrier will be arriving.
+    availableLoadCost:
+      type: object
+      description: Object containing load cost.
+      properties:
+        loadNumber:
+          type: integer
+          description: C.H. Robinson shipment number.
+        carrierCode:
+          type: string
+          description: C.H. Robinson carrier identifier.
+        expirationDate:
+          type: string
+          format: date
+          description: An ISO8601 UTC date-time used to indicate the expiration date of the cost.
+        type:
+          type: string
+          description: Indicates the type of cost.
+        code:
+          $ref: '#/components/schemas/rateCodeEnum'
+        description:
+          type: string
+          description: Cost description.
+        sourceCostPerUnit:
+          type: number
+          description: Amount of cost by unit. To derive total cost take sourceCostPerUnit and multiply by units.
+        units:
+          type: number
+          description: Count of the cost.
+        currencyCode:
+          $ref: '#/components/schemas/currencyCodeEnum'
+        employeeCode:
+          type: string
+          description: C.H. Robinson employee identifier.
+        employeeBranch:
+          type: integer
+          description: C.H. Robinson employee branch identifier.
+        score:
+          type: number
+          description: Score
+        createdDateTime:
+          type: string
+          format: date
+          description: An ISO8601 UTC date-time used to indicate the creation date of the cost.
+        updatedDateTime:
+          type: string
+          format: date
+          description: An ISO8601 UTC date-time used to indicate the updated date of the cost.
+        binCostKey:
+          type: string
+          description: C.H. Robinson generate GUID.
+        binOfferable:
+          type: boolean
+          description: Indicates if this is available for offer.
+    error404:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 404
+        error:
+          type: string
+          description: Detail about the error status code
+          example: Not Found
+        message:
+          type: string
+          description: Specifies issue
+          example: Not Found
+    supplementalInformation:
+      type: object
+      description: Allows updating entity to provide additional details pertaining to the milestone.
+      properties:
+        reasonCode:
+          $ref: '#/components/schemas/lateCodeEnum'
+        notes:
+          type: string
+          description: Allows updating entity to provide any notations pertaining to the milestone.
+    milestone:
+      type: object
+      description: Shipment update
+      required:
+      - eventCode
+      - dateTime
+      - shipmentIdentifier
+      - location
+      properties:
+        transitType:
+          description: Defines the type of movement the event is for.
+          enum:
+          - Road
+          - Ocean
+          - Rail
+          - Air
+        eventCode:
+          description: Depending on the transitType you will use a code from one of the lists below.
+          oneOf:
+          - $ref: '#/components/schemas/roadMilestoneEventCodeEnum'
+          - $ref: '#/components/schemas/oceanMilestoneEventCodeEnum'
+          - $ref: '#/components/schemas/railMilestoneEventCodeEnum'
+          - $ref: '#/components/schemas/airMilestoneEventCodeEnum'
+        shipmentIdentifier:
+          $ref: '#/components/schemas/shipmentIdentifier'
+        dateTime:
+          $ref: '#/components/schemas/dateTime'
+        carrier:
+          $ref: '#/components/schemas/milestoneCarrier'
+        location:
+          $ref: '#/components/schemas/milestoneLocation'
+        items:
+          type: array
+          description: Array of items tied to the milestone.
+          items:
+            $ref: '#/components/schemas/milestoneItem'
+        supplementalInformation:
+          $ref: '#/components/schemas/supplementalInformation'
+    weight:
+      type: object
+      description: Total pounds and kilograms.
+      properties:
+        pounds:
+          type: number
+          format: float
+          description: Total weight in pounds of the load.
+        kilograms:
+          type: number
+          format: float
+          description: Total weight in kilograms of the load.
+    error400:
+      properties:
+        message:
+          type: string
+        path:
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+        context:
+          type: object
+          properties:
+            child:
+              type: string
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+            key:
+              type: string
+            label:
+              type: string
+    vesselDetail:
+      type: object
+      description: Identifies vessel information.
+      properties:
+        vesselName:
+          type: string
+          description: Identifies the name of the vessel.
+        voyageNumber:
+          type: string
+          description: Identifies the voyage number..
+        vesselIMONumber:
+          type: string
+          description: Identifies vessel IMO number.
+        hullNumber:
+          type: string
+          description: Identifies the hull number of the vessel.
+    availableShipmentV2:
+      type: array
+      description: Contains the information of available loads.
+      items:
+        type: object
+        required:
+        - origin
+        - destination
+        properties:
+          loadNumber:
+            type: integer
+            format: base32 integer
+            description: C.H. Robinson provided shipment identifier.
+          origin:
+            $ref: '#/components/schemas/availableShipmentLocation'
+          destination:
+            $ref: '#/components/schemas/availableShipmentLocation'
+          distance:
+            $ref: '#/components/schemas/distance'
+          weight:
+            $ref: '#/components/schemas/weight'
+          readyBy:
+            type: string
+            format: date-time
+            description: An ISO8601 UTC date-time that can be set by partner to include loads available to be shipped on or before a specific date.
+          deliverBy:
+            type: string
+            format: date-time
+            description: An ISO8601 UTC date-time that can be set by the partner to include loads set to be delivered on or before a specific date.
+          equipment:
+            $ref: '#/components/schemas/availableShipmentEquipment'
+          specializedEquipment:
+            allOf:
+            - type: object
+              properties:
+                code:
+                  type: string
+                  description: Code of specialized equipment.
+                description:
+                  type: string
+                  description: Description of specialized equipment.
+            - $ref: '#/components/schemas/availableShipmentEquipment'
+          hasDriverWork:
+            type: boolean
+            description: Indication if work is required by the driver.
+          stopCount:
+            type: integer
+            description: Indicates how many stops are on the shipment.
+          carrierTier:
+            type: string
+            enum:
+            - None
+            - Base
+            - Core
+            - Key
+            - DoesNotApply
+            - New
+            - Managed
+            - ManagedBase
+            description: The program, if any, the shipment is a part of.
+          isOkToAdvertise:
+            type: boolean
+            description: Indicates if load is classified as okay to advertise.
+          isDatOk:
+            type: boolean
+            description: Indicates if load is classified as a DAT load.
+          isHazMat:
+            type: boolean
+            description: Indicates if load is classified as a HazMat.
+          isTeamLoad:
+            type: boolean
+            description: Indicates if load is classified as needing a driver team.
+          isRegulatedByStf:
+            type: boolean
+            description: Indicates if load is classified as STF regulated.
+          isTankerEndorsementRequired:
+            type: boolean
+            description: Indicates if load is classified as needing driver to have tanker endorsement.
+          isTest:
+            type: boolean
+            description: Indicates if load is a test load.
+          isWebDisplayable:
+            type: boolean
+          sourceUom:
+            $ref: '#/components/schemas/unitOfMeasure'
+          regionCode:
+            type: string
+            description: Indicates region the load resides in.
+          comment:
+            type: string
+            description: Displays, if any, comments associated to the load.
+          contact:
+            $ref: '#/components/schemas/availableShipmentContact'
+          rating:
+            $ref: '#/components/schemas/availableShipmentsRateEnum'
+          modes:
+            type: array
+            items:
+              $ref: '#/components/schemas/availableShipmentsModeEnum'
+          hasDropTrailer:
+            type: boolean
+            description: Indicates is load is a drop trailer.
+          deliveryAvailableDate:
+            type: string
+            format: date
+            description: Indicates the date the shipment is available for delivery.
+          stops:
+            type: array
+            description: An array of all the stops on the shipment.
+            items:
+              $ref: '#/components/schemas/availableShipmentStop'
+          pickUpByDate:
+            type: string
+            format: date
+            description: Indicates the date the shipment is available for pick up.
+          activityDate:
+            type: string
+            format: date
+            description: Indicates the current activity date of the load.
+          minimumLogipoints:
+            type: number
+            format: float
+          availableLoadCosts:
+            type: array
+            description: Array of load costs
+            items:
+              $ref: '#/components/schemas/availableLoadCost'
+          deadHeadDistance:
+            type: number
+            description: Deadhead mileage from search origin to load origin.
+          reeferSetting:
+            type: string
+            description: Indicates the reefer setting.
+          reeferTemperature:
+            $ref: '#/components/schemas/availableShipmentTemperature'
+          maxTemp:
+            $ref: '#/components/schemas/availableShipmentTemperature'
+          minTemp:
+            $ref: '#/components/schemas/availableShipmentTemperature'
+          availableForPickUp:
+            type: object
+            description: Set earliest and latest date window for a load to be ready by.
+            properties:
+              startDate:
+                type: string
+                format: date
+                description: An ISO8601 UTC date-time used to indicate the start date.
+              endDate:
+                type: string
+                format: date
+                description: An ISO8601 UTC date-time used to indicate the end date.
+              minimum:
+                type: string
+                format: date
+                description: An ISO8601 UTC date-time used to indicate the earliest available for pick up by date.
+              maximum:
+                type: string
+                format: date
+                description: An ISO8601 UTC date-time used to indicate the latest available for pick up by date.
+          minimumCargoManagementPoints:
+            type: number
+            description: minimum cargo management points
+          isNotOfferable:
+            type: boolean
+            description: null
+          bookingContactPhoneNumber:
+            type: string
+            description: Contact phone number.
+          isTwicCardRequired:
+            type: boolean
+            description: null
+          isPersonalProtectiveEquipmentRequired:
+            type: boolean
+            description: Are personal protective equipment required.
+          hasOverDimensionalItems:
+            type: boolean
+            description: has over dimensional items
+          isHeavyHaul:
+            type: boolean
+            description: is a heavy haul
+          load_join:
+            type: string
+            description: load join
+          createdDateTime:
+            type: string
+            format: date
+            description: An ISO8601 UTC date-time.
+          updatedDateTime:
+            type: string
+            format: date
+            description: An ISO8601 UTC date-time.
+          assignedRep:
+            type: string
+            description: The Rep assigned.
+          calculatedPickUpByDateTime:
+            type: string
+            format: date
+            description: An ISO8601 UTC date-time.
+          calculatedDeliverByDateTime:
+            type: string
+            format: date
+            description: An ISO8601 UTC date-time.
+    temperatureUomEnum:
+      type: string
+      description: Unit of measure for temperature parameters.
+      enum:
+      - Fahrenheit
+      - Celsius
+      - Empty
+    loadOffer:
+      type: object
+      description: Object to use for submitting load offer.
+      required:
+      - carrierCode
+      - offerPrice
+      properties:
+        carrierCode:
+          type: string
+          description: C.H. Robinson defined code for the carrier making the offer.
+        offerPrice:
+          type: integer
+          description: Amount carrier would like to offer on the load.
+        offerNote:
+          type: string
+          description: Any note the carrier would like to send along with the offer.
+        currencyCode:
+          type: string
+          default: USD
+          description: Currency code of the offer amount.
+    weightUomEnum:
+      type: string
+      description: Unit of measure for weight parameters.
+      enum:
+      - Pounds
+      - Kilograms
+    coordinate:
+      type: object
+      required:
+      - lat
+      - lon
+      properties:
+        lat:
+          type: number
+          format: float
+          minimum: -90
+          maximum: 90
+          description: Latitude of given location.
+        lon:
+          type: number
+          format: float
+          minimum: -180
+          maximum: 180
+          description: Longitude of given location.
+    error422:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 422
+        error:
+          type: string
+          description: Detail about the error status code
+          example: Unprocessable Entity
+        message:
+          type: string
+          description: Specifies issue
+          example: Bin Cost is not valid.
+    availableShipmentTemperature:
+      type: object
+      description: Temperature control
+      properties:
+        metric:
+          type: number
+          description: Temperature
+        metricUom:
+          type: string
+          enum:
+          - Fahrenheit
+          - Celsius
+        standard:
+          type: number
+          description: Temperature
+        standardUom:
+          type: string
+          enum:
+          - Fahrenheit
+          - Celsius
+    binCost:
+      type: object
+      description: Book it now cost object that is informed by the avaialble shipments response message (availableLoadCost).
+      required:
+      - currencyCode
+      - sourceCostPerUnit
+      - units
+      properties:
+        type:
+          type: string
+          description: Indicates the type of cost.
+        code:
+          $ref: '#/components/schemas/rateCodeEnum'
+        description:
+          type: string
+          description: Cost description.
+        currencyCode:
+          $ref: '#/components/schemas/currencyCodeEnum'
+        sourceCostPerUnit:
+          type: number
+          format: float
+          description: Amount of cost by unit.
+        units:
+          type: integer
+          description: Count of the cost.
+    error401:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 401
+        error:
+          type: string
+          description: Detail about the error status code
+        message:
+          type: string
+          description: Specifies issue
+        attributes:
+          type: object
+          properties:
+            error:
+              type: string
+    loadingTypeEnum:
+      type: string
+      description: "Describes how trailer will need to be loaded.\n  * `CRANE` - Top/crane\n  * `REAR` - Rear\n  * `SIDE` - Side\n  * `REAR/SIDE` - Rear/side\n  * `TOP/SIDE` - Top/side\n  * `DOCK` - Dock\n  * `STRING` - String\n  * `STRING/TOW` - String/tow\n"
+      enum:
+      - CRANE
+      - REAR
+      - SIDE
+      - REAR/SIDE
+      - TOP/SIDE
+      - DOCK
+      - STRING
+      - STRING/TOW
+    airMilestoneEventCodeEnum:
+      type: string
+      description: Code that indicates the type of milestone being sent for a shipment being moved by plane. For a detailed description of all enumerated codes please find them <a href="https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/AirMilestoneEventCodes.xlsx" target="_blank">here</a>.
+      enum:
+      - ARR
+      - AWD
+      - AWR
+      - BKD
+      - CCD
+      - CRC
+      - DDL
+      - DEP
+      - DIS
+      - DLV
+      - FOH
+      - MAN
+      - NFD
+      - OCI
+      - OSI
+      - PRE
+      - RCF
+      - RCS
+      - RCT
+      - TFD
+      - TGC
+      - TRM
+      - ULD
+    oceanMilestoneEventCodeEnum:
+      type: string
+      description: Code that indicates the type of milestone being sent for a shipment being moved by boat. For a detailed description of all enumerated codes please find them <a href="https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/OceanMilestoneEventCodes.xlsx" target="_blank">here</a>.
+      enum:
+      - '2'
+      - '3'
+      - A
+      - A1
+      - A2
+      - A3
+      - A4
+      - AA
+      - AC
+      - AD
+      - AE
+      - AF
+      - AG
+      - AH
+      - AI
+      - AJ
+      - AL
+      - AM
+      - AN
+      - AO
+      - AP
+      - AR
+      - AV
+      - AW
+      - B
+      - BA
+      - BC
+      - BD
+      - BE
+      - BF
+      - BR
+      - C
+      - C1
+      - C2
+      - CA
+      - CB
+      - CC
+      - CD
+      - CI
+      - CO
+      - CR
+      - CS
+      - CT
+      - CU
+      - CV
+      - D
+      - DA
+      - DC
+      - DN
+      - DP
+      - DR
+      - DS
+      - DT
+      - E
+      - EA
+      - ED
+      - EE
+      - EP
+      - ER
+      - F
+      - FP
+      - FT
+      - G
+      - GI
+      - GO
+      - H
+      - HA
+      - HE
+      - HF
+      - HG
+      - HH
+      - HI
+      - HR
+      - I
+      - IB
+      - IR
+      - J1
+      - K1
+      - L
+      - LD
+      - LP
+      - MT
+      - N
+      - NC
+      - ND
+      - NF
+      - NH
+      - 'NO'
+      - NP
+      - NR
+      - NS
+      - NT
+      - NU
+      - O
+      - OA
+      - OB
+      - OF
+      - OH
+      - 'ON'
+      - P
+      - PA
+      - PB
+      - PC
+      - PD
+      - PE
+      - PF
+      - PG
+      - PH
+      - PI
+      - PJ
+      - PK
+      - PL
+      - PM
+      - PN
+      - PO
+      - PP
+      - PQ
+      - PR
+      - PS
+      - PT
+      - PU
+      - PV
+      - PW
+      - PX
+      - R
+      - RA
+      - RB
+      - RC
+      - RD
+      - RI
+      - RL
+      - RN
+      - S
+      - SA
+      - SB
+      - SC
+      - SD
+      - T
+      - SI
+      - SN
+      - TC
+      - TM
+      - TO
+      - U
+      - UA
+      - UB
+      - UC
+      - UD
+      - UE
+      - UP
+      - UR
+      - UV
+      - UW
+      - V
+      - VA
+      - VD
+      - W
+      - WH
+      - WR
+      - X
+      - XA
+      - X1
+      - X2
+      - X3
+      - X4
+      - X5
+      - X6
+      - X7
+      - X9
+      - X8
+      - XB
+      - Y
+      - Z
+    milestoneLocationAddress:
+      type: object
+      description: Contains address information; variant that does not require stateProvinceCode.
+      required:
+      - city
+      - country
+      - latitude
+      - longitude
+      properties:
+        addressLine1:
+          type: string
+          description: Line one of the address.
+        addressLine2:
+          type: string
+          description: Line two of the address.
+        city:
+          type: string
+          description: "City name of address. \n\n ### <span style=\"color:DeepPink\">Provide either (city and country) or (latitude and longitude); one complete set is required.</span>"
+        stateProvinceCode:
+          description: "Indicate the state or province of the location.\n\n ### <span style=\"color:Red\">***Though not required, it is preferred to clearly identify location where latitude and longitude is not provided.</span>\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/StateProvinceCodes.xlsx\" target=\"_blank\">here</a>."
+          allOf:
+          - type: string
+          - $ref: '#/components/schemas/stateProvinceCodeEnum'
+        postalCode:
+          type: string
+          description: Postal code of address.
+        country:
+          description: "Indicate the country of the location. \n\n ### <span style=\"color:DeepPink\">Provide either (city and country) or (latitude and longitude); one complete set is required.</span>"
+          allOf:
+          - type: string
+          - $ref: '#/components/schemas/countryCodeEnum'
+        latitude:
+          type: number
+          format: float
+          minimum: -90
+          maximum: 90
+          description: "The decimal latitude of the address. \n\n ### <span style=\"color:DeepPink\">Provide either (city and country) or (latitude and longitude); one complete set is required.</span>"
+        longitude:
+          type: number
+          format: float
+          minimum: -180
+          maximum: 180
+          description: "The decimal longitude of the address. \n\n ### <span style=\"color:DeepPink\">Provide either (city and country) or (latitude and longitude); one complete set is required.</span>"
+    dimension:
+      type: object
+      description: Dimensions.
+      properties:
+        standard:
+          type: number
+          format: float
+          description: Dimension in standard format.
+        metric:
+          type: number
+          format: float
+          description: Dimension in metric format.
+    shipmentContainerTypeEnum:
+      type: string
+      description: "Type of shipping container. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ShipmentContainerTypeEnum.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - 20CO
+      - 20FR
+      - 20FT
+      - 20HC
+      - 20HD
+      - 20HP
+      - 20IS
+      - 20IT
+      - 20NR
+      - 20OT
+      - 20PL
+      - 20RE
+      - 20RF
+      - 20SD
+      - 20SO
+      - 20UG
+      - 24FT
+      - 24HC
+      - 28FB
+      - 30IS
+      - 40CA
+      - 40CO
+      - 40DR
+      - 40FB
+      - 40FR
+      - 40FT
+      - 40H0
+      - 40HC
+      - 40HD
+      - 40HP
+      - 40MA
+      - 40NR
+      - 40OT
+      - 40RE
+      - 40RF
+      - 40RH
+      - 40RR
+      - 43FT
+      - 45HC
+      - 45HR
+      - 45RF
+      - 45TR
+      - 48FB
+      - 48TR
+      - 53TR
+      - 55TR
+      - BBLK
+      - LCL
+      - PAR
+      - RORO
+      - 20GH
+      - 40GH
+      - 20FC
+      - 20DR
+      - 20FG
+      - 20RH
+      - 40FG
+      - 40HF
+      - 40HH
+      - 40HL
+      - 40HS
+      - 40IN
+      - 40RQ
+      - 40TK
+      - 42GP
+      - 45DR
+      - 45FR
+      - 45GP
+      - 45HD
+      - 45HT
+      - 45RH
+      - 48HC
+      - 53HC
+      - 20PF
+      - 20SL
+      - 40HR
+      - 42TR
+      - LOLO
+      - 20PW
+      - 40PW
+      - 40PH
+      - 45PH
+      - 40OH
+      - 28TR
+    shipmentDetailEvent:
+      type: object
+      properties:
+        eventType:
+          type: string
+          description: Indicates the type of update for the load.
+          enum:
+          - LOAD DETAIL CHANGED
+        eventSubType:
+          type: string
+          description: Additional detail on event type.
+          enum:
+          - Stop Created
+          - Stop Removed
+          - Shipment Booked
+          - Activity Date Changed
+          - Expected Weight Changed
+          - Hazardous Condition Changed
+          - Appointment Set
+          - Appointment Changed
+          - Shipment Cancelled
+        loadNumber:
+          type: string
+          description: C.H. Robinson provided identifier for the load.
+        rate:
+          type: number
+          description: Rate for the load.
+        activityDate:
+          type: string
+          format: date-time
+          description: An ISO8601 UTC date-time when load is expected to be picked up.
+        pickUpByDate:
+          type: string
+          format: date-time
+          description: An ISO8601 UTC date-time indicating latest pick up date.
+        pickUpReadyByDate:
+          type: string
+          format: date-time
+          description: An ISO8601 UTC date-time indicating earliest pick up date.
+        deliverByDate:
+          type: string
+          format: date-time
+          description: An ISO8601 UTC date-time indicating latest delivery date.
+        deliveryReadyByDate:
+          type: string
+          format: date-time
+          description: An ISO8601 UTC date-time indicating earliest delivery date.
+        mode:
+          type: string
+          description: Mode of the load
+          enum:
+          - V
+          - R
+          - F
+          - H
+          - B
+          - Z
+          - L
+        totalCommodityValue:
+          type: integer
+          description: Value of the shipment.
+        notes:
+          type: string
+          description: Notes pertaining to the load.
+        distance:
+          type: object
+          description: The point-to-point distance of the haul
+          properties:
+            kilometers:
+              type: number
+              description: Distance from origin to destination in kilometers
+            miles:
+              type: number
+              description: Distance from origin to destination in miles
+        sourceUnitOfMeasure:
+          type: string
+          description: Unit of measurement pertaining to shipment.
+          enum:
+          - standard
+          - metric
+        chargeableWeight:
+          type: integer
+          description: Total chargeable weight for the shipment.
+        flags:
+          type: object
+          description: Potential flagged details important to the shipment.
+          properties:
+            isTeamOperated:
+              type: boolean
+              description: Whether or not the load is a team driver shipment.
+            isHazMat:
+              type: boolean
+              description: Whether or not the shipment contains hazardous materials.
+            isRegulatedByStf:
+              type: boolean
+              description: Whether or not the shipment is regulated by FDA for sanitary food transportation.
+            isTankerEndorsed:
+              type: boolean
+              description: Whether or not the shipment requires a tanker endorsement.
+            hasOpenClaims:
+              type: boolean
+              description: Whether or not the shipment contains open damage claims.
+            hasOpenEvents:
+              type: boolean
+              description: Whether or not there are open events for the shipment.
+            isControl:
+              type: boolean
+              description: CH Robinson control flag.
+            isForwardingHouse:
+              type: boolean
+              description: Whether or not the shipment is a House Shipment.
+        itemContainers:
+          type: array
+          description: List of container details for those used to hold shipment.
+          items:
+            type: object
+            properties:
+              containerDetails:
+                type: object
+                description: Details for each container used in shipment
+                properties:
+                  containerCondition:
+                    type: string
+                    description: The status of movement for a shipment container.
+                    enum:
+                    - A
+                    - F
+                    - R
+                    - X
+                  containerEmptyReturnDate:
+                    type: date-time
+                    description: Any date required to return an empty container
+                  containerLastFreeDayForEmptyReturn:
+                    type: date-time
+                    description: The last free day at a warehouse or PAD for container storage
+                  containerNumber:
+                    type: string
+                    description: Container identifier.
+                  containerStatus:
+                    type: integer
+                    description: Status of container.
+                  containerType:
+                    $ref: '#/components/schemas/shipmentContainerTypeEnum'
+                  isHot:
+                    type: boolean
+                    description: Whether or not the container is flagged as hot/priority movement
+                  vgmAcceptedDate:
+                    type: date-time
+                    description: The Verified Gross Mass cutoff datetime for the container
+              itemContainerId:
+                type: integer
+                description: ID for shipping container.
+              itemContainerType:
+                type: integer
+                description: ID for container type.
+              packageDetails:
+                type: object
+                description: Details for each package in the shipment
+                properties:
+                  packageType:
+                    type: null
+                    description: null
+                    enum:
+                    - P
+                    - S
+                  signedBy:
+                    type: string
+                    description: Name of package signer.
+                  trackingNumber:
+                    type: integer
+                    description: Tracking number for package
+              referenceNumbers:
+                $ref: '#/components/schemas/referenceNumber'
+              stopActivityIds:
+                type: array
+                description: List of stop activity ID strings.
+                items:
+                  type: string
+        requiredShipmentEquipment:
+          type: object
+          description: Equipment required to move the shipment.
+          properties:
+            description:
+              type: string
+              description: Description of equipment
+            height:
+              $ref: '#/components/schemas/dimension'
+            length:
+              $ref: '#/components/schemas/dimension'
+            width:
+              $ref: '#/components/schemas/dimension'
+            temperature:
+              $ref: '#/components/schemas/dimension'
+            referenceNumbers:
+              $ref: '#/components/schemas/referenceNumber'
+        items:
+          type: array
+          description: Details for all items included in the shipment.
+          items:
+            type: object
+            properties:
+              code:
+                type: string
+                description: User-entered commodity code for load item.
+              executionOrderReferenceNumber:
+                type: string
+                description: C.H. Robinson customer order number origin for item.
+              expectedHeight:
+                $ref: '#/components/schemas/dimension'
+              expectedLength:
+                $ref: '#/components/schemas/dimension'
+              expectedWidth:
+                $ref: '#/components/schemas/dimension'
+              expectedMaximumWeight:
+                $ref: '#/components/schemas/dimension'
+              expectedMinimumWeight:
+                $ref: '#/components/schemas/dimension'
+              expectedPackagingCode:
+                $ref: '#/components/schemas/packageCodeEnum'
+              expectedPallets:
+                type: integer
+                description: Expected count of pallets if used in shipment.
+              expectedQuantity:
+                type: integer
+                description: Expected piece count
+              expectedTrailerSpace:
+                $ref: '#/components/schemas/dimension'
+              hazMatDetails:
+                type: object
+                description: Additional item detail for hazardous materials.
+                properties:
+                  class:
+                    type: string
+                    description: null
+                    enum:
+                    - 1.4G
+                    - '2'
+                    - '2.1'
+                    - '2.2'
+                    - '2.3'
+                    - '3'
+                    - '4.1'
+                    - '4.2'
+                    - '4.3'
+                    - '5.1'
+                    - '5.2'
+                    - '6.1'
+                    - '7'
+                    - '8'
+                    - '9'
+                    - COMBUST
+                    - Combustibl
+                    - Consumer
+                    - ORM-D
+                  emergencyPhone:
+                    type: integer
+                    description: Emergency phone number for HazMat item.
+                  unNumberWithPrefix:
+                    type: string
+                    description: United Nations HazMat identifier with prefix.
+                  unNumber:
+                    type: integer
+                    description: United Nations HazMat identifier.
+              itemContainerId:
+                type: integer
+                description: Identifier for item container.
+              itemEquipment:
+                type: object
+                description: Additional detail for equipment used to move the shipment
+                properties:
+                  coilRacksCount:
+                    type: integer
+                    description: The total coil racks required
+                  flatBedEquipmentCode:
+                    type: string
+                    description: Code associated to the type of flatbed equipment. "SD" (StepDeck), "RGN" (GooseNeck), "HS" (HotShot), "CN" (Conestoga), "CUST" (Custom), "DD" (DoubleDrop), "F" (Flatbed), "FO" (FlatbedOnly), "FD" (Flatbed or Stepdeck)
+                    enum:
+                    - SD
+                    - RGN
+                    - HS
+                    - CN
+                    - CUST
+                    - DD
+                    - F
+                    - FO
+                    - FD
+                  flatBedEquipmentDescription:
+                    type: string
+                    description: A description of the required flatbed equipment.
+                  loadingTypeDescription:
+                    type: string
+                    description: A description of loading type.
+                  maxTrailerAge:
+                    type: integer
+                    description: A requirement for trailer age in years.
+                  requiredChainsCount:
+                    type: integer
+                    description: The total chains required.
+                  requiredLocksCount:
+                    type: integer
+                    description: The total locks required.
+                  requiredSquaresCount:
+                    type: integer
+                    description: The total squares required.
+                  requiredStrapsCount:
+                    type: integer
+                    description: The total straps required.
+                  requiredTimbersCount:
+                    type: integer
+                    description: The total timbers required.
+                  tarpDescription:
+                    type: string
+                    description: A description of tarp requirement.
+              itemSourceUnitOfMeasure:
+                type: integer
+                description: Whether item weight is measured as Metric or Imperial units
+              name:
+                type: string
+                description: A name for the item.
+              orderNumber:
+                type: integer
+                description: Order number associated to item.
+              referenceNumber:
+                type: integer
+                description: A top-level reference number associated to the item
+              referenceNumbers:
+                $ref: '#/components/schemas/referenceNumber'
+              temperature:
+                type: integer
+                description: Required temperature of item
+              value:
+                type: decimal
+                description: Value of item
+              volume:
+                type: integer
+                description: Volume of item
+        books:
+          type: array
+          description: All booking records for the updated carrier.
+          items:
+            type: object
+            properties:
+              bookedDateTime:
+                type: date-time
+                description: The date and time the carrier was booked.
+              bookId:
+                type: integer
+                description: The type of book.
+              distance:
+                type: object
+                description: The point-to-point distance of the haul
+                properties:
+                  kilometers:
+                    type: number
+                    description: Distance from origin to destination in kilometers
+                  miles:
+                    type: number
+                    description: Distance from origin to destination in miles
+              expectedPickupDateTime:
+                type: date-time
+                description: The carrier's expected pickup date.
+              expectedDeliveryDateTime:
+                type: date-time
+                description: The carrier's expected delivery date.
+              referenceNumbers:
+                $ref: '#/components/schemas/referenceNumber'
+        stops:
+          type: array
+          description: All stops on the load associated to the carrier receiving event messages.
+          items:
+            type: object
+            properties:
+              activities:
+                type: array
+                description: Details associated to activities at the stop.
+                items:
+                  type: object
+                  properties:
+                    appointment:
+                      type: object
+                      description: Details for pickup or delivery appointments.
+                      properties:
+                        closeDateTime:
+                          type: date-time
+                          description: The end time of the appointment window.
+                        isClostTimeSet:
+                          type: boolean
+                          description: Flag for whether or not an appointment end window is scheduled.
+                        isOpenTimeSet:
+                          type: boolean
+                          description: Flag for whether or not an appointment start window is scheduled
+                        openDateTime:
+                          type: date-time
+                          description: The start time of the appointment window.
+                        schedulingOptionsCode:
+                          type: string
+                          description: The code denoting what type of appointment is scheduled.
+                    bookIds:
+                      type: array
+                      description: Individual carrier book IDs associated to the stop.
+                      items:
+                        type: integer
+                    isDropTrailer:
+                      type: boolean
+                      description: Whether or not the stop requires a drop trailer activity.
+                    isRequestedTimeSet:
+                      type: boolean
+                      description: Flag for whether or not a drop trailer appointment time is scheduled.
+                    itemContainerId:
+                      type: string
+                      description: Identifier for item container picked or dropped at this stop
+                    itemIds:
+                      type: array
+                      description: List of all itemIds associated to the stop.
+                      items:
+                        type: string
+                    requestedDateTime:
+                      type: date-time
+                      description: Requested activity datetime.
+                    stopActivityId:
+                      type: string
+                      description: Association of stop to activity on the stop.
+                    stopId:
+                      type: integer
+                      description: A C.H. Robinson identifier for the specific stop.
+              billOfLading:
+                type: string
+                description: Bill of Lading flag.
+              billTos:
+                type: array
+                description: null
+                items:
+                  type: object
+                  properties:
+                    billToId:
+                      type: string
+                      description: Identifier for BillTo party.
+                    code:
+                      type: string
+                      description: CH Robinson identifier associated to BillTo party.
+                    referenceNumber:
+                      type: string
+                      description: Reference number for BillTo party
+                    referenceNumbers:
+                      $ref: '#/components/schemas/referenceNumber'
+                    freightTerms:
+                      $ref: '#/components/schemas/freightTermEnum'
+                    name:
+                      type: string
+                      description: Name associated to the BillTo party.
+                    address1:
+                      type: string
+                      description: First address line associated to the BillTo party.
+                    address2:
+                      type: string
+                      description: Second address line associated to the BillTo party.
+                    city:
+                      type: string
+                      description: City associated to the BillTo party.
+                    state:
+                      type: string
+                      description: State associated to the BillTo party.
+                    postalCode:
+                      type: string
+                      description: Postal Code associated to the BillTo party.
+                    email:
+                      type: string
+                      description: Contact email address associated to the BillTo party.
+              contact:
+                type: string
+                description: Contact name for this stop.
+              contactEmail:
+                type: string
+                description: Contact email for this stop.
+              customerIds:
+                type: array
+                description: List of all Customer IDs associated to this stop.
+                items:
+                  type: string
+              isBlind:
+                type: boolean
+                description: Whether or not the consignee can see info for the shipper.
+              note:
+                type: string
+                description: An internal note pertaining to the stop.
+              loadingType:
+                $ref: '#/components/schemas/loadingTypeEnum'
+              referenceNumber:
+                type: string
+                description: Top-level reference number associated to the stop.
+              referenceNumbers:
+                $ref: '#/components/schemas/referenceNumber'
+              stopId:
+                type: integer
+                description: The C.H. Robinson ID associated to the stop
+              stopLocation:
+                type: object
+                description: Information associated to the stop location.
+                properties:
+                  address1:
+                    type: string
+                    description: The first address line for the stop.
+                  address2:
+                    type: string
+                    description: The second address line for the stop.
+                  location:
+                    type: object
+                    description: Information associated to the stop location.
+                    properties:
+                      city:
+                        type: string
+                        description: The city for the stop.
+                      coordinate:
+                        type: object
+                        description: The geolocation for the stop.
+                        properties:
+                          lat:
+                            type: number
+                            description: The latitude coordinate for the stop.
+                          lon:
+                            type: number
+                            description: The longitude coordinate for the stop.
+                      countryCode:
+                        type: string
+                        description: The country for the stop.
+                      county:
+                        type: string
+                        description: The county for the stop.
+                      postalCode:
+                        type: string
+                        description: The postal code for the stop.
+                      stateCode:
+                        type: string
+                        description: The state abbreviation for the stop.
+                  warehouseCloseTime:
+                    type: string
+                    description: The time the location opens as defined by the ISO 8601 duration standard https://en.wikipedia.org/wiki/ISO_8601#Durations..
+                  warehouseCode:
+                    type: string
+                    description: The C.H. Robinson code for the warehouse at the stop.
+                  warehouseCustomerLocationNumber:
+                    type: string
+                    description: A number linking Customer to warehouse
+                  warehouseName:
+                    type: string
+                    description: The name of the warehouse at the stop.
+                  warehouseOpenTime:
+                    type: string
+                    description: The time the location closes defined by the ISO 8601 duration standard https://en.wikipedia.org/wiki/ISO_8601#Durations.
+                  warehousePhoneNumber:
+                    type: string
+                    description: The contact phone for the warehouse.
+              stopNumber:
+                type: integer
+                description: Identifies the stop order, beginning at 0 for the first pick.
+              stopType:
+                type: integer
+                description: Identifier for type of location of the stop.
+              timezoneOffsetInMinutes:
+                type: integer
+                description: Offset in minutes from GMT.
+              needWeightScale:
+                type: boolean
+                description: Indicates if weight scale is needed.
+        referenceNumbers:
+          $ref: '#/components/schemas/referenceNumber'
+    flightDetail:
+      type: object
+      description: Identifies flight information.
+      properties:
+        flightNumber:
+          type: string
+          description: Identifies the flight number.
+        flightDepartureDateTime:
+          type: string
+          format: date-time
+          description: The date/time the flight departed.
+        flightCarrierCode:
+          type: string
+          description: Code associated to the flight provider.
+    error403:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 403
+        error:
+          type: string
+          description: detail about the error status code
+          example: Forbidden
+        message:
+          type: string
+          description: Specifies issue
+          example: Invalid customerCode
+    rateCodeEnum:
+      type: string
+      description: "C.H. Robinson defined code for rating code. Here is a list of the most commonly used rate codes: \n\n`400` - Line Haul, `405` - Fuel Surchage, `260` - Deliver Surchage, `IDL` - Inside Delivery, `IPU` - Inside Pickup \n`LFT` - Lift Gate or Forklift Service, `DET` - Detention, `DLA` - Delivery Limited Access, `PLA` - Pickup Limited Access \n`RES` - Residential Delivery Fee, `REP` - Residential Pickup Fee, `CSD` - Construction Site Delivery <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/RateCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - Customer
+      - '20'
+      - '55'
+      - '65'
+      - '115'
+      - '170'
+      - '180'
+      - '205'
+      - '215'
+      - '230'
+      - '260'
+      - '275'
+      - '280'
+      - '285'
+      - '300'
+      - '315'
+      - '350'
+      - '360'
+      - '365'
+      - '370'
+      - '385'
+      - '400'
+      - '405'
+      - '420'
+      - '425'
+      - '445'
+      - '450'
+      - '455'
+      - '470'
+      - '485'
+      - '495'
+      - '497'
+      - '510'
+      - '520'
+      - '540'
+      - '545'
+      - '590'
+      - '593'
+      - '605'
+      - '635'
+      - '665'
+      - '670'
+      - '685'
+      - '690'
+      - '695'
+      - '740'
+      - '761'
+      - '800'
+      - '801'
+      - '802'
+      - '803'
+      - '804'
+      - '898'
+      - '899'
+      - '900'
+      - '901'
+      - '902'
+      - '903'
+      - '904'
+      - '905'
+      - '906'
+      - '907'
+      - '908'
+      - '909'
+      - '910'
+      - '911'
+      - ACC
+      - AGR
+      - AGS
+      - AIR
+      - ALH
+      - AMC
+      - AMS
+      - APT
+      - ATR
+      - BAT
+      - BIO
+      - BLC
+      - BLK
+      - BND
+      - BRD
+      - BSC
+      - CAA
+      - CEX
+      - CHE
+      - CHN
+      - CIS
+      - CLA
+      - CLN
+      - CLS
+      - CNS
+      - COA
+      - COL
+      - COU
+      - CPC
+      - CPE
+      - CRE
+      - CRS
+      - CSE
+      - CTC
+      - CTG
+      - CTL
+      - CUF
+      - CUS
+      - DAM
+      - DCF
+      - DEL
+      - DEN
+      - DEP
+      - DET
+      - DFD
+      - DFG
+      - DHF
+      - DIC
+      - DIS
+      - DMC
+      - DOC
+      - DOV
+      - DRC
+      - DRF
+      - DSC
+      - DTC
+      - DTL
+      - DTU
+      - DTV
+      - DUT
+      - DYA
+      - EBD
+      - EEX
+      - EMT
+      - ENC
+      - ESD
+      - EUC
+      - EXC
+      - EXD
+      - EXL
+      - EXM
+      - EXP
+      - EXR
+      - EXW
+      - FDA
+      - FDT
+      - FFR
+      - FLP
+      - FTH
+      - FTW
+      - FTZ
+      - FWA
+      - FWC
+      - GST
+      - HMF
+      - HOL
+      - HST
+      - IDL
+      - IFS
+      - IHT
+      - INC
+      - INS
+      - INV
+      - IPU
+      - ISO
+      - IST
+      - ITS
+      - LAA
+      - LAY
+      - LEC
+      - LFT
+      - LMF
+      - LOA
+      - LOC
+      - MIC
+      - MPF
+      - MRK
+      - MSG
+      - NDD
+      - NYD
+      - NYP
+      - OFU
+      - OHF
+      - OPT
+      - ORD
+      - ORF
+      - ORM
+      - OVR
+      - PAE
+      - PCS
+      - PEC
+      - PER
+      - PFA
+      - PKG
+      - PMT
+      - POD
+      - PPH
+      - PPN
+      - PRT
+      - PSC
+      - PSH
+      - PSS
+      - PST
+      - PUC
+      - QST
+      - RAJ
+      - RCC
+      - RCL
+      - REC
+      - REF
+      - REP
+      - RES
+      - RET
+      - SAT
+      - SCL
+      - SCS
+      - SDL
+      - SEC
+      - SEG
+      - SER
+      - SET
+      - SOC
+      - SPS
+      - SPT
+      - SRA
+      - SRG
+      - SUR
+      - SYA
+      - TAK
+      - TAL
+      - TAR
+      - TDT
+      - THC
+      - TMF
+      - TRC
+      - TRL
+      - TTC
+      - UNL
+      - URC
+      - VOR
+      - WAR
+      - WBF
+      - WBL
+      - WCT
+      - WDC
+      - WFL
+      - WHC
+      - WHF
+      - WIO
+      - WIS
+      - WKT
+      - WLB
+      - WLC
+      - WLS
+      - WMS
+      - WOP
+      - WOT
+      - WPC
+      - WPK
+      - WPL
+      - WPP
+      - WRC
+      - WRE
+      - WRI
+      - WRS
+      - WSS
+      - WSW
+      - WTV
+      - WWT
+      - WXD
+      - XTN
+      - '496'
+      - BYD
+      - BYP
+      - DCV
+      - ICT
+      - PDD
+      - PDO
+      - TSA
+      - UND
+      - HAZ
+      - ISF
+      - '913'
+      - '914'
+      - '915'
+      - '916'
+      - '316'
+      - BPC
+      - BPR
+      - BPS
+      - BPT
+      - CEM
+      - CMX
+      - COT
+      - CUV
+      - MXC
+      - MXH
+      - MXR
+      - MXV
+      - OVT
+      - PEN
+      - CTS
+      - LRC
+      - AMF
+      - BPI
+      - SCR
+      - AES
+      - NAV
+      - DLA
+      - PLA
+      - PSF
+      - CSF
+      - '894'
+      - '895'
+      - '896'
+      - '897'
+      - EMN
+      - SPF
+      - TSC
+      - HCR
+      - CNT
+      - CMM
+      - RNT
+      - PRF
+      - CSD
+      - HCD
+      - CSP
+      - GVP
+      - GVD
+      - HCP
+      - NCP
+      - NCD
+      - BUV
+      - COW
+      - HOS
+      - INP
+      - RAP
+      - SIE
+      - TAW
+      - OTD
+      - MES
+      - ENS
+      - ACF
+      - SLF
+      - BLR
+      - FLT
+      - '917'
+      - FCP
+      - GSI
+      - SMA
+      - CFI
+      - EXT
+      - EXY
+      - AAI
+      - CAS
+      - CCF
+      - CMC
+      - DCC
+      - DOF
+      - EDC
+      - EMS
+      - ERF
+      - FLC
+      - FUC
+      - GAS
+      - GTA
+      - HBL
+      - LBE
+      - LUC
+      - MLC
+      - PAC
+      - PCH
+      - PRC
+      - PRS
+      - PUD
+      - SCH
+      - STR
+      - STU
+      - TPA
+      - OCT
+      - STC
+      - EPC
+      - DPC
+      - STD
+      - RFC
+      - SYC
+      - SED
+      - MEC
+      - SUF
+      - IAC
+      - CFS
+      - BTF
+      - ESS
+      - AMD
+      - ORC
+      - LIF
+      - PCF
+      - GIO
+      - TLX
+      - GAT
+      - LBL
+      - LCG
+      - LBF
+      - HLS
+      - IMP
+      - CIF
+      - CCE
+      - EDN
+      - HET
+      - PMU
+      - HEL
+      - STM
+      - TOL
+      - VAC
+      - PRP
+      - PDC
+      - SBC
+      - PFC
+      - TDR
+      - OTH
+      - DTH
+      - ODO
+      - DDO
+      - AWB
+      - CYC
+      - DEC
+      - FAF
+      - GRI
+      - LCL
+      - PCC
+      - PPF
+      - TPF
+      - WVF
+      - CSR
+      - '27'
+      - GSC
+      - ATC
+      - ECV
+      - GAR
+      - BTR
+      - CRD
+      - IVT
+      - TAP
+      - SEN
+      - IVP
+      - IBP
+      - COC
+      - DRY
+      - FOB
+      - EWC
+      - HTS
+      - DSB
+      - HTC
+      - FAH
+      - EIC
+      - NPC
+      - LSF
+      - AHD
+      - ESV
+      - FCC
+      - PEP
+      - OGA
+      - MFE
+      - CAH
+      - GOA
+      - '75'
+      - CBT
+      - DCT
+      - '921'
+      - '922'
+      - COV
+      - DBR
+      - IAT
+      - POM
+      - ACI
+      - ASF
+      - BOK
+      - CDD
+      - CDF
+      - COF
+      - CVE
+      - DCH
+      - DDP
+      - DKF
+      - DMI
+      - ESC
+      - EXA
+      - EXO
+      - LCH
+      - PES
+      - VMS
+      - SRC
+      - CFE
+      - CDA
+      - IEC
+      - DGS
+      - HAS
+      - '701'
+      - '750'
+      - '751'
+      - '753'
+      - '754'
+      - '755'
+      - '756'
+      - '1401'
+      - '1402'
+      - '1403'
+      - DTF
+      - OTF
+      - SRD
+      - SRO
+      - '1900'
+      - '2000'
+      - '2100'
+      - INF
+      - DDT
+      - DUF
+      - EMF
+      - LYO
+      - LYD
+      - '999'
+      - '145'
+      - ADV
+      - AMB
+      - ARB
+      - BEY
+      - BKA
+      - BSS
+      - CBL
+      - CFL
+      - CTF
+      - DAA
+      - DEM
+      - FAK
+      - FCB
+      - GSS
+      - HAN
+      - HHB
+      - HRS
+      - HZC
+      - IFC
+      - LAB
+      - LFC
+      - MIN
+      - MNC
+      - MSC
+      - OCH
+      - PIR
+      - POS
+      - PTS
+      - PWT
+      - PYS
+      - RAM
+      - RLS
+      - RMC
+      - SPC
+      - SSF
+      - STO
+      - STP
+      - SWC
+      - TAY
+      - TER
+      - TRM
+      - WEA
+      - WFG
+      - WFH
+      - IFF
+      - CME
+      - MDF
+      - CPV
+      - EMA
+      - EPF
+      - TPC
+      - GOF
+      - LOM
+      - ISE
+      - STF
+      - CSU
+      - AHF
+      - MEF
+      - FID
+      - LCK
+      - BYC
+      - BCD
+      - SO1
+      - SO2
+      - SO3
+      - COR
+      - TRE
+      - LSK
+      - DON
+      - CTM
+      - DCK
+      - RPK
+      - FGT
+      - CHF
+      - BRF
+      - MKF
+      - FES
+      - CLM
+      - PDR
+      - AVP
+      - GBB
+      - GLF
+      - GLT
+      - MOTLF
+      - MOTMF
+      - TROLF
+      - TROMF
+      - REBAT
+      - ASCMB
+      - SPCRV
+      - SPCAS
+      - PENNY
+      - WELLF
+      - WELMF
+      - BAMLF
+      - BAMMF
+      - SWTLF
+      - ECOLF
+      - ECOMF
+      - SRVLF
+      - SRVMF
+      - N22LF
+      - N23LF
+      - OURLF
+      - GLYLF
+      - GLYMF
+      - PNKLF
+      - PECLF
+      - GRNLF
+      - SWTMF
+      - MKU
+      - EVC
+      - APA
+      - ARA
+      - GAV
+      - REB
+      - SEL
+      - ABG
+      - ICG
+      - TET
+      - PAF
+      - OSO
+      - RSP
+      - MIF
+      - SPL
+      - SPA
+      - SPO
+      - AFS
+      - NCH
+      - ASM
+      - LGP
+      - '444'
+      - CNA
+      - DEB
+      - DOM
+      - EGY
+      - FER
+      - FIM
+      - FOR
+      - FRA
+      - FUM
+      - HRT
+      - MAU
+      - PCD
+      - PNL
+      - PPC
+      - RED
+      - REI
+      - SLU
+      - VET
+      - WAS
+      - WAT
+      - BIN
+      - '206'
+      - PLS
+      - OCS
+      - TPS
+      - BUP
+      - RBU
+      - CMR
+      - SPQ
+      - IMF
+      - IMV
+      - BLD
+      - '1404'
+      - '1405'
+      - '1406'
+      - ENF
+      - ENV
+      - PRO
+      - PRV
+      - WAF
+      - WAV
+      - EPS
+      - AKS
+      - CCT
+      - ECC
+      - HIS
+      - PRD
+      - TRR
+      - RIT
+      - GIT
+      - BAC
+      - CCR
+      - CLC
+      - DCR
+      - SC1
+      - FCH
+      - AFC
+      - WMF
+      - IFP
+      - OSP
+      - OCP
+      - DSP
+      - DCP
+      - CBC
+      - BRT
+      - ECH
+      - OID
+      - OCR
+      - RPT
+      - SOS
+      - TGS
+      - TKP
+      - WSC
+      - SFA
+      - HHC
+      - RHC
+      - IFA
+      - FLB
+      - LWS
+      - MFD
+      - SEP
+      - SCA
+      - PHL
+      - JAM
+      - VGM
+      - HSB
+      - PFS
+      - CCS
+      - DTY
+      - RNR
+      - RCD
+      - DRP
+      - PKU
+      - EBP
+      - LFD
+      - CPL
+      - AGM
+      - APH
+      - FSI
+      - FWS
+      - NHT
+      - EPA
+      - CPS
+      - USL
+      - NMF
+      - RCO
+      - ROS
+      - OVS
+      - TIV
+      - TMR
+      - RER
+      - FTA
+      - RBY
+      - RBI
+      - RBV
+      - RBE
+      - WAC
+      - ABT
+      - CON
+      - QCC
+      - SUN
+      - SBS
+      - SDV
+      - NGT
+      - GTD
+      - ASR
+      - SGR
+      - SOG
+      - '1013'
+      - '101'
+      - '1014'
+      - DTZ
+      - '919'
+      - '923'
+      - WTT
+    rateConfirmation:
+      type: object
+      required:
+      - name
+      - emailAddress
+      description: Indicates the individual who is confirming the rate.
+      properties:
+        name:
+          type: string
+          description: Name of the person who is confirming the rate.
+          minimum: 1
+          maximum: 50
+        email:
+          type: string
+          description: E-mail address of the person who is confirming the rate.
+          minimum: 1
+          maximum: 50
+    roadMilestoneEventCodeEnum:
+      type: string
+      description: Code that indicates the type of milestone being sent for a shipment being moved by truck. For a detailed description of all enumerated codes please find them <a href="https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/RoadMilestoneEventCodes.xlsx" target="_blank">here</a>.
+      enum:
+      - A3
+      - A7
+      - A9
+      - AA
+      - AB
+      - AC
+      - AF
+      - AG
+      - AH
+      - AI
+      - AJ
+      - AM
+      - AN
+      - AP
+      - AR
+      - AV
+      - B6
+      - BA
+      - BC
+      - C1
+      - CA
+      - CD
+      - CL
+      - CP
+      - D1
+      - ED
+      - EP
+      - I1
+      - J1
+      - K1
+      - L1
+      - LD
+      - LP
+      - OA
+      - OO
+      - P1
+      - PR
+      - R1
+      - RL
+      - S1
+      - SD
+      - XA
+      - X1
+      - X2
+      - X3
+      - X4
+      - X5
+      - X6
+      - X9
+      - X8
+      - XB
+    availableShipmentContact:
+      type: object
+      description: Contact information.
+      properties:
+        phoneNumber:
+          type: string
+          minimum: 1
+          maximum: 25
+          description: Phone number of the C.H. Robinson rep on the load.
+    referenceNumber:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          type: string
+          description: "C.H. Robinson defined code for reference number types. Here is a list of the most commonly used reference number types: \n\n`SHID` - Shipment ID #, `MBOL` - Master Bill of Lading #, `PO` - Purchase Order #, `BOL` - Bill of Lading #, `CRID` - Customer Specific Ref Number, `CUSTPO` - Customer PO Number, `DEL` - Delivery #, `JNO` - Job Number, `PU` - Pickup #, `CON` - Customer Order Number, `APPT` - Appointment Number \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ReferenceNumberTypes.xlsx\" target=\"_blank\">here</a>."
+          enum:
+          - SHID
+          - MBOL
+          - PO
+          - BOL
+          - CFRM
+          - CRID
+          - CUSTPO
+          - DEL
+          - DIST
+          - FIN
+          - GL
+          - JNO
+          - PU
+          - RANumber
+          - RLPRO
+          - MREF
+          - Empty
+          - PRO
+          - CCN
+          - SBOL
+          - CON
+          - APPT
+          - CHRW_ID
+          - FDA
+          - IREF
+          - LIC
+          - ORD
+          - PLU
+          - SCAC
+          - SEAL
+          - SKU
+          - SREF
+          - STCC
+          - TEB
+          - VPO
+          - WB
+          - XXXX
+          - TRIA
+          - TRANS
+          - GCC
+          - SDATE
+          - CDATE
+          - ACCT
+          - CCTR
+          - IGM
+          - GIGM
+          - LIGM
+          - SMTP
+          - PERMIT
+          - RNO
+          - DVCN
+          - PRCL
+          - CPUC
+          - SHPMD
+          - AFR
+          - BUYID
+          - VNDID
+          - DIV
+          - DEPT
+          - POTYPE
+          - GRGI
+          - DUNS
+          - PALLETREF
+          - CITTN
+          - CIN
+          - SHIPWITH
+          - PN
+          - UPC
+          - PRCD
+          - VESSEL
+          - VOYAGE
+          - FN
+          - FEEDVESS
+          - FEEDVOY
+          - SHIPREF
+          - CBL
+          - SPAC
+          - POLN
+          - VPOLN
+          - EIN
+          - CNSG
+          - PROFITCTR
+          - MFGPART
+          - PACKSLIP
+          - THIRDPRTY
+          - DEFATTR
+          - FSTRK
+          - FOItemID
+          - POLineNum
+          - PARCELSPC
+          - CNS1
+          - CNS2
+          - CNS3
+          - CNS4
+          - CNS5
+          - CNS6
+          - CNS7
+          - TREF
+          - VREF
+          - UPRICE
+          - FWPARTY
+          - BYPARTY
+          - HBL
+          - CBP
+          - TRANSFER
+          - SO
+          - ORDTRK
+          - QUOTEID
+          - EQT
+          - BOOTH
+          - TS
+          - 'OH #'
+          - CNTNR
+          - VAS
+          - Size
+          - Color
+          - Style
+          - HCERT
+          - B#
+          - ETMSID
+          - 214-IMO
+          - SHPWeight
+          - SHPVolume
+          - SHPDims
+          - SERIALIZED
+          - SERIALNUM
+          - CPSIA
+          - EDIINVREF
+          - SQID
+          - QSeqNum
+          - OuterPkStu
+          - GLC
+          - COMP
+          - COST
+          - DTYGL
+          - DTYCC
+          - BRKGL
+          - BRKCC
+          - GPS
+          - IAC
+          - WHRCT
+          - ERGUID
+          - SONUM
+          - CCNUM
+          - PrimCCNUM
+          - PrevCCNUM
+          - CMRN
+          - TRANSSHIP
+          - PGIDATE
+          - AESFIL
+          - CUSTQUOTID
+          - QUOTETRACE
+          - ODATE
+          - FRCLS
+          - NMFC
+          - OrderItemId
+        value:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: The actual value of the reference number.
+  securitySchemes:
+    sandbox:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt

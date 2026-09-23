@@ -1,0 +1,3591 @@
+openapi: 3.2.0
+info:
+  version: 2.0.0
+  title: A guide to C.H. Robinson's REST Rating API
+  description: '# Introduction
+
+    Welcome to C.H.'
+servers:
+- url: https://sandbox-api.navisphere.com
+  description: Test environment.
+- url: https://api.navisphere.com
+  description: Production environment.
+security:
+- sandbox: []
+tags:
+- name: Rating
+  description: C.H.
+paths:
+  /v1/quotes:
+    post:
+      description: Allows partner to generate quote from posted shipment information.
+      operationId: Rating Request
+      tags:
+      - Rating
+      requestBody:
+        description: JSON object of shipment information.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ratingPost'
+            examples:
+              Payload:
+                value:
+                  items:
+                  - description: widgets
+                    freightClass: 400
+                    weight: 250
+                    weightUnitOfMeasure: Pounds
+                    packagingLength: 24
+                    packagingWidth: 10
+                    packagingHeight: 10
+                    packagingUnitOfMeasure: Inches
+                    pallets: 1
+                    quantity: 1
+                    palletSpaces: 1
+                    packagingVolume: 3
+                    packagingVolumeUnitOfMeasure: CubicFeet
+                    density: 25
+                    linearSpace: 8
+                    insuranceValue: 50000
+                    packagingType: BIN
+                    productCode: wdgt
+                    temperatureType: Dry
+                    temperatureUnit: Fahrenheit
+                    requiredTemperatureHigh: 85
+                    requiredTemperatureLow: 35
+                    unitsPerPallet: 36
+                    unitWeight: 14
+                    unitVolume: 3
+                    isStackable: 'true'
+                    isOverWeightOverDimensional: 'false'
+                    isUsedGood: 'false'
+                    isHazardous: 'false'
+                    hazardousDescription: Car Battery
+                    hazardousEmergencyPhone: '5555555555'
+                    nationalMotorFreightClass: '156600'
+                    upcNumber: '1234567890'
+                    skuNumber: 01234-001-F10-6
+                    pluNumber: '4026'
+                    pickupSequenceNumber: 1
+                    dropSequenceNumber: 2
+                    referenceNumbers:
+                    - type: PO
+                      value: PO12345
+                    unNumber: UN2796
+                    packagingGroup: I
+                    hazmatClassCode: '8'
+                  origin:
+                    name: Origin Location
+                    address1: 14800 Charlson Rd
+                    address2: Building 1
+                    address3: Room 212
+                    city: Eden Prairie
+                    stateProvinceCode: MN
+                    countryCode: US
+                    postalCode: '55347'
+                    openDateTime: 2022-01-28 13:00:00+00:00
+                    closeDateTime: 2022-01-28 21:00:00+00:00
+                    latitude: 31.717096
+                    longitude: -99.132553
+                    specialRequirement:
+                      liftGate: 'false'
+                      insidePickup: 'false'
+                      residentialNonCommercial: 'false'
+                      limitedAccess: 'false'
+                      tradeShoworConvention: 'false'
+                      constructionSite: 'false'
+                      dropOffAtCarrierTerminal: 'false'
+                      hasDropTrailer: 'true'
+                    isPort: 'false'
+                    unLocode: US AC8
+                    iata: ACB
+                    customerLocationId: '541849'
+                    sequenceNumber: 1
+                    referenceNumbers:
+                    - type: PU
+                      value: PickUpNumber1
+                  destination:
+                    name: Destination Location
+                    address1: 800 Washington Avenue North
+                    address2: Building 1
+                    address3: Suite 550
+                    city: Minneapolis
+                    stateProvinceCode: MN
+                    countryCode: US
+                    postalCode: '55401'
+                    openDateTime: 2022-01-29 13:00:00+00:00
+                    closeDateTime: 2022-01-29 21:00:00+00:00
+                    latitude: 44.989386
+                    longitude: -93.278626
+                    specialRequirement:
+                      liftGate: 'false'
+                      insidePickup: 'false'
+                      insideDelivery: 'false'
+                      residentialNonCommercial: 'false'
+                      limitedAccess: 'false'
+                      tradeShoworConvention: 'false'
+                      constructionSite: 'false'
+                      dropOffAtCarrierTerminal: 'false'
+                      pickupAtCarrierTerminal: 'false'
+                      hasDropTrailer: 'true'
+                    isPort: 'false'
+                    unLocode: US AC8
+                    iata: ACB
+                    customerLocationId: '948145'
+                    sequenceNumber: 3
+                    referenceNumbers:
+                    - type: DEL
+                      value: DeliverNumber1
+                  additionalLocations:
+                  - name: Additional Location
+                    address1: 800 Washington Avenue North
+                    address2: Building 1
+                    address3: Suite 550
+                    city: Minneapolis
+                    stateProvinceCode: MN
+                    countryCode: US
+                    postalCode: '55401'
+                    latitude: 44.989386
+                    longitude: -93.278626
+                    openDateTime: 2022-01-29 13:00:00+00:00
+                    closeDateTime: 2022-01-29 21:00:00+00:00
+                    specialRequirement:
+                      liftGate: 'false'
+                      insidePickup: 'false'
+                      insideDelivery: 'false'
+                      residentialNonCommercial: 'false'
+                      limitedAccess: 'false'
+                      tradeShoworConvention: 'false'
+                      constructionSite: 'false'
+                      dropOffAtCarrierTerminal: 'false'
+                      pickupAtCarrierTerminal: 'false'
+                      dropTrailer: 'false'
+                    isPort: 'false'
+                    unLocode: US AC8
+                    iata: ACB
+                    customerLocationId: '948145'
+                    sequenceNumber: 2
+                    referenceNumbers:
+                    - type: DEL
+                      value: DeliverNumber1
+                  shipDate: 2026-09-05 19:05:18.768000+00:00
+                  platform: 5FF4892D-17C4-4D4D-A958-9784D3124
+                  transactionId: '1234567899456'
+                  customerCode: C8283603
+                  transportModes:
+                  - mode: LTL
+                    equipments:
+                    - equipmentType: Van
+                      quantity: 1
+                  referenceNumbers:
+                  - type: MBOL
+                    value: MBOL12345
+                  optionalAccessorials:
+                  - EXL
+              Minimum:
+                value:
+                  items:
+                  - actualWeight: 40000
+                    weightUnit: Pounds
+                  origin:
+                    countryCode: US
+                    postalCode: '55347'
+                  destination:
+                    countryCode: US
+                    postalCode: '33830'
+                  shipDate: 2026-09-05 19:05:18.768000+00:00
+                  customerCode: C8283603
+                  transportModes:
+                  - mode: TL
+              Minimum for Q2O:
+                value:
+                  items:
+                  - freightClass: 400
+                    weight: 250
+                    weightUnitOfMeasure: Pounds
+                    insuranceValue: 50000
+                    packagingCode: BIN
+                    productCode: wdgt
+                  origin:
+                    name: Origin Location
+                    address1: 14800 Charlson Rd
+                    city: Eden Prairie
+                    stateProvinceCode: MN
+                    countryCode: US
+                    postalCode: '55347'
+                  destination:
+                    name: Destination Location
+                    address1: 800 Washington Avenue North
+                    city: Minneapolis
+                    stateProvinceCode: MN
+                    countryCode: US
+                    postalCode: '55401'
+                  shipDate: '2026-09-05T19:05:18.768Z'
+                  customerCode: C8283603
+                  transportModes:
+                  - mode: LTL
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X POST \\ \n https://sandbox-api.navisphere.com/v1/quotes \\\n -H 'Authorization: Bearer YOUR TOKEN' \\\n -H 'Content-Type: application/json' \\\n -d '{\n \t\"items\": [{ \n \t\t\"description\": \"widgets\",\n \t\t\"freightClass\": 400,\n \t\t\"actualWeight\": 250,\n \t\t\"weightUnit\": \"Pounds\",\n \t\t\"length\": 24,\n \t\t\"width\": 10,\n \t\t\"height\": 10,\n \t\t\"linearUnit\": \"Inches\",\n \t\t\"pallets\": 1,\n \t\t\"pieces\": 1,\n \t\t\"palletSpaces\": 1,\n \t\t\"volume\": 3,\n \t\t\"volumeUnit\": \"CubicFeet\",\n \t\t\"density\": 25,\n \t\t\"linearSpace\": 8,\n \t\t\"declaredValue\": 50000,\n \t\t\"packagingCode\": \"BIN\",\n \t\t\"productCode\": \"wdgt\",\n \t\t\"productName\": \"widgets\",\n \t\t\"temperatureSensitive\": \"Dry\",\n \t\t\"temperatureUnit\": \"Fahrenheit\",\n \t\t\"requiredTemperatureHigh\": 85,\n \t\t\"requiredTemperatureLow\": 35,\n \t\t\"unitsPerPallet\": 36,\n \t\t\"unitWeight\": 14,\n \t\t\"unitVolume\": 3,\n \t\t\"isStackable\": \"true\",\n \t\t\"isOverWeightOverDimensional\": \"false\",\n \t\t\"isUsedGood\": \"false\",\n \t\t\"isHazardous\": \"false\",\n \t\t\"hazardousDescription\": \"Car Battery\",\n \t\t\"hazardousEmergencyPhone\": \"5555555555\",\n \t\t\"nmfc\": \"156600\",\n \t\t\"upc\": \"1234567890\",\n \t\t\"sku\": \"01234-001-F10-6\",\n \t\t\"plu\": \"4026\",\n \t\t\"referenceNumbers\": [{ \n \t\t\t\"type\": \"PO\",\n \t\t\t\"value\": \"PO12345\"\n \t\t}],\n \t\t\"unNumber\": \"UN2796\",\n \t\t\"packagingGroup\": \"I\",\n \t\t\"hazmatClass\": \"8\"\n \t}],\n \t\"origin\": { \n \t\t\"locationName\": \"Origin Location\",\n \t\t\"address1\": \"14800 Charlson Rd\",\n \t\t\"address2\": \"Building 1\",\n \t\t\"address3\": \"Room 212\",\n \t\t\"city\": \"Eden Prairie\",\n \t\t\"stateProvinceCode\": \"MN\",\n \t\t\"countryCode\": \"US\",\n \t\t\"postalCode\": \"55347\",\n \t\t\"latitude\": 31.717096,\n \t\t\"longitude\": -99.132553,\n \t\t\"specialRequirement\": { \n \t\t\t\"liftGate\": \"false\",\n \t\t\t\"insidePickup\": \"false\",\n \t\t\t\"insideDelivery\": \"false\",\n \t\t\t\"residentialNonCommercial\": \"false\",\n \t\t\t\"limitedAccess\": \"false\",\n \t\t\t\"tradeShoworConvention\": \"false\",\n \t\t\t\"constructionSite\": \"false\",\n \t\t\t\"dropOffAtCarrierTerminal\": \"false\",\n \t\t\t\"pickupAtCarrierTerminal\": \"false\" \t\t},\n \t\t\"isPort\": \"false\",\n \t\t\"unLocode\": \"US AC8\",\n \t\t\"iata\": \"ACB\",\n \t\t\"customerLocationId\": \"W541849\",\n \t\t\"referenceNumbers\": [{\n \t\t\t\"type\": \"PU\",\n \t\t\t\"value\": \"PickUpNumber1\" \t\t}]\n \t},\n \t\"destination\": {\n \t\t\"locationName\": \"Destination Location\",\n \t\t\"address1\": \"800 Washington Avenue North\",\n \t\t\"address2\": \"Building 1\",\n \t\t\"address3\": \"Suite 550\",\n \t\t\"city\": \"Minneapolis\",\n \t\t\"stateProvinceCode\": \"MN\",\n \t\t\"countryCode\": \"US\",\n \t\t\"postalCode\": \"55401\",\n \t\t\"latitude\": 44.989386,\n \t\t\"longitude\": -93.278626,\n \t\t\"specialRequirement\": {\n \t\t\t\"liftGate\": \"false\",\n \t\t\t\"insidePickup\": \"false\",\n \t\t\t\"insideDelivery\": \"false\",\n \t\t\t\"residentialNonCommercial\": \"false\",\n \t\t\t\"limitedAccess\": \"false\",\n \t\t\t\"tradeShoworConvention\": \"false\",\n \t\t\t\"constructionSite\": \"false\",\n \t\t\t\"dropOffAtCarrierTerminal\": \"false\",\n \t\t\t\"pickupAtCarrierTerminal\": \"false\"\n \t\t},\n \t\t\"isPort\": \"false\",\n \t\t\"unLocode\": \"US AC8\",\n \t\t\"iata\": \"ACB\",\n \t\t\"customerLocationId\": \"W541849\",\n \t\t\"referenceNumbers\": [{\n \t\t\t\"type\": \"DEL\",\n \t\t\t\"value\": \"DeliverNumber1\"\n \t\t}]\n \t},\n \t\"shipDate\": \"2019-03-20T20:30:00.0000000Z\",\n \t\"customerCode\": \"C8283603\",\n \t\"declaredValue\": 50000,\n \t\"transportModes\": [{ \n \t\t\"mode\": \"LTL\",\n \t\t\"equipments\": [{\n \t\t\t\"equipmentType\": \"Van\",\n \t\t\t\"quantity\": 1\n \t\t}]\n \t}],\n \t\"referenceNumbers\": [{\n \t\t\"type\": \"MBOL\",\n \t\t\"value\": \"MBOL12345\"\n \t}],\n \t\"optionalAccessorials\": [\"EXL\"] \n \t}'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.post(\"https://sandbox-api.navisphere.com/v1/quotes\") .header(\"Content-Type\", \"application/json\")\n .header(\"Authorization\", \"Bearer YOUR TOKEN\")\n .body(\"{\n    \"items\": [\n        {\n            \"description\": \"widgets\",\n            \"freightClass\": 400,\n            \"actualWeight\": 250,\n            \"weightUnit\": \"Pounds\",\n            \"length\": 24,\n            \"width\": 10,\n            \"height\": 10,\n            \"linearUnit\": \"Inches\",\n            \"pallets\": 1,\n            \"pieces\": 1,\n            \"palletSpaces\": 1,\n            \"volume\": 3,\n            \"volumeUnit\": \"CubicFeet\",\n            \"density\": 25,\n            \"linearSpace\": 8,\n            \"declaredValue\": 50000,\n            \"packagingCode\": \"BIN\",\n            \"productCode\": \"wdgt\",\n            \"productName\": \"widgets\",\n            \"temperatureSensitive\": \"Dry\",\n            \"temperatureUnit\": \"Fahrenheit\",\n            \"requiredTemperatureHigh\": 85,\n            \"requiredTemperatureLow\": 35,\n            \"unitsPerPallet\": 36,\n            \"unitWeight\": 14,\n            \"unitVolume\": 3,\n            \"isStackable\": \"true\",\n            \"isOverWeightOverDimensional\": \"false\",\n            \"isUsedGood\": \"false\",\n            \"isHazardous\": \"false\",\n            \"hazardousDescription\": \"Car Battery\",\n            \"hazardousEmergencyPhone\": \"5555555555\",\n            \"nmfc\": \"156600\",\n            \"upc\": \"1234567890\",\n            \"sku\": \"01234-001-F10-6\",\n            \"plu\": \"4026\",\n            \"referenceNumbers\": [\n                {\n                    \"type\": \"PO\",\n                    \"value\": \"PO12345\"\n                }\n            ]\n        }\n    ],\n    \"origin\": {\n        \"locationName\": \"Origin Location\",\n        \"address1\": \"14800 Charlson Rd\",\n        \"address2\": \"Building 1\",\n        \"address3\": \"Room 212\",\n        \"city\": \"Eden Prairie\",\n        \"stateProvinceCode\": \"MN\",\n        \"countryCode\": \"US\",\n        \"postalCode\": \"55347\",\n        \"latitude\": 31.717096,\n        \"longitude\": -99.132553,\n        \"specialRequirement\": {\n            \"liftGate\": \"false\",\n            \"insidePickup\": \"false\",\n            \"insideDelivery\": \"false\",\n            \"residentialNonCommercial\": \"false\",\n            \"limitedAccess\": \"false\",\n            \"tradeShoworConvention\": \"false\",\n            \"constructionSite\": \"false\",\n            \"dropOffAtCarrierTerminal\": \"false\",\n            \"pickupAtCarrierTerminal\": \"false\"\n        },\n        \"isPort\": \"false\",\n        \"unLocode\": \"US AC8\",\n        \"iata\": \"ACB\",\n        \"customerLocationId\": \"W541849\",\n        \"referenceNumbers\": [\n            {\n                \"type\": \"PU\",\n                \"value\": \"PickUpNumber1\"\n            }\n        ]\n    },\n    \"destination\": {\n        \"locationName\": \"Destination Location\",\n        \"address1\": \"800 Washington Avenue North\",\n        \"address2\": \"Building 1\",\n        \"address3\": \"Suite 550\",\n        \"city\": \"Minneapolis\",\n        \"stateProvinceCode\": \"MN\",\n        \"countryCode\": \"US\",\n        \"postalCode\": \"55401\",\n        \"latitude\": 44.989386,\n        \"longitude\": -93.278626,\n        \"specialRequirement\": {\n            \"liftGate\": \"false\",\n            \"insidePickup\": \"false\",\n            \"insideDelivery\": \"false\",\n            \"residentialNonCommercial\": \"false\",\n            \"limitedAccess\": \"false\",\n            \"tradeShoworConvention\": \"false\",\n            \"constructionSite\": \"false\",\n            \"dropOffAtCarrierTerminal\": \"false\",\n            \"pickupAtCarrierTerminal\": \"false\"\n        },\n        \"isPort\": \"false\",\n        \"unLocode\": \"US AC8\",\n        \"iata\": \"ACB\",\n        \"customerLocationId\": \"W541849\",\n        \"referenceNumbers\": [\n            {\n                \"type\": \"DEL\",\n                \"value\": \"DeliverNumber1\"\n            }\n        ]\n    },\n    \"shipDate\": \"2019-03-20T20:30:00.0000000Z\",\n    \"customerCode\": \"C8283603\",\n    \"declaredValue\": 50000,\n    \"transportModes\": [\n        {\n            \"mode\": \"LTL\",\n            \"equipments\": [\n                {\n                    \"equipmentType\": \"Van\",\n                    \"quantity\": 1\n                }\n            ]\n        }\n    ],\n    \"referenceNumbers\": [\n        {\n            \"type\": \"MBOL\",\n            \"value\": \"MBOL12345\"\n        }\n    ],\n    \"optionalAccessorials\": [\n        \"EXL\"\n    ]\n}\")\n .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\"); \n\n var options = { method: 'POST', \n url: 'https://sandbox-api.navisphere.com/v1/quotes', \n headers: \n { Authorization: 'Bearer YOUR TOKEN', \n 'Content-Type': 'application/json' },\n body: { \n \titems: [ { \n \t\tdescription: 'widgets',\n \t\tfreightClass: 400,\n \t\tweight: 250,\n \t\tweightUnitOfMeasure: 'Pounds',\n \t\tpackagingLength: 24,\n \t\tpackagingWidth: 10,\n \t\tpackagingHeight: 10,\n \t\tpackagingUnitOfMeasure: 'Inches',\n \t\tpallets: 1,\n \t\tquantity: 1,\n \t\tpalletSpaces: 1,\n \t\tpackagingVolume: 3,\n \t\tpackagingVolumeUnitOfMeasure: 'CubicFeet',\n \t\tdensity: 25,\n \t\tlinearSpace: 8,\n \t\tinsuranceValue: 50000,\n \t\tpackagingCode: 'BIN',\n \t\tproductCode: 'wdgt',\n \t\ttemperatureType: 'Dry',\n \t\ttemperatureUnit: 'Fahrenheit',\n \t\trequiredTemperatureHigh: 85,\n \t\trequiredTemperatureLow: 35,\n \t\tunitsPerPallet: 36,\n \t\tunitWeight: 14,\n \t\tunitVolume: 3,\n \t\tisStackable: 'true',\n \t\tisOverWeightOverDimensional: 'false',\n \t\tisUsedGood: 'false',\n \t\tisHazardous: 'false',\n \t\thazardousDescription: 'Car Battery',\n \t\thazardousEmergencyPhone: '5555555555',\n \t\tnationalMotorFreightClass: '156600',\n \t\tupcNumber: '1234567890',\n \t\tskuNumber: '01234-001-F10-6',\n \t\tpluNumber: '4026',\n \t\treferenceNumbers: [ { \n \t\t\ttype: 'PO',\n \t\t\tvalue: 'PO12345' \n \t\t} ], \n \t\tunNumber: 'UN2796',\n \t\tpackagingGroup: 'I',\n \t\thazmatClass: '8'\n \t} ],\n \torigin: {\n \t\tname: 'Origin Location',\n \t\taddress1: '14800 Charlson Rd',\n \t\taddress2: 'Building 1',\n \t\taddress3: 'Room 212',\n \t\tcity: 'Eden Prairie',\n \t\tstateProvinceCode: 'MN',\n \t\tcountryCode: 'US',\n \t\tpostalCode: '55347',\n \t\tlatitude: 31.717096,\n \t\tlongitude: -99.132553,\n \t\tspecialRequirement: { \n \t\t\tliftGate: 'false',\n \t\t\tinsidePickup: 'false',\n \t\t\tinsideDelivery: 'false',\n \t\t\tresidentialNonCommercial: 'false',\n \t\t\tlimitedAccess: 'false',\n \t\t\ttradeShoworConvention: 'false',\n \t\t\tconstructionSite: 'false',\n \t\t\tdropOffAtCarrierTerminal: 'false',\n \t\t\tpickupAtCarrierTerminal: 'false' \n \t\t},\n \t\tisPort: 'false',\n \t\tunLocode: 'US AC8',\n \t\tiata: 'ACB',\n \t\tcustomerLocationId: 'W541849',\n \t\treferenceNumbers: [ {\n \t\t\ttype: 'PU',\n \t\t\tvalue: 'PickUpNumber1'\n \t\t} ] \n \t},\n \tdestination:{\n \t\tname: 'Destination Location',\n \t\taddress1: '800 Washington Avenue North',\n \t\taddress2: 'Building 1',\n \t\taddress3: 'Suite 550',\n \t\tcity: 'Minneapolis',\n \t\tstateProvinceCode: 'MN',\n \t\tcountryCode: 'US',\n \t\tpostalCode: '55401',\n \t\tlatitude: 44.989386,\n \t\tlongitude: -93.278626,\n \t\tspecialRequirement: {\n \t\t\tliftGate: 'false',\n \t\t\tinsidePickup: 'false',\n \t\t\tinsideDelivery: 'false',\n \t\t\tresidentialNonCommercial: 'false',\n \t\t\tlimitedAccess: 'false',\n \t\t\ttradeShoworConvention: 'false',\n \t\t\tconstructionSite: 'false',\n \t\t\tdropOffAtCarrierTerminal: 'false',\n \t\t\tpickupAtCarrierTerminal: 'false'\n \t\t},\n \t\tisPort: 'false',\n \t\tunLocode: 'US AC8',\n \t\tiata: 'ACB',\n \t\tcustomerLocationId: 'W541849',\n \t\treferenceNumbers: [ {\n \t\t\ttype: 'DEL',\n \t\t\tvalue: 'DeliverNumber1' \n \t\t} ] \n \t},\n \tshipDate: '2019-03-20T20:30:00.0000000Z',\n \tcustomerCode: 'C8283603',\n \tdeclaredValue: 50000,\n \ttransportModes:[ { \n \t\tmode: 'LTL',\n \t\tequipments: [ { \n \t\t\tequipmentType: 'Van',\n \t\t\tquantity: 1 \n \t\t} ] \n \t} ],\n \treferenceNumbers: [ { \n \t\ttype: 'MBOL',\n \t\tvalue: 'MBOL12345'\n \t} ],\n \toptionalAccessorials: [ 'EXL' ] },\n \tjson: true };\n\n\nrequest(options, function (error, response, body) {\n \tif (error) throw new Error(error);\n\n \tconsole.log(body);\n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v1/quotes\");\n var request = new RestRequest(Method.POST)\n request.AddHeader(\"Authorization\", \"Bearer YOUR TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n request.AddParameter(\"undefined\", \"{\n    \"items\": [\n        {\n            \"description\": \"widgets\",\n            \"freightClass\": 400,\n            \"actualWeight\": 250,\n            \"weightUnit\": \"Pounds\",\n            \"length\": 24,\n            \"width\": 10,\n            \"height\": 10,\n            \"linearUnit\": \"Inches\",\n            \"pallets\": 1,\n            \"pieces\": 1,\n            \"palletSpaces\": 1,\n            \"volume\": 3,\n            \"volumeUnit\": \"CubicFeet\",\n            \"density\": 25,\n            \"linearSpace\": 8,\n            \"declaredValue\": 50000,\n            \"packagingCode\": \"BIN\",\n            \"productCode\": \"wdgt\",\n            \"productName\": \"widgets\",\n            \"temperatureSensitive\": \"Dry\",\n            \"temperatureUnit\": \"Fahrenheit\",\n            \"requiredTemperatureHigh\": 85,\n            \"requiredTemperatureLow\": 35,\n            \"unitsPerPallet\": 36,\n            \"unitWeight\": 14,\n            \"unitVolume\": 3,\n            \"isStackable\": \"true\",\n            \"isOverWeightOverDimensional\": \"false\",\n            \"isUsedGood\": \"false\",\n            \"isHazardous\": \"false\",\n            \"hazardousDescription\": \"Car Battery\",\n            \"hazardousEmergencyPhone\": \"5555555555\",\n            \"nmfc\": \"156600\",\n            \"upc\": \"1234567890\",\n            \"sku\": \"01234-001-F10-6\",\n            \"plu\": \"4026\",\n            \"referenceNumbers\": [\n                {\n                    \"type\": \"PO\",\n                    \"value\": \"PO12345\"\n                }\n            ],\n            \"unNumber\": \"UN2796\",\n            \"packagingGroup\": \"I\",\n            \"hazmatClass\": \"8\"\n        }\n    ],\n    \"origin\": {\n        \"locationName\": \"Origin Location\",\n        \"address1\": \"14800 Charlson Rd\",\n        \"address2\": \"Building 1\",\n        \"address3\": \"Room 212\",\n        \"city\": \"Eden Prairie\",\n        \"stateProvinceCode\": \"MN\",\n        \"countryCode\": \"US\",\n        \"postalCode\": \"55347\",\n        \"latitude\": 31.717096,\n        \"longitude\": -99.132553,\n        \"specialRequirement\": {\n            \"liftGate\": \"false\",\n            \"insidePickup\": \"false\",\n            \"insideDelivery\": \"false\",\n            \"residentialNonCommercial\": \"false\",\n            \"limitedAccess\": \"false\",\n            \"tradeShoworConvention\": \"false\",\n            \"constructionSite\": \"false\",\n            \"dropOffAtCarrierTerminal\": \"false\",\n            \"pickupAtCarrierTerminal\": \"false\"\n        },\n        \"isPort\": \"false\",\n        \"unLocode\": \"US AC8\",\n        \"iata\": \"ACB\",\n        \"customerLocationId\": \"W541849\",\n        \"referenceNumbers\": [\n            {\n                \"type\": \"PU\",\n                \"value\": \"PickUpNumber1\"\n            }\n        ]\n    },\n    \"destination\": {\n        \"locationName\": \"Destination Location\",\n        \"address1\": \"800 Washington Avenue North\",\n        \"address2\": \"Building 1\",\n        \"address3\": \"Suite 550\",\n        \"city\": \"Minneapolis\",\n        \"stateProvinceCode\": \"MN\",\n        \"countryCode\": \"US\",\n        \"postalCode\": \"55401\",\n        \"latitude\": 44.989386,\n        \"longitude\": -93.278626,\n        \"specialRequirement\": {\n            \"liftGate\": \"false\",\n            \"insidePickup\": \"false\",\n            \"insideDelivery\": \"false\",\n            \"residentialNonCommercial\": \"false\",\n            \"limitedAccess\": \"false\",\n            \"tradeShoworConvention\": \"false\",\n            \"constructionSite\": \"false\",\n            \"dropOffAtCarrierTerminal\": \"false\",\n            \"pickupAtCarrierTerminal\": \"false\"\n        },\n        \"isPort\": \"false\",\n        \"unLocode\": \"US AC8\",\n        \"iata\": \"ACB\",\n        \"customerLocationId\": \"W541849\",\n        \"referenceNumbers\": [\n            {\n                \"type\": \"DEL\",\n                \"value\": \"DeliverNumber1\"\n            }\n        ]\n    },\n    \"shipDate\": \"2019-03-20T20:30:00.0000000Z\",\n    \"customerCode\": \"C8283603\",\n    \"declaredValue\": 50000,\n    \"transportModes\": [\n        {\n            \"mode\": \"LTL\",\n            \"equipments\": [\n                {\n                    \"equipmentType\": \"Van\",\n                    \"quantity\": 1\n                }\n            ]\n        }\n    ],\n    \"referenceNumbers\": [\n        {\n            \"type\": \"MBOL\",\n            \"value\": \"MBOL12345\"\n        }\n    ],\n    \"optionalAccessorials\": [\n        \"EXL\"\n    ]\n}\", ParameterType.RequestBody);\n IRestResponse response = client.Execute(request);"
+      responses:
+        201:
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/quoteSummaries'
+              examples:
+                ContractualQuote:
+                  value:
+                    quoteSummaries:
+                    - quoteId: 319782509
+                      customer: {}
+                      totalCharge: 622.87
+                      totalFreightCharge: 616.71
+                      totalAccessorialCharge: 6.17
+                      transit:
+                        minimumTransitDays: 1
+                        maximumTransitDays: 2
+                      rates:
+                      - rateId: 2962165757
+                        totalRate: 6.17
+                        unitRate: 6.17
+                        quantity: 616.71
+                        rateCode: '405'
+                        rateCodeValue: Fuel Surcharge
+                        currencyCode: USD
+                        isOptional: false
+                      - rateId: 2962165758
+                        totalRate: 616.71
+                        unitRate: 616.71
+                        quantity: 1
+                        rateCode: '400'
+                        rateCodeValue: Line Haul
+                        currencyCode: USD
+                        isOptional: false
+                      transportModeType: LTL
+                      equipmentType: Van
+                      quoteSource: MarketRate
+                CarrierSelectQuote:
+                  value:
+                    quoteSummaries:
+                    - quoteId: 399662687
+                      carrier:
+                        carrierCode: T5302800
+                        carrierName: Forward Air, Inc.
+                        scac: FWDA
+                      totalCharge: 138.45
+                      totalFreightCharge: 114.94
+                      totalAccessorialCharge: 23.51
+                      transit:
+                        minimumTransitDays: 1
+                        originService: Direct
+                        destinationService: Direct
+                      rates:
+                      - rateId: 3738410707
+                        totalRate: 114.94
+                        unitRate: 114.94
+                        quantity: 1
+                        rateCode: '400'
+                        rateCodeValue: Line Haul
+                        currencyCode: USD
+                        isOptional: false
+                      - rateId: 3738410707
+                        totalRate: 23.51
+                        unitRate: 23.51
+                        quantity: 1
+                        rateCode: '405'
+                        rateCodeValue: Fuel Surcharge
+                        currencyCode: USD
+                        isOptional: false
+                      transportModeType: LTL
+                      equipmentType: Van
+                      quoteSource: MarketRate
+                    - quoteId: 399662689
+                      carrier:
+                        carrierCode: T11765
+                        carrierName: Averitt Express
+                        scac: AVRT
+                      totalCharge: 165.64
+                      totalFreightCharge: 139.04
+                      totalAccessorialCharge: 26.6
+                      transit:
+                        minimumTransitDays: 1
+                        originService: Direct
+                        destinationService: Direct
+                      rates:
+                      - rateId: 3738410708
+                        totalRate: 139.04
+                        unitRate: 139.04
+                        quantity: 1
+                        rateCode: '400'
+                        rateCodeValue: Line Haul
+                        currencyCode: USD
+                        isOptional: false
+                      - rateId: 3738410708
+                        totalRate: 26.6
+                        unitRate: 26.6
+                        quantity: 1
+                        rateCode: '405'
+                        rateCodeValue: Fuel Surcharge
+                        currencyCode: USD
+                        isOptional: false
+                      transportModeType: LTL
+                      equipmentType: Van
+                      quoteSource: MarketRate
+                    - quoteId: 399662690
+                      carrier:
+                        carrierCode: T2080614
+                        carrierName: UPS Freight
+                        scac: UPGF
+                      totalCharge: 179.44
+                      totalFreightCharge: 157.6
+                      totalAccessorialCharge: 21.84
+                      transit:
+                        minimumTransitDays: 1
+                        originService: Direct
+                        destinationService: Direct
+                      rates:
+                      - rateId: 3738410709
+                        totalRate: 157.6
+                        unitRate: 157.6
+                        quantity: 1
+                        rateCode: '400'
+                        rateCodeValue: Line Haul
+                        currencyCode: USD
+                        isOptional: false
+                      - rateId: 3738410709
+                        totalRate: 21.84
+                        unitRate: 21.84
+                        quantity: 1
+                        rateCode: '405'
+                        rateCodeValue: Fuel Surcharge
+                        currencyCode: USD
+                        isOptional: false
+                      transportModeType: LTL
+                      equipmentType: Van
+                      quoteSource: MarketRate
+                    - quoteId: 399662685
+                      carrier:
+                        carrierCode: T3915600
+                        carrierName: US Special Delivery
+                        scac: UPPN
+                      totalCharge: 100.85
+                      totalFreightCharge: 87.35
+                      totalAccessorialCharge: 13.5
+                      transit:
+                        minimumTransitDays: 1
+                        originService: Direct
+                        destinationService: Direct
+                      rates:
+                      - rateId: 3738410710
+                        totalRate: 87.35
+                        unitRate: 87.35
+                        quantity: 1
+                        rateCode: '400'
+                        rateCodeValue: Line Haul
+                        currencyCode: USD
+                        isOptional: false
+                      - rateId: 3738410710
+                        totalRate: 13.5
+                        unitRate: 13.5
+                        quantity: 1
+                        rateCode: '405'
+                        rateCodeValue: Fuel Surcharge
+                        currencyCode: USD
+                        isOptional: false
+                      transportModeType: LTL
+                      equipmentType: Van
+                      quoteSource: MarketRate
+                    - quoteId: 399662686
+                      carrier:
+                        carrierCode: T6282
+                        carrierName: N and M Transfer
+                        scac: NMTF
+                      totalCharge: 123.75
+                      totalFreightCharge: 106.41
+                      totalAccessorialCharge: 17.34
+                      transit:
+                        minimumTransitDays: 1
+                        originService: Direct
+                        destinationService: Direct
+                      rates:
+                      - rateId: 3738410711
+                        totalRate: 106.41
+                        unitRate: 106.41
+                        quantity: 1
+                        rateCode: '400'
+                        rateCodeValue: Line Haul
+                        currencyCode: USD
+                        isOptional: false
+                      - rateId: 3738410711
+                        totalRate: 17.34
+                        unitRate: 17.34
+                        quantity: 1
+                        rateCode: '405'
+                        rateCodeValue: Fuel Surcharge
+                        currencyCode: USD
+                        isOptional: false
+                      transportModeType: LTL
+                      equipmentType: Van
+                      quoteSource: MarketRate
+                    - quoteId: 399662688
+                      carrier:
+                        carrierCode: T9715
+                        carrierName: Estes Express Lines
+                        scac: EXLA
+                      totalCharge: 158.01
+                      totalFreightCharge: 136.86
+                      totalAccessorialCharge: 21.15
+                      transit:
+                        minimumTransitDays: 1
+                        originService: Direct
+                        destinationService: Direct
+                      rates:
+                      - rateId: 3738410712
+                        totalRate: 136.86
+                        unitRate: 136.86
+                        quantity: 1
+                        rateCode: '400'
+                        rateCodeValue: Line Haul
+                        currencyCode: USD
+                        isOptional: false
+                      - rateId: 3738410712
+                        totalRate: 21.15
+                        unitRate: 21.15
+                        quantity: 1
+                        rateCode: '405'
+                        rateCodeValue: Fuel Surcharge
+                        currencyCode: USD
+                        isOptional: false
+                      transportModeType: LTL
+                      equipmentType: Van
+                      quoteSource: MarketRate
+                    - quoteId: 399662691
+                      carrier:
+                        carrierCode: T102231
+                        carrierName: Dohrn Transfer Company
+                        scac: DHRN
+                      totalCharge: 142.88
+                      totalFreightCharge: 123.76
+                      totalAccessorialCharge: 19.12
+                      transit:
+                        minimumTransitDays: 1
+                        originService: Direct
+                        destinationService: Direct
+                      rates:
+                      - rateId: 3738410713
+                        totalRate: 123.76
+                        unitRate: 123.76
+                        quantity: 1
+                        rateCode: '400'
+                        rateCodeValue: Line Haul
+                        currencyCode: USD
+                        isOptional: false
+                      - rateId: 3738410713
+                        totalRate: 19.12
+                        unitRate: 19.12
+                        quantity: 1
+                        rateCode: '405'
+                        rateCodeValue: Fuel Surcharge
+                        currencyCode: USD
+                        isOptional: false
+                      transportModeType: LTL
+                      equipmentType: Van
+                      quoteSource: MarketRate
+                    - quoteId: 399662696
+                      carrier:
+                        carrierCode: T45438
+                        carrierName: Pitt Ohio Express
+                        scac: PITD
+                      totalCharge: 160.74
+                      totalFreightCharge: 149.69
+                      totalAccessorialCharge: 11.05
+                      transit:
+                        minimumTransitDays: 1
+                        originService: Direct
+                        destinationService: Direct
+                      rates:
+                      - rateId: 3738410714
+                        totalRate: 149.69
+                        unitRate: 149.69
+                        quantity: 1
+                        rateCode: '400'
+                        rateCodeValue: Line Haul
+                        currencyCode: USD
+                        isOptional: false
+                      - rateId: 3738410714
+                        totalRate: 11.05
+                        unitRate: 11.05
+                        quantity: 1
+                        rateCode: '405'
+                        rateCodeValue: Fuel Surcharge
+                        currencyCode: USD
+                        isOptional: false
+                      transportModeType: LTL
+                      equipmentType: Van
+                      quoteSource: MarketRate
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+              example:
+              - message: '"referenceNumber" is not allowed'
+                path:
+                - referenceNumber
+                type: object.allowUnknown
+                context:
+                  child: referenceNumber
+                  value:
+                  - type: MBOL
+                    value: MBOL12345
+                  key: referenceNumber
+                  label: referenceNumber
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/error401'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        500:
+          description: Internal Server Error. Please contact your C.H. Robinson Rep.
+      summary: Rating request
+      x-summary-source: derived
+  /v1/quotes/freight-class-estimate:
+    post:
+      description: Allows partner to retrieve the estimated classification, based solely on density, for further use in the actual rate requests.
+      operationId: Estimating Freight Class
+      tags:
+      - Rating
+      requestBody:
+        description: JSON object of shipment information.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/freightClassEstimate'
+            examples:
+              Payload:
+                value:
+                  length: 10
+                  width: 10
+                  height: 10
+                  linearUnit: Inches
+                  weight: 100
+                  weightUnit: Pounds
+                  originCountryCode: US
+                  destinationCountryCode: US
+                  customerCode: C8283603
+                  quantity: 10
+                  shipmentDate: 2026-09-05 19:05:18.768000+00:00
+                  totalWeight: 1000
+      responses:
+        201:
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/freightClassEstimateResponse'
+              examples:
+                FreightClassResponse:
+                  value:
+                    estimatedFreightClassByDensityOnly: 500
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+              example:
+              - message: '"length" is required'
+                path:
+                - length
+                type: any.required
+                context:
+                  label: length
+                  key: length
+        401:
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/error401'
+        403:
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        500:
+          description: Internal Server Error. Please contact your C.H. Robinson Rep.
+      summary: Estimating freight class
+      x-summary-source: derived
+components:
+  schemas:
+    specialServicesEnum:
+      type: string
+      description: "Defines the specialServices:\n  * `teamDriver` - indicates if truckload includes 2 drivers\n  * `STF` - driver and equipment meet safe transportation of food standards\n  * `tankerEndorsement` - driver is certified to move containers with liquids\n"
+      enum:
+      - teamDriver
+      - STF
+      - tankerEndorsement
+    cargoLiability:
+      type: object
+      description: Informs of carrier liability coverages.
+      properties:
+        perPound:
+          type: integer
+          description: Carrier’s liability per pound based on product attributes.
+        max:
+          type: integer
+          description: Carrier’s maximum liability based on product attributes.
+        amount:
+          type: integer
+          description: Calculated liability coverage for specific quote based on product attributes.
+        currencyCode:
+          $ref: '#/components/schemas/currencyCodeEnum'
+    specialRequirementRating:
+      type: object
+      properties:
+        liftGate:
+          type: boolean
+          description: Indicates that a lift gate is needed.
+        insidePickup:
+          type: boolean
+          description: Indicates that inside pickup is needed. **Only used on the origin/pick stop**
+        insideDelivery:
+          type: boolean
+          description: Indicates that inside delivery is needed. **Only used on the destination/drop stop**
+        residentialNonCommercial:
+          type: boolean
+          description: Indicates that a stop is residential non-commercial.
+        limitedAccess:
+          type: boolean
+          description: Indicates that stop has limited access.
+        tradeShoworConvention:
+          type: boolean
+          description: Indicates that stop is a trade show or convention.
+        constructionSite:
+          type: boolean
+          description: Indicates that stop is a construction site.
+        dropOffAtCarrierTerminal:
+          type: boolean
+          description: Indicates that customer will drop off at carrier terminal. **Only used on the origin/pick stop**
+        pickupAtCarrierTerminal:
+          type: boolean
+          description: Indicates that customer will pickup at carrier terminal. **Only used on the destination/drop stop**
+        hasDropTrailer:
+          type: boolean
+          description: Indicates if this location is drop trailer.
+        appointmentNotification:
+          type: boolean
+          description: Indicates that stop has an appointment notification. Only used on the destination/drop stop.
+    transportMode:
+      type: object
+      description: Define information for transport criteria
+      required:
+      - mode
+      properties:
+        mode:
+          $ref: '#/components/schemas/transportModeEnum'
+        equipments:
+          type: array
+          description: List of required equipment needed.
+          items:
+            $ref: '#/components/schemas/equipment'
+    temperatureSensitiveEnum:
+      type: string
+      description: "Indicates if temperature control is needed, and what level:\n  * `Dry` - Dry\n  * `Fresh` - Fresh (25 to 32 degrees)\n  * `Frozen` - Frozen (-10 to 0 degrees)\n  * `Chilled` - Chilled (40 to 60 degrees)\n  * `DeepFrozen` - Deep Frozen (-20 to -20 degrees)\n  * `Refrigerated` - Refrigerated (33 to 39 degrees)\n  * `Protect` - Protect (33 to 60 degrees)\n  * `Custom` - Custom\n  * `Produce` - Produce\n  * `Mixed` - Mixed\n  * `Empty` - Empty\n"
+      enum:
+      - Dry
+      - Fresh
+      - Frozen
+      - Chilled
+      - DeepFrozen
+      - Refrigerated
+      - Protect
+      - Produce
+      - Mixed
+      - Empty
+    countryCodeRatingEnum:
+      type: string
+      description: 'Indicate the country of the location.
+
+
+        For a detailed description of all enumerated codes please find them <a href="https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CountryCodes.xlsx" target="_blank">here</a>.'
+      enum:
+      - AD
+      - AE
+      - AF
+      - AG
+      - AI
+      - AL
+      - AM
+      - AO
+      - AQ
+      - AR
+      - AS
+      - AT
+      - AU
+      - AW
+      - AZ
+      - BA
+      - BB
+      - BD
+      - BE
+      - BF
+      - BG
+      - BH
+      - BI
+      - BJ
+      - BM
+      - BN
+      - BO
+      - BR
+      - BS
+      - BT
+      - MM
+      - BV
+      - BW
+      - BY
+      - BZ
+      - CA
+      - CC
+      - CD
+      - CF
+      - CG
+      - CH
+      - CI
+      - CK
+      - CL
+      - CM
+      - CN
+      - CO
+      - CR
+      - RS
+      - CU
+      - CV
+      - CX
+      - CY
+      - CZ
+      - DE
+      - DJ
+      - DK
+      - DM
+      - DO
+      - DZ
+      - EC
+      - EE
+      - EG
+      - EH
+      - ER
+      - ES
+      - ET
+      - FI
+      - FJ
+      - FK
+      - FM
+      - FO
+      - FR
+      - GA
+      - GD
+      - GE
+      - GF
+      - GH
+      - GI
+      - GL
+      - GM
+      - GN
+      - GP
+      - GQ
+      - GR
+      - GS
+      - GT
+      - GU
+      - GW
+      - GY
+      - HK
+      - HM
+      - HN
+      - HR
+      - HT
+      - HU
+      - ID
+      - IE
+      - IL
+      - IN
+      - IO
+      - IQ
+      - IR
+      - IS
+      - IT
+      - JM
+      - JO
+      - JP
+      - KE
+      - KG
+      - KH
+      - KI
+      - KM
+      - KN
+      - KP
+      - KR
+      - KW
+      - KY
+      - KZ
+      - LA
+      - LB
+      - LC
+      - LI
+      - LK
+      - LR
+      - LS
+      - LT
+      - LU
+      - LV
+      - LY
+      - MA
+      - MC
+      - MD
+      - MG
+      - MH
+      - MK
+      - ML
+      - MN
+      - MO
+      - MP
+      - MQ
+      - MR
+      - MS
+      - MT
+      - MU
+      - MV
+      - MW
+      - MX
+      - MY
+      - MZ
+      - NA
+      - NC
+      - NE
+      - NF
+      - NG
+      - NI
+      - NL
+      - 'NO'
+      - NP
+      - NR
+      - NU
+      - NZ
+      - OM
+      - PA
+      - PE
+      - PF
+      - PG
+      - PH
+      - PK
+      - PL
+      - PM
+      - PN
+      - PR
+      - PS
+      - PT
+      - PW
+      - PY
+      - QA
+      - RE
+      - RO
+      - RU
+      - RW
+      - SA
+      - SB
+      - SC
+      - SD
+      - SE
+      - SG
+      - SH
+      - SI
+      - SJ
+      - SK
+      - SL
+      - SM
+      - SN
+      - SO
+      - SR
+      - ST
+      - SV
+      - SY
+      - SZ
+      - TC
+      - TD
+      - TF
+      - TG
+      - TH
+      - TJ
+      - TK
+      - TL
+      - TM
+      - TN
+      - TO
+      - TP
+      - TR
+      - TT
+      - TV
+      - TW
+      - TZ
+      - UA
+      - UG
+      - GB
+      - UM
+      - US
+      - UY
+      - UZ
+      - VA
+      - VC
+      - VE
+      - VG
+      - VI
+      - VN
+      - VU
+      - WF
+      - WS
+      - YE
+      - YT
+      - ZA
+      - ZM
+      - ZR
+      - ZW
+      - AX
+      - GG
+      - IM
+      - JE
+      - ME
+      - MF
+      - CW
+      - SX
+      - SS
+      - IC
+      - XC
+      - XL
+    ratingPost:
+      required:
+      - items
+      - origin
+      - destination
+      - shipDate
+      - customerCode
+      - transportModes
+      properties:
+        items:
+          type: array
+          description: Identifies all relevant item level information
+          items:
+            $ref: '#/components/schemas/ratingItem'
+        origin:
+          $ref: '#/components/schemas/ratingLocation'
+        destination:
+          $ref: '#/components/schemas/ratingLocation'
+        additionalLocations:
+          type: array
+          description: Only required for multi stop requests
+          items:
+            $ref: '#/components/schemas/ratingLocation'
+        shipDate:
+          type: string
+          format: date-time
+          description: "An ISO8601 UTC date-time used to indicate the date customer would like to ship the product. \n\n ### <span style=\"color:Red\">**This date can not be earlier than the current date and can not be more than thirty days in the future.</span>"
+        platform:
+          type: string
+          description: "A static ID that represents an external party to C.H. Robinson. It can be used by C.H. Robinson to route external rate requests based on specific customer needs. To use this field, C.H. Robinson must generate and provide this ID to the external party. \n\n ### <span style=\"color:Red\">**This field is required for TMC customers.  Reach out to your TMC Representative to obtain this ID.</span> \n\n ### <span style=\"color:Red\">**Note that the API team does not provide this ID, and the majority of customers will not be using this field.</span>"
+        transactionId:
+          type: string
+          description: "This ID is a permanent link between the unique shipment being quoted and the quote offered by C.H. Robinson - it is normally the primary shipment reference number, a value that should not change during the lifecycle of the shipment. The same transactionId should be submitted in the rate request when re-rating the same shipment. \n\n ### <span style=\"color:Red\">**Required for Truckload Quoting</span>"
+        customerCode:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: C.H. Robinson defined code that is provided to the customer.
+        transportModes:
+          type: array
+          description: Array of transport modes
+          items:
+            $ref: '#/components/schemas/transportMode'
+        referenceNumbers:
+          type: array
+          description: Array of additional reference numbers that can be provided.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+        optionalAccessorials:
+          type: array
+          description: "C.H. Robinson defined code for additional accessorials not defined in the special requirements object. \n\n ### <span style=\"color:Red\">**To take advantage of additional accessorials, a conversation will need to take place with your C.H. Robinson representative.</span>"
+          items:
+            type: string
+        specialServices:
+          type: array
+          description: Array of special services.
+          items:
+            $ref: '#/components/schemas/specialServicesEnum'
+    transportModeEnum:
+      type: string
+      description: "Defines the mode:\n  * `LTL` - Less Than Truckload\n  * `TL` - Truckload\n  * `Air` - Air\n  * `Ocean` - Ocean\n  * `Bulk` - Bulk\n  * `Consol` - Consolidated\n  * `Flatbed` - Flatbed\n  * `IMDL` - Intermodal\n"
+      enum:
+      - LTL
+      - TL
+      - Air
+      - Ocean
+      - Bulk
+      - Consol
+      - Flatbed
+      - IMDL
+    volumeUomEnum:
+      type: string
+      description: Unit of measure for volume parameters.
+      enum:
+      - CubicFeet
+      - CubicMeters
+    freightClassEstimate:
+      type: object
+      required:
+      - length
+      - width
+      - height
+      - linearUnit
+      - originCountryCode
+      - destinationCountryCode
+      - customerCode
+      - quantity
+      properties:
+        length:
+          type: number
+          format: float
+          description: Length of the item.
+        width:
+          type: number
+          format: float
+          description: Width of the item.
+        height:
+          type: number
+          format: float
+          description: Height of the item.
+        linearUnit:
+          $ref: '#/components/schemas/linearUomEnum'
+        weight:
+          type: number
+          format: float
+          description: "The weight of each piece. \n\n ### <span style=\"color:DeepPink\">Required if `totalWeight` is not being used.</span>"
+        weightUnit:
+          $ref: '#/components/schemas/weightUomEnum'
+        originCountryCode:
+          $ref: '#/components/schemas/countryCodeEnum'
+        destinationCountryCode:
+          $ref: '#/components/schemas/countryCodeEnum'
+        customerCode:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: C.H. Robinson defined code that is provided to the customer.
+        quantity:
+          type: number
+          format: float
+          description: Identifies the number of pieces of the line item.
+        shipmentDate:
+          type: string
+          format: date-time
+          description: 'An ISO8601 UTC date-time used to indicate the date customer would like to ship the product.
+
+            '
+        totalWeight:
+          type: number
+          format: float
+          description: "The total weight. \n\n ### <span style=\"color:DeepPink\">Required if `weight` is not being used.</span>"
+    freightClassEstimateResponse:
+      type: object
+      properties:
+        estimatedFreightClassByDensityOnly:
+          $ref: '#/components/schemas/freightEstimateResponseEnum'
+    stateProvinceCodeRatingEnum:
+      type: string
+      description: "Indicate the state or province of the location. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/StateProvinceCodes.xlsx\" target=\"_blank\">here</a>. \n\n ### <span style=\"color:DeepPink\">Required if quote will be used to create an Order.</span> \n\n ### <span style=\"color:Red\">**If you plan to provide this information on the order portion of the call, it is not required in the rating call.</span>"
+      enum:
+      - A
+      - B
+      - C
+      - D
+      - E
+      - F
+      - G
+      - H
+      - J
+      - K
+      - L
+      - M
+      - N
+      - P
+      - Q
+      - R
+      - S
+      - T
+      - U
+      - V
+      - W
+      - X
+      - Y
+      - Z
+      - CT
+      - NSW
+      - NT
+      - QLD
+      - SA
+      - TS
+      - VIC
+      - WA
+      - O
+      - AC
+      - AL
+      - AM
+      - AP
+      - BA
+      - CE
+      - DF
+      - ES
+      - GO
+      - MA
+      - MG
+      - MS
+      - MT
+      - PA
+      - PB
+      - PE
+      - PI
+      - PR
+      - RJ
+      - RN
+      - RO
+      - RR
+      - RS
+      - SC
+      - SE
+      - SP
+      - TO
+      - AB
+      - BC
+      - MB
+      - NB
+      - NL
+      - NS
+      - NU
+      - 'ON'
+      - QC
+      - SK
+      - YT
+      - AI
+      - AN
+      - AR
+      - AT
+      - BI
+      - CO
+      - LI
+      - LL
+      - ML
+      - RM
+      - TA
+      - VS
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '21'
+      - '22'
+      - '23'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '35'
+      - '36'
+      - '37'
+      - '41'
+      - '42'
+      - '43'
+      - '44'
+      - '45'
+      - '46'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '61'
+      - '62'
+      - '63'
+      - '64'
+      - '65'
+      - '71'
+      - '91'
+      - '92'
+      - SJ
+      - BL
+      - BM
+      - BS
+      - CA
+      - GA
+      - OI
+      - QU
+      - AS
+      - BR
+      - CH
+      - DD
+      - DL
+      - DN
+      - GJ
+      - HP
+      - HR
+      - JH
+      - JK
+      - KA
+      - KL
+      - LD
+      - MH
+      - MN
+      - MP
+      - MZ
+      - OR
+      - PY
+      - TN
+      - TR
+      - UL
+      - UP
+      - WB
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      - '6'
+      - '7'
+      - '8'
+      - '9'
+      - '10'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '20'
+      - '24'
+      - '25'
+      - '26'
+      - '27'
+      - '28'
+      - '29'
+      - '30'
+      - '38'
+      - '39'
+      - '40'
+      - '47'
+      - '48'
+      - '49'
+      - AGU
+      - BCN
+      - BCS
+      - CAM
+      - CHH
+      - CHP
+      - COA
+      - COL
+      - DUR
+      - GRO
+      - GUA
+      - HID
+      - JAL
+      - MEX
+      - MIC
+      - MOR
+      - NAY
+      - NLE
+      - OAX
+      - PUE
+      - QUE
+      - ROO
+      - SIN
+      - SLP
+      - SON
+      - TAB
+      - TAM
+      - TLA
+      - VER
+      - YUC
+      - ZAC
+      - AUK
+      - BOP
+      - CAN
+      - GIS
+      - HKB
+      - MBH
+      - MWT
+      - NSN
+      - NTL
+      - OTA
+      - STL
+      - TAS
+      - TKI
+      - WGN
+      - WKO
+      - WTC
+      - '67'
+      - '76'
+      - '79'
+      - '81'
+      - '84'
+      - '86'
+      - '89'
+      - '95'
+      - AK
+      - AZ
+      - DC
+      - DE
+      - FL
+      - GU
+      - HI
+      - IA
+      - ID
+      - IL
+      - IN
+      - KS
+      - KY
+      - LA
+      - MD
+      - ME
+      - MI
+      - MO
+      - NC
+      - ND
+      - NE
+      - NH
+      - NJ
+      - NM
+      - NV
+      - NY
+      - OH
+      - OK
+      - RI
+      - SD
+      - TX
+      - UM
+      - UT
+      - VA
+      - VI
+      - VT
+      - WI
+      - WV
+      - WY
+      - AG
+      - AO
+      - AV
+      - BT
+      - BN
+      - BG
+      - BO
+      - BZ
+      - CL
+      - CB
+      - CI
+      - CZ
+      - CS
+      - CR
+      - KR
+      - CN
+      - EN
+      - FM
+      - FE
+      - FI
+      - FG
+      - FC
+      - FR
+      - GE
+      - GR
+      - IM
+      - IS
+      - AQ
+      - LT
+      - LE
+      - LC
+      - LO
+      - LU
+      - MC
+      - NA
+      - 'NO'
+      - OG
+      - OT
+      - PD
+      - PV
+      - PG
+      - PU
+      - PC
+      - PT
+      - PN
+      - PZ
+      - PO
+      - RG
+      - RA
+      - RC
+      - RE
+      - SS
+      - SV
+      - SI
+      - SO
+      - SR
+      - TE
+      - TP
+      - TV
+      - UD
+      - VE
+      - VB
+      - VC
+      - VR
+      - VV
+      - TG
+      - AA
+      - AE
+    currencyCodeEnum:
+      type: string
+      description: "Code to indicate the currency being used. The most common currently in use with C.H. Robinson:\n\n* `USD` - US Dollar\n* `CAD` - Canadian Dollar \n* `MXN` - Mexican Peso\n* `EUR` - European Euro\n\n\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CurrencyCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - USD
+      - CAD
+      - EUR
+      - MXN
+      - CHF
+      - GBP
+      - HUF
+      - CZK
+      - NZD
+      - PLN
+      - ZAR
+      - VEB
+      - VND
+      - TWD
+      - TRY
+      - SEK
+      - SGD
+      - RUB
+      - NOK
+      - HKD
+      - INR
+      - JPY
+      - CLP
+      - CNY
+      - DKK
+      - AUD
+      - BRL
+      - AED
+      - PEN
+      - THB
+      - ARS
+      - MYR
+      - VEF
+      - SAR
+      - BBD
+      - BHD
+      - BMD
+      - BSD
+      - ILS
+      - ISK
+      - KES
+      - KRW
+      - KWD
+      - OMR
+      - PHP
+      - PKR
+      - QAR
+      - RON
+      - TTD
+      - UAH
+      - LKR
+      - XPF
+      - UYU
+      - COP
+      - CRC
+      - FJD
+    equipmentCodeEnum:
+      type: string
+      description: '### <span style="color:Red">**Only one container type per rating request is currently supported.</span>'
+      enum:
+      - Van
+      - Reefer
+      - Flatbed
+      - Lcl
+      - StepDeck
+      - FlatHotshot
+      - Container20
+      - Container40
+      - Container40HighCube
+      - Container45HighCube
+      - Container20FlatRack
+      - Container40FlatRack
+      - Container40HighCubeFlatRack
+      - Container45FlatRack
+      - Container20OpenTop
+      - Container40OpenTop
+      - Container20Reefer
+      - Container40Reefer
+      - Container40HighCubeReefer
+      - Container45Reefer
+      - Container20ReeferDryUsage
+      - Container40ReeferDryUsage
+      - Container40HighCubeReeferDryUsage
+      - Container45ReeferDryUsage
+      - Container20Platform
+    ratingLocation:
+      type: object
+      description: Identifies all the relevant location information
+      required:
+      - countryCode
+      - postalCode
+      properties:
+        locationName:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: "Customer defined name of the location. \n\n ### <span style=\"color:DeepPink\">Required if quote will be used to create an Order.</span> \n\n ### <span style=\"color:Red\">**If you plan to provide this information on the order portion of the call, it is not required in the rating call.</span>"
+          deprecated: true
+        name:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: "Customer defined name of the location. \n\n ### <span style=\"color:DeepPink\">Required if quote will be used to create an Order.</span> \n\n ### <span style=\"color:Red\">**If you plan to provide this information on the order portion of the call, it is not required in the rating call.</span>"
+        address1:
+          type: string
+          minimum: 1
+          maximum: 200
+          description: "Indicate address line 1. \n\n ### <span style=\"color:DeepPink\">Required if quote will be used to create an Order.</span> \n\n ### <span style=\"color:Red\">**If you plan to provide this information on the order portion of the call, it is not required in the rating call.</span>"
+        address2:
+          type: string
+          minimum: 1
+          maximum: 200
+          description: Indicate address line 2.
+        address3:
+          type: string
+          minimum: 1
+          maximum: 200
+          description: Indicate address line 3.
+        city:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: "Indicate the city of the location. \n\n ### <span style=\"color:DeepPink\">Required if quote will be used to create an Order.</span> \n\n ### <span style=\"color:Red\">**If you plan to provide this information on the order portion of the call, it is not required in the rating call.</span>"
+        stateProvinceCode:
+          $ref: '#/components/schemas/stateProvinceCodeRatingEnum'
+        countryCode:
+          $ref: '#/components/schemas/countryCodeRatingEnum'
+        postalCode:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: Indicate the postal code of the location.
+        requestedOpenDateTime:
+          type: string
+          format: date-time
+          description: ISO8601 UTC date-time of the earliest time carrier can arrive at the stop.
+          deprecated: true
+        openDateTime:
+          type: string
+          format: date-time
+          description: ISO8601 UTC date-time of the earliest time carrier can arrive at the stop.
+        requestedCloseDateTime:
+          type: string
+          format: date-time
+          description: ISO8601 UTC date-time of the latest time carrier can arrive at the stop.
+          deprecated: true
+        closeDateTime:
+          type: string
+          format: date-time
+          description: ISO8601 UTC date-time of the latest time carrier can arrive at the stop.
+        latitude:
+          type: number
+          format: float
+          minimum: -90
+          maximum: 90
+          description: The latitude of the location.
+        longitude:
+          type: number
+          format: float
+          minimum: -180
+          maximum: 180
+          description: The longitude of the location.
+        specialRequirement:
+          $ref: '#/components/schemas/specialRequirementRating'
+        isPort:
+          type: boolean
+          description: Indicate if location is a port.
+        unLocode:
+          type: string
+          minimum: 1
+          maximum: 25
+          description: United Nations Code for trade and transport locations.
+        iata:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: IATA station code or simply a location identifier, is a three-letter code designating many airports around the world. Defined by the International Air Transport Association (IATA).
+        customerLocationId:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: "Customer defined identifier associated to a specific location. \n\n ### <span style=\"color:DeepPink\">If C.H. Robinson maintains a list of the customer's location IDs, then customerLocationId can be provided in lieu of address information.</span>"
+        sequenceNumber:
+          type: integer
+          description: System generated number applied to the location when it is entered into the system. Only required for multi stop.
+        referenceNumbers:
+          type: array
+          description: Array of additional reference numbers that can be provided.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    freightEstimateResponseEnum:
+      type: number
+      description: Estimated freight class for the request. (Freight Class is a voluntary standard that provides a comparison of commodities moving in interstate, intrastate and foreign commerce. It is similar in concept to the groupings or grading systems that serve many other industries.)
+      enum:
+      - 50
+      - 55
+      - 60
+      - 65
+      - 70
+      - 77.5
+      - 85
+      - 92.5
+      - 100
+      - 110
+      - 125
+      - 150
+      - 175
+      - 200
+      - 250
+      - 300
+      - 400
+      - 500
+    countryCodeEnum:
+      type: string
+      description: "Indicate the country of the location. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CountryCodes.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - AD
+      - AE
+      - AF
+      - AG
+      - AI
+      - AL
+      - AM
+      - AO
+      - AQ
+      - AR
+      - AS
+      - AT
+      - AU
+      - AW
+      - AZ
+      - BA
+      - BB
+      - BD
+      - BE
+      - BF
+      - BG
+      - BH
+      - BI
+      - BJ
+      - BM
+      - BN
+      - BO
+      - BR
+      - BS
+      - BT
+      - MM
+      - BV
+      - BW
+      - BY
+      - BZ
+      - CA
+      - CC
+      - CD
+      - CF
+      - CG
+      - CH
+      - CI
+      - CK
+      - CL
+      - CM
+      - CN
+      - CO
+      - CR
+      - RS
+      - CU
+      - CV
+      - CX
+      - CY
+      - CZ
+      - DE
+      - DJ
+      - DK
+      - DM
+      - DO
+      - DZ
+      - EC
+      - EE
+      - EG
+      - EH
+      - ER
+      - ES
+      - ET
+      - FI
+      - FJ
+      - FK
+      - FM
+      - FO
+      - FR
+      - GA
+      - GD
+      - GE
+      - GF
+      - GH
+      - GI
+      - GL
+      - GM
+      - GN
+      - GP
+      - GQ
+      - GR
+      - GS
+      - GT
+      - GU
+      - GW
+      - GY
+      - HK
+      - HM
+      - HN
+      - HR
+      - HT
+      - HU
+      - ID
+      - IE
+      - IL
+      - IN
+      - IO
+      - IQ
+      - IR
+      - IS
+      - IT
+      - JM
+      - JO
+      - JP
+      - KE
+      - KG
+      - KH
+      - KI
+      - KM
+      - KN
+      - KP
+      - KR
+      - KW
+      - KY
+      - KZ
+      - LA
+      - LB
+      - LC
+      - LI
+      - LK
+      - LR
+      - LS
+      - LT
+      - LU
+      - LV
+      - LY
+      - MA
+      - MC
+      - MD
+      - MG
+      - MH
+      - MK
+      - ML
+      - MN
+      - MO
+      - MP
+      - MQ
+      - MR
+      - MS
+      - MT
+      - MU
+      - MV
+      - MW
+      - MX
+      - MY
+      - MZ
+      - NA
+      - NC
+      - NE
+      - NF
+      - NG
+      - NI
+      - NL
+      - 'NO'
+      - NP
+      - NR
+      - NU
+      - NZ
+      - OM
+      - PA
+      - PE
+      - PF
+      - PG
+      - PH
+      - PK
+      - PL
+      - PM
+      - PN
+      - PR
+      - PS
+      - PT
+      - PW
+      - PY
+      - QA
+      - RE
+      - RO
+      - RU
+      - RW
+      - SA
+      - SB
+      - SC
+      - SD
+      - SE
+      - SG
+      - SH
+      - SI
+      - SJ
+      - SK
+      - SL
+      - SM
+      - SN
+      - SO
+      - SR
+      - ST
+      - SV
+      - SY
+      - SZ
+      - TC
+      - TD
+      - TF
+      - TG
+      - TH
+      - TJ
+      - TK
+      - TL
+      - TM
+      - TN
+      - TO
+      - TP
+      - TR
+      - TT
+      - TV
+      - TW
+      - TZ
+      - UA
+      - UG
+      - GB
+      - UM
+      - US
+      - UY
+      - UZ
+      - VA
+      - VC
+      - VE
+      - VG
+      - VI
+      - VN
+      - VU
+      - WF
+      - WS
+      - YE
+      - YT
+      - ZA
+      - ZM
+      - ZR
+      - ZW
+      - AX
+      - GG
+      - IM
+      - JE
+      - ME
+      - MF
+      - CW
+      - SX
+      - SS
+      - IC
+      - XC
+      - XL
+    ratingItem:
+      type: object
+      required:
+      - actualWeight
+      - weightUnit
+      - weight
+      - weightUnitOfMeasure
+      properties:
+        description:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Customer supplied description of the item.
+        freightClass:
+          type: number
+          description: "Freight class code that item falls under. \n\n ### <span style=\"color:DeepPink\">Required if quote will be used to create an Order for an **LTL shipment**.</span>"
+          enum:
+          - '50'
+          - '55'
+          - '60'
+          - '65'
+          - '70'
+          - '77.5'
+          - '85'
+          - '92.5'
+          - '100'
+          - '110'
+          - '125'
+          - '150'
+          - '175'
+          - '200'
+          - '250'
+          - '300'
+          - '400'
+          - '500'
+        actualWeight:
+          type: number
+          format: float
+          description: Total Weight of the line item. This represents to total weight of the all quantities. For example, if the indvidual weight of 1 quantity is 100 pounds, and the quantity of the line item is 2, then 200 is the value for this field.
+          deprecated: true
+        weight:
+          type: number
+          format: float
+          description: Total Weight of the line item. This represents to total weight of the all quantities. For example, if the indvidual weight of 1 quantity is 100 pounds, and the quantity of the line item is 2, then 200 is the value for this field.
+        weightUnit:
+          type: string
+          description: Unit of measure for weight parameters.
+          enum:
+          - Pounds
+          - Kilograms
+          deprecated: true
+        weightUnitOfMeasure:
+          $ref: '#/components/schemas/weightUomEnum'
+        length:
+          type: number
+          format: float
+          description: Length of the line item.
+          deprecated: true
+        packagingLength:
+          type: number
+          format: float
+          description: Length of the line item.
+        width:
+          type: number
+          format: float
+          description: Width of the line item.
+          deprecated: true
+        packagingWidth:
+          type: number
+          format: float
+          description: Width of the line item.
+        height:
+          type: number
+          format: float
+          description: Height of the line item.
+          deprecated: true
+        packagingHeight:
+          type: number
+          format: float
+          description: Height of the line item.
+        linearUnit:
+          type: string
+          description: Unit of measure for height, width, and length parameters.
+          enum:
+          - Inches
+          - Feet
+          - Centimeters
+          - Meters
+          deprecated: true
+        packagingUnitOfMeasure:
+          $ref: '#/components/schemas/linearUomEnum'
+        pallets:
+          type: number
+          format: float
+          description: Identifies how many pallets for the line item.
+        pieces:
+          type: number
+          format: float
+          description: Identifies the number of pieces of the line item.
+          deprecated: true
+        quantity:
+          type: number
+          format: float
+          description: Quantity is the number of packagingType's.
+        palletSpaces:
+          type: number
+          format: float
+          description: Indentifies how many pallet spaces the line item will use in the truck.
+        volume:
+          type: number
+          format: float
+          description: Volume of the item.
+          deprecated: null
+        packagingVolume:
+          type: number
+          format: float
+          description: Volume of the item.
+        volumeUnit:
+          type: string
+          description: Unit of measure for volume parameters.
+          enum:
+          - CubicFeet
+          - CubicMeters
+          deprecated: true
+        packagingVolumeUnitOfMeasure:
+          $ref: '#/components/schemas/volumeUomEnum'
+        density:
+          type: number
+          format: float
+          description: Identifies the density of the item.
+        linearSpace:
+          type: number
+          format: float
+          description: Identifies the linear space of the item.
+        declaredValue:
+          type: number
+          format: float
+          description: "Customer assigned value of the line item. \n\n ### <span style=\"color:DeepPink\">Required if quote will be used to create an Order.</span>"
+          deprecated: true
+        insuranceValue:
+          type: number
+          format: float
+          description: "Customer assigned value of the line item. \n\n ### <span style=\"color:DeepPink\">Required if quote will be used to create an Order.</span>"
+        packagingCode:
+          description: Deprecated field now known as packagingType
+          deprecated: true
+        packagingType:
+          $ref: '#/components/schemas/packageCodeRatingEnum'
+        productCode:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Customer defined code for the product.
+        productName:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: "Deprecated field - use description field to define name of product. \n\n ### <span style=\"color:DeepPink\">Required if quote will be used to create an Order.</span>"
+          deprecated: true
+        temperatureSensitive:
+          description: Deprecated field now known as temperatureType
+          deprecated: true
+        temperatureType:
+          $ref: '#/components/schemas/temperatureSensitiveEnum'
+        temperatureUnit:
+          $ref: '#/components/schemas/temperatureUomEnum'
+        requiredTemperatureHigh:
+          type: number
+          description: The highest temperature the product can be transported.
+          format: float
+        requiredTemperatureLow:
+          type: number
+          description: The lowest temperature the product can be transported.
+          format: float
+        unitsPerPallet:
+          type: number
+          format: float
+          description: Identifies the amount of units on each pallet.
+        unitWeight:
+          type: number
+          format: float
+          description: Identifies individual unit item weight.
+        unitVolume:
+          type: number
+          format: float
+          description: Identifies individual unit item volume.
+        isStackable:
+          type: boolean
+          description: Indicate if items are stackable.
+        isOverWeightOverDimensional:
+          type: boolean
+          description: Indicate if the item is over weight or over dimensional.
+        isUsedGood:
+          type: boolean
+          description: Indicate if item is used.
+        isHazardous:
+          type: boolean
+          description: Indicate if item is hazardous.
+        hazardousDescription:
+          type: string
+          minimum: 1
+          maximum: 500
+          description: "Hazordous material description. \n\n ### <span style=\"color:DeepPink\">If \"isHazardous\" is set to true you must provide a description.</span>"
+        hazardousEmergencyPhone:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: "Emergency phone number. \n\n ### <span style=\"color:DeepPink\">If \"isHazardous\" is set to true you must provide an emergency phone number.</span>"
+        nmfc:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: National Motor Freight Class(NMFC) is a voluntary standard that provides a comparison of commodities moving in interstate, intrastate and foreign commerce. It is similar in concept to the groupings or grading systems that serve many other industries."
+          deprecated: true
+        nationalMotorFreightClass:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: National Motor Freight Class(NMFC) is a voluntary standard that provides a comparison of commodities moving in interstate, intrastate and foreign commerce. It is similar in concept to the groupings or grading systems that serve many other industries."
+        upc:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Universal Product Code. The bar code usually consists of a five digit manufacturer number and a five digit product number.
+          deprecated: true
+        upcNumber:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Universal Product Code. The bar code usually consists of a five digit manufacturer number and a five digit product number.
+        sku:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Stock Keeping Unit. A number assigned to a product by the customer.
+          deprecated: true
+        skuNumber:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Stock Keeping Unit. A number assigned to a product by the customer.
+        plu:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Price Look-up Number. A system of numbers the customer uses that uniquely identifies bulk produce
+          deprecated: true
+        pluNumber:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Price Look-up Number. A system of numbers the customer uses that uniquely identifies bulk produce
+        pickupSequenceNumber:
+          type: integer
+          description: Identifies the pickup sequence of the item. Only required for multi stop.
+        dropSequenceNumber:
+          type: integer
+          description: Identifies the drop sequence of the item. Only required for multi stop.
+        referenceNumbers:
+          type: array
+          description: Array of additional reference numbers that can be provided.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+        unNumber:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: Four-digit numbers prefixed by "UN" or "NA" that indentifies dangerous goods, hazardous substances and articles (such as explosives, flammable liquids, toxic substances, etc.) in the framework of international transport.
+          example: UN2796
+        packagingGroup:
+          $ref: '#/components/schemas/hazardousGroupEnum'
+        hazmatClass:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: Code for hazardous material in the framework of international transport.
+          deprecated: true
+        hazmatClassCode:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: Code for hazardous material in the framework of international transport.
+    error404:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 404
+        error:
+          type: string
+          description: Detail about the error status code
+          example: Not Found
+        message:
+          type: string
+          description: Specifies issue
+          example: Not Found
+    error400:
+      properties:
+        message:
+          type: string
+        path:
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+        context:
+          type: object
+          properties:
+            child:
+              type: string
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+            key:
+              type: string
+            label:
+              type: string
+    rates:
+      type: array
+      description: An array of all rates associated to a quote
+      items:
+        type: object
+        properties:
+          rateId:
+            type: number
+            format: float
+            description: ID of the rate that is provided on successfully calling the Rating API.
+          totalRate:
+            type: number
+            format: float
+            description: Currency amount of the total rate
+          unitRate:
+            type: number
+            format: float
+            description: Currency amount of the unit rate
+          quantity:
+            type: number
+            format: float
+            description: Defines how many units there are
+          rateCode:
+            $ref: '#/components/schemas/rateCodeEnum'
+          rateCodeValue:
+            type: string
+            description: Description of the rateCode
+          currencyCode:
+            $ref: '#/components/schemas/currencyCodeEnum'
+          isOptional:
+            type: boolean
+            description: Defines if the rate is optional. If the isOptional flag is set to false, the currency amount of the assecorial will be included in the totalCharge.
+    linearUomEnum:
+      type: string
+      description: Unit of measure for height, width, and length parameters.
+      enum:
+      - Inches
+      - Feet
+      - Centimeters
+      - Meters
+    packageCodeRatingEnum:
+      type: string
+      description: "C.H. Robinson defined code for packaging type/code. Here is a list of the most commonly used packagingCodes: \n\n`BAL` - Bale, `BAG` - Bags, `BIN` - Bin, `BOX` - Boxes, `CTN` - Cartons  \n`CAS` - Case, `CRT` - Crates, `PKG` - Package, `EAC` - Eaches, `PLT` - Pallet, `PCS` - Pieces \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/PackageDescriptions.xlsx\" target=\"_blank\">here</a>. \n\n ### <span style=\"color:DeepPink\">Required if quote will be used to create an Order.</span>"
+      enum:
+      - BAL
+      - BIN
+      - BOT
+      - BXT
+      - JAR
+      - LSE
+      - LUG
+      - OTHR
+      - REL
+      - SAK
+      - SKD
+      - SKE
+      - SLP
+      - TLD
+      - TRY
+      - Empty
+      - BAG
+      - BOX
+      - BDL
+      - CTN
+      - CAS
+      - CRT
+      - DZ
+      - DRM
+      - EAC
+      - GYL
+      - HDW
+      - LNFT
+      - PKG
+      - PAL
+      - PLT
+      - PCS
+      - LBS
+      - ROL
+      - TOT
+      - YD
+      - Skids
+      - GAL
+      - KIT
+      - FT
+      - PAD
+      - PR
+      - SET
+      - SHT
+      - M
+      - KG
+      - IBC
+      - BAT
+      - AST
+      - CUB
+      - RKS
+      - PCK
+      - TH
+      - 24BIN
+      - 30BIN
+      - 36BIN
+      - 40BIN
+      - BSHL
+      - CLLPK
+      - DRC
+      - ECO
+      - EURO
+      - FLAT
+      - HFBIN
+      - HFCTN
+      - HVYPK
+      - IFCO
+      - I6408
+      - I6411
+      - I6413
+      - I6416
+      - I6419
+      - I6423
+      - I6425
+      - I6428
+      - ORBIS
+      - O6409
+      - O6411
+      - O6413
+      - O6416
+      - O6419
+      - O6425
+      - O6428
+      - P4311
+      - P4317
+      - P6408
+      - P6411
+      - P6413
+      - P6416
+      - P6419
+      - P6423
+      - P6425
+      - P6428
+      - RPC
+      - R6411
+      - R6413
+      - R6416
+      - TNBIN
+      - TOSCA
+      - T6408
+      - T6411
+      - T6413
+      - T6416
+      - T6419
+      - T6423
+      - T6425
+      - T6428
+      - WDCRT
+      - BRL
+      - RCK
+      - TUB
+      - CG
+      - DSP
+      - SQF
+      - CYL
+      - KEG
+      - IFCLB
+      - PLT1
+      - PLT2
+      - PLT3
+      - CAR
+      - COIL
+      - PI
+      - GOH
+      - BLK
+      - POG
+      - L
+      - IPLT
+    temperatureUomEnum:
+      type: string
+      description: Unit of measure for temperature parameters.
+      enum:
+      - Fahrenheit
+      - Celsius
+      - Empty
+    weightUomEnum:
+      type: string
+      description: Unit of measure for weight parameters.
+      enum:
+      - Pounds
+      - Kilograms
+    error401:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 401
+        error:
+          type: string
+          description: Detail about the error status code
+        message:
+          type: string
+          description: Specifies issue
+        attributes:
+          type: object
+          properties:
+            error:
+              type: string
+    hazardousGroupEnum:
+      type: string
+      description: "Dangerous goods are assigned into 3 packing groups (also known as UN Packing Group) in accordance with the degree of danger they present.\n  * `I` - Group I - Major Danger\n  * `II` - Group II - Medium Danger\n  * `III` - Group III - Minor Danger\n"
+      enum:
+      - I
+      - II
+      - III
+    quoteSummaries:
+      properties:
+        quoteSummaries:
+          type: array
+          description: Array of quotes.
+          items:
+            type: object
+            properties:
+              quoteId:
+                type: integer
+                format: int64
+                description: ID of the quote that is provided on successfully calling the rating API.
+              carrier:
+                type: object
+                description: Identifies the carrier associated to the quote.
+                properties:
+                  carrierCode:
+                    type: string
+                    description: The unique identifier assigned to a carrier within C.H. Robinson.
+                  carrierName:
+                    type: string
+                    minimum: 1
+                    maximum: 50
+                    description: The name of the carrier.
+                  scac:
+                    type: string
+                    minimum: 1
+                    maximum: 10
+                    description: The SCAC code of a carrier if it has one.
+              customer:
+                type: object
+                description: C.H. Robinson customer associated to the quote.
+                properties:
+                  customerName:
+                    type: string
+                    minimum: 1
+                    maximum: 50
+                    description: Customer name associated to the quote.
+              totalCharge:
+                type: number
+                format: float
+                description: Total charge associated to the quote.
+              totalFreightCharge:
+                type: number
+                format: float
+                description: Total freight charge associated to the quote.
+              totalAccessorialCharge:
+                type: number
+                format: float
+                description: Total accessorial charge associated to the quote.
+              quoteExpirationDate:
+                type: string
+                format: date-time
+                description: An ISO8601 UTC date-time used to indicate the date the quote will no longer be valid.
+              transit:
+                type: object
+                description: Collection of transit information associated to the quote.
+                properties:
+                  minimumTransitDays:
+                    type: number
+                    format: float
+                    description: Minimum transit days.
+                  maximumTransitDays:
+                    type: number
+                    format: float
+                    description: Maximum transit days.
+                  minimumDeliveryDate:
+                    type: string
+                    format: date-time
+                    description: An ISO8601 UTC date-time used to indicate the minimum delivery date.
+                  maximumDeliveryDate:
+                    type: string
+                    format: date-time
+                    description: An ISO8601 UTC date-time used to indicate the maximum delivery date.
+                  originService:
+                    type: string
+                    description: Denotes whether an LTL carrier services the location terminal on their own (direct) or through the help of partner carriers who can service the location terminal on their behalf (indirect).
+                    enum:
+                    - Direct
+                    - Indirect
+                    - No Data
+                  destinationService:
+                    type: string
+                    description: Denotes whether an LTL carrier services the location terminal on their own (direct) or through the help of partner carriers who can service the location terminal on their behalf (indirect).
+                    enum:
+                    - Direct
+                    - Indirect
+                    - No Data
+              rates:
+                $ref: '#/components/schemas/rates'
+              transportModeType:
+                $ref: '#/components/schemas/transportModeEnum'
+              equipmentType:
+                $ref: '#/components/schemas/equipmentCodeEnum'
+              cargoLiability:
+                $ref: '#/components/schemas/cargoLiability'
+              distance:
+                type: number
+                description: Indicates rated distance.
+              quoteSource:
+                type: string
+                description: A field to indicate whether the quote returned is contracted, market or volume.
+    error403:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 403
+        error:
+          type: string
+          description: detail about the error status code
+          example: Forbidden
+        message:
+          type: string
+          description: Specifies issue
+          example: Invalid customerCode
+    rateCodeEnum:
+      type: string
+      description: "C.H. Robinson defined code for rating code. Here is a list of the most commonly used rate codes: \n\n`400` - Line Haul, `405` - Fuel Surchage, `260` - Deliver Surchage, `IDL` - Inside Delivery, `IPU` - Inside Pickup \n`LFT` - Lift Gate or Forklift Service, `DET` - Detention, `DLA` - Delivery Limited Access, `PLA` - Pickup Limited Access \n`RES` - Residential Delivery Fee, `REP` - Residential Pickup Fee, `CSD` - Construction Site Delivery <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/RateCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - Customer
+      - '20'
+      - '55'
+      - '65'
+      - '115'
+      - '170'
+      - '180'
+      - '205'
+      - '215'
+      - '230'
+      - '260'
+      - '275'
+      - '280'
+      - '285'
+      - '300'
+      - '315'
+      - '350'
+      - '360'
+      - '365'
+      - '370'
+      - '385'
+      - '400'
+      - '405'
+      - '420'
+      - '425'
+      - '445'
+      - '450'
+      - '455'
+      - '470'
+      - '485'
+      - '495'
+      - '497'
+      - '510'
+      - '520'
+      - '540'
+      - '545'
+      - '590'
+      - '593'
+      - '605'
+      - '635'
+      - '665'
+      - '670'
+      - '685'
+      - '690'
+      - '695'
+      - '740'
+      - '761'
+      - '800'
+      - '801'
+      - '802'
+      - '803'
+      - '804'
+      - '898'
+      - '899'
+      - '900'
+      - '901'
+      - '902'
+      - '903'
+      - '904'
+      - '905'
+      - '906'
+      - '907'
+      - '908'
+      - '909'
+      - '910'
+      - '911'
+      - ACC
+      - AGR
+      - AGS
+      - AIR
+      - ALH
+      - AMC
+      - AMS
+      - APT
+      - ATR
+      - BAT
+      - BIO
+      - BLC
+      - BLK
+      - BND
+      - BRD
+      - BSC
+      - CAA
+      - CEX
+      - CHE
+      - CHN
+      - CIS
+      - CLA
+      - CLN
+      - CLS
+      - CNS
+      - COA
+      - COL
+      - COU
+      - CPC
+      - CPE
+      - CRE
+      - CRS
+      - CSE
+      - CTC
+      - CTG
+      - CTL
+      - CUF
+      - CUS
+      - DAM
+      - DCF
+      - DEL
+      - DEN
+      - DEP
+      - DET
+      - DFD
+      - DFG
+      - DHF
+      - DIC
+      - DIS
+      - DMC
+      - DOC
+      - DOV
+      - DRC
+      - DRF
+      - DSC
+      - DTC
+      - DTL
+      - DTU
+      - DTV
+      - DUT
+      - DYA
+      - EBD
+      - EEX
+      - EMT
+      - ENC
+      - ESD
+      - EUC
+      - EXC
+      - EXD
+      - EXL
+      - EXM
+      - EXP
+      - EXR
+      - EXW
+      - FDA
+      - FDT
+      - FFR
+      - FLP
+      - FTH
+      - FTW
+      - FTZ
+      - FWA
+      - FWC
+      - GST
+      - HMF
+      - HOL
+      - HST
+      - IDL
+      - IFS
+      - IHT
+      - INC
+      - INS
+      - INV
+      - IPU
+      - ISO
+      - IST
+      - ITS
+      - LAA
+      - LAY
+      - LEC
+      - LFT
+      - LMF
+      - LOA
+      - LOC
+      - MIC
+      - MPF
+      - MRK
+      - MSG
+      - NDD
+      - NYD
+      - NYP
+      - OFU
+      - OHF
+      - OPT
+      - ORD
+      - ORF
+      - ORM
+      - OVR
+      - PAE
+      - PCS
+      - PEC
+      - PER
+      - PFA
+      - PKG
+      - PMT
+      - POD
+      - PPH
+      - PPN
+      - PRT
+      - PSC
+      - PSH
+      - PSS
+      - PST
+      - PUC
+      - QST
+      - RAJ
+      - RCC
+      - RCL
+      - REC
+      - REF
+      - REP
+      - RES
+      - RET
+      - SAT
+      - SCL
+      - SCS
+      - SDL
+      - SEC
+      - SEG
+      - SER
+      - SET
+      - SOC
+      - SPS
+      - SPT
+      - SRA
+      - SRG
+      - SUR
+      - SYA
+      - TAK
+      - TAL
+      - TAR
+      - TDT
+      - THC
+      - TMF
+      - TRC
+      - TRL
+      - TTC
+      - UNL
+      - URC
+      - VOR
+      - WAR
+      - WBF
+      - WBL
+      - WCT
+      - WDC
+      - WFL
+      - WHC
+      - WHF
+      - WIO
+      - WIS
+      - WKT
+      - WLB
+      - WLC
+      - WLS
+      - WMS
+      - WOP
+      - WOT
+      - WPC
+      - WPK
+      - WPL
+      - WPP
+      - WRC
+      - WRE
+      - WRI
+      - WRS
+      - WSS
+      - WSW
+      - WTV
+      - WWT
+      - WXD
+      - XTN
+      - '496'
+      - BYD
+      - BYP
+      - DCV
+      - ICT
+      - PDD
+      - PDO
+      - TSA
+      - UND
+      - HAZ
+      - ISF
+      - '913'
+      - '914'
+      - '915'
+      - '916'
+      - '316'
+      - BPC
+      - BPR
+      - BPS
+      - BPT
+      - CEM
+      - CMX
+      - COT
+      - CUV
+      - MXC
+      - MXH
+      - MXR
+      - MXV
+      - OVT
+      - PEN
+      - CTS
+      - LRC
+      - AMF
+      - BPI
+      - SCR
+      - AES
+      - NAV
+      - DLA
+      - PLA
+      - PSF
+      - CSF
+      - '894'
+      - '895'
+      - '896'
+      - '897'
+      - EMN
+      - SPF
+      - TSC
+      - HCR
+      - CNT
+      - CMM
+      - RNT
+      - PRF
+      - CSD
+      - HCD
+      - CSP
+      - GVP
+      - GVD
+      - HCP
+      - NCP
+      - NCD
+      - BUV
+      - COW
+      - HOS
+      - INP
+      - RAP
+      - SIE
+      - TAW
+      - OTD
+      - MES
+      - ENS
+      - ACF
+      - SLF
+      - BLR
+      - FLT
+      - '917'
+      - FCP
+      - GSI
+      - SMA
+      - CFI
+      - EXT
+      - EXY
+      - AAI
+      - CAS
+      - CCF
+      - CMC
+      - DCC
+      - DOF
+      - EDC
+      - EMS
+      - ERF
+      - FLC
+      - FUC
+      - GAS
+      - GTA
+      - HBL
+      - LBE
+      - LUC
+      - MLC
+      - PAC
+      - PCH
+      - PRC
+      - PRS
+      - PUD
+      - SCH
+      - STR
+      - STU
+      - TPA
+      - OCT
+      - STC
+      - EPC
+      - DPC
+      - STD
+      - RFC
+      - SYC
+      - SED
+      - MEC
+      - SUF
+      - IAC
+      - CFS
+      - BTF
+      - ESS
+      - AMD
+      - ORC
+      - LIF
+      - PCF
+      - GIO
+      - TLX
+      - GAT
+      - LBL
+      - LCG
+      - LBF
+      - HLS
+      - IMP
+      - CIF
+      - CCE
+      - EDN
+      - HET
+      - PMU
+      - HEL
+      - STM
+      - TOL
+      - VAC
+      - PRP
+      - PDC
+      - SBC
+      - PFC
+      - TDR
+      - OTH
+      - DTH
+      - ODO
+      - DDO
+      - AWB
+      - CYC
+      - DEC
+      - FAF
+      - GRI
+      - LCL
+      - PCC
+      - PPF
+      - TPF
+      - WVF
+      - CSR
+      - '27'
+      - GSC
+      - ATC
+      - ECV
+      - GAR
+      - BTR
+      - CRD
+      - IVT
+      - TAP
+      - SEN
+      - IVP
+      - IBP
+      - COC
+      - DRY
+      - FOB
+      - EWC
+      - HTS
+      - DSB
+      - HTC
+      - FAH
+      - EIC
+      - NPC
+      - LSF
+      - AHD
+      - ESV
+      - FCC
+      - PEP
+      - OGA
+      - MFE
+      - CAH
+      - GOA
+      - '75'
+      - CBT
+      - DCT
+      - '921'
+      - '922'
+      - COV
+      - DBR
+      - IAT
+      - POM
+      - ACI
+      - ASF
+      - BOK
+      - CDD
+      - CDF
+      - COF
+      - CVE
+      - DCH
+      - DDP
+      - DKF
+      - DMI
+      - ESC
+      - EXA
+      - EXO
+      - LCH
+      - PES
+      - VMS
+      - SRC
+      - CFE
+      - CDA
+      - IEC
+      - DGS
+      - HAS
+      - '701'
+      - '750'
+      - '751'
+      - '753'
+      - '754'
+      - '755'
+      - '756'
+      - '1401'
+      - '1402'
+      - '1403'
+      - DTF
+      - OTF
+      - SRD
+      - SRO
+      - '1900'
+      - '2000'
+      - '2100'
+      - INF
+      - DDT
+      - DUF
+      - EMF
+      - LYO
+      - LYD
+      - '999'
+      - '145'
+      - ADV
+      - AMB
+      - ARB
+      - BEY
+      - BKA
+      - BSS
+      - CBL
+      - CFL
+      - CTF
+      - DAA
+      - DEM
+      - FAK
+      - FCB
+      - GSS
+      - HAN
+      - HHB
+      - HRS
+      - HZC
+      - IFC
+      - LAB
+      - LFC
+      - MIN
+      - MNC
+      - MSC
+      - OCH
+      - PIR
+      - POS
+      - PTS
+      - PWT
+      - PYS
+      - RAM
+      - RLS
+      - RMC
+      - SPC
+      - SSF
+      - STO
+      - STP
+      - SWC
+      - TAY
+      - TER
+      - TRM
+      - WEA
+      - WFG
+      - WFH
+      - IFF
+      - CME
+      - MDF
+      - CPV
+      - EMA
+      - EPF
+      - TPC
+      - GOF
+      - LOM
+      - ISE
+      - STF
+      - CSU
+      - AHF
+      - MEF
+      - FID
+      - LCK
+      - BYC
+      - BCD
+      - SO1
+      - SO2
+      - SO3
+      - COR
+      - TRE
+      - LSK
+      - DON
+      - CTM
+      - DCK
+      - RPK
+      - FGT
+      - CHF
+      - BRF
+      - MKF
+      - FES
+      - CLM
+      - PDR
+      - AVP
+      - GBB
+      - GLF
+      - GLT
+      - MOTLF
+      - MOTMF
+      - TROLF
+      - TROMF
+      - REBAT
+      - ASCMB
+      - SPCRV
+      - SPCAS
+      - PENNY
+      - WELLF
+      - WELMF
+      - BAMLF
+      - BAMMF
+      - SWTLF
+      - ECOLF
+      - ECOMF
+      - SRVLF
+      - SRVMF
+      - N22LF
+      - N23LF
+      - OURLF
+      - GLYLF
+      - GLYMF
+      - PNKLF
+      - PECLF
+      - GRNLF
+      - SWTMF
+      - MKU
+      - EVC
+      - APA
+      - ARA
+      - GAV
+      - REB
+      - SEL
+      - ABG
+      - ICG
+      - TET
+      - PAF
+      - OSO
+      - RSP
+      - MIF
+      - SPL
+      - SPA
+      - SPO
+      - AFS
+      - NCH
+      - ASM
+      - LGP
+      - '444'
+      - CNA
+      - DEB
+      - DOM
+      - EGY
+      - FER
+      - FIM
+      - FOR
+      - FRA
+      - FUM
+      - HRT
+      - MAU
+      - PCD
+      - PNL
+      - PPC
+      - RED
+      - REI
+      - SLU
+      - VET
+      - WAS
+      - WAT
+      - BIN
+      - '206'
+      - PLS
+      - OCS
+      - TPS
+      - BUP
+      - RBU
+      - CMR
+      - SPQ
+      - IMF
+      - IMV
+      - BLD
+      - '1404'
+      - '1405'
+      - '1406'
+      - ENF
+      - ENV
+      - PRO
+      - PRV
+      - WAF
+      - WAV
+      - EPS
+      - AKS
+      - CCT
+      - ECC
+      - HIS
+      - PRD
+      - TRR
+      - RIT
+      - GIT
+      - BAC
+      - CCR
+      - CLC
+      - DCR
+      - SC1
+      - FCH
+      - AFC
+      - WMF
+      - IFP
+      - OSP
+      - OCP
+      - DSP
+      - DCP
+      - CBC
+      - BRT
+      - ECH
+      - OID
+      - OCR
+      - RPT
+      - SOS
+      - TGS
+      - TKP
+      - WSC
+      - SFA
+      - HHC
+      - RHC
+      - IFA
+      - FLB
+      - LWS
+      - MFD
+      - SEP
+      - SCA
+      - PHL
+      - JAM
+      - VGM
+      - HSB
+      - PFS
+      - CCS
+      - DTY
+      - RNR
+      - RCD
+      - DRP
+      - PKU
+      - EBP
+      - LFD
+      - CPL
+      - AGM
+      - APH
+      - FSI
+      - FWS
+      - NHT
+      - EPA
+      - CPS
+      - USL
+      - NMF
+      - RCO
+      - ROS
+      - OVS
+      - TIV
+      - TMR
+      - RER
+      - FTA
+      - RBY
+      - RBI
+      - RBV
+      - RBE
+      - WAC
+      - ABT
+      - CON
+      - QCC
+      - SUN
+      - SBS
+      - SDV
+      - NGT
+      - GTD
+      - ASR
+      - SGR
+      - SOG
+      - '1013'
+      - '101'
+      - '1014'
+      - DTZ
+      - '919'
+      - '923'
+      - WTT
+    equipment:
+      type: object
+      properties:
+        equipmentType:
+          $ref: '#/components/schemas/equipmentCodeEnum'
+        quantity:
+          type: number
+          format: float
+          description: Define how many of identified equipment will be needed.
+    referenceNumber:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          type: string
+          description: "C.H. Robinson defined code for reference number types. Here is a list of the most commonly used reference number types: \n\n`SHID` - Shipment ID #, `MBOL` - Master Bill of Lading #, `PO` - Purchase Order #, `BOL` - Bill of Lading #, `CRID` - Customer Specific Ref Number, `CUSTPO` - Customer PO Number, `DEL` - Delivery #, `JNO` - Job Number, `PU` - Pickup #, `CON` - Customer Order Number, `APPT` - Appointment Number \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ReferenceNumberTypes.xlsx\" target=\"_blank\">here</a>."
+          enum:
+          - SHID
+          - MBOL
+          - PO
+          - BOL
+          - CFRM
+          - CRID
+          - CUSTPO
+          - DEL
+          - DIST
+          - FIN
+          - GL
+          - JNO
+          - PU
+          - RANumber
+          - RLPRO
+          - MREF
+          - Empty
+          - PRO
+          - CCN
+          - SBOL
+          - CON
+          - APPT
+          - CHRW_ID
+          - FDA
+          - IREF
+          - LIC
+          - ORD
+          - PLU
+          - SCAC
+          - SEAL
+          - SKU
+          - SREF
+          - STCC
+          - TEB
+          - VPO
+          - WB
+          - XXXX
+          - TRIA
+          - TRANS
+          - GCC
+          - SDATE
+          - CDATE
+          - ACCT
+          - CCTR
+          - IGM
+          - GIGM
+          - LIGM
+          - SMTP
+          - PERMIT
+          - RNO
+          - DVCN
+          - PRCL
+          - CPUC
+          - SHPMD
+          - AFR
+          - BUYID
+          - VNDID
+          - DIV
+          - DEPT
+          - POTYPE
+          - GRGI
+          - DUNS
+          - PALLETREF
+          - CITTN
+          - CIN
+          - SHIPWITH
+          - PN
+          - UPC
+          - PRCD
+          - VESSEL
+          - VOYAGE
+          - FN
+          - FEEDVESS
+          - FEEDVOY
+          - SHIPREF
+          - CBL
+          - SPAC
+          - POLN
+          - VPOLN
+          - EIN
+          - CNSG
+          - PROFITCTR
+          - MFGPART
+          - PACKSLIP
+          - THIRDPRTY
+          - DEFATTR
+          - FSTRK
+          - FOItemID
+          - POLineNum
+          - PARCELSPC
+          - CNS1
+          - CNS2
+          - CNS3
+          - CNS4
+          - CNS5
+          - CNS6
+          - CNS7
+          - TREF
+          - VREF
+          - UPRICE
+          - FWPARTY
+          - BYPARTY
+          - HBL
+          - CBP
+          - TRANSFER
+          - SO
+          - ORDTRK
+          - QUOTEID
+          - EQT
+          - BOOTH
+          - TS
+          - 'OH #'
+          - CNTNR
+          - VAS
+          - Size
+          - Color
+          - Style
+          - HCERT
+          - B#
+          - ETMSID
+          - 214-IMO
+          - SHPWeight
+          - SHPVolume
+          - SHPDims
+          - SERIALIZED
+          - SERIALNUM
+          - CPSIA
+          - EDIINVREF
+          - SQID
+          - QSeqNum
+          - OuterPkStu
+          - GLC
+          - COMP
+          - COST
+          - DTYGL
+          - DTYCC
+          - BRKGL
+          - BRKCC
+          - GPS
+          - IAC
+          - WHRCT
+          - ERGUID
+          - SONUM
+          - CCNUM
+          - PrimCCNUM
+          - PrevCCNUM
+          - CMRN
+          - TRANSSHIP
+          - PGIDATE
+          - AESFIL
+          - CUSTQUOTID
+          - QUOTETRACE
+          - ODATE
+          - FRCLS
+          - NMFC
+          - OrderItemId
+        value:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: The actual value of the reference number.
+  securitySchemes:
+    sandbox:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt

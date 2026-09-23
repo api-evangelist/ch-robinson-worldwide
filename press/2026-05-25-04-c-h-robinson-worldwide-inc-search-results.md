@@ -1,7 +1,9 @@
 ---
 title: C.H. Robinson Worldwide, Inc. - Search Results
 url: https://investor.chrobinson.com/Search-Results/default.aspx?SearchTerm=&PageNumber=4
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"C.H. Robinson Worldwide" press release artificial intelligence'
 position: 4
 source: serpapi-google

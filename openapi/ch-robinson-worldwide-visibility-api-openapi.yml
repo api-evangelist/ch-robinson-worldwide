@@ -1,0 +1,3103 @@
+openapi: 3.2.0
+info:
+  version: 2.0.0
+  title: A guide to C.H. Robinson's REST Visibility API
+  description: '# Introduction
+
+    Welcome to C.H.'
+servers:
+- url: https://sandbox-api.navisphere.com
+  description: Test environment.
+- url: https://api.navisphere.com
+  description: Production environment.
+security:
+- sandbox: []
+tags:
+- name: Visibility
+  description: Navisphere® Vision and Visibility tool is a global visibility technology that allows select customers to view and proactively manage their supply chain movements from a single platform. The tool combines real-time order and shipment information with transportation updates and external factors that can influence a supply chain, including weather, traffic, and current events to help customers prevent potential disruptions.
+paths:
+  /v2/visibility/shipments:
+    post:
+      description: Post a shipment create into Navisphere® Vision and/or Navisphere® Analytics.
+      x-beta: true
+      operationId: Visibility Shipment Create
+      tags:
+      - Visibility
+      requestBody:
+        description: JSON object of shipment information.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/shipments'
+            example:
+              shipmentNumber: '12345'
+              tenantId: tenantid
+              trackingNumber: 1ZT33888AY
+              accountCode: ACT12345
+              scac: ACL
+              customerName: Your Customer Name
+              carrierName: Gray Transportation, Inc.
+              carrierProNumber: '0043275'
+              trailerNumber: '3631'
+              equipmentType: Van
+              mode: LTL
+              containerInformation:
+              - containerNumber: '123456789'
+                containerType: 45HR
+                containerWeight: '1000'
+                weightUnitOfMeasure: Kilograms
+              shipmentDistance: '900'
+              shipmentDistanceUnitOfMeasure: miles
+              isPremiumFreight: false
+              isManaged: true
+              movementType: car
+              incoTerms: DAT
+              teuCount: '3432'
+              orderNumbers:
+              - test101
+              stops:
+              - actualArriveDateTime: '2019-02-25T11:47:00.000Z'
+                actualDepartDateTime: '2019-02-25T13:38:00.000Z'
+                orderNumbers:
+                - test101
+                locations:
+                - locationId: W541849
+                  sequenceNumber: '1'
+                  stopRole: pick
+                  name: Location One
+                  address1: 123 Street
+                  address2: 123 Street
+                  city: Blaine
+                  stateProvinceCode: MN
+                  postalCode: '55428'
+                  countryCode: US
+                  requested: '2018-12-11T01:14:00-08:00'
+                  openDateTime: '2019-02-20T12:00:00.000Z'
+                  closeDateTime: '2019-02-22T22:30:00.000Z'
+                  iata: ALO
+                  referenceNumbers:
+                  - type: AAR
+                    value: 1A23ZZ32599ABC
+              handlingUnits:
+              - handlingUnitId: CO_1480525_1
+                packagingType: pallet
+                quantity: 1
+                freightClass: '70'
+                weight: 1996
+                weightUnitOfMeasure: pounds
+                packagingLength: '10'
+                packagingUnitOfMeasure: feet
+                volume: '5'
+                volumeUnitOfMeasure: CubicFeet
+                containerNumber: '343534534'
+                description: notes
+                orderNumbers:
+                - test101
+                commodities:
+                - commodityId: CO_1480525_1_1
+                  orderNumber: '32432'
+                  name: widgets
+                  units: 1
+                  sku: e87r99
+                  plannerCode: '1234'
+                  value: 50
+                  currencyCode: USD
+                  serialNumber: sad23432
+                  partNumber: ds536
+                  isHazMat: true
+                  pickLocSequenceNumber: 0
+                  dropLocSequenceNumber: 1
+                  category: tractor
+                  description: TRACTOR DESCRIPTION
+                  packagingVolume: 17.5
+                  packagingVolumeUnitOfMeasure: cubicFeet
+                  costCenterCode: GLXX
+                  packagingType: boxes
+                  weight: 0
+                  weightUnitOfMeasure: pounds
+                  packagingLength: 0
+                  packagingWidth: 0
+                  packagingHeight: 0
+                  packagingUnitOfMeasure: feet
+                  packageQuantity: '10'
+                  purchaseOrderNumber: 123abc
+                  referenceNumbers:
+                  - type: AAR
+                    value: 1A23ZZ32599ABC
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X POST \\ \n https://sandbox-api.navisphere.com/v2/visibility/shipments \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json' \\ \n -d '{ \n \t\"shipmentNumber\": \"12345\",\n \t\"tenantId\": \"tenantid\", \n \t\"trackingNumber\": \"1ZT33888AY\", \n \t\"accountCode\": \"ACT12345\", \n \t\"scac\": \"ACL\", \n \t\"customerName\": \"Your Customer Name\", \n \t\"carrierName\": \"Gray Transportation, Inc.\", \n \t\"carrierProNumber\": \"0043275\", \n \t\"trailerNumber\": \"3631\", \n \t\"equipmentType\": \"Van\", \n \t\"mode\": \"LTL\", \n \t\"containerInformation\": [{ \n \t\t\"containerNumber\": \"123456789\",\n \t\t\"containerType\": \"45HR\",\n \t\t\"containerWeight\": \"1000\",\n \t\t\"weightUnitOfMeasure\": \"Kilograms\"\n \t\t}],\n \t\"shipmentDistance\": \"900\", \n \t\"shipmentDistanceUnitOfMeasure\": \"miles\", \n \t\"isPremiumFreight\": false, \n \t\"isManaged\": true, \n \t\"movementType\": \"car\", \n \t\"incoTerms\": \"DAT\", \n \t\"teuCount\": \"3432\", \n \t\"orderNumbers\": [ \n \t\t\"test101\"\n \t\t],\n \t\"stops\": [{ \n \t\t\"actualArriveDateTime\": \"2019-02-25T11:47:00.000Z\",\n \t\t\"actualDepartDateTime\": \"2019-02-25T13:38:00.000Z\",\n \t\t\"orderNumbers\": [ \n \t\t\t\"test101\"\n \t\t\t],\n \t\t\"locations\": [{ \n \t\t\t\"locationId\": \"W541849\", \n \t\t\t\"sequenceNumber\": \"1\", \n \t\t\t\"stopRole\": \"pick\", \n \t\t\t\"name\": \"Location One\", \n \t\t\t\"address1\": \"123 Street\", \n \t\t\t\"address2\": \"123 Street\", \n \t\t\t\"city\": \"Blaine\", \n \t\t\t\"stateProvinceCode\": \"MN\", \n \t\t\t\"postalCode\": \"55428\", \n \t\t\t\"countryCode\": \"US\", \n \t\t\t\"requested\": \"2018-12-11T01:14:00-08:00\", \n \t\t\t\"openDateTime\": \"2019-02-20T12:00:00.000Z\", \n \t\t\t\"closeDateTime\": \"2019-02-22T22:30:00.000Z\", \n \t\t\t\"iata\": \"ALO\", \n \t\t\t\"referenceNumbers\": [{ \n \t\t\t\t\"type\": \"AAR\", \n \t\t\t\t\"value\": \"1A23ZZ32599ABC\" \n \t\t\t}]\n \t\t}]\n \t}],\n \t\"handlingUnits\": [{ \n \t\t\"handlingUnitId\": \"CO_1480525_1\", \n \t\t\"packagingType\": \"pallet\", \n \t\t\"quantity\": 1, \n \t\t\"freightClass\": \"70\", \n \t\t\"weight\": 1996, \n \t\t\"weightUnitOfMeasure\": \"pounds\", \n \t\t\"packagingLength\": \"10\", \n \t\t\"packagingUnitOfMeasure\": \"feet\", \n \t\t\"volume\": \"5\", \n \t\t\"volumeUnitOfMeasure\": \"CubicFeet\", \n \t\t\"containerNumber\": \"343534534\", \n \t\t\"description\": \"notes\", \n \t\t\"orderNumbers\": [ \n \t\t\t\"test101\"\n \t\t],\n \t\t\"commodities\": [{ \n \t\t\t\"commodityId\": \"CO_1480525_1_1\", \n \t\t\t\"orderNumber\": \"32432\", \n \t\t\t\"name\": \"widgets\", \n \t\t\t\"units\": 1, \n \t\t\t\"sku\": \"e87r99\", \n \t\t\t\"plannerCode\": \"1234\", \n \t\t\t\"value\": 50, \n \t\t\t\"currencyCode\": \"USD\", \n \t\t\t\"serialNumber\": \"sad23432\", \n \t\t\t\"partNumber\": \"ds536\", \n \t\t\t\"isHazMat\": true, \n \t\t\t\"pickLocSequenceNumber\": 0, \n \t\t\t\"dropLocSequenceNumber\": 1, \n \t\t\t\"category\": \"tractor\", \n \t\t\t\"description\": \"TRACTOR DESCRIPTION\", \n \t\t\t\"packagingVolume\": 17.5, \n \t\t\t\"packagingVolumeUnitOfMeasure\": \"cubicFeet\", \n \t\t\t\"costCenterCode\": \"GLXX\", \n \t\t\t\"packagingType\": \"boxes\", \n \t\t\t\"weight\": 0, \n \t\t\t\"weightUnitOfMeasure\": \"pounds\", \n \t\t\t\"packagingLength\": 0, \n \t\t\t\"packagingWidth\": 0, \n \t\t\t\"packagingHeight\": 0, \n \t\t\t\"packagingUnitOfMeasure\": \"feet\", \n \t\t\t\"packageQuantity\": \"10\", \n \t\t\t\"purchaseOrderNumber\": \"123abc\", \n \t\t\t\"referenceNumbers\": [{ \n \t\t\t\t\"type\": \"AAR\", \n \t\t\t\t\"value\": \"1A23ZZ32599ABC\" \n \t\t\t}]\n \t\t}]\n \t}]\n }'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.post(\"https://sandbox-api.navisphere.com/v2/visibility/shipments\")\n .header(\"Content-Type\", \"application/json\")\n .header(\"Authorization\", \"Bearer YOU TOKEN\")\n .body(\" { \n \t\"shipmentNumber\": \"12345\",\n \t\"tenantId\": \"tenantid\", \n \t\"trackingNumber\": \"1ZT33888AY\", \n \t\"accountCode\": \"ACT12345\", \n \t\"scac\": \"ACL\", \n \t\"customerName\": \"Your Customer Name\", \n \t\"carrierName\": \"Gray Transportation, Inc.\", \n \t\"carrierProNumber\": \"0043275\", \n \t\"trailerNumber\": \"3631\", \n \t\"equipmentType\": \"Van\", \n \t\"mode\": \"LTL\", \n \t\"containerInformation\": [{ \n \t\t\"containerNumber\": \"123456789\",\n \t\t\"containerType\": \"45HR\",\n \t\t\"containerWeight\": \"1000\",\n \t\t\"weightUnitOfMeasure\": \"Kilograms\"\n \t\t}],\n \t\"shipmentDistance\": \"900\", \n \t\"shipmentDistanceUnitOfMeasure\": \"miles\", \n \t\"isPremiumFreight\": false, \n \t\"isManaged\": true, \n \t\"movementType\": \"car\", \n \t\"incoTerms\": \"DAT\", \n \t\"teuCount\": \"3432\", \n \t\"orderNumbers\": [ \n \t\t\"test101\"\n \t\t],\n \t\"stops\": [{ \n \t\t\"actualArriveDateTime\": \"2019-02-25T11:47:00.000Z\",\n \t\t\"actualDepartDateTime\": \"2019-02-25T13:38:00.000Z\",\n \t\t\"orderNumbers\": [ \n \t\t\t\"test101\"\n \t\t\t],\n \t\t\"locations\": [{ \n \t\t\t\"locationId\": \"W541849\", \n \t\t\t\"sequenceNumber\": \"1\", \n \t\t\t\"stopRole\": \"pick\", \n \t\t\t\"name\": \"Location One\", \n \t\t\t\"address1\": \"123 Street\", \n \t\t\t\"address2\": \"123 Street\", \n \t\t\t\"city\": \"Blaine\", \n \t\t\t\"stateProvinceCode\": \"MN\", \n \t\t\t\"postalCode\": \"55428\", \n \t\t\t\"countryCode\": \"US\", \n \t\t\t\"requested\": \"2018-12-11T01:14:00-08:00\", \n \t\t\t\"openDateTime\": \"2019-02-20T12:00:00.000Z\", \n \t\t\t\"closeDateTime\": \"2019-02-22T22:30:00.000Z\", \n \t\t\t\"iata\": \"ALO\", \n \t\t\t\"referenceNumbers\": [{ \n \t\t\t\t\"type\": \"AAR\", \n \t\t\t\t\"value\": \"1A23ZZ32599ABC\" \n \t\t\t}]\n \t\t}]\n \t}],\n \t\"handlingUnits\": [{ \n \t\t\"handlingUnitId\": \"CO_1480525_1\", \n \t\t\"packagingType\": \"pallet\", \n \t\t\"quantity\": 1, \n \t\t\"freightClass\": \"70\", \n \t\t\"weight\": 1996, \n \t\t\"weightUnitOfMeasure\": \"pounds\", \n \t\t\"packagingLength\": \"10\", \n \t\t\"packagingUnitOfMeasure\": \"feet\", \n \t\t\"volume\": \"5\", \n \t\t\"volumeUnitOfMeasure\": \"CubicFeet\", \n \t\t\"containerNumber\": \"343534534\", \n \t\t\"description\": \"notes\", \n \t\t\"orderNumbers\": [ \n \t\t\t\"test101\"\n \t\t],\n \t\t\"commodities\": [{ \n \t\t\t\"commodityId\": \"CO_1480525_1_1\", \n \t\t\t\"orderNumber\": \"32432\", \n \t\t\t\"name\": \"widgets\", \n \t\t\t\"units\": 1, \n \t\t\t\"sku\": \"e87r99\", \n \t\t\t\"plannerCode\": \"1234\", \n \t\t\t\"value\": 50, \n \t\t\t\"currencyCode\": \"USD\", \n \t\t\t\"serialNumber\": \"sad23432\", \n \t\t\t\"partNumber\": \"ds536\", \n \t\t\t\"isHazMat\": true, \n \t\t\t\"pickLocSequenceNumber\": 0, \n \t\t\t\"dropLocSequenceNumber\": 1, \n \t\t\t\"category\": \"tractor\", \n \t\t\t\"description\": \"TRACTOR DESCRIPTION\", \n \t\t\t\"packagingVolume\": 17.5, \n \t\t\t\"packagingVolumeUnitOfMeasure\": \"cubicFeet\", \n \t\t\t\"costCenterCode\": \"GLXX\", \n \t\t\t\"packagingType\": \"boxes\", \n \t\t\t\"weight\": 0, \n \t\t\t\"weightUnitOfMeasure\": \"pounds\", \n \t\t\t\"packagingLength\": 0, \n \t\t\t\"packagingWidth\": 0, \n \t\t\t\"packagingHeight\": 0, \n \t\t\t\"packagingUnitOfMeasure\": \"feet\", \n \t\t\t\"packageQuantity\": \"10\", \n \t\t\t\"purchaseOrderNumber\": \"123abc\", \n \t\t\t\"referenceNumbers\": [{ \n \t\t\t\t\"type\": \"AAR\", \n \t\t\t\t\"value\": \"1A23ZZ32599ABC\" \n \t\t\t}]\n \t\t}]\n \t}]\n }\") .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\"); \n\n var options = { method: 'POST',\n \turl: 'https://sandbox-api.navisphere.com/v2/visibility/shipments',\n \theaders: \n \t{ Authorization: 'Bearer YOU TOKEN', \n \t'Content-Type': 'application/json' } }; \n \n\n\tbody: { \n \t\"shipmentNumber\": \"12345\",\n \t\"tenantId\": \"tenantid\", \n \t\"trackingNumber\": \"1ZT33888AY\", \n \t\"accountCode\": \"ACT12345\", \n \t\"scac\": \"ACL\", \n \t\"customerName\": \"Your Customer Name\", \n \t\"carrierName\": \"Gray Transportation, Inc.\", \n \t\"carrierProNumber\": \"0043275\", \n \t\"trailerNumber\": \"3631\", \n \t\"equipmentType\": \"Van\", \n \t\"mode\": \"LTL\", \n \t\"containerInformation\": [{ \n \t\t\"containerNumber\": \"123456789\",\n \t\t\"containerType\": \"45HR\",\n \t\t\"containerWeight\": \"1000\",\n \t\t\"weightUnitOfMeasure\": \"Kilograms\"\n \t\t}],\n \t\"shipmentDistance\": \"900\", \n \t\"shipmentDistanceUnitOfMeasure\": \"miles\", \n \t\"isPremiumFreight\": false, \n \t\"isManaged\": true, \n \t\"movementType\": \"car\", \n \t\"incoTerms\": \"DAT\", \n \t\"teuCount\": \"3432\", \n \t\"orderNumbers\": [ \n \t\t\"test101\"\n \t\t],\n \t\"stops\": [{ \n \t\t\"actualArriveDateTime\": \"2019-02-25T11:47:00.000Z\",\n \t\t\"actualDepartDateTime\": \"2019-02-25T13:38:00.000Z\",\n \t\t\"orderNumbers\": [ \n \t\t\t\"test101\"\n \t\t\t],\n \t\t\"locations\": [{ \n \t\t\t\"locationId\": \"W541849\", \n \t\t\t\"sequenceNumber\": \"1\", \n \t\t\t\"stopRole\": \"pick\", \n \t\t\t\"name\": \"Location One\", \n \t\t\t\"address1\": \"123 Street\", \n \t\t\t\"address2\": \"123 Street\", \n \t\t\t\"city\": \"Blaine\", \n \t\t\t\"stateProvinceCode\": \"MN\", \n \t\t\t\"postalCode\": \"55428\", \n \t\t\t\"countryCode\": \"US\", \n \t\t\t\"requested\": \"2018-12-11T01:14:00-08:00\", \n \t\t\t\"openDateTime\": \"2019-02-20T12:00:00.000Z\", \n \t\t\t\"closeDateTime\": \"2019-02-22T22:30:00.000Z\", \n \t\t\t\"iata\": \"ALO\", \n \t\t\t\"referenceNumbers\": [{ \n \t\t\t\t\"type\": \"AAR\", \n \t\t\t\t\"value\": \"1A23ZZ32599ABC\" \n \t\t\t}]\n \t\t}]\n \t}],\n \t\"handlingUnits\": [{ \n \t\t\"handlingUnitId\": \"CO_1480525_1\", \n \t\t\"packagingType\": \"pallet\", \n \t\t\"quantity\": 1, \n \t\t\"freightClass\": \"70\", \n \t\t\"weight\": 1996, \n \t\t\"weightUnitOfMeasure\": \"pounds\", \n \t\t\"packagingLength\": \"10\", \n \t\t\"packagingUnitOfMeasure\": \"feet\", \n \t\t\"volume\": \"5\", \n \t\t\"volumeUnitOfMeasure\": \"CubicFeet\", \n \t\t\"containerNumber\": \"343534534\", \n \t\t\"description\": \"notes\", \n \t\t\"orderNumbers\": [ \n \t\t\t\"test101\"\n \t\t],\n \t\t\"commodities\": [{ \n \t\t\t\"commodityId\": \"CO_1480525_1_1\", \n \t\t\t\"orderNumber\": \"32432\", \n \t\t\t\"name\": \"widgets\", \n \t\t\t\"units\": 1, \n \t\t\t\"sku\": \"e87r99\", \n \t\t\t\"plannerCode\": \"1234\", \n \t\t\t\"value\": 50, \n \t\t\t\"currencyCode\": \"USD\", \n \t\t\t\"serialNumber\": \"sad23432\", \n \t\t\t\"partNumber\": \"ds536\", \n \t\t\t\"isHazMat\": true, \n \t\t\t\"pickLocSequenceNumber\": 0, \n \t\t\t\"dropLocSequenceNumber\": 1, \n \t\t\t\"category\": \"tractor\", \n \t\t\t\"description\": \"TRACTOR DESCRIPTION\", \n \t\t\t\"packagingVolume\": 17.5, \n \t\t\t\"packagingVolumeUnitOfMeasure\": \"cubicFeet\", \n \t\t\t\"costCenterCode\": \"GLXX\", \n \t\t\t\"packagingType\": \"boxes\", \n \t\t\t\"weight\": 0, \n \t\t\t\"weightUnitOfMeasure\": \"pounds\", \n \t\t\t\"packagingLength\": 0, \n \t\t\t\"packagingWidth\": 0, \n \t\t\t\"packagingHeight\": 0, \n \t\t\t\"packagingUnitOfMeasure\": \"feet\", \n \t\t\t\"packageQuantity\": \"10\", \n \t\t\t\"purchaseOrderNumber\": \"123abc\", \n \t\t\t\"referenceNumbers\": [{ \n \t\t\t\t\"type\": \"AAR\", \n \t\t\t\t\"value\": \"1A23ZZ32599ABC\" \n \t\t\t}]\n \t\t}]\n \t}],\n \tjson: true };\n\n\nrequest(options, function (error, response, body) { \n \tif (error) throw new Error(error); \n \n\n\tconsole.log(body); \n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v2/visibility/shipments\");\n var request = new RestRequest(Method.POST);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n request.AddParameter(\"undefined\", \" { \n \t\"shipmentNumber\": \"12345\",\n \t\"tenantId\": \"tenantid\", \n \t\"trackingNumber\": \"1ZT33888AY\", \n \t\"accountCode\": \"ACT12345\", \n \t\"scac\": \"ACL\", \n \t\"customerName\": \"Your Customer Name\", \n \t\"carrierName\": \"Gray Transportation, Inc.\", \n \t\"carrierProNumber\": \"0043275\", \n \t\"trailerNumber\": \"3631\", \n \t\"equipmentType\": \"Van\", \n \t\"mode\": \"LTL\", \n \t\"containerInformation\": [{ \n \t\t\"containerNumber\": \"123456789\",\n \t\t\"containerType\": \"45HR\",\n \t\t\"containerWeight\": \"1000\",\n \t\t\"weightUnitOfMeasure\": \"Kilograms\"\n \t\t}],\n \t\"shipmentDistance\": \"900\", \n \t\"shipmentDistanceUnitOfMeasure\": \"miles\", \n \t\"isPremiumFreight\": false, \n \t\"isManaged\": true, \n \t\"movementType\": \"car\", \n \t\"incoTerms\": \"DAT\", \n \t\"teuCount\": \"3432\", \n \t\"orderNumbers\": [ \n \t\t\"test101\"\n \t\t],\n \t\"stops\": [{ \n \t\t\"actualArriveDateTime\": \"2019-02-25T11:47:00.000Z\",\n \t\t\"actualDepartDateTime\": \"2019-02-25T13:38:00.000Z\",\n \t\t\"orderNumbers\": [ \n \t\t\t\"test101\"\n \t\t\t],\n \t\t\"locations\": [{ \n \t\t\t\"locationId\": \"W541849\", \n \t\t\t\"sequenceNumber\": \"1\", \n \t\t\t\"stopRole\": \"pick\", \n \t\t\t\"name\": \"Location One\", \n \t\t\t\"address1\": \"123 Street\", \n \t\t\t\"address2\": \"123 Street\", \n \t\t\t\"city\": \"Blaine\", \n \t\t\t\"stateProvinceCode\": \"MN\", \n \t\t\t\"postalCode\": \"55428\", \n \t\t\t\"countryCode\": \"US\", \n \t\t\t\"requested\": \"2018-12-11T01:14:00-08:00\", \n \t\t\t\"openDateTime\": \"2019-02-20T12:00:00.000Z\", \n \t\t\t\"closeDateTime\": \"2019-02-22T22:30:00.000Z\", \n \t\t\t\"iata\": \"ALO\", \n \t\t\t\"referenceNumbers\": [{ \n \t\t\t\t\"type\": \"AAR\", \n \t\t\t\t\"value\": \"1A23ZZ32599ABC\" \n \t\t\t}]\n \t\t}]\n \t}],\n \t\"handlingUnits\": [{ \n \t\t\"handlingUnitId\": \"CO_1480525_1\", \n \t\t\"packagingType\": \"pallet\", \n \t\t\"quantity\": 1, \n \t\t\"freightClass\": \"70\", \n \t\t\"weight\": 1996, \n \t\t\"weightUnitOfMeasure\": \"pounds\", \n \t\t\"packagingLength\": \"10\", \n \t\t\"packagingUnitOfMeasure\": \"feet\", \n \t\t\"volume\": \"5\", \n \t\t\"volumeUnitOfMeasure\": \"CubicFeet\", \n \t\t\"containerNumber\": \"343534534\", \n \t\t\"description\": \"notes\", \n \t\t\"orderNumbers\": [ \n \t\t\t\"test101\"\n \t\t],\n \t\t\"commodities\": [{ \n \t\t\t\"commodityId\": \"CO_1480525_1_1\", \n \t\t\t\"orderNumber\": \"32432\", \n \t\t\t\"name\": \"widgets\", \n \t\t\t\"units\": 1, \n \t\t\t\"sku\": \"e87r99\", \n \t\t\t\"plannerCode\": \"1234\", \n \t\t\t\"value\": 50, \n \t\t\t\"currencyCode\": \"USD\", \n \t\t\t\"serialNumber\": \"sad23432\", \n \t\t\t\"partNumber\": \"ds536\", \n \t\t\t\"isHazMat\": true, \n \t\t\t\"pickLocSequenceNumber\": 0, \n \t\t\t\"dropLocSequenceNumber\": 1, \n \t\t\t\"category\": \"tractor\", \n \t\t\t\"description\": \"TRACTOR DESCRIPTION\", \n \t\t\t\"packagingVolume\": 17.5, \n \t\t\t\"packagingVolumeUnitOfMeasure\": \"cubicFeet\", \n \t\t\t\"costCenterCode\": \"GLXX\", \n \t\t\t\"packagingType\": \"boxes\", \n \t\t\t\"weight\": 0, \n \t\t\t\"weightUnitOfMeasure\": \"pounds\", \n \t\t\t\"packagingLength\": 0, \n \t\t\t\"packagingWidth\": 0, \n \t\t\t\"packagingHeight\": 0, \n \t\t\t\"packagingUnitOfMeasure\": \"feet\", \n \t\t\t\"packageQuantity\": \"10\", \n \t\t\t\"purchaseOrderNumber\": \"123abc\", \n \t\t\t\"referenceNumbers\": [{ \n \t\t\t\t\"type\": \"AAR\", \n \t\t\t\t\"value\": \"1A23ZZ32599ABC\" \n \t\t\t}]\n \t\t}]\n \t}]}\n \", ParameterType.RequestBody);\n IRestResponse response = client.Execute(request);"
+      responses:
+        '201':
+          description: Request successful
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+              example:
+              - message: '"referenceNumber" is not allowed'
+                path:
+                - services
+                - 0
+                - locations
+                - 0
+                - referenceNumber
+                type: object.allowUnknown
+                context:
+                  child: referenceNumber
+                  value:
+                  - type: PU
+                    value: SIMPPU67890
+                  key: referenceNumber
+                  label: referenceNumber
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact your C.H. Robinson rep.
+      summary: Visibility shipment create
+      x-summary-source: derived
+    get:
+      description: Allows partner to retrieve shipments.
+      operationId: Visibility GET Shipments
+      tags:
+      - Visibility
+      parameters:
+      - in: query
+        name: to
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Ending date/time of shipment search.
+        example: '2023-04-20T20:30:00.0000000Z'
+      - in: query
+        name: from
+        required: true
+        schema:
+          type: string
+          format: date-time
+        description: Starting date/time of shipment search.
+        example: '2023-04-23T20:30:00.0000000Z'
+      - in: query
+        name: skip
+        required: false
+        schema:
+          type: integer
+          default: 0
+        description: Identify how many results the call will skip.
+        example: 10
+      - in: query
+        name: take
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 100
+          default: 100
+        description: Identify how many results the call will retrieve.
+        example: 100
+      - in: query
+        name: shipmentNumber
+        required: false
+        schema:
+          type: string
+          minimum: 1
+          maximum: 20
+        description: Shipment Number associated to the shipment.
+        example: SN 1
+      - in: query
+        name: trackingNumber
+        required: false
+        schema:
+          type: string
+          minimum: 1
+          maximum: 150
+        description: Tracking Number associated to the shipment.
+        example: Tracking 1
+      - in: query
+        name: identifiers
+        required: false
+        schema:
+          type: array
+          items:
+            description: identifier
+            type: string
+        description: Identifiers associated to the shipment.
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X GET \\ \n 'https://sandbox-api.navisphere.com/v2/visibility/shipments?shipmentNumber=20015434520&from=2023-05-01T00:00:00.000Z' \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.get(\"https://sandbox-api.navisphere.com/v2/visibility/shipments?shipmentNumber=20015434520&from=2023-05-01T00:00:00.000Z\")\n .header(\"Content-Type\", \"application/json\")\n .header(\"Authorization\", \"Bearer YOU TOKEN\")\n .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\");\n\n var options = { method: 'GET',\n url: 'https://sandbox-api.navisphere.com/v2/visibility/shipments',\n qs: { shipmentNumber: '20015434520', from: '2023-05-01T00:00:00.000Z' },\n headers: { \n \tAuthorization: 'Bearer YOU TOKEN',\n \t'Content-Type': 'application/json' \n }};\n\n request(options, function (error, response, body) {\n \tif (error) throw new Error(error);\n\n \tconsole.log(body);\n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v2/visibility/shipments?shipmentNumber=20015434520&from=2023-05-01T00:00:00.000Z\");\n var request = new RestRequest(Method.GET);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n IRestResponse response = client.Execute(request);"
+      responses:
+        '200':
+          description: Visibility GET Shipments Route
+          content:
+            application/json:
+              example:
+                shipmentNumber: '12345'
+                tenantId: tenantid
+                trackingNumber: 1ZT33888AY
+                accountCode: ACT12345
+                scac: ACL
+                customerName: Your Customer Name
+                carrierName: Gray Transportation, Inc.
+                carrierProNumber: '0043275'
+                trailerNumber: '3631'
+                equipmentType: Van
+                mode: LTL
+                containerInformation:
+                  containerNumber: '123456789'
+                  containerType: 45HR
+                  containerWeight: '1000'
+                  weightUnitOfMeasure: Kilograms
+                shipmentDistance: '900'
+                shipmentDistanceUnitOfMeasure: miles
+                isPremiumFreight: false
+                isManaged: true
+                movementType: car
+                incoTerms: DAT
+                teuCount: '3432'
+                trackingNumberHash: eyJyZXF1ZXN0Ijp7InZpc2lvbl90cmFja2luZ19udW1iZXIiOiJaWllZWFhXV1ZWVVVUVFNTUlJRUVBQT09OTk1NIiwidGVuYW50X2lkIjo5ODc2LCJzaWduaW5nX3VuaXhfZGF0ZXRpbWVfc3RhbXAiOiIxNjExMDg4MDUyMzQ0In0sImhhc2hfc2lnbmF0dXJlIjoiL3V1U0M1UzlEUGkrRmwweEIyTFk4MU02azRURzlxa05KMFpkbUxOdmFBMD0ifQ
+                orderNumbers: test101
+                stops:
+                  actualArriveDateTime: '2019-02-25T11:47:00.000Z'
+                  actualDepartDateTime: '2019-02-25T13:38:00.000Z'
+                  orderNumbers: test101
+                  locations:
+                    locationId: W541849
+                    sequenceNumber: '1'
+                    stopRole: pick
+                    name: Location One
+                    address1: 123 Street
+                    address2: 123 Street
+                    city: Blaine
+                    stateProvinceCode: MN
+                    postalCode: '55428'
+                    countryCode: US
+                    requested: '2018-12-11T01:14:00-08:00'
+                    openDateTime: '2019-02-20T12:00:00.000Z'
+                    closeDateTime: '2019-02-22T22:30:00.000Z'
+                    iata": ALO
+                    referenceNumbers:
+                      type": AAR
+                      value": 1A23ZZ32599ABC
+                handlingUnits:
+                  dropLocSequenceNumber: 0
+                  pickLocSequenceNumber: 1
+                  handlingUnitId: CO_1480525_1
+                  packagingType: pallet
+                  packagingLength: '10'
+                  packagingUnitOfMeasure: feet
+                  packagingWidth: 0
+                  packagingHeight: 0
+                  quantity: 1
+                  freightClass: '70'
+                  weight: 1996
+                  weightUnitOfMeasure: pounds
+                  volume: '5'
+                  volumeUnitOfMeasure: CubicFeet
+                  containerNumber: '343534534'
+                  description: notes
+                  orderNumbers: test101
+                  commodities:
+                    commodityId: CO_1480525_1_1
+                    orderNumber: '32432'
+                    name: widgets
+                    units: 1
+                    sku: e87r99
+                    plannerCode: '1234'
+                    value: 50
+                    serialNumber: sad23432
+                    partNumber: ds536
+                    isHazMat: true
+                    pickLocSequenceNumber: 0
+                    dropLocSequenceNumber: 1
+                    category: tractor
+                    description: TRACTOR DESCRIPTION
+                    packagingVolume: 17.5
+                    packagingVolumeUnitOfMeasure: cubicFeet
+                    costCenterCode: GLXX
+                    packagingType: boxes
+                    weight: 0
+                    weightUnitOfMeasure: pounds
+                    packagingLength: 0
+                    packagingWidth: 0
+                    packagingHeight: 0
+                    packagingUnitOfMeasure: feet
+                    packageQuantity: '10'
+                    purchaseOrderNumber: 123abc
+                    referenceNumbers:
+                      type: AAR
+                      value: 1A23ZZ32599ABC
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact you C.H. Robinson Rep.
+      summary: Visibility GET shipments
+      x-summary-source: derived
+  /v2/visibility/shipments/{shipmentNumber}:
+    delete:
+      description: Allows partner to delete an existing shipment in Navisphere® Vision and/or Navisphere® Analytics.
+      operationId: Visibility Shipment Delete
+      tags:
+      - Visibility
+      parameters:
+      - name: shipmentNumber
+        in: path
+        description: The shipment number
+        required: true
+        schema:
+          type: string
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X DELETE \\ \n https://sandbox-api.navisphere.com/v2/visibility/shipments/123456 \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.delete(\"https://sandbox-api.navisphere.com/v2/visibility/shipments/123456\")\n .header(\"Content-Type\", \"application/json\")\n .header(\"Authorization\", \"Bearer YOU TOKEN\")\n .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\"); \n\n var options = { method: 'DELETE',\n \turl: 'https://sandbox-api.navisphere.com/v2/visibility/shipments/123456',\n \theaders: \n \t{ Authorization: 'Bearer YOU TOKEN', \n \t'Content-Type': 'application/json' } }; \n \n\nrequest(options, function (error, response, body) { \n \tif (error) throw new Error(error); \n \n\n\tconsole.log(body); \n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v2/visibility/shipments/123456\");\n var request = new RestRequest(Method.DELETE);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n IRestResponse response = client.Execute(request);"
+      responses:
+        '200':
+          description: Request successful
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact your C.H. Robinson rep.
+      summary: Visibility shipment delete
+      x-summary-source: derived
+  /v2/visibility/invoices:
+    post:
+      description: Post a shipment invoice into Navisphere® Vision and/or Navisphere® Analytics.
+      x-beta: true
+      operationId: Visibility Invoice Create
+      tags:
+      - Visibility
+      requestBody:
+        description: JSON object of shipment information.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/invoice'
+            example:
+              customerName: Your Customer Name
+              tenantId: tenantId
+              invoiceNumber: '1968203'
+              invoiceLevel: Shipment
+              invoiceIssuer: Fed Ex
+              number: 12345
+              invoiceDate: '2019-02-27T12:10:16Z'
+              invoiceWeight: 17924
+              invoiceWeightUnitOfMeasure: pounds
+              sourceName: test
+              referenceNumbers: []
+              charges:
+              - invoicedCurrency: USD
+                invoiceAmount: '1732.0'
+                code: DLH
+                description: Line Haul
+                invoiceLine: 1
+              - invoicedCurrency: USD
+                invoiceAmount: '208.58'
+                code: '405'
+                description: Fuel Surcharge
+                invoiceLine: 2
+              - invoicedCurrency: USD
+                invoiceAmount: '75.0'
+                code: SOC
+                description: stop 2 charge
+                invoiceLine: 3
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X POST \\ \n https://sandbox-api.navisphere.com/v2/visibility/invoices \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json' \\ \n -d '{ \n \t\"shipmentNumber\": \"12345\",\n \t\"tenantId\": \"tenantId\",\n \t\"invoiceNumber\": \"1968203\",\n \t\"invoiceLevel\": \"Shipment\",\n \t\"invoiceIssuer\": \"Fed Ex\",\n \t\"number\": 12345,\n \t\"invoiceDate\": \"2019-02-27T12:10:16Z\",\n \t\"invoiceWeight\": 17924,\n \t\"invoiceWeightUnitOfMeasure\": \"pounds\",\n \t\"sourceName\": \"test\",\n \t\"referenceNumbers\": [], \n \t\"charges\": [{ \n \t\t\"invoicedCurrency\": \"USD\",\n \t\t\"invoiceAmount\": \"1732.0\",\n \t\t\"code\": \"DLH\",\n \t\t\"description\": \"Line Haul\",\n \t\t\"invoiceLine\": 1 \n \t}, \n \t{ \n \t\t\"invoicedCurrency\": \"USD\",\n \t\t\"invoiceAmount\": \"208.58\",\n \t\t\"code\": \"405\",\n \t\t\"description\": \"Fuel Surcharge\",\n \t\t\"invoiceLine\": 2 \n \t}, \n \t{ \n \t\t\"invoicedCurrency\": \"USD\",\n \t\t\"invoiceAmount\": \"75.0\",\n \t\t\"code\": \"SOC\",\n \t\t\"description\": \"stop 2 charge\",\n \t\t\"invoiceLine\": 3 \n \t}]\n }'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.post(\"https://sandbox-api.navisphere.com/v2/visibility/invoices\")\n .header(\"Content-Type\", \"application/json\")\n .header(\"Authorization\", \"Bearer YOU TOKEN\")\n .body(\" { \n \t\"shipmentNumber\": \"12345\",\n \t\"tenantId\": \"tenantId\",\n \t\"invoiceNumber\": \"1968203\",\n \t\"invoiceLevel\": \"Shipment\",\n \t\"invoiceIssuer\": \"Fed Ex\",\n \t\"number\": 12345,\n \t\"invoiceDate\": \"2019-02-27T12:10:16Z\",\n \t\"invoiceWeight\": 17924,\n \t\"invoiceWeightUnitOfMeasure\": \"pounds\",\n \t\"sourceName\": \"test\",\n \t\"referenceNumbers\": [], \n \t\"charges\": [{ \n \t\t\"invoicedCurrency\": \"USD\",\n \t\t\"invoiceAmount\": \"1732.0\",\n \t\t\"code\": \"DLH\",\n \t\t\"description\": \"Line Haul\",\n \t\t\"invoiceLine\": 1 \n \t}, \n \t{ \n \t\t\"invoicedCurrency\": \"USD\",\n \t\t\"invoiceAmount\": \"208.58\",\n \t\t\"code\": \"405\",\n \t\t\"description\": \"Fuel Surcharge\",\n \t\t\"invoiceLine\": 2 \n \t}, \n \t{ \n \t\t\"invoicedCurrency\": \"USD\",\n \t\t\"invoiceAmount\": \"75.0\",\n \t\t\"code\": \"SOC\",\n \t\t\"description\": \"stop 2 charge\",\n \t\t\"invoiceLine\": 3 \n \t}]\n }\") .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\"); \n\n var options = { method: 'DELETE',\n \turl: 'https://sandbox-api.navisphere.com/v2/visibility/shipments/123456',\n \theaders: \n \t{ Authorization: 'Bearer YOU TOKEN', \n \t'Content-Type': 'application/json' } }; \n \n \tbody: { \n \t\"shipmentNumber\": \"12345\",\n \t\"tenantId\": \"tenantId\",\n \t\"invoiceNumber\": \"1968203\",\n \t\"invoiceLevel\": \"Shipment\",\n \t\"invoiceIssuer\": \"Fed Ex\",\n \t\"number\": 12345,\n \t\"invoiceDate\": \"2019-02-27T12:10:16Z\",\n \t\"invoiceWeight\": 17924,\n \t\"invoiceWeightUnitOfMeasure\": \"pounds\",\n \t\"sourceName\": \"test\",\n \t\"referenceNumbers\": [], \n \t\"charges\": [{ \n \t\t\"invoicedCurrency\": \"USD\",\n \t\t\"invoiceAmount\": \"1732.0\",\n \t\t\"code\": \"DLH\",\n \t\t\"description\": \"Line Haul\",\n \t\t\"invoiceLine\": 1 \n \t}, \n \t{ \n \t\t\"invoicedCurrency\": \"USD\",\n \t\t\"invoiceAmount\": \"208.58\",\n \t\t\"code\": \"405\",\n \t\t\"description\": \"Fuel Surcharge\",\n \t\t\"invoiceLine\": 2 \n \t}, \n \t{ \n \t\t\"invoicedCurrency\": \"USD\",\n \t\t\"invoiceAmount\": \"75.0\",\n \t\t\"code\": \"SOC\",\n \t\t\"description\": \"stop 2 charge\",\n \t\t\"invoiceLine\": 3 \n \t}]\n } \n request(options, function (error, response, body) { \n \tif (error) throw new Error(error); \n \n\n\tconsole.log(body); \n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v2/visibility/shipments/123456\");\n var request = new RestRequest(Method.DELETE);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n request.AddParameter(\"undefined\", \" { \n \t\"shipmentNumber\": \"12345\",\n \t\"tenantId\": \"tenantId\",\n \t\"invoiceNumber\": \"1968203\",\n \t\"invoiceLevel\": \"Shipment\",\n \t\"invoiceIssuer\": \"Fed Ex\",\n \t\"number\": 12345,\n \t\"invoiceDate\": \"2019-02-27T12:10:16Z\",\n \t\"invoiceWeight\": 17924,\n \t\"invoiceWeightUnitOfMeasure\": \"pounds\",\n \t\"sourceName\": \"test\",\n \t\"referenceNumbers\": [], \n \t\"charges\": [{ \n \t\t\"invoicedCurrency\": \"USD\",\n \t\t\"invoiceAmount\": \"1732.0\",\n \t\t\"code\": \"DLH\",\n \t\t\"description\": \"Line Haul\",\n \t\t\"invoiceLine\": 1 \n \t}, \n \t{ \n \t\t\"invoicedCurrency\": \"USD\",\n \t\t\"invoiceAmount\": \"208.58\",\n \t\t\"code\": \"405\",\n \t\t\"description\": \"Fuel Surcharge\",\n \t\t\"invoiceLine\": 2 \n \t}, \n \t{ \n \t\t\"invoicedCurrency\": \"USD\",\n \t\t\"invoiceAmount\": \"75.0\",\n \t\t\"code\": \"SOC\",\n \t\t\"description\": \"stop 2 charge\",\n \t\t\"invoiceLine\": 3 \n \t}]\n }; \n IRestResponse response = client.Execute(request);"
+      responses:
+        201:
+          description: Request successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/quoteSummaries'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact your C.H. Robinson rep.
+      summary: Visibility invoice create
+      x-summary-source: derived
+  /v2/visibility/orders:
+    post:
+      description: Post an order into Navisphere® Vision and/or Navisphere® Analytics.
+      x-beta: true
+      operationId: Visibility Order Create
+      tags:
+      - Visibility
+      requestBody:
+        description: JSON object of Order information.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/visibilityOrder'
+            example:
+              customerName: Your Customer Name
+              tenantId: tenantId
+              orderNumber: 03647809
+              accountType: OUTBOUND
+              createdDateTime: '2019-02-20T20:13:45.000Z'
+              orderStatus: Active
+              sourceName: Test
+              premiumFreightReasonCode: AA
+              locations:
+              - locationId: '67183'
+                stopRole: Pick
+                sequenceNumber: 0
+                name: SOME COMPANY PRODUCTS
+                address1: 1234 EXAMPLE PkWY
+                address2: room200
+                city: GROVETOWN
+                stateProvinceCode: GA
+                postalCode: '30813'
+                countryCode: US
+                requested: '2019-02-20T12:00:00.000Z'
+                openDateTime: '2019-02-20T12:00:00.000Z'
+                closeDateTime: '2019-02-20T22:30:00.000Z'
+              - locationId: '111111'
+                stopRole: Drop
+                sequenceNumber: 1
+                name: JOHN DOE INC
+                address1: 14900 CHARLSON RD
+                address2: Building 1
+                city: EDEN PRAIRIE
+                stateProvinceCode: MN
+                postalCode: '55347'
+                countryCode: US
+                requested: '2019-02-20T12:00:00.000Z'
+                openDateTime: '2019-02-20T12:00:00.000Z'
+                closeDateTime: '2019-02-20T12:00:00.000Z'
+              handlingUnits:
+              - handlingUnitId: CO_1480525_1
+                packagingType: pallet
+                quantity: 1
+                weight: 1996
+                weightUnitOfMeasure: pounds
+                freightClass: '70'
+                containerNumber: '343534534'
+                description: notes
+                commodities:
+                - commodityId: CO_1480525_1_1
+                  orderNumber: '32432'
+                  name: widgets
+                  units: 1
+                  sku: e87r99
+                  plannerCode: '1234'
+                  value: 50
+                  serialNumber: sad23432
+                  partNumber: ds536
+                  isHazMat: true
+                  pickLocSequenceNumber: 0
+                  dropLocSequenceNumber: 1
+                  category: tractor
+                  description: Widget Model 1
+                  packagingVolume: 17.5
+                  packagingVolumeUnitOfMeasure: cubicFeet
+                  costCenterCode: 10
+                  packagingType: boxes
+                  weight: 0
+                  weightUnitOfMeasure: pounds
+                  packagingLength: 0
+                  packagingWidth: 0
+                  packagingHeight: 0
+                  packagingUnitOfMeasure: feet
+                  purchaseOrderNumber: 123abc
+                  referenceNumbers: []
+                packagingLength: 0
+                packagingWidth: 0
+                packagingHeight: 0
+                packagingUnitOfMeasure: feet
+                volume: 0
+                volumeUnitOfMeasure: cubicFeet
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X POST \\ \n https://sandbox-api.navisphere.com/v2/visibility/orders \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json' -d '{ \n \t\"customerName\": \"Your Customer Name\",\n \t\"tenantId\": \"tenantId\",\n \t\"orderNumber\": \"03647809\",\n \t\"accountType\": \"OUTBOUND\",\n \t\"createdDateTime\": \"2019-02-20T20:13:45.000Z\",\n \t\"orderStatus\": \"Active\",\n \t\"sourceName\": \"Test\",\n \t\"premiumFreightReasonCode\": \"AA\",\n \t\"locations\": [{ \n \t\t\"locationId\": \"67183\",\n \t\t\"stopRole\": \"Pick\",\n \t\t\"locatiosequenceNumbernId\": 0,\n \t\t\"name\": \"SOME COMPANY PRODUCTS\",\n \t\t\"address1\": \"1234 EXAMPLE PkWY\",\n \t\t\"address2\": \"room200\",\n \t\t\"city\": \"GROVETOWN\",\n \t\t\"stateProvinceCode\": \"GA\",\n \t\t\"postalCode\": \"30813\",\n \t\t\"countryCode\": \"US\",\n \t\t\"requested\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"openDateTime\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"closeDateTime\": \"2019-02-20T22:30:00.000Z\"\n \t}, \t{ \t\t\"locationId\": \"111111\",\n \t\t\"stopRole\": \"Drop\",\n \t\t\"locatiosequenceNumbernId\": 1,\n \t\t\"name\": \"JOHN DOE INC\",\n \t\t\"address1\": \"14900 CHARLSON RD\",\n \t\t\"address2\": \"Building 1\",\n \t\t\"city\": \"EDEN PRAIRIE\",\n \t\t\"stateProvinceCode\": \"MN\",\n \t\t\"postalCode\": \"55347\",\n \t\t\"countryCode\": \"US\",\n \t\t\"requested\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"openDateTime\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"closeDateTime\": \"2019-02-20T12:00:00.000Z\"\n \t}], \t\"handlingUnits\": [{ \n \t\t\"handlingUnitId\": \"CO_1480525_1\",\n \t\t\"packagingType\": \"pallet\",\n \t\t\"quantity\": 1,\n \t\t\"weight\": 1996,\n \t\t\"weightUnitOfMeasure\": \"pounds\",\n \t\t\"freightClass\": \"70\",\n \t\t\"containerNumber\": \"343534534\",\n \t\t\"description\": \"notes\",\n \t\t\"handlingUnits\": [{ \n \t\t\t\"commodityId\": \"CO_1480525_1_1\",\n \t\t\t\"orderNumber\": \"32432\",\n \t\t\t\"name\": \"widgets\",\n \t\t\t\"units\": 1,\n \t\t\t\"sku\": \"e87r99\",\n \t\t\t\"plannerCode\": \"1234\",\n \t\t\t\"value\": 50,\n \t\t\t\"serialNumber\": \"sad23432\",\n \t\t\t\"partNumber\": \"ds536\",\n \t\t\t\"isHazMat\": true,\n \t\t\t\"pickLocSequenceNumber\": 0,\n \t\t\t\"dropLocSequenceNumber\": 1,\n \t\t\t\"category\": \"tractor\",\n \t\t\t\"description\": \"Widget Model 1\",\n \t\t\t\"packagingVolume\": 17.5,\n \t\t\t\"packagingVolumeUnitOfMeasure\": \"cubicFeet\",\n \t\t\t\"costCenterCode\": 10,\n \t\t\t\"packagingType\": \"boxes\",\n \t\t\t\"weight\": 0,\n \t\t\t\"weightUnitOfMeasure\": \"pounds\",\n \t\t\t\"packagingLength\": 0,\n \t\t\t\"packagingWidth\": 0,\n \t\t\t\"packagingHeight\": 0,\n \t\t\t\"packagingUnitOfMeasure\": \"feet\",\n \t\t\t\"purchaseOrderNumber\": \"123abc\",\n \t\t\t\"referenceNumbers\": [],\n \t\t}], \t\t\"packagingLength\": 0,\n \t\t\"packagingWidth\": 0,\n \t\t\"packagingHeight\": 0,\n \t\t\"packagingUnitOfMeasure\": \"feet\",\n \t\t\"volume\": 0,\n \t\t\"volumeUnitOfMeasure\": \"cubicFeet\" \n \t}] }'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.post(\"https://sandbox-api.navisphere.com/v2/visibility/orders\")\n .header(\"Content-Type\", \"application/json\")\n .header(\"Authorization\", \"Bearer YOU TOKEN\")\n .body(\" { \n \t\"customerName\": \"Your Customer Name\",\n \t\"tenantId\": \"tenantId\",\n \t\"orderNumber\": \"03647809\",\n \t\"accountType\": \"OUTBOUND\",\n \t\"createdDateTime\": \"2019-02-20T20:13:45.000Z\",\n \t\"orderStatus\": \"Active\",\n \t\"sourceName\": \"Test\",\n \t\"premiumFreightReasonCode\": \"AA\",\n \t\"locations\": [{ \n \t\t\"locationId\": \"67183\",\n \t\t\"stopRole\": \"Pick\",\n \t\t\"locatiosequenceNumbernId\": 0,\n \t\t\"name\": \"SOME COMPANY PRODUCTS\",\n \t\t\"address1\": \"1234 EXAMPLE PkWY\",\n \t\t\"address2\": \"room200\",\n \t\t\"city\": \"GROVETOWN\",\n \t\t\"stateProvinceCode\": \"GA\",\n \t\t\"postalCode\": \"30813\",\n \t\t\"countryCode\": \"US\",\n \t\t\"requested\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"openDateTime\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"closeDateTime\": \"2019-02-20T22:30:00.000Z\"\n \t}, \t{ \t\t\"locationId\": \"111111\",\n \t\t\"stopRole\": \"Drop\",\n \t\t\"locatiosequenceNumbernId\": 1,\n \t\t\"name\": \"JOHN DOE INC\",\n \t\t\"address1\": \"14900 CHARLSON RD\",\n \t\t\"address2\": \"Building 1\",\n \t\t\"city\": \"EDEN PRAIRIE\",\n \t\t\"stateProvinceCode\": \"MN\",\n \t\t\"postalCode\": \"55347\",\n \t\t\"countryCode\": \"US\",\n \t\t\"requested\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"openDateTime\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"closeDateTime\": \"2019-02-20T12:00:00.000Z\"\n \t}], \t\"handlingUnits\": [{ \n \t\t\"handlingUnitId\": \"CO_1480525_1\",\n \t\t\"packagingType\": \"pallet\",\n \t\t\"quantity\": 1,\n \t\t\"weight\": 1996,\n \t\t\"weightUnitOfMeasure\": \"pounds\",\n \t\t\"freightClass\": \"70\",\n \t\t\"containerNumber\": \"343534534\",\n \t\t\"description\": \"notes\",\n \t\t\"handlingUnits\": [{ \n \t\t\t\"commodityId\": \"CO_1480525_1_1\",\n \t\t\t\"orderNumber\": \"32432\",\n \t\t\t\"name\": \"widgets\",\n \t\t\t\"units\": 1,\n \t\t\t\"sku\": \"e87r99\",\n \t\t\t\"plannerCode\": \"1234\",\n \t\t\t\"value\": 50,\n \t\t\t\"serialNumber\": \"sad23432\",\n \t\t\t\"partNumber\": \"ds536\",\n \t\t\t\"isHazMat\": true,\n \t\t\t\"pickLocSequenceNumber\": 0,\n \t\t\t\"dropLocSequenceNumber\": 1,\n \t\t\t\"category\": \"tractor\",\n \t\t\t\"description\": \"Widget Model 1\",\n \t\t\t\"packagingVolume\": 17.5,\n \t\t\t\"packagingVolumeUnitOfMeasure\": \"cubicFeet\",\n \t\t\t\"costCenterCode\": 10,\n \t\t\t\"packagingType\": \"boxes\",\n \t\t\t\"weight\": 0,\n \t\t\t\"weightUnitOfMeasure\": \"pounds\",\n \t\t\t\"packagingLength\": 0,\n \t\t\t\"packagingWidth\": 0,\n \t\t\t\"packagingHeight\": 0,\n \t\t\t\"packagingUnitOfMeasure\": \"feet\",\n \t\t\t\"purchaseOrderNumber\": \"123abc\",\n \t\t\t\"referenceNumbers\": [],\n \t\t}], \t\t\"packagingLength\": 0,\n \t\t\"packagingWidth\": 0,\n \t\t\"packagingHeight\": 0,\n \t\t\"packagingUnitOfMeasure\": \"feet\",\n \t\t\"volume\": 0,\n \t\t\"volumeUnitOfMeasure\": \"cubicFeet\" \n \t}] \n }\") .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\"); \n\n var options = { method: 'POST',\n \turl: 'https://sandbox-api.navisphere.com/v2/visibility/orders',\n \theaders: \n \t{ Authorization: 'Bearer YOU TOKEN', \n \t'Content-Type': 'application/json' } }; \n \n\n\tbody: { \n \t\"customerName\": \"Your Customer Name\",\n \t\"tenantId\": \"tenantId\",\n \t\"orderNumber\": \"03647809\",\n \t\"accountType\": \"OUTBOUND\",\n \t\"createdDateTime\": \"2019-02-20T20:13:45.000Z\",\n \t\"orderStatus\": \"Active\",\n \t\"sourceName\": \"Test\",\n \t\"premiumFreightReasonCode\": \"AA\",\n \t\"locations\": [{ \n \t\t\"locationId\": \"67183\",\n \t\t\"stopRole\": \"Pick\",\n \t\t\"locatiosequenceNumbernId\": 0,\n \t\t\"name\": \"SOME COMPANY PRODUCTS\",\n \t\t\"address1\": \"1234 EXAMPLE PkWY\",\n \t\t\"address2\": \"room200\",\n \t\t\"city\": \"GROVETOWN\",\n \t\t\"stateProvinceCode\": \"GA\",\n \t\t\"postalCode\": \"30813\",\n \t\t\"countryCode\": \"US\",\n \t\t\"requested\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"openDateTime\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"closeDateTime\": \"2019-02-20T22:30:00.000Z\"\n \t}, \t{ \t\t\"locationId\": \"111111\",\n \t\t\"stopRole\": \"Drop\",\n \t\t\"locatiosequenceNumbernId\": 1,\n \t\t\"name\": \"JOHN DOE INC\",\n \t\t\"address1\": \"14900 CHARLSON RD\",\n \t\t\"address2\": \"Building 1\",\n \t\t\"city\": \"EDEN PRAIRIE\",\n \t\t\"stateProvinceCode\": \"MN\",\n \t\t\"postalCode\": \"55347\",\n \t\t\"countryCode\": \"US\",\n \t\t\"requested\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"openDateTime\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"closeDateTime\": \"2019-02-20T12:00:00.000Z\"\n \t}], \t\"handlingUnits\": [{ \n \t\t\"handlingUnitId\": \"CO_1480525_1\",\n \t\t\"packagingType\": \"pallet\",\n \t\t\"quantity\": 1,\n \t\t\"weight\": 1996,\n \t\t\"weightUnitOfMeasure\": \"pounds\",\n \t\t\"freightClass\": \"70\",\n \t\t\"containerNumber\": \"343534534\",\n \t\t\"description\": \"notes\",\n \t\t\"handlingUnits\": [{ \n \t\t\t\"commodityId\": \"CO_1480525_1_1\",\n \t\t\t\"orderNumber\": \"32432\",\n \t\t\t\"name\": \"widgets\",\n \t\t\t\"units\": 1,\n \t\t\t\"sku\": \"e87r99\",\n \t\t\t\"plannerCode\": \"1234\",\n \t\t\t\"value\": 50,\n \t\t\t\"serialNumber\": \"sad23432\",\n \t\t\t\"partNumber\": \"ds536\",\n \t\t\t\"isHazMat\": true,\n \t\t\t\"pickLocSequenceNumber\": 0,\n \t\t\t\"dropLocSequenceNumber\": 1,\n \t\t\t\"category\": \"tractor\",\n \t\t\t\"description\": \"Widget Model 1\",\n \t\t\t\"packagingVolume\": 17.5,\n \t\t\t\"packagingVolumeUnitOfMeasure\": \"cubicFeet\",\n \t\t\t\"costCenterCode\": 10,\n \t\t\t\"packagingType\": \"boxes\",\n \t\t\t\"weight\": 0,\n \t\t\t\"weightUnitOfMeasure\": \"pounds\",\n \t\t\t\"packagingLength\": 0,\n \t\t\t\"packagingWidth\": 0,\n \t\t\t\"packagingHeight\": 0,\n \t\t\t\"packagingUnitOfMeasure\": \"feet\",\n \t\t\t\"purchaseOrderNumber\": \"123abc\",\n \t\t\t\"referenceNumbers\": [],\n \t\t}], \t\t\"packagingLength\": 0,\n \t\t\"packagingWidth\": 0,\n \t\t\"packagingHeight\": 0,\n \t\t\"packagingUnitOfMeasure\": \"feet\",\n \t\t\"volume\": 0,\n \t\t\"volumeUnitOfMeasure\": \"cubicFeet\" \n \t}] \n } \n\nrequest(options, function (error, response, body) { \n \tif (error) throw new Error(error); \n \n\n\tconsole.log(body); \n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v2/visibility/orders\");\n var request = new RestRequest(Method.POST);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n request.AddParameter(\"undefined\", \" { \n \t\"customerName\": \"Your Customer Name\",\n \t\"tenantId\": \"tenantId\",\n \t\"orderNumber\": \"03647809\",\n \t\"accountType\": \"OUTBOUND\",\n \t\"createdDateTime\": \"2019-02-20T20:13:45.000Z\",\n \t\"orderStatus\": \"Active\",\n \t\"sourceName\": \"Test\",\n \t\"premiumFreightReasonCode\": \"AA\",\n \t\"locations\": [{ \n \t\t\"locationId\": \"67183\",\n \t\t\"stopRole\": \"Pick\",\n \t\t\"locatiosequenceNumbernId\": 0,\n \t\t\"name\": \"SOME COMPANY PRODUCTS\",\n \t\t\"address1\": \"1234 EXAMPLE PkWY\",\n \t\t\"address2\": \"room200\",\n \t\t\"city\": \"GROVETOWN\",\n \t\t\"stateProvinceCode\": \"GA\",\n \t\t\"postalCode\": \"30813\",\n \t\t\"countryCode\": \"US\",\n \t\t\"requested\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"openDateTime\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"closeDateTime\": \"2019-02-20T22:30:00.000Z\"\n \t}, \t{ \t\t\"locationId\": \"111111\",\n \t\t\"stopRole\": \"Drop\",\n \t\t\"locatiosequenceNumbernId\": 1,\n \t\t\"name\": \"JOHN DOE INC\",\n \t\t\"address1\": \"14900 CHARLSON RD\",\n \t\t\"address2\": \"Building 1\",\n \t\t\"city\": \"EDEN PRAIRIE\",\n \t\t\"stateProvinceCode\": \"MN\",\n \t\t\"postalCode\": \"55347\",\n \t\t\"countryCode\": \"US\",\n \t\t\"requested\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"openDateTime\": \"2019-02-20T12:00:00.000Z\",\n \t\t\"closeDateTime\": \"2019-02-20T12:00:00.000Z\"\n \t}], \t\"handlingUnits\": [{ \n \t\t\"handlingUnitId\": \"CO_1480525_1\",\n \t\t\"packagingType\": \"pallet\",\n \t\t\"quantity\": 1,\n \t\t\"weight\": 1996,\n \t\t\"weightUnitOfMeasure\": \"pounds\",\n \t\t\"freightClass\": \"70\",\n \t\t\"containerNumber\": \"343534534\",\n \t\t\"description\": \"notes\",\n \t\t\"handlingUnits\": [{ \n \t\t\t\"commodityId\": \"CO_1480525_1_1\",\n \t\t\t\"orderNumber\": \"32432\",\n \t\t\t\"name\": \"widgets\",\n \t\t\t\"units\": 1,\n \t\t\t\"sku\": \"e87r99\",\n \t\t\t\"plannerCode\": \"1234\",\n \t\t\t\"value\": 50,\n \t\t\t\"serialNumber\": \"sad23432\",\n \t\t\t\"partNumber\": \"ds536\",\n \t\t\t\"isHazMat\": true,\n \t\t\t\"pickLocSequenceNumber\": 0,\n \t\t\t\"dropLocSequenceNumber\": 1,\n \t\t\t\"category\": \"tractor\",\n \t\t\t\"description\": \"Widget Model 1\",\n \t\t\t\"packagingVolume\": 17.5,\n \t\t\t\"packagingVolumeUnitOfMeasure\": \"cubicFeet\",\n \t\t\t\"costCenterCode\": 10,\n \t\t\t\"packagingType\": \"boxes\",\n \t\t\t\"weight\": 0,\n \t\t\t\"weightUnitOfMeasure\": \"pounds\",\n \t\t\t\"packagingLength\": 0,\n \t\t\t\"packagingWidth\": 0,\n \t\t\t\"packagingHeight\": 0,\n \t\t\t\"packagingUnitOfMeasure\": \"feet\",\n \t\t\t\"purchaseOrderNumber\": \"123abc\",\n \t\t\t\"referenceNumbers\": [],\n \t\t}], \t\t\"packagingLength\": 0,\n \t\t\"packagingWidth\": 0,\n \t\t\"packagingHeight\": 0,\n \t\t\"packagingUnitOfMeasure\": \"feet\",\n \t\t\"volume\": 0,\n \t\t\"volumeUnitOfMeasure\": \"cubicFeet\" \n \t}] \n }; \n IRestResponse response = client.Execute(request);"
+      responses:
+        '201':
+          description: Request successful
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact your C.H. Robinson rep.
+      summary: Visibility order create
+      x-summary-source: derived
+  /v2/visibility/milestones:
+    get:
+      description: Allows partner to retrieve events during the life cycle of the order and shipment.
+      operationId: Visibility GET Milestone
+      tags:
+      - Visibility
+      parameters:
+      - in: query
+        name: to
+        required: false
+        schema:
+          type: string
+          format: date-time
+        description: Ending date/time of event search.
+        example: '2019-04-20T20:30:00.0000000Z'
+      - in: query
+        name: from
+        required: true
+        schema:
+          type: string
+          format: date-time
+        description: Starting date/time of event search.
+        example: '2019-04-20T20:30:00.0000000Z'
+      - in: query
+        name: skip
+        required: false
+        schema:
+          type: integer
+          default: 0
+        description: Identify how many results the call will skip.
+        example: 10
+      - in: query
+        name: take
+        required: false
+        schema:
+          type: integer
+          minimum: 0
+          maximum: 100
+          default: 100
+        description: Identify how many results the call will retrieve.
+        example: 100
+      - in: query
+        name: shipmentNumber
+        required: false
+        schema:
+          type: string
+          minimum: 1
+          maximum: 20
+        description: Shipment Number associated to the milestone.
+        example: SN 1
+      - in: query
+        name: containerNumber
+        required: false
+        schema:
+          type: string
+          minimum: 1
+          maximum: 20
+        description: Container Number associated to the milestone.
+        example: ConNum 1
+      - in: query
+        name: trackingNumber
+        required: false
+        schema:
+          type: string
+          minimum: 1
+          maximum: 150
+        description: Tracking Number associated to the milestone.
+        example: Tracking 1
+      - in: query
+        name: purchaseOrderNumber
+        required: false
+        schema:
+          type: string
+          minimum: 0
+          maximum: 100
+        description: Purchase order number associated to the milestone.
+        example: PO1
+      - in: query
+        name: customerPrimaryIdentifier
+        required: false
+        schema:
+          type: string
+          minimum: 0
+          maximum: 100
+        description: Shipment ID associated to the milestone.
+        example: SI 1
+      x-code-samples:
+      - lang: Curl
+        source: "curl -X GET \\ \n 'https://sandbox-api.navisphere.com/v2/visibility/milestones?shipmentNumber=20015434520' \\ \n -H 'Authorization: Bearer YOU TOKEN' \\ \n -H 'Content-Type: application/json'"
+      - lang: Java
+        source: "HttpResponse<String> response = Unirest.get(\"https://sandbox-api.navisphere.com/v2/visibility/milestones?shipmentNumber=20015434520\")\n .header(\"Content-Type\", \"application/json\")\n .header(\"Authorization\", \"Bearer YOU TOKEN\")\n .asString();"
+      - lang: NodeJS
+        source: " var request = require(\"request\");\n\n var options = { method: 'GET',\n url: 'https://sandbox-api.navisphere.com/v2/visibility/milestones',\n qs: { shipmentNumber: '20015434520' },\n headers: { \n \tAuthorization: 'Bearer YOU TOKEN',\n \t'Content-Type': 'application/json' \n }};\n\n request(options, function (error, response, body) {\n \tif (error) throw new Error(error);\n\n \tconsole.log(body);\n });"
+      - lang: C#
+        source: " var client = new RestClient(\"https://sandbox-api.navisphere.com/v2/visibility/milestones?shipmentNumber=20015434520\");\n var request = new RestRequest(Method.GET);\n request.AddHeader(\"Authorization\", \"Bearer YOU TOKEN\");\n request.AddHeader(\"Content-Type\", \"application/json\");\n IRestResponse response = client.Execute(request);"
+      responses:
+        '200':
+          description: Visibility GET Route
+          content:
+            application/json:
+              example:
+                _id: 5e8e39829ead382aacb584eb
+                tenantId: '25'
+                eventCode: X3
+                shipmentIdentifier:
+                  shipperId: '12345'
+                  purchaseOrderNumber: '2016752034'
+                  visionTrackingNumber: eyJyZXF1ZXN0Ijp7InZpc2lvbl90cmFja2luZ19udW1iZXIiOiJaWllZWFhXV1ZWVVVUVFNTUlJRUVBQT09OTk1NIiwidGVuYW50X2lkIjo5ODc2LCJzaWduaW5nX3VuaXhfZGF0ZXRpbWVfc3RhbXAiOiIxNjExMDg4MDUyMzQ0In0sImhhc2hfc2lnbmF0dXJlIjoiL3V1U0M1UzlEUGkrRmwweEIyTFk4MU02azRURzlxa05KMFpkbUxOdmFBMD0ifQ%3D%3DeyJyZXF1ZXN0Ijp7InZpc2lvbl90cmFja2luZ19udW1iZXIiOiJaWllZWFhXV1ZWVVVUVFNTUlJRUVBQT09OTk1NIiwidGVuYW50X2lkIjo5ODc2LCJzaWduaW5nX3VuaXhfZGF0ZXRpbWVfc3RhbXAiOiIxNjExMDg4MDUyMzQ0In0sImhhc2hfc2lnbmF0dXJlIjoiL3V1U0M1UzlEUGkrRmwweEIyTFk4MU02azRURzlxa05K
+                dateTime:
+                  eventDateTime: '2019-06-05T18:36:13.131Z'
+                  estimatedTimeOfArrival: '2019-06-05T18:36:13.131Z'
+                  appointmentWindow:
+                    openDateTime: '2019-06-05T18:36:13.131Z'
+                    closeDateTime: '2019-06-05T18:36:13.131Z'
+                carrier:
+                  name: Test Carrier
+                  dotNumber: Test
+                  scac: RBTW
+                  temperature: 32
+                  temperatureUnitOfMeasure: Fahrenheit
+                  vehicleDetail:
+                    tractorNumber: '375'
+                    trailerNumber: V5346
+                    licensePlate: MCV246
+                    licensePlateState: MN
+                    vin: 1HGBH41JXMN109186
+                    contactInformation:
+                      driverName: Red Barkley
+                      driverPhone: '5556129457'
+                      secondDriverName: Lincoln Hawk
+                      secondDriverPhone: '5554843167'
+                      dispatchName: Kylo Ren
+                      dispatchPhone: 5558675309
+                  flightDetail:
+                    flightNumber: '777'
+                    flightDepartureDateTime: '2018-10-01T21:51:37.000Z'
+                    flightCarrierCode: DAL
+                  vesselDetail:
+                    vesselName: Test Vessel
+                    voyageNumber: VN55426
+                    vesselIMONumber: IMO55411
+                    hullNumber: H90210
+                location:
+                  type: drop
+                  stopSequenceNumber: 2
+                  sequenceNumber: 1
+                  name: Bulk Goods Warehouse
+                  locationId: W4875164
+                  address:
+                    address1: 14800 Charlson Rd
+                    address2: Building 1
+                    city: Eden Prairie
+                    latitude: 44.820538
+                    longitude: -93.464427
+                    stateProvinceCode: MN
+                    postalCode: '55347'
+                    country: US
+                items:
+                  itemId: '123456'
+                  weight: 45
+                  weightUnitOfMeasure: Pounds
+                  quantity: 12
+                  pallets: 1
+                supplementalInformation:
+                  reasonCode: '1'
+                  notes: Truck broke its axle
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error400'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error401'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/error404'
+        '500':
+          description: Internal Server Error. Please contact you C.H. Robinson Rep.
+      summary: Visibility GET milestone
+      x-summary-source: derived
+components:
+  schemas:
+    cargoLiability:
+      type: object
+      description: Informs of carrier liability coverages.
+      properties:
+        perPound:
+          type: integer
+          description: Carrier’s liability per pound based on product attributes.
+        max:
+          type: integer
+          description: Carrier’s maximum liability based on product attributes.
+        amount:
+          type: integer
+          description: Calculated liability coverage for specific quote based on product attributes.
+        currencyCode:
+          $ref: '#/components/schemas/currencyCodeEnum'
+    distanceUomEnum:
+      type: string
+      description: Unit of measure for distance parameters.
+      enum:
+      - Miles
+      - Kilometers
+    visibilityLocation:
+      type: object
+      description: All locations associated with the order.
+      required:
+      - locationId
+      - sequenceNumber
+      - stopRole
+      - name
+      - address1
+      - countryCode
+      properties:
+        locationId:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Unique Identifier
+        sequenceNumber:
+          type: number
+          description: Beginning at 0, increasing sequentially with each location in stop order
+        stopRole:
+          type: string
+          description: Stop role of the location
+          enum:
+          - pick
+          - drop
+          - crossDock
+          - destinationAirport
+          - destinationPort
+          - destinationTerminal
+          - intermediaryAirport
+          - intermediaryPort
+          - intermediaryRamp
+          - originAirport
+          - originPort
+          - originRamp
+          - originTerminal
+          - originForwarder
+          - originCrossdock
+          - destinationForwarder
+          - destinationCrossdock
+          - destinationRamp
+          - dropyard
+          - supplier
+          - shipper
+          - consignee
+          - origin
+          - destination
+          - broker
+          - agent
+          - factory
+        name:
+          type: string
+          minimum: 1
+          maximum: 200
+          description: Name of the location
+        address1:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Indicate address line 1
+        address2:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Indicate address line 2
+        city:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Indicate City
+        stateProvinceCode:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Indicate State or Province
+        postalCode:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Indicate Postal codes
+        countryCode:
+          type: string
+          minimum: 1
+          maximum: 2
+          description: Indicate 2 digit country code utilizing ISO 3166-1 alpha-2
+        requested:
+          type: string
+          format: date-time
+          description: Order need by date, enter close date time if window time is provided in an ISO8601 format.
+        openDateTime:
+          type: string
+          format: date-time
+          description: Beginning of order need by window, enter requested date if no window time is provided in an ISO8601 format.
+        closeDateTime:
+          type: string
+          format: date-time
+          description: End of order need by window, enter requested date if no window time is provided in an ISO8601 format.
+        unlocationCode:
+          type: string
+          description: The UN Location Code for the stop location.
+          minimum: 1
+          maximum: 10
+        iata:
+          type: string
+          description: International Air Transport Association (IATA)
+          minimum: 1
+          maximum: 10
+        referenceNumbers:
+          type: array
+          description: Array of the Stops associated to the shipment.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    stop:
+      type: object
+      required:
+      - type
+      - value
+      - orderNumbers
+      properties:
+        orderNumbers:
+          type: array
+          description: Array of the Order numbers associated to the shipment.
+          items:
+            type: string
+        actualArriveDateTime:
+          type: string
+          format: date-time
+          description: An ISO8601 UTC date-time
+        actualDepartDateTime:
+          type: string
+          format: date-time
+          description: An ISO8601 UTC date-time
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/visibilityLocation'
+    containerInformation:
+      type: object
+      required:
+      - containerNumber
+      properties:
+        containerNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Number on the container associated to the shipment.
+        containerType:
+          type: string
+          description: What Type of Container is associated to the shipment
+          enum:
+          - L
+          - LCL
+          - IPLT
+          - 20HC
+          - '20'
+          - 20OT
+          - 20FR
+          - 20RF
+          - 20DC
+          - 20DV
+          - 20GP
+          - 45HC
+          - 45HR
+          - 45UI
+          - 40HC
+          - '40'
+          - 40OT
+          - 40HR
+          - 40RF
+          - 40FR
+          - 40DC
+          - 40DV
+          - 40GP
+          - 40HQ
+          - 45HQ
+          - 40NOR
+        containerInformation:
+          minimum: 1
+          maximum: 20
+          type: string
+          description: Information pertaining to the container
+        containerWeight:
+          type: number
+          description: Weight of the container
+        weightUnitOfMeasure:
+          $ref: '#/components/schemas/weightUomEnum'
+    transportModeEnum:
+      type: string
+      description: "Defines the mode:\n  * `LTL` - Less Than Truckload\n  * `TL` - Truckload\n  * `Air` - Air\n  * `Ocean` - Ocean\n  * `Bulk` - Bulk\n  * `Consol` - Consolidated\n  * `Flatbed` - Flatbed\n  * `IMDL` - Intermodal\n"
+      enum:
+      - LTL
+      - TL
+      - Air
+      - Ocean
+      - Bulk
+      - Consol
+      - Flatbed
+      - IMDL
+    packageCodeEnum:
+      type: string
+      description: "C.H. Robinson defined code for packaging type/code. Here is a list of the most commonly used packagingCodes: \n\n`BAL` - Bale, `BAG` - Bags, `BIN` - Bin, `BOX` - Boxes, `CTN` - Cartons  \n`CAS` - Case, `CRT` - Crates, `PKG` - Package, `EAC` - Eaches, `PLT` - Pallet, `PCS` - Pieces \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/PackageDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - BAL
+      - BIN
+      - BOT
+      - BXT
+      - JAR
+      - LSE
+      - LUG
+      - OTHR
+      - REL
+      - SAK
+      - SKD
+      - SKE
+      - SLP
+      - TLD
+      - TRY
+      - Empty
+      - BAG
+      - BOX
+      - BDL
+      - CTN
+      - CAS
+      - CRT
+      - DZ
+      - DRM
+      - EAC
+      - GYL
+      - HDW
+      - LNFT
+      - PKG
+      - PAL
+      - PLT
+      - PCS
+      - LBS
+      - ROL
+      - TOT
+      - YD
+      - Skids
+      - GAL
+      - KIT
+      - FT
+      - PAD
+      - PR
+      - SET
+      - SHT
+      - M
+      - KG
+      - IBC
+      - BAT
+      - AST
+      - CUB
+      - RKS
+      - PCK
+      - TH
+      - 24BIN
+      - 30BIN
+      - 36BIN
+      - 40BIN
+      - BSHL
+      - CLLPK
+      - DRC
+      - ECO
+      - EURO
+      - FLAT
+      - HFBIN
+      - HFCTN
+      - HVYPK
+      - IFCO
+      - I6408
+      - I6411
+      - I6413
+      - I6416
+      - I6419
+      - I6423
+      - I6425
+      - I6428
+      - ORBIS
+      - O6409
+      - O6411
+      - O6413
+      - O6416
+      - O6419
+      - O6425
+      - O6428
+      - P4311
+      - P4317
+      - P6408
+      - P6411
+      - P6413
+      - P6416
+      - P6419
+      - P6423
+      - P6425
+      - P6428
+      - RPC
+      - R6411
+      - R6413
+      - R6416
+      - TNBIN
+      - TOSCA
+      - T6408
+      - T6411
+      - T6413
+      - T6416
+      - T6419
+      - T6423
+      - T6425
+      - T6428
+      - WDCRT
+      - BRL
+      - RCK
+      - TUB
+      - CG
+      - DSP
+      - SQF
+      - CYL
+      - KEG
+      - IFCLB
+      - PLT1
+      - PLT2
+      - PLT3
+      - CAR
+      - COIL
+      - PI
+      - GOH
+      - BLK
+      - POG
+      - L
+      - IPLT
+      - RORO
+      - 45HC
+      - 45HR
+      - 40HC
+      - 40
+      - 40OT
+      - 40HR
+      - 40RF
+      - 40FR
+      - 20HC
+      - 20
+      - 20OT
+      - 20FR
+      - 45GP
+    volumeUomEnum:
+      type: string
+      description: Unit of measure for volume parameters.
+      enum:
+      - CubicFeet
+      - CubicMeters
+    visibilityOrder:
+      type: object
+      description: Order Created by the Shipper
+      required:
+      - orderNumber
+      - createdDateTime
+      - tenantId
+      properties:
+        customerName:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Customer Name
+          example: Your Customer Name
+        orderNumber:
+          type: number
+          minimum: 1
+          maximum: 20
+          description: Order Number
+          example: 03647809
+        tenantId:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: This ID indicates who the underlying customer is.
+        accountType:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: Business unit or Product group associated to this order
+          example: Parts
+        orderStatus:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: Current status of order.
+          enum:
+          - active
+          - cancelled
+          - planned
+        premiumFreightReasonCode:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Reason code for order's expedited or premium service
+        metadata:
+          type: string
+          description: meta data assoicted to the order
+        createdDateTime:
+          type: string
+          format: date-time
+          description: An ISO8601 UTC date-time
+        sourceName:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Source Name with the order
+        packagingType:
+          $ref: '#/components/schemas/packageCodeEnum'
+        quantity:
+          type: number
+          description: Quantities on the order.
+        weight:
+          type: number
+          description: Total Weight of the order.
+          format: float
+          example: 45000
+        weightUnitOfMeasure:
+          $ref: '#/components/schemas/weightUomEnum'
+        orderLength:
+          type: number
+          description: The length of the order's packaging.
+          format: float
+          example: 48
+        ordergWidth:
+          type: number
+          description: The width of the order's packaging.
+          format: float
+          example: 40
+        orderHeight:
+          type: number
+          description: The height of the order's packaging.
+          format: float
+          example: 48
+        orderUnitOfMeasure:
+          $ref: '#/components/schemas/linearUomEnum'
+        volume:
+          type: number
+          description: The volume of the order's packaging.
+        volumeUnitOfMeasure:
+          $ref: '#/components/schemas/volumeUomEnum'
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/visibilityLocation'
+        handlingUnits:
+          type: array
+          items:
+            $ref: '#/components/schemas/handlingUnit'
+    invoice:
+      required:
+      - invoiceNumber
+      - invoiceIssuer
+      - invoiceLevel
+      - number
+      - charges
+      - tenantId
+      type: object
+      properties:
+        invoiceNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Invoice Number
+        customerName:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Name of the customer
+        tenantId:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: This ID indicates who the underlying customer is.
+        invoiceLevel:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: Invoice Level
+          enum:
+          - shipment
+          - order
+        invoiceIssuer:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Who is issuing the invoice to the customer?
+        number:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Number of either the shipment or order, depending on the invoice level
+        invoiceDate:
+          type: string
+          format: date-time
+          description: An ISO8601 UTC date-time
+        invoiceWeight:
+          type: number
+          description: Invoice weight
+        weightUnitOfMeasure:
+          $ref: '#/components/schemas/weightUomEnum'
+        sourceName:
+          type: string
+          minimum: 1
+          maximum: 60
+          description: Party managing and sending invoice. (Meant to help tie the invoice to the shipment/order.)
+        charges:
+          type: array
+          items:
+            $ref: '#/components/schemas/visibilityCharge'
+        referenceNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    currencyCodeEnum:
+      type: string
+      description: "Code to indicate the currency being used. The most common currently in use with C.H. Robinson:\n\n* `USD` - US Dollar\n* `CAD` - Canadian Dollar \n* `MXN` - Mexican Peso\n* `EUR` - European Euro\n\n\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CurrencyCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - USD
+      - CAD
+      - EUR
+      - MXN
+      - CHF
+      - GBP
+      - HUF
+      - CZK
+      - NZD
+      - PLN
+      - ZAR
+      - VEB
+      - VND
+      - TWD
+      - TRY
+      - SEK
+      - SGD
+      - RUB
+      - NOK
+      - HKD
+      - INR
+      - JPY
+      - CLP
+      - CNY
+      - DKK
+      - AUD
+      - BRL
+      - AED
+      - PEN
+      - THB
+      - ARS
+      - MYR
+      - VEF
+      - SAR
+      - BBD
+      - BHD
+      - BMD
+      - BSD
+      - ILS
+      - ISK
+      - KES
+      - KRW
+      - KWD
+      - OMR
+      - PHP
+      - PKR
+      - QAR
+      - RON
+      - TTD
+      - UAH
+      - LKR
+      - XPF
+      - UYU
+      - COP
+      - CRC
+      - FJD
+    equipmentCodeEnum:
+      type: string
+      description: '### <span style="color:Red">**Only one container type per rating request is currently supported.</span>'
+      enum:
+      - Van
+      - Reefer
+      - Flatbed
+      - Lcl
+      - StepDeck
+      - FlatHotshot
+      - Container20
+      - Container40
+      - Container40HighCube
+      - Container45HighCube
+      - Container20FlatRack
+      - Container40FlatRack
+      - Container40HighCubeFlatRack
+      - Container45FlatRack
+      - Container20OpenTop
+      - Container40OpenTop
+      - Container20Reefer
+      - Container40Reefer
+      - Container40HighCubeReefer
+      - Container45Reefer
+      - Container20ReeferDryUsage
+      - Container40ReeferDryUsage
+      - Container40HighCubeReeferDryUsage
+      - Container45ReeferDryUsage
+      - Container20Platform
+    incoTermsEnum:
+      type: string
+      description: "The Incoterms or International Commercial Terms are a series of pre-defined commercial terms published by the International Chamber of Commerce (ICC) relating to international commercial law.\n  * `DAT` - Delivered at Terminal\n  * `DAP` - Delivered at Place\n  * `CIF` - Cost Insurance & Freight\n  * `CPT` - Carriage Paid To\n  * `CIP` - Carriage & Insurance Paid To\n  * `DDP` - Delivered duty paid\n  * `EXW` - EX works\n  * `FCA` - Free carrier at\n  * `DPU` - Delivered at place unloaded\n  * `FAS` - Free alongside ship\n  * `FOB` - Free on Board\n  * `CFR` - Cost and Freight\n  * `PPD` - Prepaid\n  * `COL` - Collect\n  * `DAF` - Delivery at Frontier\n  * `DDU` - Delivery Duty Unpaid\n  * `DEQ` - Delivery Ex-Quay, Duty Unpaid\n  * `DES` - Delivery Ex-Ship\n"
+      enum:
+      - DAT
+      - DAP
+      - CIF
+      - CPT
+      - CIP
+      - DDP
+      - EXW
+      - FCA
+      - DPU
+      - FAS
+      - FOB
+      - CFR
+      - PPD
+      - COL
+      - DAF
+      - DDU
+      - DEQ
+      - DES
+    visibilityCharge:
+      required:
+      - invoicedCurrency
+      - invoiceAmount
+      - invoiceLine
+      type: object
+      properties:
+        invoicedCurrency:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: ISO 4217 currency code
+        invoiceAmount:
+          type: number
+          description: Amount invoiced per line item
+        code:
+          minimum: 1
+          maximum: 20
+          type: string
+          description: Standard Charge Code
+        invoiceLine:
+          type: integer
+          description: Invoice line
+        description:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Description of the charge code.
+    commodity:
+      required:
+      - pickLocSequenceNumber
+      - dropLocSequenceNumber
+      type: object
+      properties:
+        commodityId:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Unique identifier
+        orderNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Indicates the order number associated to the item.
+        name:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Name of the commodity.
+        units:
+          type: number
+          minimum: 1
+          maximum: 50
+          description: Number of commodities.
+        sku:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Indicates the sku of the commodity.
+        plannerCode:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: The Planners Code associated to the commodity.
+        value:
+          type: number
+          minimum: 1
+          maximum: 50
+          description: Value of the commodity.
+        currencyCode:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: ISO 4217 currency code
+        serialNumber:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Serial Number of the commodity.
+        partNumber:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Part Number of the commodity.
+        isHazMat:
+          type: boolean
+          description: Flag indicates if the commodity is Hazmat.
+        pickLocSequenceNumber:
+          type: integer
+          description: The associated pick location sequence number.
+        dropLocSequenceNumber:
+          type: integer
+          description: The associated drop location sequence number.
+        category:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Category of the commodity, model number or other categorization descriptor.
+        description:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Description of the item.
+        packagingType:
+          $ref: '#/components/schemas/packageCodeEnum'
+        weight:
+          type: number
+          description: Total Weight of the item.
+          format: float
+          example: 45000
+        weightUnitOfMeasure:
+          $ref: '#/components/schemas/weightUomEnum'
+        packagingLength:
+          type: number
+          description: The length of the item's packaging.
+          format: float
+          example: 48
+        packagingWidth:
+          type: number
+          description: The width of the item's packaging.
+          format: float
+          example: 40
+        packagingHeight:
+          type: number
+          description: The height of the item's packaging.
+          format: float
+          example: 48
+        packagingUnitOfMeasure:
+          $ref: '#/components/schemas/linearUomEnum'
+        packagingVolume:
+          type: number
+          format: float
+          description: Volume of the item.
+          example: 7680
+        packagingVolumeUnitOfMeasure:
+          $ref: '#/components/schemas/volumeUomEnum'
+        packageQuantity:
+          type: number
+          format: float
+          description: Quantity of Packages.
+          example: 10
+        purchaseOrderNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          format: float
+          description: Purchase Order number for associated item.
+        costCenterCode:
+          type: number
+          minimum: 1
+          maximum: 10
+          format: float
+          description: Cost center code associated to the items.
+        referenceNumbers:
+          type: array
+          description: Reference number associated to the given level.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    error404:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 404
+        error:
+          type: string
+          description: Detail about the error status code
+          example: Not Found
+        message:
+          type: string
+          description: Specifies issue
+          example: Not Found
+    error400:
+      properties:
+        message:
+          type: string
+        path:
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+        context:
+          type: object
+          properties:
+            child:
+              type: string
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+            key:
+              type: string
+            label:
+              type: string
+    rates:
+      type: array
+      description: An array of all rates associated to a quote
+      items:
+        type: object
+        properties:
+          rateId:
+            type: number
+            format: float
+            description: ID of the rate that is provided on successfully calling the Rating API.
+          totalRate:
+            type: number
+            format: float
+            description: Currency amount of the total rate
+          unitRate:
+            type: number
+            format: float
+            description: Currency amount of the unit rate
+          quantity:
+            type: number
+            format: float
+            description: Defines how many units there are
+          rateCode:
+            $ref: '#/components/schemas/rateCodeEnum'
+          rateCodeValue:
+            type: string
+            description: Description of the rateCode
+          currencyCode:
+            $ref: '#/components/schemas/currencyCodeEnum'
+          isOptional:
+            type: boolean
+            description: Defines if the rate is optional. If the isOptional flag is set to false, the currency amount of the assecorial will be included in the totalCharge.
+    linearUomEnum:
+      type: string
+      description: Unit of measure for height, width, and length parameters.
+      enum:
+      - Inches
+      - Feet
+      - Centimeters
+      - Meters
+    freightClassEnum:
+      type: string
+      description: Indicates the freight class on this shipment. (Freight Class is a voluntary standard that provides a comparison of commodities moving in interstate, intrastate and foreign commerce. It is similar in concept to the groupings or grading systems that serve many other industries.)
+      enum:
+      - '50'
+      - '55'
+      - '60'
+      - '65'
+      - '70'
+      - '77.5'
+      - '85'
+      - '92.5'
+      - '100'
+      - '110'
+      - '125'
+      - '150'
+      - '175'
+      - '200'
+      - '250'
+      - '300'
+      - '400'
+      - '500'
+    weightUomEnum:
+      type: string
+      description: Unit of measure for weight parameters.
+      enum:
+      - Pounds
+      - Kilograms
+    handlingUnit:
+      type: object
+      description: Object containing commodity (or group of commodities)
+      required:
+      - locations
+      - items
+      properties:
+        handlingUnitId:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Handling unit ID
+        orderNumbers:
+          type: array
+          description: Array of the Order numbers associated to the handling units.
+          minimum: 1
+          maximum: 25
+          items:
+            type: string
+        packagingType:
+          $ref: '#/components/schemas/packageCodeEnum'
+        quantity:
+          type: number
+          description: Quantity of handling units
+        freightClass:
+          $ref: '#/components/schemas/freightClassEnum'
+        weight:
+          type: number
+          description: Total Weight of the item.
+          format: float
+          example: 45000
+        weightUnitOfMeasure:
+          $ref: '#/components/schemas/weightUomEnum'
+        packagingLength:
+          type: number
+          description: The length of the item's packaging.
+          format: float
+          example: 48
+        packagingWidth:
+          type: number
+          description: The width of the item's packaging.
+          format: float
+          example: 40
+        packagingHeight:
+          type: number
+          description: The height of the item's packaging.
+          format: float
+          example: 48
+        packagingUnitOfMeasure:
+          $ref: '#/components/schemas/linearUomEnum'
+        packageTrackingNumber:
+          type: string
+          minimum: 1
+          maximum: 150
+          description: Package Tracking Number
+        volume:
+          type: number
+          description: The volume of the item's packaging
+        volumeUnitOfMeasure:
+          $ref: '#/components/schemas/volumeUomEnum'
+        containerNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Container Number
+        description:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Description of the handling unit.
+        pickLocSequenceNumber:
+          type: integer
+          description: The associated stop sequence number for which this handling unit will be picked up.
+        dropLocSequenceNumber:
+          type: integer
+          description: The associated stop sequence number for which this handling unit will be delivered.
+        commodities:
+          type: array
+          items:
+            $ref: '#/components/schemas/commodity'
+    error401:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 401
+        error:
+          type: string
+          description: Detail about the error status code
+        message:
+          type: string
+          description: Specifies issue
+        attributes:
+          type: object
+          properties:
+            error:
+              type: string
+    shipments:
+      type: object
+      required:
+      - shipmentNumber
+      - orderNumbers
+      - tenantId
+      - stops
+      - commodities
+      - mode
+      properties:
+        shipmentNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Shipment Number associated to the shipment.
+        tenantId:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: This ID indicates who the underlying customer is.
+        trackingNumber:
+          type: string
+          minimum: 1
+          maximum: 150
+          description: Tracking number associated to the shipment.
+        accountCode:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Account code associated to the shipment.
+        carrierName:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Name of the carrier
+        scac:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: SCAC code associated to the shipment.
+        carrierProNumber:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Carrier Pro number
+        trailerNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Trailer Number
+        customerName:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Customer Name
+        equipmentType:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Equipment type on the shipment
+        mode:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Mode of the shipment.
+          enum:
+          - AIR
+          - OCEAN
+          - TRUCKLOAD
+          - LTL
+          - OPENDECK
+          - PARCEL
+          - RAIL
+          - INTERMODAL
+        containerInformation:
+          type: array
+          description: Array of the Containers associated to the shipment.
+          items:
+            $ref: '#/components/schemas/containerInformation'
+        shipmentDistance:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Total shipment distance as calculated by the customer's standard contracts.
+        shipmentDistanceUnitOfMeasure:
+          $ref: '#/components/schemas/distanceUomEnum'
+        isPremiumFreight:
+          type: boolean
+          description: Is the freight delivered at a premium or expedited service level by the provider?
+        movementType:
+          type: string
+          description: Indicates type of movement.
+        isManaged:
+          type: boolean
+          description: Is the freight shipped in a planned, mangaged capacity?
+        teuCount:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Count of Twenty Foot Equivalent Unit(s) teid to the shipment
+        incoLocation:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Named place for incoterm
+        incoTerms:
+          $ref: '#/components/schemas/incoTermsEnum'
+        orderNumbers:
+          type: array
+          description: Array of the Order numbers associated to the shipment.
+          minimum: 1
+          maximum: 25
+          items:
+            type: string
+        canceled:
+          type: boolean
+          description: Is the shipment canceled?
+        highValue:
+          type: boolean
+          description: Does the shipment contain goods that are of high value?
+        forwarder:
+          type: string
+          description: The name of the forwarder
+          minimum: 1
+          maximum: 200
+        stops:
+          type: array
+          description: Array of the Stops associated to the shipment.
+          items:
+            $ref: '#/components/schemas/stop'
+        handlingUnits:
+          type: array
+          description: Array of the commodities associated to the shipment.
+          items:
+            $ref: '#/components/schemas/handlingUnit'
+        referenceNumbers:
+          type: array
+          description: Array of the referenceNumbers associated to the shipment.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    quoteSummaries:
+      properties:
+        quoteSummaries:
+          type: array
+          description: Array of quotes.
+          items:
+            type: object
+            properties:
+              quoteId:
+                type: integer
+                format: int64
+                description: ID of the quote that is provided on successfully calling the rating API.
+              carrier:
+                type: object
+                description: Identifies the carrier associated to the quote.
+                properties:
+                  carrierCode:
+                    type: string
+                    description: The unique identifier assigned to a carrier within C.H. Robinson.
+                  carrierName:
+                    type: string
+                    minimum: 1
+                    maximum: 50
+                    description: The name of the carrier.
+                  scac:
+                    type: string
+                    minimum: 1
+                    maximum: 10
+                    description: The SCAC code of a carrier if it has one.
+              customer:
+                type: object
+                description: C.H. Robinson customer associated to the quote.
+                properties:
+                  customerName:
+                    type: string
+                    minimum: 1
+                    maximum: 50
+                    description: Customer name associated to the quote.
+              totalCharge:
+                type: number
+                format: float
+                description: Total charge associated to the quote.
+              totalFreightCharge:
+                type: number
+                format: float
+                description: Total freight charge associated to the quote.
+              totalAccessorialCharge:
+                type: number
+                format: float
+                description: Total accessorial charge associated to the quote.
+              quoteExpirationDate:
+                type: string
+                format: date-time
+                description: An ISO8601 UTC date-time used to indicate the date the quote will no longer be valid.
+              transit:
+                type: object
+                description: Collection of transit information associated to the quote.
+                properties:
+                  minimumTransitDays:
+                    type: number
+                    format: float
+                    description: Minimum transit days.
+                  maximumTransitDays:
+                    type: number
+                    format: float
+                    description: Maximum transit days.
+                  minimumDeliveryDate:
+                    type: string
+                    format: date-time
+                    description: An ISO8601 UTC date-time used to indicate the minimum delivery date.
+                  maximumDeliveryDate:
+                    type: string
+                    format: date-time
+                    description: An ISO8601 UTC date-time used to indicate the maximum delivery date.
+                  originService:
+                    type: string
+                    description: Denotes whether an LTL carrier services the location terminal on their own (direct) or through the help of partner carriers who can service the location terminal on their behalf (indirect).
+                    enum:
+                    - Direct
+                    - Indirect
+                    - No Data
+                  destinationService:
+                    type: string
+                    description: Denotes whether an LTL carrier services the location terminal on their own (direct) or through the help of partner carriers who can service the location terminal on their behalf (indirect).
+                    enum:
+                    - Direct
+                    - Indirect
+                    - No Data
+              rates:
+                $ref: '#/components/schemas/rates'
+              transportModeType:
+                $ref: '#/components/schemas/transportModeEnum'
+              equipmentType:
+                $ref: '#/components/schemas/equipmentCodeEnum'
+              cargoLiability:
+                $ref: '#/components/schemas/cargoLiability'
+              distance:
+                type: number
+                description: Indicates rated distance.
+              quoteSource:
+                type: string
+                description: A field to indicate whether the quote returned is contracted, market or volume.
+    error403:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 403
+        error:
+          type: string
+          description: detail about the error status code
+          example: Forbidden
+        message:
+          type: string
+          description: Specifies issue
+          example: Invalid customerCode
+    rateCodeEnum:
+      type: string
+      description: "C.H. Robinson defined code for rating code. Here is a list of the most commonly used rate codes: \n\n`400` - Line Haul, `405` - Fuel Surchage, `260` - Deliver Surchage, `IDL` - Inside Delivery, `IPU` - Inside Pickup \n`LFT` - Lift Gate or Forklift Service, `DET` - Detention, `DLA` - Delivery Limited Access, `PLA` - Pickup Limited Access \n`RES` - Residential Delivery Fee, `REP` - Residential Pickup Fee, `CSD` - Construction Site Delivery <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/RateCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - Customer
+      - '20'
+      - '55'
+      - '65'
+      - '115'
+      - '170'
+      - '180'
+      - '205'
+      - '215'
+      - '230'
+      - '260'
+      - '275'
+      - '280'
+      - '285'
+      - '300'
+      - '315'
+      - '350'
+      - '360'
+      - '365'
+      - '370'
+      - '385'
+      - '400'
+      - '405'
+      - '420'
+      - '425'
+      - '445'
+      - '450'
+      - '455'
+      - '470'
+      - '485'
+      - '495'
+      - '497'
+      - '510'
+      - '520'
+      - '540'
+      - '545'
+      - '590'
+      - '593'
+      - '605'
+      - '635'
+      - '665'
+      - '670'
+      - '685'
+      - '690'
+      - '695'
+      - '740'
+      - '761'
+      - '800'
+      - '801'
+      - '802'
+      - '803'
+      - '804'
+      - '898'
+      - '899'
+      - '900'
+      - '901'
+      - '902'
+      - '903'
+      - '904'
+      - '905'
+      - '906'
+      - '907'
+      - '908'
+      - '909'
+      - '910'
+      - '911'
+      - ACC
+      - AGR
+      - AGS
+      - AIR
+      - ALH
+      - AMC
+      - AMS
+      - APT
+      - ATR
+      - BAT
+      - BIO
+      - BLC
+      - BLK
+      - BND
+      - BRD
+      - BSC
+      - CAA
+      - CEX
+      - CHE
+      - CHN
+      - CIS
+      - CLA
+      - CLN
+      - CLS
+      - CNS
+      - COA
+      - COL
+      - COU
+      - CPC
+      - CPE
+      - CRE
+      - CRS
+      - CSE
+      - CTC
+      - CTG
+      - CTL
+      - CUF
+      - CUS
+      - DAM
+      - DCF
+      - DEL
+      - DEN
+      - DEP
+      - DET
+      - DFD
+      - DFG
+      - DHF
+      - DIC
+      - DIS
+      - DMC
+      - DOC
+      - DOV
+      - DRC
+      - DRF
+      - DSC
+      - DTC
+      - DTL
+      - DTU
+      - DTV
+      - DUT
+      - DYA
+      - EBD
+      - EEX
+      - EMT
+      - ENC
+      - ESD
+      - EUC
+      - EXC
+      - EXD
+      - EXL
+      - EXM
+      - EXP
+      - EXR
+      - EXW
+      - FDA
+      - FDT
+      - FFR
+      - FLP
+      - FTH
+      - FTW
+      - FTZ
+      - FWA
+      - FWC
+      - GST
+      - HMF
+      - HOL
+      - HST
+      - IDL
+      - IFS
+      - IHT
+      - INC
+      - INS
+      - INV
+      - IPU
+      - ISO
+      - IST
+      - ITS
+      - LAA
+      - LAY
+      - LEC
+      - LFT
+      - LMF
+      - LOA
+      - LOC
+      - MIC
+      - MPF
+      - MRK
+      - MSG
+      - NDD
+      - NYD
+      - NYP
+      - OFU
+      - OHF
+      - OPT
+      - ORD
+      - ORF
+      - ORM
+      - OVR
+      - PAE
+      - PCS
+      - PEC
+      - PER
+      - PFA
+      - PKG
+      - PMT
+      - POD
+      - PPH
+      - PPN
+      - PRT
+      - PSC
+      - PSH
+      - PSS
+      - PST
+      - PUC
+      - QST
+      - RAJ
+      - RCC
+      - RCL
+      - REC
+      - REF
+      - REP
+      - RES
+      - RET
+      - SAT
+      - SCL
+      - SCS
+      - SDL
+      - SEC
+      - SEG
+      - SER
+      - SET
+      - SOC
+      - SPS
+      - SPT
+      - SRA
+      - SRG
+      - SUR
+      - SYA
+      - TAK
+      - TAL
+      - TAR
+      - TDT
+      - THC
+      - TMF
+      - TRC
+      - TRL
+      - TTC
+      - UNL
+      - URC
+      - VOR
+      - WAR
+      - WBF
+      - WBL
+      - WCT
+      - WDC
+      - WFL
+      - WHC
+      - WHF
+      - WIO
+      - WIS
+      - WKT
+      - WLB
+      - WLC
+      - WLS
+      - WMS
+      - WOP
+      - WOT
+      - WPC
+      - WPK
+      - WPL
+      - WPP
+      - WRC
+      - WRE
+      - WRI
+      - WRS
+      - WSS
+      - WSW
+      - WTV
+      - WWT
+      - WXD
+      - XTN
+      - '496'
+      - BYD
+      - BYP
+      - DCV
+      - ICT
+      - PDD
+      - PDO
+      - TSA
+      - UND
+      - HAZ
+      - ISF
+      - '913'
+      - '914'
+      - '915'
+      - '916'
+      - '316'
+      - BPC
+      - BPR
+      - BPS
+      - BPT
+      - CEM
+      - CMX
+      - COT
+      - CUV
+      - MXC
+      - MXH
+      - MXR
+      - MXV
+      - OVT
+      - PEN
+      - CTS
+      - LRC
+      - AMF
+      - BPI
+      - SCR
+      - AES
+      - NAV
+      - DLA
+      - PLA
+      - PSF
+      - CSF
+      - '894'
+      - '895'
+      - '896'
+      - '897'
+      - EMN
+      - SPF
+      - TSC
+      - HCR
+      - CNT
+      - CMM
+      - RNT
+      - PRF
+      - CSD
+      - HCD
+      - CSP
+      - GVP
+      - GVD
+      - HCP
+      - NCP
+      - NCD
+      - BUV
+      - COW
+      - HOS
+      - INP
+      - RAP
+      - SIE
+      - TAW
+      - OTD
+      - MES
+      - ENS
+      - ACF
+      - SLF
+      - BLR
+      - FLT
+      - '917'
+      - FCP
+      - GSI
+      - SMA
+      - CFI
+      - EXT
+      - EXY
+      - AAI
+      - CAS
+      - CCF
+      - CMC
+      - DCC
+      - DOF
+      - EDC
+      - EMS
+      - ERF
+      - FLC
+      - FUC
+      - GAS
+      - GTA
+      - HBL
+      - LBE
+      - LUC
+      - MLC
+      - PAC
+      - PCH
+      - PRC
+      - PRS
+      - PUD
+      - SCH
+      - STR
+      - STU
+      - TPA
+      - OCT
+      - STC
+      - EPC
+      - DPC
+      - STD
+      - RFC
+      - SYC
+      - SED
+      - MEC
+      - SUF
+      - IAC
+      - CFS
+      - BTF
+      - ESS
+      - AMD
+      - ORC
+      - LIF
+      - PCF
+      - GIO
+      - TLX
+      - GAT
+      - LBL
+      - LCG
+      - LBF
+      - HLS
+      - IMP
+      - CIF
+      - CCE
+      - EDN
+      - HET
+      - PMU
+      - HEL
+      - STM
+      - TOL
+      - VAC
+      - PRP
+      - PDC
+      - SBC
+      - PFC
+      - TDR
+      - OTH
+      - DTH
+      - ODO
+      - DDO
+      - AWB
+      - CYC
+      - DEC
+      - FAF
+      - GRI
+      - LCL
+      - PCC
+      - PPF
+      - TPF
+      - WVF
+      - CSR
+      - '27'
+      - GSC
+      - ATC
+      - ECV
+      - GAR
+      - BTR
+      - CRD
+      - IVT
+      - TAP
+      - SEN
+      - IVP
+      - IBP
+      - COC
+      - DRY
+      - FOB
+      - EWC
+      - HTS
+      - DSB
+      - HTC
+      - FAH
+      - EIC
+      - NPC
+      - LSF
+      - AHD
+      - ESV
+      - FCC
+      - PEP
+      - OGA
+      - MFE
+      - CAH
+      - GOA
+      - '75'
+      - CBT
+      - DCT
+      - '921'
+      - '922'
+      - COV
+      - DBR
+      - IAT
+      - POM
+      - ACI
+      - ASF
+      - BOK
+      - CDD
+      - CDF
+      - COF
+      - CVE
+      - DCH
+      - DDP
+      - DKF
+      - DMI
+      - ESC
+      - EXA
+      - EXO
+      - LCH
+      - PES
+      - VMS
+      - SRC
+      - CFE
+      - CDA
+      - IEC
+      - DGS
+      - HAS
+      - '701'
+      - '750'
+      - '751'
+      - '753'
+      - '754'
+      - '755'
+      - '756'
+      - '1401'
+      - '1402'
+      - '1403'
+      - DTF
+      - OTF
+      - SRD
+      - SRO
+      - '1900'
+      - '2000'
+      - '2100'
+      - INF
+      - DDT
+      - DUF
+      - EMF
+      - LYO
+      - LYD
+      - '999'
+      - '145'
+      - ADV
+      - AMB
+      - ARB
+      - BEY
+      - BKA
+      - BSS
+      - CBL
+      - CFL
+      - CTF
+      - DAA
+      - DEM
+      - FAK
+      - FCB
+      - GSS
+      - HAN
+      - HHB
+      - HRS
+      - HZC
+      - IFC
+      - LAB
+      - LFC
+      - MIN
+      - MNC
+      - MSC
+      - OCH
+      - PIR
+      - POS
+      - PTS
+      - PWT
+      - PYS
+      - RAM
+      - RLS
+      - RMC
+      - SPC
+      - SSF
+      - STO
+      - STP
+      - SWC
+      - TAY
+      - TER
+      - TRM
+      - WEA
+      - WFG
+      - WFH
+      - IFF
+      - CME
+      - MDF
+      - CPV
+      - EMA
+      - EPF
+      - TPC
+      - GOF
+      - LOM
+      - ISE
+      - STF
+      - CSU
+      - AHF
+      - MEF
+      - FID
+      - LCK
+      - BYC
+      - BCD
+      - SO1
+      - SO2
+      - SO3
+      - COR
+      - TRE
+      - LSK
+      - DON
+      - CTM
+      - DCK
+      - RPK
+      - FGT
+      - CHF
+      - BRF
+      - MKF
+      - FES
+      - CLM
+      - PDR
+      - AVP
+      - GBB
+      - GLF
+      - GLT
+      - MOTLF
+      - MOTMF
+      - TROLF
+      - TROMF
+      - REBAT
+      - ASCMB
+      - SPCRV
+      - SPCAS
+      - PENNY
+      - WELLF
+      - WELMF
+      - BAMLF
+      - BAMMF
+      - SWTLF
+      - ECOLF
+      - ECOMF
+      - SRVLF
+      - SRVMF
+      - N22LF
+      - N23LF
+      - OURLF
+      - GLYLF
+      - GLYMF
+      - PNKLF
+      - PECLF
+      - GRNLF
+      - SWTMF
+      - MKU
+      - EVC
+      - APA
+      - ARA
+      - GAV
+      - REB
+      - SEL
+      - ABG
+      - ICG
+      - TET
+      - PAF
+      - OSO
+      - RSP
+      - MIF
+      - SPL
+      - SPA
+      - SPO
+      - AFS
+      - NCH
+      - ASM
+      - LGP
+      - '444'
+      - CNA
+      - DEB
+      - DOM
+      - EGY
+      - FER
+      - FIM
+      - FOR
+      - FRA
+      - FUM
+      - HRT
+      - MAU
+      - PCD
+      - PNL
+      - PPC
+      - RED
+      - REI
+      - SLU
+      - VET
+      - WAS
+      - WAT
+      - BIN
+      - '206'
+      - PLS
+      - OCS
+      - TPS
+      - BUP
+      - RBU
+      - CMR
+      - SPQ
+      - IMF
+      - IMV
+      - BLD
+      - '1404'
+      - '1405'
+      - '1406'
+      - ENF
+      - ENV
+      - PRO
+      - PRV
+      - WAF
+      - WAV
+      - EPS
+      - AKS
+      - CCT
+      - ECC
+      - HIS
+      - PRD
+      - TRR
+      - RIT
+      - GIT
+      - BAC
+      - CCR
+      - CLC
+      - DCR
+      - SC1
+      - FCH
+      - AFC
+      - WMF
+      - IFP
+      - OSP
+      - OCP
+      - DSP
+      - DCP
+      - CBC
+      - BRT
+      - ECH
+      - OID
+      - OCR
+      - RPT
+      - SOS
+      - TGS
+      - TKP
+      - WSC
+      - SFA
+      - HHC
+      - RHC
+      - IFA
+      - FLB
+      - LWS
+      - MFD
+      - SEP
+      - SCA
+      - PHL
+      - JAM
+      - VGM
+      - HSB
+      - PFS
+      - CCS
+      - DTY
+      - RNR
+      - RCD
+      - DRP
+      - PKU
+      - EBP
+      - LFD
+      - CPL
+      - AGM
+      - APH
+      - FSI
+      - FWS
+      - NHT
+      - EPA
+      - CPS
+      - USL
+      - NMF
+      - RCO
+      - ROS
+      - OVS
+      - TIV
+      - TMR
+      - RER
+      - FTA
+      - RBY
+      - RBI
+      - RBV
+      - RBE
+      - WAC
+      - ABT
+      - CON
+      - QCC
+      - SUN
+      - SBS
+      - SDV
+      - NGT
+      - GTD
+      - ASR
+      - SGR
+      - SOG
+      - '1013'
+      - '101'
+      - '1014'
+      - DTZ
+      - '919'
+      - '923'
+      - WTT
+    referenceNumber:
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          type: string
+          description: "C.H. Robinson defined code for reference number types. Here is a list of the most commonly used reference number types: \n\n`SHID` - Shipment ID #, `MBOL` - Master Bill of Lading #, `PO` - Purchase Order #, `BOL` - Bill of Lading #, `CRID` - Customer Specific Ref Number, `CUSTPO` - Customer PO Number, `DEL` - Delivery #, `JNO` - Job Number, `PU` - Pickup #, `CON` - Customer Order Number, `APPT` - Appointment Number \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ReferenceNumberTypes.xlsx\" target=\"_blank\">here</a>."
+          enum:
+          - SHID
+          - MBOL
+          - PO
+          - BOL
+          - CFRM
+          - CRID
+          - CUSTPO
+          - DEL
+          - DIST
+          - FIN
+          - GL
+          - JNO
+          - PU
+          - RANumber
+          - RLPRO
+          - MREF
+          - Empty
+          - PRO
+          - CCN
+          - SBOL
+          - CON
+          - APPT
+          - CHRW_ID
+          - FDA
+          - IREF
+          - LIC
+          - ORD
+          - PLU
+          - SCAC
+          - SEAL
+          - SKU
+          - SREF
+          - STCC
+          - TEB
+          - VPO
+          - WB
+          - XXXX
+          - TRIA
+          - TRANS
+          - GCC
+          - SDATE
+          - CDATE
+          - ACCT
+          - CCTR
+          - IGM
+          - GIGM
+          - LIGM
+          - SMTP
+          - PERMIT
+          - RNO
+          - DVCN
+          - PRCL
+          - CPUC
+          - SHPMD
+          - AFR
+          - BUYID
+          - VNDID
+          - DIV
+          - DEPT
+          - POTYPE
+          - GRGI
+          - DUNS
+          - PALLETREF
+          - CITTN
+          - CIN
+          - SHIPWITH
+          - PN
+          - UPC
+          - PRCD
+          - VESSEL
+          - VOYAGE
+          - FN
+          - FEEDVESS
+          - FEEDVOY
+          - SHIPREF
+          - CBL
+          - SPAC
+          - POLN
+          - VPOLN
+          - EIN
+          - CNSG
+          - PROFITCTR
+          - MFGPART
+          - PACKSLIP
+          - THIRDPRTY
+          - DEFATTR
+          - FSTRK
+          - FOItemID
+          - POLineNum
+          - PARCELSPC
+          - CNS1
+          - CNS2
+          - CNS3
+          - CNS4
+          - CNS5
+          - CNS6
+          - CNS7
+          - TREF
+          - VREF
+          - UPRICE
+          - FWPARTY
+          - BYPARTY
+          - HBL
+          - CBP
+          - TRANSFER
+          - SO
+          - ORDTRK
+          - QUOTEID
+          - EQT
+          - BOOTH
+          - TS
+          - 'OH #'
+          - CNTNR
+          - VAS
+          - Size
+          - Color
+          - Style
+          - HCERT
+          - B#
+          - ETMSID
+          - 214-IMO
+          - SHPWeight
+          - SHPVolume
+          - SHPDims
+          - SERIALIZED
+          - SERIALNUM
+          - CPSIA
+          - EDIINVREF
+          - SQID
+          - QSeqNum
+          - OuterPkStu
+          - GLC
+          - COMP
+          - COST
+          - DTYGL
+          - DTYCC
+          - BRKGL
+          - BRKCC
+          - GPS
+          - IAC
+          - WHRCT
+          - ERGUID
+          - SONUM
+          - CCNUM
+          - PrimCCNUM
+          - PrevCCNUM
+          - CMRN
+          - TRANSSHIP
+          - PGIDATE
+          - AESFIL
+          - CUSTQUOTID
+          - QUOTETRACE
+          - ODATE
+          - FRCLS
+          - NMFC
+          - OrderItemId
+        value:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: The actual value of the reference number.
+  securitySchemes:
+    sandbox:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt

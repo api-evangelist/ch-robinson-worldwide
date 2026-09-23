@@ -1,0 +1,38 @@
+{
+  "provider": "ch-robinson-worldwide",
+  "sources": [
+    "_original/ch-robinson-worldwide-openapi.yml"
+  ],
+  "outputs": [
+    "ch-robinson-worldwide-authentication-api-openapi.yml",
+    "ch-robinson-worldwide-documents-api-openapi.yml",
+    "ch-robinson-worldwide-events-api-openapi.yml",
+    "ch-robinson-worldwide-financials-api-openapi.yml",
+    "ch-robinson-worldwide-labels-api-openapi.yml",
+    "ch-robinson-worldwide-orders-and-booking-api-openapi.yml",
+    "ch-robinson-worldwide-rating-api-openapi.yml",
+    "ch-robinson-worldwide-shipments-api-openapi.yml",
+    "ch-robinson-worldwide-visibility-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "ch-robinson-worldwide-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/ch-robinson-worldwide-rest-apis-openapi.yml: archived document superseded by a larger archived document",
+    "ch-robinson-worldwide-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ch-robinson-worldwide-documents-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ch-robinson-worldwide-events-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ch-robinson-worldwide-financials-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ch-robinson-worldwide-labels-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ch-robinson-worldwide-orders-and-booking-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ch-robinson-worldwide-rating-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ch-robinson-worldwide-shipments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "ch-robinson-worldwide-visibility-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

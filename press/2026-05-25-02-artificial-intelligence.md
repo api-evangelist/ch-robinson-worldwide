@@ -1,7 +1,9 @@
 ---
 title: Artificial Intelligence
 url: https://www.chrobinson.com/en-us/about-us/newsroom/tags/artificial-intelligence/
-date: '2026-05-25'
+published: ''
+date_basis: harvested
+harvested: '2026-05-25'
 query: '"C.H. Robinson Worldwide" press release artificial intelligence'
 position: 2
 source: serpapi-google
