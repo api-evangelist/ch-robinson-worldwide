@@ -19,7 +19,7 @@ paths:
   /v1/oauth/token:
     post:
       description: Allows partner to retrieve their own auth token.
-      operationId: Generate Token
+      operationId: GenerateToken
       security: []
       tags:
       - Authentication
@@ -77,6 +77,8 @@ paths:
           description: Internal Server Error. Please contact you C.H. Robinson rep.
       summary: Generate token
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Generate Token
 components:
   schemas:
     error404:
@@ -97,45 +99,6 @@ components:
           type: string
           description: Specifies issue
           example: Not Found
-    error401:
-      required:
-      - statusCode
-      - error
-      - message
-      properties:
-        statusCode:
-          type: integer
-          description: Error code
-          example: 401
-        error:
-          type: string
-          description: Detail about the error status code
-        message:
-          type: string
-          description: Specifies issue
-        attributes:
-          type: object
-          properties:
-            error:
-              type: string
-    tokenSuccessResponse:
-      properties:
-        token_type:
-          type: string
-          description: Indicates type of token received. **Will always be a Bearer token.**
-          example: Bearer
-        expires_in:
-          type: integer
-          description: Amount of time token is valid. **Will always be 86400 seconds (24 hours).**
-          example: 86400
-        access_token:
-          type: string
-          description: Returned token that will be used as the bearer token on all subsequent API calls.
-          example: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik1This is just an example token that won't work for anyone.FpbmluZy1hdXRoLmNocm9iaW5zb24uY29tLyIsInN1YiI6Im1BbVJ6RXVGejdQWUpYcVFXSlh4cnBldWdrN2tEQXdCQGNsaWVudHMiLCJhdWQiOiJodHRwczovL2luYXZpc3BoZXJlLmNocm9iaW5zb24uY29tIiwiaWF0IjoxNTUxMTk0MzQ5LCJleHAiOjE1NTEyODA3NDksImF6cCI6Im1BbVJ6RXVGejdQWUpYcVFXSlh4cnBldWdrN2tEQXdCIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.YsDMHGaPBuLOgBCDmhLm9xyVwyxHWueefrcVpSNOIbRuQYd0Sua68znIQENFEolCbipwH8npCCSl2eGXrhmP2kALhDtPcLyypjzhCPS-4lqT4iDOa7Ll9Ek2H2sSPb4ix91bp7Up25sAROHY8nq16SR160vePelmt78q-akrD_KDVBgToLLaV0Eukpim_H2aEspIaVby6eCehc40bFuCQuipSWZXafh5pnp1j2dS6JP4yL2JrvDTUem6_oEdEWY4Q-ppvIj8JA4zU4qjidNI59RZPNWAo8BiHk0yD7sGiPQrm4l7ZFLRkO4SnCl88n9Y7bgL02JCOjRVXiqKDPUCMw
-        scope:
-          type: string
-          description: Defines token access.
-          example: read:status
     error400:
       properties:
         message:
@@ -182,6 +145,24 @@ components:
           type: string
           description: Specifies issue
           example: Invalid customerCode
+    tokenSuccessResponse:
+      properties:
+        token_type:
+          type: string
+          description: Indicates type of token received. **Will always be a Bearer token.**
+          example: Bearer
+        expires_in:
+          type: integer
+          description: Amount of time token is valid. **Will always be 86400 seconds (24 hours).**
+          example: 86400
+        access_token:
+          type: string
+          description: Returned token that will be used as the bearer token on all subsequent API calls.
+          example: eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik1This is just an example token that won't work for anyone.FpbmluZy1hdXRoLmNocm9iaW5zb24uY29tLyIsInN1YiI6Im1BbVJ6RXVGejdQWUpYcVFXSlh4cnBldWdrN2tEQXdCQGNsaWVudHMiLCJhdWQiOiJodHRwczovL2luYXZpc3BoZXJlLmNocm9iaW5zb24uY29tIiwiaWF0IjoxNTUxMTk0MzQ5LCJleHAiOjE1NTEyODA3NDksImF6cCI6Im1BbVJ6RXVGejdQWUpYcVFXSlh4cnBldWdrN2tEQXdCIiwiZ3R5IjoiY2xpZW50LWNyZWRlbnRpYWxzIn0.YsDMHGaPBuLOgBCDmhLm9xyVwyxHWueefrcVpSNOIbRuQYd0Sua68znIQENFEolCbipwH8npCCSl2eGXrhmP2kALhDtPcLyypjzhCPS-4lqT4iDOa7Ll9Ek2H2sSPb4ix91bp7Up25sAROHY8nq16SR160vePelmt78q-akrD_KDVBgToLLaV0Eukpim_H2aEspIaVby6eCehc40bFuCQuipSWZXafh5pnp1j2dS6JP4yL2JrvDTUem6_oEdEWY4Q-ppvIj8JA4zU4qjidNI59RZPNWAo8BiHk0yD7sGiPQrm4l7ZFLRkO4SnCl88n9Y7bgL02JCOjRVXiqKDPUCMw
+        scope:
+          type: string
+          description: Defines token access.
+          example: read:status
     tokenRequest:
       required:
       - client_id
@@ -205,6 +186,27 @@ components:
           type: string
           description: Static identifier allowing authorization token to be created. "client_credentials"
           example: client_credentials
+    error401:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 401
+        error:
+          type: string
+          description: Detail about the error status code
+        message:
+          type: string
+          description: Specifies issue
+        attributes:
+          type: object
+          properties:
+            error:
+              type: string
   securitySchemes:
     sandbox:
       type: http

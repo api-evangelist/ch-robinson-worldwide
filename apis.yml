@@ -137,9 +137,10 @@ apis:
   humanURL: https://developer.chrobinson.com/carrier
   baseURL: https://api.navisphere.com
   tags:
-  - Financial
+  - Finance
   tags_raw:
   - Financials
+  - Financial
   properties:
   - type: OpenAPI
     url: openapi/ch-robinson-worldwide-financials-api-openapi.yml

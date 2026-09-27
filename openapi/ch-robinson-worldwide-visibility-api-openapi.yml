@@ -20,7 +20,7 @@ paths:
     post:
       description: Post a shipment create into Navisphere® Vision and/or Navisphere® Analytics.
       x-beta: true
-      operationId: Visibility Shipment Create
+      operationId: VisibilityShipmentCreate
       tags:
       - Visibility
       requestBody:
@@ -181,9 +181,11 @@ paths:
           description: Internal Server Error. Please contact your C.H. Robinson rep.
       summary: Visibility shipment create
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Visibility Shipment Create
     get:
       description: Allows partner to retrieve shipments.
-      operationId: Visibility GET Shipments
+      operationId: VisibilityGETShipments
       tags:
       - Visibility
       parameters:
@@ -386,10 +388,12 @@ paths:
           description: Internal Server Error. Please contact you C.H. Robinson Rep.
       summary: Visibility GET shipments
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Visibility GET Shipments
   /v2/visibility/shipments/{shipmentNumber}:
     delete:
       description: Allows partner to delete an existing shipment in Navisphere® Vision and/or Navisphere® Analytics.
-      operationId: Visibility Shipment Delete
+      operationId: VisibilityShipmentDelete
       tags:
       - Visibility
       parameters:
@@ -439,11 +443,13 @@ paths:
           description: Internal Server Error. Please contact your C.H. Robinson rep.
       summary: Visibility shipment delete
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Visibility Shipment Delete
   /v2/visibility/invoices:
     post:
       description: Post a shipment invoice into Navisphere® Vision and/or Navisphere® Analytics.
       x-beta: true
-      operationId: Visibility Invoice Create
+      operationId: VisibilityInvoiceCreate
       tags:
       - Visibility
       requestBody:
@@ -525,11 +531,13 @@ paths:
           description: Internal Server Error. Please contact your C.H. Robinson rep.
       summary: Visibility invoice create
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Visibility Invoice Create
   /v2/visibility/orders:
     post:
       description: Post an order into Navisphere® Vision and/or Navisphere® Analytics.
       x-beta: true
-      operationId: Visibility Order Create
+      operationId: VisibilityOrderCreate
       tags:
       - Visibility
       requestBody:
@@ -657,10 +665,12 @@ paths:
           description: Internal Server Error. Please contact your C.H. Robinson rep.
       summary: Visibility order create
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Visibility Order Create
   /v2/visibility/milestones:
     get:
       description: Allows partner to retrieve events during the life cycle of the order and shipment.
-      operationId: Visibility GET Milestone
+      operationId: VisibilityGETMilestone
       tags:
       - Visibility
       parameters:
@@ -851,23 +861,10 @@ paths:
           description: Internal Server Error. Please contact you C.H. Robinson Rep.
       summary: Visibility GET milestone
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Visibility GET Milestone
 components:
   schemas:
-    cargoLiability:
-      type: object
-      description: Informs of carrier liability coverages.
-      properties:
-        perPound:
-          type: integer
-          description: Carrier’s liability per pound based on product attributes.
-        max:
-          type: integer
-          description: Carrier’s maximum liability based on product attributes.
-        amount:
-          type: integer
-          description: Calculated liability coverage for specific quote based on product attributes.
-        currencyCode:
-          $ref: '#/components/schemas/currencyCodeEnum'
     distanceUomEnum:
       type: string
       description: Unit of measure for distance parameters.
@@ -986,92 +983,67 @@ components:
           description: Array of the Stops associated to the shipment.
           items:
             $ref: '#/components/schemas/referenceNumber'
-    stop:
-      type: object
-      required:
-      - type
-      - value
-      - orderNumbers
-      properties:
-        orderNumbers:
-          type: array
-          description: Array of the Order numbers associated to the shipment.
-          items:
+    rates:
+      type: array
+      description: An array of all rates associated to a quote
+      items:
+        type: object
+        properties:
+          rateId:
+            type: number
+            format: float
+            description: ID of the rate that is provided on successfully calling the Rating API.
+          totalRate:
+            type: number
+            format: float
+            description: Currency amount of the total rate
+          unitRate:
+            type: number
+            format: float
+            description: Currency amount of the unit rate
+          quantity:
+            type: number
+            format: float
+            description: Defines how many units there are
+          rateCode:
+            $ref: '#/components/schemas/rateCodeEnum'
+          rateCodeValue:
             type: string
-        actualArriveDateTime:
-          type: string
-          format: date-time
-          description: An ISO8601 UTC date-time
-        actualDepartDateTime:
-          type: string
-          format: date-time
-          description: An ISO8601 UTC date-time
-        locations:
-          type: array
-          items:
-            $ref: '#/components/schemas/visibilityLocation'
-    containerInformation:
-      type: object
-      required:
-      - containerNumber
-      properties:
-        containerNumber:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Number on the container associated to the shipment.
-        containerType:
-          type: string
-          description: What Type of Container is associated to the shipment
-          enum:
-          - L
-          - LCL
-          - IPLT
-          - 20HC
-          - '20'
-          - 20OT
-          - 20FR
-          - 20RF
-          - 20DC
-          - 20DV
-          - 20GP
-          - 45HC
-          - 45HR
-          - 45UI
-          - 40HC
-          - '40'
-          - 40OT
-          - 40HR
-          - 40RF
-          - 40FR
-          - 40DC
-          - 40DV
-          - 40GP
-          - 40HQ
-          - 45HQ
-          - 40NOR
-        containerInformation:
-          minimum: 1
-          maximum: 20
-          type: string
-          description: Information pertaining to the container
-        containerWeight:
-          type: number
-          description: Weight of the container
-        weightUnitOfMeasure:
-          $ref: '#/components/schemas/weightUomEnum'
-    transportModeEnum:
+            description: Description of the rateCode
+          currencyCode:
+            $ref: '#/components/schemas/currencyCodeEnum'
+          isOptional:
+            type: boolean
+            description: Defines if the rate is optional. If the isOptional flag is set to false, the currency amount of the assecorial will be included in the totalCharge.
+    equipmentCodeEnum:
       type: string
-      description: "Defines the mode:\n  * `LTL` - Less Than Truckload\n  * `TL` - Truckload\n  * `Air` - Air\n  * `Ocean` - Ocean\n  * `Bulk` - Bulk\n  * `Consol` - Consolidated\n  * `Flatbed` - Flatbed\n  * `IMDL` - Intermodal\n"
+      description: '### <span style="color:Red">**Only one container type per rating request is currently supported.</span>'
       enum:
-      - LTL
-      - TL
-      - Air
-      - Ocean
-      - Bulk
-      - Consol
+      - Van
+      - Reefer
       - Flatbed
-      - IMDL
+      - Lcl
+      - StepDeck
+      - FlatHotshot
+      - Container20
+      - Container40
+      - Container40HighCube
+      - Container45HighCube
+      - Container20FlatRack
+      - Container40FlatRack
+      - Container40HighCubeFlatRack
+      - Container45FlatRack
+      - Container20OpenTop
+      - Container40OpenTop
+      - Container20Reefer
+      - Container40Reefer
+      - Container40HighCubeReefer
+      - Container45Reefer
+      - Container20ReeferDryUsage
+      - Container40ReeferDryUsage
+      - Container40HighCubeReeferDryUsage
+      - Container45ReeferDryUsage
+      - Container20Platform
     packageCodeEnum:
       type: string
       description: "C.H. Robinson defined code for packaging type/code. Here is a list of the most commonly used packagingCodes: \n\n`BAL` - Bale, `BAG` - Bags, `BIN` - Bin, `BOX` - Boxes, `CTN` - Cartons  \n`CAS` - Case, `CRT` - Crates, `PKG` - Package, `EAC` - Eaches, `PLT` - Pallet, `PCS` - Pieces \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/PackageDescriptions.xlsx\" target=\"_blank\">here</a>."
@@ -1323,426 +1295,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/handlingUnit'
-    invoice:
-      required:
-      - invoiceNumber
-      - invoiceIssuer
-      - invoiceLevel
-      - number
-      - charges
-      - tenantId
-      type: object
-      properties:
-        invoiceNumber:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Invoice Number
-        customerName:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Name of the customer
-        tenantId:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: This ID indicates who the underlying customer is.
-        invoiceLevel:
-          type: string
-          minimum: 1
-          maximum: 10
-          description: Invoice Level
-          enum:
-          - shipment
-          - order
-        invoiceIssuer:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Who is issuing the invoice to the customer?
-        number:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Number of either the shipment or order, depending on the invoice level
-        invoiceDate:
-          type: string
-          format: date-time
-          description: An ISO8601 UTC date-time
-        invoiceWeight:
-          type: number
-          description: Invoice weight
-        weightUnitOfMeasure:
-          $ref: '#/components/schemas/weightUomEnum'
-        sourceName:
-          type: string
-          minimum: 1
-          maximum: 60
-          description: Party managing and sending invoice. (Meant to help tie the invoice to the shipment/order.)
-        charges:
-          type: array
-          items:
-            $ref: '#/components/schemas/visibilityCharge'
-        referenceNumbers:
-          type: array
-          items:
-            $ref: '#/components/schemas/referenceNumber'
-    currencyCodeEnum:
-      type: string
-      description: "Code to indicate the currency being used. The most common currently in use with C.H. Robinson:\n\n* `USD` - US Dollar\n* `CAD` - Canadian Dollar \n* `MXN` - Mexican Peso\n* `EUR` - European Euro\n\n\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CurrencyCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
-      enum:
-      - USD
-      - CAD
-      - EUR
-      - MXN
-      - CHF
-      - GBP
-      - HUF
-      - CZK
-      - NZD
-      - PLN
-      - ZAR
-      - VEB
-      - VND
-      - TWD
-      - TRY
-      - SEK
-      - SGD
-      - RUB
-      - NOK
-      - HKD
-      - INR
-      - JPY
-      - CLP
-      - CNY
-      - DKK
-      - AUD
-      - BRL
-      - AED
-      - PEN
-      - THB
-      - ARS
-      - MYR
-      - VEF
-      - SAR
-      - BBD
-      - BHD
-      - BMD
-      - BSD
-      - ILS
-      - ISK
-      - KES
-      - KRW
-      - KWD
-      - OMR
-      - PHP
-      - PKR
-      - QAR
-      - RON
-      - TTD
-      - UAH
-      - LKR
-      - XPF
-      - UYU
-      - COP
-      - CRC
-      - FJD
-    equipmentCodeEnum:
-      type: string
-      description: '### <span style="color:Red">**Only one container type per rating request is currently supported.</span>'
-      enum:
-      - Van
-      - Reefer
-      - Flatbed
-      - Lcl
-      - StepDeck
-      - FlatHotshot
-      - Container20
-      - Container40
-      - Container40HighCube
-      - Container45HighCube
-      - Container20FlatRack
-      - Container40FlatRack
-      - Container40HighCubeFlatRack
-      - Container45FlatRack
-      - Container20OpenTop
-      - Container40OpenTop
-      - Container20Reefer
-      - Container40Reefer
-      - Container40HighCubeReefer
-      - Container45Reefer
-      - Container20ReeferDryUsage
-      - Container40ReeferDryUsage
-      - Container40HighCubeReeferDryUsage
-      - Container45ReeferDryUsage
-      - Container20Platform
-    incoTermsEnum:
-      type: string
-      description: "The Incoterms or International Commercial Terms are a series of pre-defined commercial terms published by the International Chamber of Commerce (ICC) relating to international commercial law.\n  * `DAT` - Delivered at Terminal\n  * `DAP` - Delivered at Place\n  * `CIF` - Cost Insurance & Freight\n  * `CPT` - Carriage Paid To\n  * `CIP` - Carriage & Insurance Paid To\n  * `DDP` - Delivered duty paid\n  * `EXW` - EX works\n  * `FCA` - Free carrier at\n  * `DPU` - Delivered at place unloaded\n  * `FAS` - Free alongside ship\n  * `FOB` - Free on Board\n  * `CFR` - Cost and Freight\n  * `PPD` - Prepaid\n  * `COL` - Collect\n  * `DAF` - Delivery at Frontier\n  * `DDU` - Delivery Duty Unpaid\n  * `DEQ` - Delivery Ex-Quay, Duty Unpaid\n  * `DES` - Delivery Ex-Ship\n"
-      enum:
-      - DAT
-      - DAP
-      - CIF
-      - CPT
-      - CIP
-      - DDP
-      - EXW
-      - FCA
-      - DPU
-      - FAS
-      - FOB
-      - CFR
-      - PPD
-      - COL
-      - DAF
-      - DDU
-      - DEQ
-      - DES
-    visibilityCharge:
-      required:
-      - invoicedCurrency
-      - invoiceAmount
-      - invoiceLine
-      type: object
-      properties:
-        invoicedCurrency:
-          type: string
-          minimum: 1
-          maximum: 10
-          description: ISO 4217 currency code
-        invoiceAmount:
-          type: number
-          description: Amount invoiced per line item
-        code:
-          minimum: 1
-          maximum: 20
-          type: string
-          description: Standard Charge Code
-        invoiceLine:
-          type: integer
-          description: Invoice line
-        description:
-          type: string
-          minimum: 1
-          maximum: 100
-          description: Description of the charge code.
-    commodity:
-      required:
-      - pickLocSequenceNumber
-      - dropLocSequenceNumber
-      type: object
-      properties:
-        commodityId:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Unique identifier
-        orderNumber:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Indicates the order number associated to the item.
-        name:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Name of the commodity.
-        units:
-          type: number
-          minimum: 1
-          maximum: 50
-          description: Number of commodities.
-        sku:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Indicates the sku of the commodity.
-        plannerCode:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: The Planners Code associated to the commodity.
-        value:
-          type: number
-          minimum: 1
-          maximum: 50
-          description: Value of the commodity.
-        currencyCode:
-          type: string
-          minimum: 1
-          maximum: 10
-          description: ISO 4217 currency code
-        serialNumber:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Serial Number of the commodity.
-        partNumber:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Part Number of the commodity.
-        isHazMat:
-          type: boolean
-          description: Flag indicates if the commodity is Hazmat.
-        pickLocSequenceNumber:
-          type: integer
-          description: The associated pick location sequence number.
-        dropLocSequenceNumber:
-          type: integer
-          description: The associated drop location sequence number.
-        category:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Category of the commodity, model number or other categorization descriptor.
-        description:
-          type: string
-          minimum: 1
-          maximum: 100
-          description: Description of the item.
-        packagingType:
-          $ref: '#/components/schemas/packageCodeEnum'
-        weight:
-          type: number
-          description: Total Weight of the item.
-          format: float
-          example: 45000
-        weightUnitOfMeasure:
-          $ref: '#/components/schemas/weightUomEnum'
-        packagingLength:
-          type: number
-          description: The length of the item's packaging.
-          format: float
-          example: 48
-        packagingWidth:
-          type: number
-          description: The width of the item's packaging.
-          format: float
-          example: 40
-        packagingHeight:
-          type: number
-          description: The height of the item's packaging.
-          format: float
-          example: 48
-        packagingUnitOfMeasure:
-          $ref: '#/components/schemas/linearUomEnum'
-        packagingVolume:
-          type: number
-          format: float
-          description: Volume of the item.
-          example: 7680
-        packagingVolumeUnitOfMeasure:
-          $ref: '#/components/schemas/volumeUomEnum'
-        packageQuantity:
-          type: number
-          format: float
-          description: Quantity of Packages.
-          example: 10
-        purchaseOrderNumber:
-          type: string
-          minimum: 1
-          maximum: 20
-          format: float
-          description: Purchase Order number for associated item.
-        costCenterCode:
-          type: number
-          minimum: 1
-          maximum: 10
-          format: float
-          description: Cost center code associated to the items.
-        referenceNumbers:
-          type: array
-          description: Reference number associated to the given level.
-          items:
-            $ref: '#/components/schemas/referenceNumber'
-    error404:
-      required:
-      - statusCode
-      - error
-      - message
-      properties:
-        statusCode:
-          type: integer
-          description: Error code
-          example: 404
-        error:
-          type: string
-          description: Detail about the error status code
-          example: Not Found
-        message:
-          type: string
-          description: Specifies issue
-          example: Not Found
-    error400:
-      properties:
-        message:
-          type: string
-        path:
-          type: array
-          items:
-            type: string
-        type:
-          type: string
-        context:
-          type: object
-          properties:
-            child:
-              type: string
-            value:
-              type: array
-              items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                  value:
-                    type: string
-            key:
-              type: string
-            label:
-              type: string
-    rates:
-      type: array
-      description: An array of all rates associated to a quote
-      items:
-        type: object
-        properties:
-          rateId:
-            type: number
-            format: float
-            description: ID of the rate that is provided on successfully calling the Rating API.
-          totalRate:
-            type: number
-            format: float
-            description: Currency amount of the total rate
-          unitRate:
-            type: number
-            format: float
-            description: Currency amount of the unit rate
-          quantity:
-            type: number
-            format: float
-            description: Defines how many units there are
-          rateCode:
-            $ref: '#/components/schemas/rateCodeEnum'
-          rateCodeValue:
-            type: string
-            description: Description of the rateCode
-          currencyCode:
-            $ref: '#/components/schemas/currencyCodeEnum'
-          isOptional:
-            type: boolean
-            description: Defines if the rate is optional. If the isOptional flag is set to false, the currency amount of the assecorial will be included in the totalCharge.
-    linearUomEnum:
-      type: string
-      description: Unit of measure for height, width, and length parameters.
-      enum:
-      - Inches
-      - Feet
-      - Centimeters
-      - Meters
     freightClassEnum:
       type: string
       description: Indicates the freight class on this shipment. (Freight Class is a voluntary standard that provides a comparison of commodities moving in interstate, intrastate and foreign commerce. It is similar in concept to the groupings or grading systems that serve many other industries.)
@@ -1765,373 +1317,6 @@ components:
       - '300'
       - '400'
       - '500'
-    weightUomEnum:
-      type: string
-      description: Unit of measure for weight parameters.
-      enum:
-      - Pounds
-      - Kilograms
-    handlingUnit:
-      type: object
-      description: Object containing commodity (or group of commodities)
-      required:
-      - locations
-      - items
-      properties:
-        handlingUnitId:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Handling unit ID
-        orderNumbers:
-          type: array
-          description: Array of the Order numbers associated to the handling units.
-          minimum: 1
-          maximum: 25
-          items:
-            type: string
-        packagingType:
-          $ref: '#/components/schemas/packageCodeEnum'
-        quantity:
-          type: number
-          description: Quantity of handling units
-        freightClass:
-          $ref: '#/components/schemas/freightClassEnum'
-        weight:
-          type: number
-          description: Total Weight of the item.
-          format: float
-          example: 45000
-        weightUnitOfMeasure:
-          $ref: '#/components/schemas/weightUomEnum'
-        packagingLength:
-          type: number
-          description: The length of the item's packaging.
-          format: float
-          example: 48
-        packagingWidth:
-          type: number
-          description: The width of the item's packaging.
-          format: float
-          example: 40
-        packagingHeight:
-          type: number
-          description: The height of the item's packaging.
-          format: float
-          example: 48
-        packagingUnitOfMeasure:
-          $ref: '#/components/schemas/linearUomEnum'
-        packageTrackingNumber:
-          type: string
-          minimum: 1
-          maximum: 150
-          description: Package Tracking Number
-        volume:
-          type: number
-          description: The volume of the item's packaging
-        volumeUnitOfMeasure:
-          $ref: '#/components/schemas/volumeUomEnum'
-        containerNumber:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Container Number
-        description:
-          type: string
-          minimum: 1
-          maximum: 100
-          description: Description of the handling unit.
-        pickLocSequenceNumber:
-          type: integer
-          description: The associated stop sequence number for which this handling unit will be picked up.
-        dropLocSequenceNumber:
-          type: integer
-          description: The associated stop sequence number for which this handling unit will be delivered.
-        commodities:
-          type: array
-          items:
-            $ref: '#/components/schemas/commodity'
-    error401:
-      required:
-      - statusCode
-      - error
-      - message
-      properties:
-        statusCode:
-          type: integer
-          description: Error code
-          example: 401
-        error:
-          type: string
-          description: Detail about the error status code
-        message:
-          type: string
-          description: Specifies issue
-        attributes:
-          type: object
-          properties:
-            error:
-              type: string
-    shipments:
-      type: object
-      required:
-      - shipmentNumber
-      - orderNumbers
-      - tenantId
-      - stops
-      - commodities
-      - mode
-      properties:
-        shipmentNumber:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Shipment Number associated to the shipment.
-        tenantId:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: This ID indicates who the underlying customer is.
-        trackingNumber:
-          type: string
-          minimum: 1
-          maximum: 150
-          description: Tracking number associated to the shipment.
-        accountCode:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Account code associated to the shipment.
-        carrierName:
-          type: string
-          minimum: 1
-          maximum: 100
-          description: Name of the carrier
-        scac:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: SCAC code associated to the shipment.
-        carrierProNumber:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Carrier Pro number
-        trailerNumber:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Trailer Number
-        customerName:
-          type: string
-          minimum: 1
-          maximum: 100
-          description: Customer Name
-        equipmentType:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Equipment type on the shipment
-        mode:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Mode of the shipment.
-          enum:
-          - AIR
-          - OCEAN
-          - TRUCKLOAD
-          - LTL
-          - OPENDECK
-          - PARCEL
-          - RAIL
-          - INTERMODAL
-        containerInformation:
-          type: array
-          description: Array of the Containers associated to the shipment.
-          items:
-            $ref: '#/components/schemas/containerInformation'
-        shipmentDistance:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Total shipment distance as calculated by the customer's standard contracts.
-        shipmentDistanceUnitOfMeasure:
-          $ref: '#/components/schemas/distanceUomEnum'
-        isPremiumFreight:
-          type: boolean
-          description: Is the freight delivered at a premium or expedited service level by the provider?
-        movementType:
-          type: string
-          description: Indicates type of movement.
-        isManaged:
-          type: boolean
-          description: Is the freight shipped in a planned, mangaged capacity?
-        teuCount:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Count of Twenty Foot Equivalent Unit(s) teid to the shipment
-        incoLocation:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Named place for incoterm
-        incoTerms:
-          $ref: '#/components/schemas/incoTermsEnum'
-        orderNumbers:
-          type: array
-          description: Array of the Order numbers associated to the shipment.
-          minimum: 1
-          maximum: 25
-          items:
-            type: string
-        canceled:
-          type: boolean
-          description: Is the shipment canceled?
-        highValue:
-          type: boolean
-          description: Does the shipment contain goods that are of high value?
-        forwarder:
-          type: string
-          description: The name of the forwarder
-          minimum: 1
-          maximum: 200
-        stops:
-          type: array
-          description: Array of the Stops associated to the shipment.
-          items:
-            $ref: '#/components/schemas/stop'
-        handlingUnits:
-          type: array
-          description: Array of the commodities associated to the shipment.
-          items:
-            $ref: '#/components/schemas/handlingUnit'
-        referenceNumbers:
-          type: array
-          description: Array of the referenceNumbers associated to the shipment.
-          items:
-            $ref: '#/components/schemas/referenceNumber'
-    quoteSummaries:
-      properties:
-        quoteSummaries:
-          type: array
-          description: Array of quotes.
-          items:
-            type: object
-            properties:
-              quoteId:
-                type: integer
-                format: int64
-                description: ID of the quote that is provided on successfully calling the rating API.
-              carrier:
-                type: object
-                description: Identifies the carrier associated to the quote.
-                properties:
-                  carrierCode:
-                    type: string
-                    description: The unique identifier assigned to a carrier within C.H. Robinson.
-                  carrierName:
-                    type: string
-                    minimum: 1
-                    maximum: 50
-                    description: The name of the carrier.
-                  scac:
-                    type: string
-                    minimum: 1
-                    maximum: 10
-                    description: The SCAC code of a carrier if it has one.
-              customer:
-                type: object
-                description: C.H. Robinson customer associated to the quote.
-                properties:
-                  customerName:
-                    type: string
-                    minimum: 1
-                    maximum: 50
-                    description: Customer name associated to the quote.
-              totalCharge:
-                type: number
-                format: float
-                description: Total charge associated to the quote.
-              totalFreightCharge:
-                type: number
-                format: float
-                description: Total freight charge associated to the quote.
-              totalAccessorialCharge:
-                type: number
-                format: float
-                description: Total accessorial charge associated to the quote.
-              quoteExpirationDate:
-                type: string
-                format: date-time
-                description: An ISO8601 UTC date-time used to indicate the date the quote will no longer be valid.
-              transit:
-                type: object
-                description: Collection of transit information associated to the quote.
-                properties:
-                  minimumTransitDays:
-                    type: number
-                    format: float
-                    description: Minimum transit days.
-                  maximumTransitDays:
-                    type: number
-                    format: float
-                    description: Maximum transit days.
-                  minimumDeliveryDate:
-                    type: string
-                    format: date-time
-                    description: An ISO8601 UTC date-time used to indicate the minimum delivery date.
-                  maximumDeliveryDate:
-                    type: string
-                    format: date-time
-                    description: An ISO8601 UTC date-time used to indicate the maximum delivery date.
-                  originService:
-                    type: string
-                    description: Denotes whether an LTL carrier services the location terminal on their own (direct) or through the help of partner carriers who can service the location terminal on their behalf (indirect).
-                    enum:
-                    - Direct
-                    - Indirect
-                    - No Data
-                  destinationService:
-                    type: string
-                    description: Denotes whether an LTL carrier services the location terminal on their own (direct) or through the help of partner carriers who can service the location terminal on their behalf (indirect).
-                    enum:
-                    - Direct
-                    - Indirect
-                    - No Data
-              rates:
-                $ref: '#/components/schemas/rates'
-              transportModeType:
-                $ref: '#/components/schemas/transportModeEnum'
-              equipmentType:
-                $ref: '#/components/schemas/equipmentCodeEnum'
-              cargoLiability:
-                $ref: '#/components/schemas/cargoLiability'
-              distance:
-                type: number
-                description: Indicates rated distance.
-              quoteSource:
-                type: string
-                description: A field to indicate whether the quote returned is contracted, market or volume.
-    error403:
-      required:
-      - statusCode
-      - error
-      - message
-      properties:
-        statusCode:
-          type: integer
-          description: Error code
-          example: 403
-        error:
-          type: string
-          description: detail about the error status code
-          example: Forbidden
-        message:
-          type: string
-          description: Specifies issue
-          example: Invalid customerCode
     rateCodeEnum:
       type: string
       description: "C.H. Robinson defined code for rating code. Here is a list of the most commonly used rate codes: \n\n`400` - Line Haul, `405` - Fuel Surchage, `260` - Deliver Surchage, `IDL` - Inside Delivery, `IPU` - Inside Pickup \n`LFT` - Lift Gate or Forklift Service, `DET` - Detention, `DLA` - Delivery Limited Access, `PLA` - Pickup Limited Access \n`RES` - Residential Delivery Fee, `REP` - Residential Pickup Fee, `CSD` - Construction Site Delivery <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/RateCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
@@ -2921,6 +2106,89 @@ components:
       - '919'
       - '923'
       - WTT
+    containerInformation:
+      type: object
+      required:
+      - containerNumber
+      properties:
+        containerNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Number on the container associated to the shipment.
+        containerType:
+          type: string
+          description: What Type of Container is associated to the shipment
+          enum:
+          - L
+          - LCL
+          - IPLT
+          - 20HC
+          - '20'
+          - 20OT
+          - 20FR
+          - 20RF
+          - 20DC
+          - 20DV
+          - 20GP
+          - 45HC
+          - 45HR
+          - 45UI
+          - 40HC
+          - '40'
+          - 40OT
+          - 40HR
+          - 40RF
+          - 40FR
+          - 40DC
+          - 40DV
+          - 40GP
+          - 40HQ
+          - 45HQ
+          - 40NOR
+        containerInformation:
+          minimum: 1
+          maximum: 20
+          type: string
+          description: Information pertaining to the container
+        containerWeight:
+          type: number
+          description: Weight of the container
+        weightUnitOfMeasure:
+          $ref: '#/components/schemas/weightUomEnum'
+    transportModeEnum:
+      type: string
+      description: "Defines the mode:\n  * `LTL` - Less Than Truckload\n  * `TL` - Truckload\n  * `Air` - Air\n  * `Ocean` - Ocean\n  * `Bulk` - Bulk\n  * `Consol` - Consolidated\n  * `Flatbed` - Flatbed\n  * `IMDL` - Intermodal\n"
+      enum:
+      - LTL
+      - TL
+      - Air
+      - Ocean
+      - Bulk
+      - Consol
+      - Flatbed
+      - IMDL
+    cargoLiability:
+      type: object
+      description: Informs of carrier liability coverages.
+      properties:
+        perPound:
+          type: integer
+          description: Carrier’s liability per pound based on product attributes.
+        max:
+          type: integer
+          description: Carrier’s maximum liability based on product attributes.
+        amount:
+          type: integer
+          description: Calculated liability coverage for specific quote based on product attributes.
+        currencyCode:
+          $ref: '#/components/schemas/currencyCodeEnum'
+    weightUomEnum:
+      type: string
+      description: Unit of measure for weight parameters.
+      enum:
+      - Pounds
+      - Kilograms
     referenceNumber:
       type: object
       required:
@@ -3092,6 +2360,750 @@ components:
           minimum: 1
           maximum: 100
           description: The actual value of the reference number.
+    error404:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 404
+        error:
+          type: string
+          description: Detail about the error status code
+          example: Not Found
+        message:
+          type: string
+          description: Specifies issue
+          example: Not Found
+    handlingUnit:
+      type: object
+      description: Object containing commodity (or group of commodities)
+      required:
+      - locations
+      - items
+      properties:
+        handlingUnitId:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Handling unit ID
+        orderNumbers:
+          type: array
+          description: Array of the Order numbers associated to the handling units.
+          minimum: 1
+          maximum: 25
+          items:
+            type: string
+        packagingType:
+          $ref: '#/components/schemas/packageCodeEnum'
+        quantity:
+          type: number
+          description: Quantity of handling units
+        freightClass:
+          $ref: '#/components/schemas/freightClassEnum'
+        weight:
+          type: number
+          description: Total Weight of the item.
+          format: float
+          example: 45000
+        weightUnitOfMeasure:
+          $ref: '#/components/schemas/weightUomEnum'
+        packagingLength:
+          type: number
+          description: The length of the item's packaging.
+          format: float
+          example: 48
+        packagingWidth:
+          type: number
+          description: The width of the item's packaging.
+          format: float
+          example: 40
+        packagingHeight:
+          type: number
+          description: The height of the item's packaging.
+          format: float
+          example: 48
+        packagingUnitOfMeasure:
+          $ref: '#/components/schemas/linearUomEnum'
+        packageTrackingNumber:
+          type: string
+          minimum: 1
+          maximum: 150
+          description: Package Tracking Number
+        volume:
+          type: number
+          description: The volume of the item's packaging
+        volumeUnitOfMeasure:
+          $ref: '#/components/schemas/volumeUomEnum'
+        containerNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Container Number
+        description:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Description of the handling unit.
+        pickLocSequenceNumber:
+          type: integer
+          description: The associated stop sequence number for which this handling unit will be picked up.
+        dropLocSequenceNumber:
+          type: integer
+          description: The associated stop sequence number for which this handling unit will be delivered.
+        commodities:
+          type: array
+          items:
+            $ref: '#/components/schemas/commodity'
+    invoice:
+      required:
+      - invoiceNumber
+      - invoiceIssuer
+      - invoiceLevel
+      - number
+      - charges
+      - tenantId
+      type: object
+      properties:
+        invoiceNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Invoice Number
+        customerName:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Name of the customer
+        tenantId:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: This ID indicates who the underlying customer is.
+        invoiceLevel:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: Invoice Level
+          enum:
+          - shipment
+          - order
+        invoiceIssuer:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Who is issuing the invoice to the customer?
+        number:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Number of either the shipment or order, depending on the invoice level
+        invoiceDate:
+          type: string
+          format: date-time
+          description: An ISO8601 UTC date-time
+        invoiceWeight:
+          type: number
+          description: Invoice weight
+        weightUnitOfMeasure:
+          $ref: '#/components/schemas/weightUomEnum'
+        sourceName:
+          type: string
+          minimum: 1
+          maximum: 60
+          description: Party managing and sending invoice. (Meant to help tie the invoice to the shipment/order.)
+        charges:
+          type: array
+          items:
+            $ref: '#/components/schemas/visibilityCharge'
+        referenceNumbers:
+          type: array
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    shipments:
+      type: object
+      required:
+      - shipmentNumber
+      - orderNumbers
+      - tenantId
+      - stops
+      - commodities
+      - mode
+      properties:
+        shipmentNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Shipment Number associated to the shipment.
+        tenantId:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: This ID indicates who the underlying customer is.
+        trackingNumber:
+          type: string
+          minimum: 1
+          maximum: 150
+          description: Tracking number associated to the shipment.
+        accountCode:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Account code associated to the shipment.
+        carrierName:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Name of the carrier
+        scac:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: SCAC code associated to the shipment.
+        carrierProNumber:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Carrier Pro number
+        trailerNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Trailer Number
+        customerName:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Customer Name
+        equipmentType:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Equipment type on the shipment
+        mode:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Mode of the shipment.
+          enum:
+          - AIR
+          - OCEAN
+          - TRUCKLOAD
+          - LTL
+          - OPENDECK
+          - PARCEL
+          - RAIL
+          - INTERMODAL
+        containerInformation:
+          type: array
+          description: Array of the Containers associated to the shipment.
+          items:
+            $ref: '#/components/schemas/containerInformation'
+        shipmentDistance:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Total shipment distance as calculated by the customer's standard contracts.
+        shipmentDistanceUnitOfMeasure:
+          $ref: '#/components/schemas/distanceUomEnum'
+        isPremiumFreight:
+          type: boolean
+          description: Is the freight delivered at a premium or expedited service level by the provider?
+        movementType:
+          type: string
+          description: Indicates type of movement.
+        isManaged:
+          type: boolean
+          description: Is the freight shipped in a planned, mangaged capacity?
+        teuCount:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Count of Twenty Foot Equivalent Unit(s) teid to the shipment
+        incoLocation:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Named place for incoterm
+        incoTerms:
+          $ref: '#/components/schemas/incoTermsEnum'
+        orderNumbers:
+          type: array
+          description: Array of the Order numbers associated to the shipment.
+          minimum: 1
+          maximum: 25
+          items:
+            type: string
+        canceled:
+          type: boolean
+          description: Is the shipment canceled?
+        highValue:
+          type: boolean
+          description: Does the shipment contain goods that are of high value?
+        forwarder:
+          type: string
+          description: The name of the forwarder
+          minimum: 1
+          maximum: 200
+        stops:
+          type: array
+          description: Array of the Stops associated to the shipment.
+          items:
+            $ref: '#/components/schemas/stop'
+        handlingUnits:
+          type: array
+          description: Array of the commodities associated to the shipment.
+          items:
+            $ref: '#/components/schemas/handlingUnit'
+        referenceNumbers:
+          type: array
+          description: Array of the referenceNumbers associated to the shipment.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    error401:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 401
+        error:
+          type: string
+          description: Detail about the error status code
+        message:
+          type: string
+          description: Specifies issue
+        attributes:
+          type: object
+          properties:
+            error:
+              type: string
+    commodity:
+      required:
+      - pickLocSequenceNumber
+      - dropLocSequenceNumber
+      type: object
+      properties:
+        commodityId:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Unique identifier
+        orderNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Indicates the order number associated to the item.
+        name:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Name of the commodity.
+        units:
+          type: number
+          minimum: 1
+          maximum: 50
+          description: Number of commodities.
+        sku:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Indicates the sku of the commodity.
+        plannerCode:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: The Planners Code associated to the commodity.
+        value:
+          type: number
+          minimum: 1
+          maximum: 50
+          description: Value of the commodity.
+        currencyCode:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: ISO 4217 currency code
+        serialNumber:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Serial Number of the commodity.
+        partNumber:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Part Number of the commodity.
+        isHazMat:
+          type: boolean
+          description: Flag indicates if the commodity is Hazmat.
+        pickLocSequenceNumber:
+          type: integer
+          description: The associated pick location sequence number.
+        dropLocSequenceNumber:
+          type: integer
+          description: The associated drop location sequence number.
+        category:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Category of the commodity, model number or other categorization descriptor.
+        description:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Description of the item.
+        packagingType:
+          $ref: '#/components/schemas/packageCodeEnum'
+        weight:
+          type: number
+          description: Total Weight of the item.
+          format: float
+          example: 45000
+        weightUnitOfMeasure:
+          $ref: '#/components/schemas/weightUomEnum'
+        packagingLength:
+          type: number
+          description: The length of the item's packaging.
+          format: float
+          example: 48
+        packagingWidth:
+          type: number
+          description: The width of the item's packaging.
+          format: float
+          example: 40
+        packagingHeight:
+          type: number
+          description: The height of the item's packaging.
+          format: float
+          example: 48
+        packagingUnitOfMeasure:
+          $ref: '#/components/schemas/linearUomEnum'
+        packagingVolume:
+          type: number
+          format: float
+          description: Volume of the item.
+          example: 7680
+        packagingVolumeUnitOfMeasure:
+          $ref: '#/components/schemas/volumeUomEnum'
+        packageQuantity:
+          type: number
+          format: float
+          description: Quantity of Packages.
+          example: 10
+        purchaseOrderNumber:
+          type: string
+          minimum: 1
+          maximum: 20
+          format: float
+          description: Purchase Order number for associated item.
+        costCenterCode:
+          type: number
+          minimum: 1
+          maximum: 10
+          format: float
+          description: Cost center code associated to the items.
+        referenceNumbers:
+          type: array
+          description: Reference number associated to the given level.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    error400:
+      properties:
+        message:
+          type: string
+        path:
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+        context:
+          type: object
+          properties:
+            child:
+              type: string
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+            key:
+              type: string
+            label:
+              type: string
+    quoteSummaries:
+      properties:
+        quoteSummaries:
+          type: array
+          description: Array of quotes.
+          items:
+            type: object
+            properties:
+              quoteId:
+                type: integer
+                format: int64
+                description: ID of the quote that is provided on successfully calling the rating API.
+              carrier:
+                type: object
+                description: Identifies the carrier associated to the quote.
+                properties:
+                  carrierCode:
+                    type: string
+                    description: The unique identifier assigned to a carrier within C.H. Robinson.
+                  carrierName:
+                    type: string
+                    minimum: 1
+                    maximum: 50
+                    description: The name of the carrier.
+                  scac:
+                    type: string
+                    minimum: 1
+                    maximum: 10
+                    description: The SCAC code of a carrier if it has one.
+              customer:
+                type: object
+                description: C.H. Robinson customer associated to the quote.
+                properties:
+                  customerName:
+                    type: string
+                    minimum: 1
+                    maximum: 50
+                    description: Customer name associated to the quote.
+              totalCharge:
+                type: number
+                format: float
+                description: Total charge associated to the quote.
+              totalFreightCharge:
+                type: number
+                format: float
+                description: Total freight charge associated to the quote.
+              totalAccessorialCharge:
+                type: number
+                format: float
+                description: Total accessorial charge associated to the quote.
+              quoteExpirationDate:
+                type: string
+                format: date-time
+                description: An ISO8601 UTC date-time used to indicate the date the quote will no longer be valid.
+              transit:
+                type: object
+                description: Collection of transit information associated to the quote.
+                properties:
+                  minimumTransitDays:
+                    type: number
+                    format: float
+                    description: Minimum transit days.
+                  maximumTransitDays:
+                    type: number
+                    format: float
+                    description: Maximum transit days.
+                  minimumDeliveryDate:
+                    type: string
+                    format: date-time
+                    description: An ISO8601 UTC date-time used to indicate the minimum delivery date.
+                  maximumDeliveryDate:
+                    type: string
+                    format: date-time
+                    description: An ISO8601 UTC date-time used to indicate the maximum delivery date.
+                  originService:
+                    type: string
+                    description: Denotes whether an LTL carrier services the location terminal on their own (direct) or through the help of partner carriers who can service the location terminal on their behalf (indirect).
+                    enum:
+                    - Direct
+                    - Indirect
+                    - No Data
+                  destinationService:
+                    type: string
+                    description: Denotes whether an LTL carrier services the location terminal on their own (direct) or through the help of partner carriers who can service the location terminal on their behalf (indirect).
+                    enum:
+                    - Direct
+                    - Indirect
+                    - No Data
+              rates:
+                $ref: '#/components/schemas/rates'
+              transportModeType:
+                $ref: '#/components/schemas/transportModeEnum'
+              equipmentType:
+                $ref: '#/components/schemas/equipmentCodeEnum'
+              cargoLiability:
+                $ref: '#/components/schemas/cargoLiability'
+              distance:
+                type: number
+                description: Indicates rated distance.
+              quoteSource:
+                type: string
+                description: A field to indicate whether the quote returned is contracted, market or volume.
+    error403:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 403
+        error:
+          type: string
+          description: detail about the error status code
+          example: Forbidden
+        message:
+          type: string
+          description: Specifies issue
+          example: Invalid customerCode
+    visibilityCharge:
+      required:
+      - invoicedCurrency
+      - invoiceAmount
+      - invoiceLine
+      type: object
+      properties:
+        invoicedCurrency:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: ISO 4217 currency code
+        invoiceAmount:
+          type: number
+          description: Amount invoiced per line item
+        code:
+          minimum: 1
+          maximum: 20
+          type: string
+          description: Standard Charge Code
+        invoiceLine:
+          type: integer
+          description: Invoice line
+        description:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Description of the charge code.
+    stop:
+      type: object
+      required:
+      - type
+      - value
+      - orderNumbers
+      properties:
+        orderNumbers:
+          type: array
+          description: Array of the Order numbers associated to the shipment.
+          items:
+            type: string
+        actualArriveDateTime:
+          type: string
+          format: date-time
+          description: An ISO8601 UTC date-time
+        actualDepartDateTime:
+          type: string
+          format: date-time
+          description: An ISO8601 UTC date-time
+        locations:
+          type: array
+          items:
+            $ref: '#/components/schemas/visibilityLocation'
+    currencyCodeEnum:
+      type: string
+      description: "Code to indicate the currency being used. The most common currently in use with C.H. Robinson:\n\n* `USD` - US Dollar\n* `CAD` - Canadian Dollar \n* `MXN` - Mexican Peso\n* `EUR` - European Euro\n\n\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CurrencyCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - USD
+      - CAD
+      - EUR
+      - MXN
+      - CHF
+      - GBP
+      - HUF
+      - CZK
+      - NZD
+      - PLN
+      - ZAR
+      - VEB
+      - VND
+      - TWD
+      - TRY
+      - SEK
+      - SGD
+      - RUB
+      - NOK
+      - HKD
+      - INR
+      - JPY
+      - CLP
+      - CNY
+      - DKK
+      - AUD
+      - BRL
+      - AED
+      - PEN
+      - THB
+      - ARS
+      - MYR
+      - VEF
+      - SAR
+      - BBD
+      - BHD
+      - BMD
+      - BSD
+      - ILS
+      - ISK
+      - KES
+      - KRW
+      - KWD
+      - OMR
+      - PHP
+      - PKR
+      - QAR
+      - RON
+      - TTD
+      - UAH
+      - LKR
+      - XPF
+      - UYU
+      - COP
+      - CRC
+      - FJD
+    linearUomEnum:
+      type: string
+      description: Unit of measure for height, width, and length parameters.
+      enum:
+      - Inches
+      - Feet
+      - Centimeters
+      - Meters
+    incoTermsEnum:
+      type: string
+      description: "The Incoterms or International Commercial Terms are a series of pre-defined commercial terms published by the International Chamber of Commerce (ICC) relating to international commercial law.\n  * `DAT` - Delivered at Terminal\n  * `DAP` - Delivered at Place\n  * `CIF` - Cost Insurance & Freight\n  * `CPT` - Carriage Paid To\n  * `CIP` - Carriage & Insurance Paid To\n  * `DDP` - Delivered duty paid\n  * `EXW` - EX works\n  * `FCA` - Free carrier at\n  * `DPU` - Delivered at place unloaded\n  * `FAS` - Free alongside ship\n  * `FOB` - Free on Board\n  * `CFR` - Cost and Freight\n  * `PPD` - Prepaid\n  * `COL` - Collect\n  * `DAF` - Delivery at Frontier\n  * `DDU` - Delivery Duty Unpaid\n  * `DEQ` - Delivery Ex-Quay, Duty Unpaid\n  * `DES` - Delivery Ex-Ship\n"
+      enum:
+      - DAT
+      - DAP
+      - CIF
+      - CPT
+      - CIP
+      - DDP
+      - EXW
+      - FCA
+      - DPU
+      - FAS
+      - FOB
+      - CFR
+      - PPD
+      - COL
+      - DAF
+      - DDU
+      - DEQ
+      - DES
   securitySchemes:
     sandbox:
       type: http

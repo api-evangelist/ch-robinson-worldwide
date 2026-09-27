@@ -19,7 +19,7 @@ paths:
   /v1/documents/generateBols:
     get:
       description: Allows partner to generate the blank order-level BOL for the load. A load can have many orders, and this BOL would reflect the individual order details. This route is intended to be called once the customer retrieves the `LOAD BOOKED` event from the Events product. This route produces the original "Generated BOL Retrieval" that provides a BOL for a single order on any shipment.
-      operationId: GENERATED BOL RETRIEVAL - Order Level
+      operationId: GENERATEDBOLRETRIEVAL-OrderLevel
       tags:
       - Documents
       parameters:
@@ -92,10 +92,12 @@ paths:
           description: Internal Server Error. Please contact your C.H. Robinson rep.
       summary: GENERATED BOL RETRIEVAL order level
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: GENERATED BOL RETRIEVAL - Order Level
   /v1/documents/generateLoadBols:
     get:
       description: Allows partner to generate the blank load-level BOL for the shipment. This BOL would reflect load details. A load can have many orders. The load-level BOL may also contain API-retrieved end-carrier pro number and barcode, useful in LTL operations, tracking, and billing. This route is intended to be called once the customer retrieves the `LOAD BOOKED` or `PRO NUMBER ADDED` event from the Events product.
-      operationId: GENERATED BOL RETRIEVAL - Load Level
+      operationId: GENERATEDBOLRETRIEVAL-LoadLevel
       tags:
       - Documents
       parameters:
@@ -204,10 +206,12 @@ paths:
           description: Internal Server Error. Please contact your C.H. Robinson rep.
       summary: GENERATED BOL RETRIEVAL load level
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: GENERATED BOL RETRIEVAL - Load Level
   /v1/documents/invoices/{invoiceNumber}:
     get:
       description: Allows partner to retrieve PDF document of an invoice.
-      operationId: Invoice Document Retrieval
+      operationId: InvoiceDocumentRetrieval
       tags:
       - Documents
       parameters:
@@ -262,10 +266,12 @@ paths:
           description: Internal Server Error. Please contact your C.H. Robinson rep.
       summary: Invoice document retrieval
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Invoice Document Retrieval
   /v1/documents/retrieveDocumentIds:
     get:
       description: Allows partner to retrieve list of document IDs.
-      operationId: Load Document ID Retrieval
+      operationId: LoadDocumentIDRetrieval
       tags:
       - Documents
       parameters:
@@ -513,10 +519,12 @@ paths:
           description: Internal Server Error. Please contact your C.H. Robinson rep.
       summary: Load document ID retrieval
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Load Document ID Retrieval
   /v1/documents/{documentId}:
     get:
       description: Allows partner to retrieve BOLs, PODs, and Lumper receipts.
-      operationId: Load Document Retrieval
+      operationId: LoadDocumentRetrieval
       tags:
       - Documents
       parameters:
@@ -575,6 +583,8 @@ paths:
           description: Internal Server Error. Please contact your C.H. Robinson rep.
       summary: Load document retrieval
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Load Document Retrieval
   /events/LoadDocuments/here:
     servers:
     - url: https://yourserver.com
@@ -584,7 +594,7 @@ paths:
       - bearerAuth: []
       description: This is the endpoint where load documents can be pushed.
       x-beta: true
-      operationId: Load Documents Callback
+      operationId: LoadDocumentsCallback
       tags:
       - Documents
       requestBody:
@@ -603,10 +613,12 @@ paths:
                 type: string
       summary: Load documents callback
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Load Documents Callback
   /v1/documents/{loadNumber}:
     post:
       description: Both base64 and binary can be accepted by making a selection in the dropdown next to "Request Body Schema". Binary is form-data, base64 is application/json.
-      operationId: Carrier Document Upload
+      operationId: CarrierDocumentUpload
       x-tryit: false
       tags:
       - Documents
@@ -701,75 +713,181 @@ paths:
           description: Internal Server Error. Please contact your C.H. Robinson rep.
       summary: Carrier document upload
       x-summary-source: derived
+      x-operation-id-source: normalized
+      x-operation-id-original: Carrier Document Upload
 components:
   schemas:
-    error404:
+    referenceNumber:
+      type: object
       required:
-      - statusCode
-      - error
-      - message
+      - type
+      - value
       properties:
-        statusCode:
-          type: integer
-          description: Error code
-          example: 404
-        error:
-          type: string
-          description: Detail about the error status code
-          example: Not Found
-        message:
-          type: string
-          description: Specifies issue
-          example: Not Found
-    error401:
-      required:
-      - statusCode
-      - error
-      - message
-      properties:
-        statusCode:
-          type: integer
-          description: Error code
-          example: 401
-        error:
-          type: string
-          description: Detail about the error status code
-        message:
-          type: string
-          description: Specifies issue
-        attributes:
-          type: object
-          properties:
-            error:
-              type: string
-    error400:
-      properties:
-        message:
-          type: string
-        path:
-          type: array
-          items:
-            type: string
         type:
           type: string
-        context:
-          type: object
-          properties:
-            child:
-              type: string
-            value:
-              type: array
-              items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                  value:
-                    type: string
-            key:
-              type: string
-            label:
-              type: string
+          description: "C.H. Robinson defined code for reference number types. Here is a list of the most commonly used reference number types: \n\n`SHID` - Shipment ID #, `MBOL` - Master Bill of Lading #, `PO` - Purchase Order #, `BOL` - Bill of Lading #, `CRID` - Customer Specific Ref Number, `CUSTPO` - Customer PO Number, `DEL` - Delivery #, `JNO` - Job Number, `PU` - Pickup #, `CON` - Customer Order Number, `APPT` - Appointment Number \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ReferenceNumberTypes.xlsx\" target=\"_blank\">here</a>."
+          enum:
+          - SHID
+          - MBOL
+          - PO
+          - BOL
+          - CFRM
+          - CRID
+          - CUSTPO
+          - DEL
+          - DIST
+          - FIN
+          - GL
+          - JNO
+          - PU
+          - RANumber
+          - RLPRO
+          - MREF
+          - Empty
+          - PRO
+          - CCN
+          - SBOL
+          - CON
+          - APPT
+          - CHRW_ID
+          - FDA
+          - IREF
+          - LIC
+          - ORD
+          - PLU
+          - SCAC
+          - SEAL
+          - SKU
+          - SREF
+          - STCC
+          - TEB
+          - VPO
+          - WB
+          - XXXX
+          - TRIA
+          - TRANS
+          - GCC
+          - SDATE
+          - CDATE
+          - ACCT
+          - CCTR
+          - IGM
+          - GIGM
+          - LIGM
+          - SMTP
+          - PERMIT
+          - RNO
+          - DVCN
+          - PRCL
+          - CPUC
+          - SHPMD
+          - AFR
+          - BUYID
+          - VNDID
+          - DIV
+          - DEPT
+          - POTYPE
+          - GRGI
+          - DUNS
+          - PALLETREF
+          - CITTN
+          - CIN
+          - SHIPWITH
+          - PN
+          - UPC
+          - PRCD
+          - VESSEL
+          - VOYAGE
+          - FN
+          - FEEDVESS
+          - FEEDVOY
+          - SHIPREF
+          - CBL
+          - SPAC
+          - POLN
+          - VPOLN
+          - EIN
+          - CNSG
+          - PROFITCTR
+          - MFGPART
+          - PACKSLIP
+          - THIRDPRTY
+          - DEFATTR
+          - FSTRK
+          - FOItemID
+          - POLineNum
+          - PARCELSPC
+          - CNS1
+          - CNS2
+          - CNS3
+          - CNS4
+          - CNS5
+          - CNS6
+          - CNS7
+          - TREF
+          - VREF
+          - UPRICE
+          - FWPARTY
+          - BYPARTY
+          - HBL
+          - CBP
+          - TRANSFER
+          - SO
+          - ORDTRK
+          - QUOTEID
+          - EQT
+          - BOOTH
+          - TS
+          - 'OH #'
+          - CNTNR
+          - VAS
+          - Size
+          - Color
+          - Style
+          - HCERT
+          - B#
+          - ETMSID
+          - 214-IMO
+          - SHPWeight
+          - SHPVolume
+          - SHPDims
+          - SERIALIZED
+          - SERIALNUM
+          - CPSIA
+          - EDIINVREF
+          - SQID
+          - QSeqNum
+          - OuterPkStu
+          - GLC
+          - COMP
+          - COST
+          - DTYGL
+          - DTYCC
+          - BRKGL
+          - BRKCC
+          - GPS
+          - IAC
+          - WHRCT
+          - ERGUID
+          - SONUM
+          - CCNUM
+          - PrimCCNUM
+          - PrevCCNUM
+          - CMRN
+          - TRANSSHIP
+          - PGIDATE
+          - AESFIL
+          - CUSTQUOTID
+          - QUOTETRACE
+          - ODATE
+          - FRCLS
+          - NMFC
+          - OrderItemId
+        value:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: The actual value of the reference number.
     docTypeEnum:
       type: string
       description: "C.H. Robinson codes for the different types of documents. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/DocTypeDescriptions.xlsx\" target=\"_blank\">here</a>."
@@ -946,6 +1064,67 @@ components:
       - WHSE_OSD
       - WOODPACK
       - WT
+    error404:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 404
+        error:
+          type: string
+          description: Detail about the error status code
+          example: Not Found
+        message:
+          type: string
+          description: Specifies issue
+          example: Not Found
+    error400:
+      properties:
+        message:
+          type: string
+        path:
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+        context:
+          type: object
+          properties:
+            child:
+              type: string
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+            key:
+              type: string
+            label:
+              type: string
+    documentIdResults:
+      type: array
+      description: Document ID results.
+      items:
+        type: object
+        properties:
+          doumentType:
+            $ref: '#/components/schemas/docTypeEnum'
+          documentId:
+            type: integer
+            description: Identifing ID that matches to a specific image.
+          documentEnteredDateTime:
+            type: string
+            format: date-time
+            description: The date/time in ISO8601 format when the document was attached to the load.
     error403:
       required:
       - statusCode
@@ -1044,192 +1223,27 @@ components:
               - application/pdf
               - application/tif
               - application/jpeg
-    referenceNumber:
-      type: object
+    error401:
       required:
-      - type
-      - value
+      - statusCode
+      - error
+      - message
       properties:
-        type:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 401
+        error:
           type: string
-          description: "C.H. Robinson defined code for reference number types. Here is a list of the most commonly used reference number types: \n\n`SHID` - Shipment ID #, `MBOL` - Master Bill of Lading #, `PO` - Purchase Order #, `BOL` - Bill of Lading #, `CRID` - Customer Specific Ref Number, `CUSTPO` - Customer PO Number, `DEL` - Delivery #, `JNO` - Job Number, `PU` - Pickup #, `CON` - Customer Order Number, `APPT` - Appointment Number \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ReferenceNumberTypes.xlsx\" target=\"_blank\">here</a>."
-          enum:
-          - SHID
-          - MBOL
-          - PO
-          - BOL
-          - CFRM
-          - CRID
-          - CUSTPO
-          - DEL
-          - DIST
-          - FIN
-          - GL
-          - JNO
-          - PU
-          - RANumber
-          - RLPRO
-          - MREF
-          - Empty
-          - PRO
-          - CCN
-          - SBOL
-          - CON
-          - APPT
-          - CHRW_ID
-          - FDA
-          - IREF
-          - LIC
-          - ORD
-          - PLU
-          - SCAC
-          - SEAL
-          - SKU
-          - SREF
-          - STCC
-          - TEB
-          - VPO
-          - WB
-          - XXXX
-          - TRIA
-          - TRANS
-          - GCC
-          - SDATE
-          - CDATE
-          - ACCT
-          - CCTR
-          - IGM
-          - GIGM
-          - LIGM
-          - SMTP
-          - PERMIT
-          - RNO
-          - DVCN
-          - PRCL
-          - CPUC
-          - SHPMD
-          - AFR
-          - BUYID
-          - VNDID
-          - DIV
-          - DEPT
-          - POTYPE
-          - GRGI
-          - DUNS
-          - PALLETREF
-          - CITTN
-          - CIN
-          - SHIPWITH
-          - PN
-          - UPC
-          - PRCD
-          - VESSEL
-          - VOYAGE
-          - FN
-          - FEEDVESS
-          - FEEDVOY
-          - SHIPREF
-          - CBL
-          - SPAC
-          - POLN
-          - VPOLN
-          - EIN
-          - CNSG
-          - PROFITCTR
-          - MFGPART
-          - PACKSLIP
-          - THIRDPRTY
-          - DEFATTR
-          - FSTRK
-          - FOItemID
-          - POLineNum
-          - PARCELSPC
-          - CNS1
-          - CNS2
-          - CNS3
-          - CNS4
-          - CNS5
-          - CNS6
-          - CNS7
-          - TREF
-          - VREF
-          - UPRICE
-          - FWPARTY
-          - BYPARTY
-          - HBL
-          - CBP
-          - TRANSFER
-          - SO
-          - ORDTRK
-          - QUOTEID
-          - EQT
-          - BOOTH
-          - TS
-          - 'OH #'
-          - CNTNR
-          - VAS
-          - Size
-          - Color
-          - Style
-          - HCERT
-          - B#
-          - ETMSID
-          - 214-IMO
-          - SHPWeight
-          - SHPVolume
-          - SHPDims
-          - SERIALIZED
-          - SERIALNUM
-          - CPSIA
-          - EDIINVREF
-          - SQID
-          - QSeqNum
-          - OuterPkStu
-          - GLC
-          - COMP
-          - COST
-          - DTYGL
-          - DTYCC
-          - BRKGL
-          - BRKCC
-          - GPS
-          - IAC
-          - WHRCT
-          - ERGUID
-          - SONUM
-          - CCNUM
-          - PrimCCNUM
-          - PrevCCNUM
-          - CMRN
-          - TRANSSHIP
-          - PGIDATE
-          - AESFIL
-          - CUSTQUOTID
-          - QUOTETRACE
-          - ODATE
-          - FRCLS
-          - NMFC
-          - OrderItemId
-        value:
+          description: Detail about the error status code
+        message:
           type: string
-          minimum: 1
-          maximum: 100
-          description: The actual value of the reference number.
-    documentIdResults:
-      type: array
-      description: Document ID results.
-      items:
-        type: object
-        properties:
-          doumentType:
-            $ref: '#/components/schemas/docTypeEnum'
-          documentId:
-            type: integer
-            description: Identifing ID that matches to a specific image.
-          documentEnteredDateTime:
-            type: string
-            format: date-time
-            description: The date/time in ISO8601 format when the document was attached to the load.
+          description: Specifies issue
+        attributes:
+          type: object
+          properties:
+            error:
+              type: string
   securitySchemes:
     sandbox:
       type: http
