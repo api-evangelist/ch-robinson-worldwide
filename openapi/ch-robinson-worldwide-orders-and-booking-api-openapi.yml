@@ -1403,1348 +1403,14 @@ paths:
       x-operation-id-original: Booking Delete
 components:
   schemas:
-    CommodityItem:
-      required:
-      - grossWeight
-      - grossWeightUnitOfMeasure
-      - packagingType
-      - quantity
+    orderResponse:
       type: object
+      description: Object containg the order response.
       properties:
-        containerId:
-          type:
-          - integer
-          - 'null'
-          description: References the container to which this commodity group belongs.
-          format: int32
-        packagingType:
-          $ref: '#/components/schemas/BookingPackageCode'
-        quantity:
-          type: number
-          description: Indicates the total number of shipping units.
-          format: float
-        pallets:
-          type:
-          - number
-          - 'null'
-          description: Indicates the number of pallets for the item.
-          format: float
-        grossWeight:
-          type:
-          - number
-          - 'null'
-          description: Indicates the total weight of the line item. This represents the total weight of all quantities.
-          format: float
-        grossWeightUnitOfMeasure:
-          $ref: '#/components/schemas/weightUomEnum'
-        totalVolume:
-          type:
-          - number
-          - 'null'
-          description: Indicates the volume of the item.
-          format: float
-        totalVolumeUnitOfMeasure:
-          $ref: '#/components/schemas/BookingVolumeUom'
-        description:
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates the general classification of the goods being shipped.
-        descriptionOfGoods:
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates the full description of the cargo contents.
-        marksAndNumbers:
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates the labeling or identifying marks printed on the cargo.
-        skuNumber:
-          maxLength: 50
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates the Stock Keeping Unit - a number assigned to a product by the customer (maximum 50 characters).
-        htCode:
-          type:
-          - string
-          - 'null'
-          description: Indicates the Harmonized Tariff Code for customs classification. This field can accept an HTS Code or an HS Code.
-        isTemperatureSensitive:
-          type:
-          - boolean
-          - 'null'
-          description: Indicates a value indicating whether the item(s) need to be kept between specific temperatures.
-        temperatureUnitOfMeasure:
-          $ref: '#/components/schemas/temperatureUomEnum'
-        requiredTemperatureHigh:
-          type:
-          - number
-          - 'null'
-          description: Indicates the highest temperature the item(s) can be.
-          format: float
-        requiredTemperatureLow:
-          type:
-          - number
-          - 'null'
-          description: Indicates the lowest temperature the item(s) can be.
-          format: float
-        isHazardous:
-          type:
-          - boolean
-          - 'null'
-          description: Indicates a value indicating whether the item is hazardous.
-        packagesDimensions:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/PackagesDimensions'
-          description: Indicates the packages dimensions.
-        hazardousProperties:
-          $ref: '#/components/schemas/BookingHazardousProperties'
-        referenceNumbers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ReferenceNumber'
-          description: Indicates additional reference number objects pertaining to this item.
-      additionalProperties: false
-      description: Represents a commodity item in the shipment.
-    BookingPackageCode:
-      enum:
-      - BAG
-      - BAL
-      - BDL
-      - BIN
-      - BLK
-      - BOT
-      - BOX
-      - BXT
-      - CAR
-      - CAS
-      - CRT
-      - DRM
-      - DZ
-      - EAC
-      - GOH
-      - GYL
-      - HDW
-      - IBC
-      - JAR
-      - KG
-      - LBS
-      - LNFT
-      - LSE
-      - LUG
-      - M
-      - OTHR
-      - PAL
-      - PCS
-      - PKG
-      - PLT
-      - PR
-      - RCK
-      - REL
-      - ROL
-      - SAK
-      - SET
-      - SHT
-      - SKD
-      - SKE
-      - SLP
-      - TH
-      - TOT
-      - TRY
-      - YD
-      - AST
-      - ENV
-      - IMDLTRL
-      - JRYCN
-      - M2
-      - TUBE
-      type: string
-      description: C.H. Robinson defined code for packaging type/code.
-    BookingFreightTerm:
-      enum:
-      - CL
-      - PP
-      type: string
-      description: Code to indicate the freight term type.
-    orderLocation:
-      type: object
-      required:
-      - type
-      description: Indicates the locations assigned to this service. All service objects only have two location objects. If you have multiple stops, they need to broken into single pick, single drop pairs, each under its own service object.
-      properties:
-        customerLocationId:
+        orderNumber:
           type: string
-          minimum: 1
-          maximum: 50
-          description: "Customer defined identifier associated to a specific location. \n\n### If C.H. Robinson maintains a list of the customer's location IDs, then customerLocationId can be provided in lieu of address information."
-        type:
-          type: string
-          description: Indicates the type of stop.
-          enum:
-          - origin
-          - destination
-        name:
-          type: string
-          minimum: 1
-          maximum: 100
-          description: "Name of the location. If the address of the location is not in C.H. Robinson's system, it is mandatory to include the `name` parameter so\n  C.H. Robinson can auto-create the location in our system on order create.\n"
-        address:
-          $ref: '#/components/schemas/orderAddress'
-        blindLocation:
-          $ref: '#/components/schemas/blindLocation'
-        openDateTime:
-          type: string
-          format: date-time
-          description: ISO8601 UTC date-time of the earliest time carrier can arrive at the stop.
-        closeDateTime:
-          type: string
-          format: date-time
-          description: ISO8601 UTC date-time of the latest time carrier can arrive at the stop.
-        arrivalDate:
-          type: string
-          format: date-time
-          description: "ISO8601 UTC date-time that carrier has arrived. \n\n ### <span style=\"color:DeepPink\">Would only ever be sent on an order update if customer received the information instead of C.H. Robinson.</span>"
-        departureDate:
-          type: string
-          format: date-time
-          description: "ISO8601 UTC date-time that carrier has departed. \n\n ### <span style=\"color:DeepPink\">Would only ever be sent on an order update if customer received the information instead of C.H. Robinson.</span>"
-        scheduledOpenDateTime:
-          type: string
-          format: date-time
-          description: ISO8601 UTC date-time of the earliest recommended appointment time for your carrier.
-        scheduledCloseDateTime:
-          type: string
-          format: date-time
-          description: ISO8601 UTC date-time of the latest recommended appointment time for your carrier.
-        readyAvailableDateTime:
-          type: string
-          format: date-time
-          description: "ISO8601 UTC date-time when location is ready to receive the shipment. \n\n ### <span style=\"color:DeepPink\">Would only be sent if the location type is destination.</span>"
-        rsDateTime:
-          type: string
-          format: date-time
-          description: "An ISO8601 UTC date-time when location is ready for shipment to be picked up.\n\n ### <span style=\"color:DeepPink\">Would only be sent if the location type is origin.</span>"
-        specialRequirement:
-          $ref: '#/components/schemas/specialRequirementOrder'
-        scalesRequired:
-          type: boolean
-          description: Indicates if order requires weighing at this location.
-        hasDropTrailer:
-          type: boolean
-          description: Indicates if this location is drop trailer.
-        loadingTypeCode:
-          $ref: '#/components/schemas/loadingTypeEnum'
-        specialInstructions:
-          type: string
-          minimum: 1
-          maximum: 500
-          description: Customer defined instructions for this location.
-        contacts:
-          type: array
-          description: Contacts
-          items:
-            $ref: '#/components/schemas/contact'
-        referenceNumbers:
-          type: array
-          description: Additional reference number objects pertaining to this location.
-          items:
-            $ref: '#/components/schemas/referenceNumber'
-        isResidential:
-          $ref: '#/components/schemas/isResidential'
-        sequenceNumber:
-          type: integer
-          description: Drives sequence of multistop orders; 1-based (does not start with 0)
-    bookingNumber:
-      type: string
-      description: The booking number for FedEx heavy air shipments.
-    volumeUomEnum:
-      type: string
-      description: Unit of measure for volume parameters.
-      enum:
-      - CubicFeet
-      - CubicMeters
-    packageCodeEnum:
-      type: string
-      description: "C.H. Robinson defined code for packaging type/code. Here is a list of the most commonly used packagingCodes: \n\n`BAL` - Bale, `BAG` - Bags, `BIN` - Bin, `BOX` - Boxes, `CTN` - Cartons  \n`CAS` - Case, `CRT` - Crates, `PKG` - Package, `EAC` - Eaches, `PLT` - Pallet, `PCS` - Pieces \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/PackageDescriptions.xlsx\" target=\"_blank\">here</a>."
-      enum:
-      - BAL
-      - BIN
-      - BOT
-      - BXT
-      - JAR
-      - LSE
-      - LUG
-      - OTHR
-      - REL
-      - SAK
-      - SKD
-      - SKE
-      - SLP
-      - TLD
-      - TRY
-      - Empty
-      - BAG
-      - BOX
-      - BDL
-      - CTN
-      - CAS
-      - CRT
-      - DZ
-      - DRM
-      - EAC
-      - GYL
-      - HDW
-      - LNFT
-      - PKG
-      - PAL
-      - PLT
-      - PCS
-      - LBS
-      - ROL
-      - TOT
-      - YD
-      - Skids
-      - GAL
-      - KIT
-      - FT
-      - PAD
-      - PR
-      - SET
-      - SHT
-      - M
-      - KG
-      - IBC
-      - BAT
-      - AST
-      - CUB
-      - RKS
-      - PCK
-      - TH
-      - 24BIN
-      - 30BIN
-      - 36BIN
-      - 40BIN
-      - BSHL
-      - CLLPK
-      - DRC
-      - ECO
-      - EURO
-      - FLAT
-      - HFBIN
-      - HFCTN
-      - HVYPK
-      - IFCO
-      - I6408
-      - I6411
-      - I6413
-      - I6416
-      - I6419
-      - I6423
-      - I6425
-      - I6428
-      - ORBIS
-      - O6409
-      - O6411
-      - O6413
-      - O6416
-      - O6419
-      - O6425
-      - O6428
-      - P4311
-      - P4317
-      - P6408
-      - P6411
-      - P6413
-      - P6416
-      - P6419
-      - P6423
-      - P6425
-      - P6428
-      - RPC
-      - R6411
-      - R6413
-      - R6416
-      - TNBIN
-      - TOSCA
-      - T6408
-      - T6411
-      - T6413
-      - T6416
-      - T6419
-      - T6423
-      - T6425
-      - T6428
-      - WDCRT
-      - BRL
-      - RCK
-      - TUB
-      - CG
-      - DSP
-      - SQF
-      - CYL
-      - KEG
-      - IFCLB
-      - PLT1
-      - PLT2
-      - PLT3
-      - CAR
-      - COIL
-      - PI
-      - GOH
-      - BLK
-      - POG
-      - L
-      - IPLT
-      - RORO
-      - 45HC
-      - 45HR
-      - 40HC
-      - 40
-      - 40OT
-      - 40HR
-      - 40RF
-      - 40FR
-      - 20HC
-      - 20
-      - 20OT
-      - 20FR
-      - 45GP
-    hazardousGroupEnum:
-      type: string
-      description: "Dangerous goods are assigned into 3 packing groups (also known as UN Packing Group) in accordance with the degree of danger they present.\n  * `I` - Group I - Major Danger\n  * `II` - Group II - Medium Danger\n  * `III` - Group III - Minor Danger\n"
-      enum:
-      - I
-      - II
-      - III
-    ReferenceNumber:
-      required:
-      - type
-      - value
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/BookingReferenceNumberType'
-        value:
-          maxLength: 100
-          minLength: 1
-          type: string
-          description: Indicates the actual value of the reference number (maximum 100 characters).
-      additionalProperties: false
-      description: Represents a reference number with type and value.
-    sellModeEnum:
-      type: string
-      description: "Defines the mode:\n  * `LTL` - Less than Truckload Transportation\n  * `TL` - Truckload Transportation\n  * `DomesticAir` - Domestic Air Transportation\n  * `Ocean` - Ocean Transportation\n  * `IMDL` - Intermodal Full Container Transportation\n  * `Bulk` - Bulk Transportation\n  * `Consolidated` - Consolidated Transportation\n  * `LTLFlatbed` - Less than Truckload Flatbed Transportation\n  * `TLFlatbed` - Truckload Flatbed Transportation\n  * `SmallParcel` - Small Parcel Transportation\n  * `Tautliner` - Tatliner Transportation\n"
-      enum:
-      - LTL
-      - TL
-      - LTLFlatbed
-      - TLFlatbed
-      - IMDL
-      - Bulk
-      - Consolidated
-      - DomesticAir
-      - SmallParcel,
-      - Ocean
-      - Tautliner
-    orderItem:
-      required:
-      - packagingType
-      - quantity
-      type: object
-      properties:
-        packagingType:
-          $ref: '#/components/schemas/packageCodeEnum'
-        itemId:
-          type: integer
-          description: Indicates the itemId. Distinct value by item that should only be used when sending shippingContainers, to link containers to their respective items.
-        quantity:
-          type: number
-          format: float
-          description: Quantity is the number of packagingType's.
-        description:
-          type: string
-          minimum: 1
-          maximum: 200
-          description: Customer defined description of the item.
-        productCode:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Customer defined code of the item.
-        freightClass:
-          $ref: '#/components/schemas/freightClassEnum'
-        weight:
-          type: number
-          description: Total Weight of the line item. This represents to total weight of the all quantities. For example, if the indvidual weight of 1 quantity is 100 pounds, and the quantity of the line item is 2, then 200 is the value for this field.
-          format: float
-        weightUnitOfMeasure:
-          $ref: '#/components/schemas/weightUomEnum'
-        packagingLength:
-          type: number
-          description: The length of the line item packaging.
-          format: float
-        packagingWidth:
-          type: number
-          description: The width of the line item packaging.
-          format: float
-        packagingHeight:
-          type: number
-          description: The height of the line item packaging.
-          format: float
-        packagingUnitOfMeasure:
-          $ref: '#/components/schemas/linearUomEnum'
-        relationships:
-          $ref: '#/components/schemas/relationships'
-        equipmentLength:
-          type: number
-          format: float
-          description: Indicates the length of the equipment needed to transport the item.
-        equipmentHeight:
-          type: number
-          format: float
-          description: Indicates the height of the equipment needed to transport the item.
-        equipmentWidth:
-          type: number
-          format: float
-          description: Indicates the width of the equipment needed to transport the item.
-        equipmentUnitOfMeasure:
-          $ref: '#/components/schemas/linearUomEnum'
-        totalTrailerFeetUsed:
-          type: integer
-          description: Total feet item(s) will utilize inside the trailer.
-        itemEquipment:
-          $ref: '#/components/schemas/itemEquipment'
-        packagingVolume:
-          type: number
-          format: float
-          description: Volume of the item.
-        packagingVolumeUnitOfMeasure:
-          $ref: '#/components/schemas/volumeUomEnum'
-        insuranceValue:
-          type: number
-          format: float
-          description: Customer specified declared value of the item.
-        pallets:
-          type: number
-          format: float
-          description: Identifies how many pallets for the item.
-        palletSpaces:
-          type: number
-          format: float
-          description: Indentifies how many pallet spaces the item will use in the cargo space.
-        nationalMotorFreightClass:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: The National Motor Freight Traffic Association publishes the National Motor Freight Classification® (NMFC®), a standard that provides a comparison of commodities moving in commerce. The NMFC® is developed and maintained by the Commodity Classification Standards Board (CCSB).
-        hazardousProperties:
-          $ref: '#/components/schemas/hazardousProperties'
-        upcNumber:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Universal Product Code. The barcode consists of a five digit manufacturer number and a five digit product number.
-        skuNumber:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Stock Keeping Unit. A number assigned to a product by a the customer.
-        pluNumber:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Price Look-up Number. A system of numbers the customer uses that uniquely identifies bulk produce
-        isStackable:
-          type: boolean
-          description: Parameter to indicate if item(s) can be stacked one on top of the other.
-        isTemperatureSensitive:
-          type: boolean
-          description: Parameter to indicate if item(s) needs to be kept between specific temperatures.
-        temperatureType:
-          $ref: '#/components/schemas/temperatureSensitiveEnum'
-        temperatureUnit:
-          $ref: '#/components/schemas/temperatureUomEnum'
-        requiredTemperatureHigh:
-          type: number
-          description: The highest temperature the item(s) can be.
-          format: float
-        requiredTemperatureLow:
-          type: number
-          description: The lowest temperature the item(s) can be.
-          format: float
-        notes:
-          type: string
-          minimum: 1
-          maximum: 4000
-          description: Allows customer to add notes about the item.
-        referenceNumbers:
-          type: array
-          description: Additional reference number objects pertaining to this item.
-          items:
-            $ref: '#/components/schemas/referenceNumber'
-    PartyType:
-      enum:
-      - Consignee
-      - BillTo
-      - Shipper
-      - NotifyParty
-      type: string
-      description: Party type enumeration.
-    marinePollutantCategory:
-      type: string
-      description: "Indicates the Marine Pollutant Category for Hazardous Materials.\n  * `Severe Marine Pollutant`\n  * `Marine Pollutant`\n"
-      enum:
-      - SevereMarinePollutant
-      - MarinePollutant
-    charge:
-      type: object
-      description: Object relating to the charges for the order.
-      required:
-      - rate
-      - rateCode
-      properties:
-        rate:
-          type: number
-          format: float
-          description: Monetary amount of this rate type.
-        rateCode:
-          $ref: '#/components/schemas/rateCodeEnum'
-        quantity:
-          type: number
-          format: float
-          description: Quantity of the rate. Multiplying `rate` by `quantity` will give the total charge for this rate line item.
-          default: 1
-        alternateDescription:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Description of the charge.
-    referenceNumber:
-      type: object
-      required:
-      - type
-      - value
-      properties:
-        type:
-          type: string
-          description: "C.H. Robinson defined code for reference number types. Here is a list of the most commonly used reference number types: \n\n`SHID` - Shipment ID #, `MBOL` - Master Bill of Lading #, `PO` - Purchase Order #, `BOL` - Bill of Lading #, `CRID` - Customer Specific Ref Number, `CUSTPO` - Customer PO Number, `DEL` - Delivery #, `JNO` - Job Number, `PU` - Pickup #, `CON` - Customer Order Number, `APPT` - Appointment Number \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ReferenceNumberTypes.xlsx\" target=\"_blank\">here</a>."
-          enum:
-          - SHID
-          - MBOL
-          - PO
-          - BOL
-          - CFRM
-          - CRID
-          - CUSTPO
-          - DEL
-          - DIST
-          - FIN
-          - GL
-          - JNO
-          - PU
-          - RANumber
-          - RLPRO
-          - MREF
-          - Empty
-          - PRO
-          - CCN
-          - SBOL
-          - CON
-          - APPT
-          - CHRW_ID
-          - FDA
-          - IREF
-          - LIC
-          - ORD
-          - PLU
-          - SCAC
-          - SEAL
-          - SKU
-          - SREF
-          - STCC
-          - TEB
-          - VPO
-          - WB
-          - XXXX
-          - TRIA
-          - TRANS
-          - GCC
-          - SDATE
-          - CDATE
-          - ACCT
-          - CCTR
-          - IGM
-          - GIGM
-          - LIGM
-          - SMTP
-          - PERMIT
-          - RNO
-          - DVCN
-          - PRCL
-          - CPUC
-          - SHPMD
-          - AFR
-          - BUYID
-          - VNDID
-          - DIV
-          - DEPT
-          - POTYPE
-          - GRGI
-          - DUNS
-          - PALLETREF
-          - CITTN
-          - CIN
-          - SHIPWITH
-          - PN
-          - UPC
-          - PRCD
-          - VESSEL
-          - VOYAGE
-          - FN
-          - FEEDVESS
-          - FEEDVOY
-          - SHIPREF
-          - CBL
-          - SPAC
-          - POLN
-          - VPOLN
-          - EIN
-          - CNSG
-          - PROFITCTR
-          - MFGPART
-          - PACKSLIP
-          - THIRDPRTY
-          - DEFATTR
-          - FSTRK
-          - FOItemID
-          - POLineNum
-          - PARCELSPC
-          - CNS1
-          - CNS2
-          - CNS3
-          - CNS4
-          - CNS5
-          - CNS6
-          - CNS7
-          - TREF
-          - VREF
-          - UPRICE
-          - FWPARTY
-          - BYPARTY
-          - HBL
-          - CBP
-          - TRANSFER
-          - SO
-          - ORDTRK
-          - QUOTEID
-          - EQT
-          - BOOTH
-          - TS
-          - 'OH #'
-          - CNTNR
-          - VAS
-          - Size
-          - Color
-          - Style
-          - HCERT
-          - B#
-          - ETMSID
-          - 214-IMO
-          - SHPWeight
-          - SHPVolume
-          - SHPDims
-          - SERIALIZED
-          - SERIALNUM
-          - CPSIA
-          - EDIINVREF
-          - SQID
-          - QSeqNum
-          - OuterPkStu
-          - GLC
-          - COMP
-          - COST
-          - DTYGL
-          - DTYCC
-          - BRKGL
-          - BRKCC
-          - GPS
-          - IAC
-          - WHRCT
-          - ERGUID
-          - SONUM
-          - CCNUM
-          - PrimCCNUM
-          - PrevCCNUM
-          - CMRN
-          - TRANSSHIP
-          - PGIDATE
-          - AESFIL
-          - CUSTQUOTID
-          - QUOTETRACE
-          - ODATE
-          - FRCLS
-          - NMFC
-          - OrderItemId
-        value:
-          type: string
-          minimum: 1
-          maximum: 100
-          description: The actual value of the reference number.
-    collectOnDelivered:
-      type: object
-      description: Information relating to payment.
-      required:
-      - amount
-      - paymentType
-      - payableTo
-      - mailTo
-      - address
-      properties:
-        amount:
-          type: number
-          description: The currency amount to be paid.
-          format: float
-        paymentType:
-          type: string
-          minimum: 1
-          maximum: 25
-          description: Method of payment.
-        payableTo:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Individual or entity receiving payment.
-        mailTo:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Individual or entity payment is mailed to.
-        address:
-          $ref: '#/components/schemas/orderAddress'
-        referenceNumbers:
-          type: array
-          description: Additional reference number objects pertaining to this service.
-          items:
-            $ref: '#/components/schemas/referenceNumber'
-    AESTransactionNumber:
-      type: string
-      description: AES ITN may be required if shipping internationally from the US and the value is over 2,500.00 USD; must be exactly 14 digits and prefixed with X.
-    blindLocation:
-      type: object
-      description: A "blind shipment" is a shipment, regardless of mode, in which the party paying the freight charges requests that either the actual "shipper" or actual "consignee" not be disclosed on the bill of lading or other shipping documentation in order to shield such party's identity from another party. This is the address that will be displayed on the Bill of Lading.
-      properties:
-        blindName:
-          type: string
-          description: Indicate name of blind location.
-        blindAddress:
-          type: string
-          description: Indicate address of blind location.
-        blindCity:
-          type: string
-          description: Indicate city of blind location.
-        blindState:
-          type: string
-          description: indicate state of blind location.
-    additionalLocation:
-      type: object
-      description: List of additional Locations for Ocean/Air transport Mode.
-      required:
-      - additionalLocationType.
-      properties:
-        additionalLocationType:
-          $ref: '#/components/schemas/additionalLocationTypeEnum'
-        customerAPILocationNumber:
-          type: string
-          minimum: 1
-          maximum: 80
-          description: Customer defined identifier associated to a specific location. If C.H. Robinson maintains a list of the customer's location IDs, then customerLocationId can be provided in lieu of address information.
-        locationName:
-          type: string
-          minimum: 1
-          maximum: 200
-          description: Name of the location.
-        address1:
-          type: string
-          minimum: 1
-          maximum: 200
-          description: Indicate address line one of the location.
-        address2:
-          type: string
-          minimum: 1
-          maximum: 200
-          description: Indicate address line two of the location.
-        address3:
-          type: string
-          minimum: 1
-          maximum: 200
-          description: Indicate address line three of the location.
-        address4:
-          type: string
-          minimum: 1
-          maximum: 200
-          description: Indicate address line four of the location.
-        city:
-          type: string
-          minimum: 1
-          maximum: 100
-          description: Indicate the city of the location.
-        county:
-          type: string
-          minimum: 1
-          maximum: 100
-          description: Indicate the county of the location.
-        lat:
-          type: number
-          format: float
-          minimum: -90
-          maximum: 90
-          description: Indicate the latitude of the location.
-        long:
-          type: number
-          format: float
-          minimum: -180
-          maximum: 180
-          description: Indicate the longitude of the location
-        stateProvinceCode:
-          $ref: '#/components/schemas/stateProvinceCodeEnum'
-        postalCode:
-          type: string
-          minimum: 1
-          maximum: 20
-          description: Indicate the postal code of the location, sometime refered to as the zip code.
-        country:
-          $ref: '#/components/schemas/countryCodeEnum'
-    isResidential:
-      type: boolean
-      description: A flag indicating whether or not this is a residential location. Used ONLY FOR PARCEL Shipments. For FedEx, FedEx_Ground_Home_Delivery or Fedex_Home_Delivery must be used if the destination is residential.
-    orderPackage:
-      required:
-      - packagingType
-      type: object
-      properties:
-        packageType:
-          $ref: '#/components/schemas/packageCodeEnum'
-        parcelPackageType:
-          $ref: '#/components/schemas/parcelPackageCodeEnum'
-        weight:
-          type: number
-          description: Total weight of the package.
-          format: float
-        length:
-          type: number
-          description: The length of the package.
-          format: float
-        width:
-          type: number
-          description: The width of the package.
-          format: float
-        height:
-          type: number
-          description: The height of the package.
-          format: float
-        packageUnitOfMeasure:
-          $ref: '#/components/schemas/linearUomEnum'
-        volume:
-          type: number
-          format: float
-          description: Volume of the package.
-        packageVolumeUnitOfMeasure:
-          $ref: '#/components/schemas/volumeUomEnum'
-        weightLb:
-          type: number
-          description: Total weight of the package in standard pounds.
-          format: float
-        declaredValue:
-          type: number
-          format: float
-          description: Insurance valuation of package.
-        codAmount:
-          type: number
-          format: float
-          description: Cash on deliver amount for the package.
-        trackingNumber:
-          type: string
-          minimum: 1
-          maximum: 100
-          description: Tracking number assigned to package.
-        notes:
-          type: string
-          minimum: 1
-          maximum: 100
-          description: A place for customer to put package level notes.
-    PackagesDimensions:
-      required:
-      - packagingType
-      type: object
-      properties:
-        packagingType:
-          $ref: '#/components/schemas/BookingPackageCode'
-        quantity:
-          type:
-          - integer
-          - 'null'
-          description: Indicates the quantity, identifying how many containers need to be shipped.
-          format: int32
-        length:
-          type:
-          - number
-          - 'null'
-          description: Indicates the length of the line item packaging.
-          format: float
-        width:
-          type:
-          - number
-          - 'null'
-          description: Indicates the width of the line item packaging.
-          format: float
-        height:
-          type:
-          - number
-          - 'null'
-          description: Indicates the height of the line item packaging.
-          format: float
-        linearUnitOfMeasure:
-          $ref: '#/components/schemas/linearUomEnum'
-        volume:
-          type:
-          - number
-          - 'null'
-          description: Indicates the volume of the line item packaging.
-          format: float
-        volumeOfMeasure:
-          $ref: '#/components/schemas/BookingVolumeUom'
-        stackable:
-          $ref: '#/components/schemas/Stackable'
-      additionalProperties: false
-      description: Details for packaging contained within each commodity item handling unit.
-    serviceLevelEnum:
-      type: string
-      description: 'C.H. Robinson defined code for a service offering.
-
-
-        For a detailed description of all enumerated codes please find them <a href="https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ServiceOfferingDescriptions.xlsx" target="_blank">here</a>.'
-      enum:
-      - S
-      - P
-      - EXP
-      - T/R
-      - DED
-      - TD
-      - SD-NFO
-      - SD-CH
-      - ND-AM
-      - ND-PM
-      - 3RD
-      - ECON
-      - BOX
-      - BTC
-      - HOP
-      - ISO
-      - COFC
-      - TOFC
-      - LB
-      - PC
-      - S-AIR
-      - FCL
-      - LCL
-      - MCL
-      - RORO
-      - NFO
-      - SAMEDAY
-      - NEXT-CARGO
-      - PRTY AM
-      - SD-CARGO
-      - SD-AM
-      - SD-PM
-      - TD-NEXT
-      - TD-2D
-      - TD-3D
-      - TD-ECO
-      - CHARTER
-      - CORP-ND
-      - SEC-ND
-      - ECON-ND
-      - DEF
-      - PRTY
-      - DC
-      - OGC
-      - CARGO
-      - COMM
-      - SD-US
-      - ND-8
-      - ND-10
-      - ND-3
-      - 2D-AM
-      - 2D-PM
-      - 3D
-      - DEF-R
-      - DEF-G
-      - DEF-CAD
-      - INTL-S
-      - INTL-3
-      - INTL-5
-      - FDXSTNDRDVRNGHT
-      - FDXFRSTVRNGHT
-      - FDX2DY
-      - FDXXPRSSSVR
-      - FDXINTLPRRTY
-      - FDXINTLCNMY
-      - FDXINTLFRST
-      - FDX1DYFRGHT
-      - FDX2DYFRGHT
-      - FDX3DYFRGHT
-      - FDXGRND
-      - FDXGRNDHMDLVRY
-      - FDXINTLPRRTYFRGHT
-      - FDXINTLCNMYFRGHT
-      - FDXRPFRSTINTLPRRTY
-      - UPSNXTDYR
-      - UPS2NDDYR
-      - UPSGRUND
-      - UPSWRLDWDXPRSSSM
-      - UPSWRLDWDXPDTDSM
-      - UPSSTNDRD
-      - UPS3DYSLCT
-      - UPSNXTDYRSVR
-      - UPSNXTDYRRLY.M.
-      - UPSWRLDWDXPRSSPLUSSM
-      - UPS2NDDYR.M.
-      - UPSSVR
-      - USPSFRST-CLSSML
-      - USPSPRRTYML
-      - USPSMDML(SNGL-PC)
-      - USPSNTLRMLM-BGS
-      - USPSPRRTYMLINTL
-      - USPSXPRSSML
-      - DHLINTLDOCSRVC
-      - DHLINTLDOCLTTRSRVC
-      - DHLWRLDWDPRRTYXPRSS
-      - PRLTRAIR9:00A
-      - PRLTRAIR10:30A
-      - PRLTRR
-      - PRLTRGRND
-      - PRLTRGRND9:00A
-      - PRLTRGRND10:30A
-      - PRLTRAIRUSA
-      - PRLTRGRNDUSA
-      - PRLTRINTLAIR
-      - FDXPRRTYVRNGHT
-      - Same
-      - Next
-      - 2Day
-      - 3Day
-      - Ground
-      - FDXHOMEDEL
-      - FDX2DYAM
-      - UPSWRLDWDXPRSSS
-      - UPSBSC
-      - UPSSP
-      - UPSSPU1LB
-      - UPSSPM
-      - UPSSPBPM
-      - UPSRTRNSFLEX
-      - USPSLibraryMail
-      - USPSStandardPost
-      - USPSFirstClassMailInt
-      - USPSPriorityMailInt
-      - USPSParcelSelect
-      - USPSStandardMail
-      - USPSCriticalMail
-      - USPSFirstClassPkgInt
-      - FDXSMPSTSELECT
-      - FDXSMPSTMEDIA
-      - FDXSMPSTBOUND
-      - FDXSMPSTPRESORT
-      - BARTOLINIXPRSS
-      - SEURXPRSS
-      - DHLDOMXPRSS
-      - DHLDOMXPRSS9
-      - DHLDOMXPRSS12
-      - DHLXPRSS9
-      - DHLXPRSS12
-      - DHLECONSELECT
-      - DHLXPRSSWWDOCECX
-      - DHLXPRSSWWDOCDOX
-      - DHLECONSELECTDOC
-      - DHLXPRSS9DOC
-      - DHLXPRSS12DOC
-      - FDXINTLPRRTYDIRECT
-      - TNTXPRSS9
-      - TNTXPRSS10
-      - TNTXPRSS12
-      - TNTXPRSS
-      - TNTECONXPRSS
-      - TNTDOMXPRSS
-      - TNTECONXPRSS12
-      - TNTNEXTDAY9
-      - TNTNEXTDAY10
-      - TNTNEXTDAY12
-      - TNTNEXTDAY
-      - DHLPEPFORYOU
-      - DHLPEPEUROPACK
-      - DHLPEPEUROPLUS
-      - DHLDOMECONSELECT
-      - UPSEXPEDITED
-      - SINGPOST
-      - CORREIOS
-      - TNTXPRSS8
-      - TNTBUSPAK8
-      - TNTBUSPAK9
-      - TNTBUSPAK10
-      - TNTBUSPAK12
-      - TH
-      - IHRC
-      - IHPR
-      - IHPA
-      - QSEZPRRTYDM
-      - SPPRRTYSGI
-      - SPPRRTYSGO
-      - SFXSTANDARD
-      - SFXSSAMEDAY
-      - SFXNEXTDAY
-      - SFXECON
-      - QSDSTD
-      - CHD
-      - OHD
-    contactMethod:
-      type: object
-      description: Object defining contact method.
-      required:
-      - method
-      - value
-      properties:
-        method:
-          $ref: '#/components/schemas/contactMethodEnum'
-        value:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Actual content of contact information.
-    orderBillTo:
-      type: object
-      description: Object containing bill to information.
-      required:
-      - customerCode
-      - currencyCode
-      properties:
-        customerCode:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: C.H. Robinson defined bill to customer code. **This will be provided by your C.H. Robinson rep**.
-        charges:
-          type: array
-          description: Charges
-          items:
-            $ref: '#/components/schemas/charge'
-        currencyCode:
-          $ref: '#/components/schemas/currencyCodeEnum'
-        freightTerms:
-          $ref: '#/components/schemas/freightTermEnum'
-        contacts:
-          type: array
-          description: Contacts
-          items:
-            $ref: '#/components/schemas/contact'
-        referenceNumbers:
-          type: array
-          description: Additional reference number objects pertaining to this bill to object.
-          items:
-            $ref: '#/components/schemas/referenceNumber'
-    orderCustomer:
-      type: object
-      description: Object containing customer information.
-      required:
-      - customerCode
-      properties:
-        customerCode:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: C.H. Robinson defined customer code. **This will be provided by your C.H. Robinson rep**.
-        contacts:
-          type: array
-          description: Contacts
-          items:
-            $ref: '#/components/schemas/contact'
-        referenceNumbers:
-          type: array
-          description: Additional reference number objects pertaining to the customer object.
-          items:
-            $ref: '#/components/schemas/referenceNumber'
-    itemEquipmentTypeEnum:
-      type: string
-      description: 'Indicates the equipment type needed to move the item.
-
-
-        For a detailed description of all enumerated codes please find them <a href="https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/OrderEquipmentCodeDescriptions.xlsx" target="_blank">here</a>.'
-      enum:
-      - B
-      - BT
-      - CN
-      - CV
-      - DD
-      - F
-      - FA
-      - FD
-      - FO
-      - FS
-      - HS
-      - MX
-      - RGN
-      - SD
-      - SF
-      - ST
-      - SDC
-      - DDC
-      - V
-      - W
-      - STR
-      - SS
-      - TK
-      - P
-      - FV
-      - R
-      - IC
-      - IR
-      - IT
-      - RM
-      - BDPT
-      - BEND
-      - BFGD
-      - BHOP
-      - BST
-      - BVT
-      - BLAT
-      - BLFGT
-      - BLFRPT
-      - BLRL
-      - BLSS
-      - PU
-      - OT
-      - TT
-      - MF
-      - SA
-      - TP
-      - TM
-      - SSD
-      - PRT
-      - SETT
-      - BEAM
-      - BLADE
-      - BARGE
-      - VS
+          description: C.H. Robinson order number that was created.
+          example: '81134516'
     order:
       type: object
       required:
@@ -2879,725 +1545,63 @@ components:
           minimum: 1
           maximum: 4000
           description: Order level notes.
-    Stackable:
-      enum:
-      - 'Yes'
-      - 'No'
-      - _1x
-      - _2x
-      - _3x
-      - TopLoadable
+    exportReasonCode:
       type: string
-      description: Indicates whether packages are stackable.
-    contactTypeEnum:
-      type: string
-      description: "Indicates the type of contact specified:\n  * `Vendor` - Vendor party (Non Transportation Supplier)\n  * `Buyer` - Buyer Party\n  * `Contact` - Contact Party\n  * `OrderedBy` - Ordered By Party on the Order or Load\n  * `NotifyParty` - Notify Party\n  * `OnlineContact` - CHRWOnline Contact\n  * `SchedWith` - Scheduled With\n  * `POCustomer` - Customer on the Purchase Order\n"
+      description: A value required for DHL international shipments indicating why the shipment is being exported.
       enum:
-      - Vendor
-      - Buyer
-      - Contact
-      - OrderedBy
-      - NotifyParty
-      - OnlineContact
-      - SchedWith
-      - POCustomer
-    BookingAddress:
+      - Permanent
+      - Temporary
+      - Re_Export
+    quoteOrderResponse:
       type: object
+      description: Object containing the quote order response.
       properties:
-        address1:
-          maxLength: 200
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates address line one of the location (maximum 200 characters).
-        address2:
-          maxLength: 200
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates address line two of the location (maximum 200 characters).
-        address3:
-          maxLength: 200
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates address line three of the location (maximum 200 characters).
-        address4:
-          maxLength: 200
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates address line four of the location (maximum 200 characters).
-        city:
-          maxLength: 100
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates the city of the location (maximum 100 characters).
-        county:
-          maxLength: 100
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates the county of the location (maximum 100 characters).
-        lat:
-          maximum: 90
-          minimum: -90
-          type:
-          - string
-          - 'null'
-          description: Indicates the latitude of the location (minimum -90, maximum 90).
-          format: float
-        long:
-          maximum: 180
-          minimum: -180
-          type:
-          - string
-          - 'null'
-          description: Indicates the longitude of the location (minimum -180, maximum 180).
-          format: float
-        stateProvinceCode:
-          $ref: '#/components/schemas/stateProvinceCodeEnum'
-        postalCode:
-          maxLength: 20
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates the postal code of the location, sometimes referred to as the zip code (maximum 20 characters).
-        countryCode:
-          $ref: '#/components/schemas/countryCodeEnum'
-      additionalProperties: false
-      description: Object that contains address specific information.
-    relationships:
-      type: object
-      description: Object to specify master and inner pack qantities.
-      properties:
-        innerPackQuantity:
-          type: number
-          format: float
-          description: Indicates smallest unit that will be sold.
-        innerPackUomCode:
-          $ref: '#/components/schemas/packageCodeEnum'
-        masterPackQuantity:
-          type: number
-          format: float
-          description: Indicates quantity that contains total quantity of innerpack items.
-    hazmatCodeEnum:
-      type: string
-      description: "Defines the authorizing entity:\n  * `C` - HazMat Canadian Regulatory Authority Codes\n  * `D` - HazMat US Regulatory Authority Codes\n  * `I` - HazMat MX/International Regulatory Authority Codes\n"
-      enum:
-      - C
-      - D
-      - I
-    shippingContainers:
-      type: object
-      required:
-      - containerId
-      properties:
-        containerId:
+        quoteId:
           type: integer
-          description: ID of the container.
-        containerType:
-          $ref: '#/components/schemas/shipmentContainerTypeEnum'
-        containerStatus:
-          type: string
-          description: Indicates the container status.
-          enum:
-          - Booking Confirmed
-          - Arrived Pick Up Location
-          - Departed Pick Up Location
-          - In-Gate
-          - Rail Departure
-          - Loaded On Vessel
-          - Vessel Arrived
-          - Vessel Departed
-          - Unloaded from Vessel
-          - Out Gate
-          - Loaded on Rail
-          - Rail Arrived at Destination
-          - Arrived at Delivery Location
-          - Unloaded at Delivery Location
-          - Ordered
-          - Wheels Up
-          - Wheels Down
-        declaredValue:
-          type: number
-          format: currency
-          description: Indicates the container declared value.
-        weightNet:
-          type: number
-          format: float
-          description: indicates the container net weight.
-        weightGross:
-          type: number
-          format: float
-          description: Indicates the container gross weight.
-        vgm:
-          type: number
-          format: float
-          description: VGM
-        sealNum:
-          type: string
-          description: Indicates the container seal number.
-        containerNumber:
-          type: string
-          description: Indicates the container number.
-        weightUnit:
-          $ref: '#/components/schemas/weightUomEnum'
-        currency:
-          $ref: '#/components/schemas/currencyCodeEnum'
-        referenceNumbers:
-          $ref: '#/components/schemas/referenceNumber'
-    tarpTypeEnum:
-      type: string
-      description: "Details the type of tarp required for flat bed trailer.\n  * `10` - Ten Feet\n  * `2` - Two Feet\n  * `4` - Four Feet\n  * `6` - Six Feet\n  * `8` - Eight Feet\n  * `MESH` - Nursery/Mesh\n  * `NO TARP` - No Tarp Required\n  * `SMOKE` - Smoke Tarp\n  * `TOP` - Top\n"
-      enum:
-      - '10'
-      - '2'
-      - '4'
-      - '6'
-      - '8'
-      - MESH
-      - NO TARP
-      - SMOKE
-      - TOP
-    BookingIncoTerms:
-      enum:
-      - DAT
-      - DAP
-      - CIF
-      - CPT
-      - CIP
-      - DDP
-      - EXW
-      - FCA
-      - DPU
-      - FAS
-      - FOB
-      - CFR
-      - DAF
-      - DDU
-      - DEQ
-      - DES
-      type: string
-      description: The Incoterms or International Commercial Terms.
-    parcelPackageCodeEnum:
-      type: string
-      default: CUSTPKG
-      description: "Used to specify if carrier-specific branded packaging is used for a parcel shipment. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ParcelPackagingDescription.xlsx\" target=\"_blank\">here</a>."
-      enum:
-      - FDXNVLP
-      - FDXPK
-      - FDXBX
-      - FDXTB
-      - FDX10KGBX
-      - FDX25KGBX
-      - UPSLTTR
-      - UPSTUB
-      - UPSPK
-      - UPSXPRSSBX
-      - UPS25KGBX
-      - UPS10KGBX
-      - UPSPLLT
-      - USPSPCKG
-      - USPSCRD
-      - USPSLTTR
-      - USPSPRCL
-      - USPSMDUMFLTRTBX
-      - USPSFLTRTNVLP
-      - USPSRRGULRPRCL
-      - USPSLRGFLTRTBX
-      - USPSLRGPRCL
-      - USPSVRSZDPRCL
-      - USPSSMLLFLTRTBX
-      - USPSFLTRTLGLNVLP
-      - USPSFLTRTPDDDNVLP
-      - USPSFLTRTGFTCRDNVLP
-      - USPSFLTRTWNDWNVLP
-      - USPSFLTRTCRDBRDNVLP
-      - USPSSMLLFLTRTNVLP
-      - USPSDVDFLTRTBX
-      - USPSLRGVDFLTRTBX
-      - USPSRGNLRTBX
-      - USPSRGNLRTBXB
-      - DHLLBPK
-      - DHLBX
-      - DHLLTTR
-      - CUSTPKG
-      - UPSSmallExpressBox
-      - UPSMediumExpressBox
-      - UPSLargeExpressBox
-    payerTypeEnum:
-      type: string
-      description: Indicates which party involved in the shipment is responsible for payment.
-      enum:
-      - Sender
-      - Recipient
-      - Third_Party
-    stateProvinceCodeEnum:
-      type: string
-      description: "Indicate the state or province of the location. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/StateProvinceCodes.xlsx\" target=\"_blank\">here</a>."
-      enum:
-      - '1'
-      - '10'
-      - '11'
-      - '12'
-      - '13'
-      - '14'
-      - '15'
-      - '16'
-      - '17'
-      - '18'
-      - '19'
-      - '2'
-      - '20'
-      - '21'
-      - '22'
-      - '23'
-      - '24'
-      - '25'
-      - '26'
-      - '27'
-      - '28'
-      - '29'
-      - '3'
-      - '30'
-      - '31'
-      - '32'
-      - '33'
-      - '34'
-      - '35'
-      - '36'
-      - '37'
-      - '38'
-      - '39'
-      - '4'
-      - '40'
-      - '41'
-      - '42'
-      - '43'
-      - '44'
-      - '45'
-      - '46'
-      - '47'
-      - '48'
-      - '49'
-      - '5'
-      - '50'
-      - '51'
-      - '52'
-      - '53'
-      - '54'
-      - '6'
-      - '61'
-      - '62'
-      - '63'
-      - '64'
-      - '65'
-      - '67'
-      - '7'
-      - '71'
-      - '76'
-      - '79'
-      - '8'
-      - '81'
-      - '84'
-      - '86'
-      - '89'
-      - '9'
-      - '91'
-      - '92'
-      - '95'
-      - A
-      - AA
-      - AB
-      - AC
-      - AE
-      - AG
-      - AGU
-      - AI
-      - AK
-      - AL
-      - AM
-      - AN
-      - AO
-      - AP
-      - AQ
-      - AR
-      - AS
-      - AT
-      - AUK
-      - AV
-      - AZ
-      - B
-      - BA
-      - BC
-      - BCN
-      - BCS
-      - BG
-      - BI
-      - BL
-      - BM
-      - BN
-      - BO
-      - BOP
-      - BR
-      - BS
-      - BT
-      - BZ
-      - C
-      - CA
-      - CAM
-      - CAN
-      - CB
-      - CE
-      - CH
-      - CHH
-      - CHP
-      - CI
-      - CL
-      - CN
-      - CO
-      - COA
-      - COL
-      - CR
-      - CS
-      - CT
-      - CZ
-      - D
-      - DC
-      - DD
-      - DE
-      - DF
-      - DL
-      - DN
-      - DUR
-      - E
-      - EN
-      - ES
-      - F
-      - FC
-      - FE
-      - FG
-      - FI
-      - FL
-      - FM
-      - FR
-      - G
-      - GA
-      - GE
-      - GIS
-      - GJ
-      - GO
-      - GR
-      - GRO
-      - GU
-      - GUA
-      - H
-      - HI
-      - HID
-      - HKB
-      - HP
-      - HR
-      - IA
-      - ID
-      - IL
-      - IM
-      - IN
-      - IS
-      - J
-      - JAL
-      - JH
-      - JK
-      - K
-      - KA
-      - KL
-      - KR
-      - KS
-      - KY
-      - L
-      - LA
-      - LC
-      - LD
-      - LE
-      - LI
-      - LL
-      - LO
-      - LT
-      - LU
-      - M
-      - MA
-      - MB
-      - MBH
-      - MC
-      - MD
-      - ME
-      - MEX
-      - MG
-      - MH
-      - MI
-      - MIC
-      - ML
-      - MN
-      - MO
-      - MOR
-      - MP
-      - MS
-      - MT
-      - MWT
-      - MZ
-      - N
-      - NA
-      - NAY
-      - NB
-      - NC
-      - ND
-      - NE
-      - NH
-      - NJ
-      - NL
-      - NLE
-      - NM
-      - 'NO'
-      - NS
-      - NSN
-      - NSW
-      - NT
-      - NTL
-      - NU
-      - NV
-      - NY
-      - O
-      - OAX
-      - OG
-      - OH
-      - OI
-      - OK
-      - 'ON'
-      - OR
-      - OT
-      - OTA
-      - P
-      - PA
-      - PB
-      - PC
-      - PD
-      - PE
-      - PG
-      - PI
-      - PN
-      - PO
-      - PR
-      - PT
-      - PU
-      - PUE
-      - PV
-      - PY
-      - PZ
-      - Q
-      - QC
-      - QLD
-      - QU
-      - QUE
-      - R
-      - RA
-      - RC
-      - RE
-      - RG
-      - RI
-      - RJ
-      - RM
-      - RN
-      - RO
-      - ROO
-      - RR
-      - RS
-      - S
-      - SA
-      - SC
-      - SD
-      - SE
-      - SI
-      - SIN
-      - SJ
-      - SK
-      - SLP
-      - SO
-      - SON
-      - SP
-      - SR
-      - SS
-      - STL
-      - SV
-      - T
-      - TA
-      - TAB
-      - TAM
-      - TAS
-      - TE
-      - TG
-      - TKI
-      - TLA
-      - TN
-      - TO
-      - TP
-      - TR
-      - TS
-      - TV
-      - TX
-      - U
-      - UD
-      - UL
-      - UM
-      - UP
-      - UT
-      - V
-      - VA
-      - VB
-      - VC
-      - VE
-      - VER
-      - VI
-      - VIC
-      - VR
-      - VS
-      - VT
-      - VV
-      - W
-      - WA
-      - WB
-      - WGN
-      - WI
-      - WKO
-      - WTC
-      - WV
-      - WY
-      - X
-      - Y
-      - YT
-      - YUC
-      - Z
-      - ZAC
-    labelReferenceData1:
-      type: string
-      description: First piece of reference data to be used on the package label. This is used as the customer/shipper reference number on the label for FedEx, UPS, DHL, and TNT.
-      minLength: 1
-      maxLength: 35
-    error400:
-      properties:
-        message:
-          type: string
-        path:
-          type: array
-          items:
-            type: string
-        type:
-          type: string
-        context:
-          type: object
-          properties:
-            child:
-              type: string
-            value:
-              type: array
-              items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                  value:
-                    type: string
-            key:
-              type: string
-            label:
-              type: string
-    BookingMode:
-      enum:
-      - Ocean
-      - Air
-      type: string
-      description: Indicates the requested mode of transportation.
-    movementTypeEnum:
-      type: string
-      description: "Specifies movement type of the shipment:\n  * `OD` - \"Origin Dray\"\n  * `DD` - \"Destination Dray\"\n  * `OPDP` - \"Origin Port to Destination Port\"\n  * `OPDD` - \"Origin Port to Destination Door\"\n  * `ODDP` - \"Origin Door to Destination Port\"\n  * `ODDD` - \"Origin Door to Destination Door\"\n  * `ORDP` - \"Origin Ramp to Destination Port\"\n  * `OPDR` - \"Origin Port to Destination Ramp\"\n  * `ORDD` - \"Origin Ramp to Destination Door \"\n  * `ODDR` - \"Origin Door to Destination Ramp\"\n  * `ORDR` - \"Origin Ramp to Destination Ramp\"\n  * `OADA` - \"Origin Airport to Destination Airport\"\n  * `OADD` - \"Origin Airport to Destination Door\"\n  * `ODDA` - \"Origin Door to Destination Airport\"\n  * `ODOC` - \"Origin Door to Origin CFS\"\n  * `ODDC` - \"Origin Door to Destination CFS\"\n  * `OCDC` - \"Origin CFS to Destination CFS\"\n  * `OCDD` - \"Origin CFS to Destination Door\"\n  * `DCDD` - \"Destination CFS to Destination Door\"\n  * `OCDP` - \"Origin CFS to Destination Port\"\n  * `OPDC` - \"Origin Port to Destination CFS\"\n"
-      enum:
-      - OD
-      - DD
-      - OPDP
-      - OPDD
-      - ODDP
-      - ODDD
-      - ORDP
-      - OPDR
-      - ORDD
-      - ODDR
-      - ORDR
-      - OADA
-      - OADD
-      - ODDA
-      - ODOC
-      - ODDC
-      - OCDC
-      - OCDD
-      - DCDD
-      - OCDP
-      - OPDC
-    error403:
-      required:
-      - statusCode
-      - error
-      - message
-      properties:
-        statusCode:
+          format: int64
+          description: ID that was used to submit the order using the quote route.
+        orderNumber:
           type: integer
-          description: Error code
-          example: 403
-        error:
+          description: C.H. Robinson order number that was created.
+        trackingNumber:
           type: string
-          description: detail about the error status code
-          example: Forbidden
-        message:
-          type: string
-          description: Specifies issue
-          example: Invalid customerCode
-    contactMethodEnum:
-      type: string
-      description: 'Indicates the best method for reaching the specified contact.
-
-        '
-      enum:
-      - Email
-      - Phone
-      - Fax
-    incoTermsEnum:
-      type: string
-      description: "The Incoterms or International Commercial Terms are a series of pre-defined commercial terms published by the International Chamber of Commerce (ICC) relating to international commercial law.\n  * `DAT` - Delivered at Terminal\n  * `DAP` - Delivered at Place\n  * `CIF` - Cost Insurance & Freight\n  * `CPT` - Carriage Paid To\n  * `CIP` - Carriage & Insurance Paid To\n  * `DDP` - Delivered duty paid\n  * `EXW` - EX works\n  * `FCA` - Free carrier at\n  * `DPU` - Delivered at place unloaded\n  * `FAS` - Free alongside ship\n  * `FOB` - Free on Board\n  * `CFR` - Cost and Freight\n  * `PPD` - Prepaid\n  * `COL` - Collect\n  * `DAF` - Delivery at Frontier\n  * `DDU` - Delivery Duty Unpaid\n  * `DEQ` - Delivery Ex-Quay, Duty Unpaid\n  * `DES` - Delivery Ex-Ship\n"
-      enum:
-      - DAT
-      - DAP
-      - CIF
-      - CPT
-      - CIP
-      - DDP
-      - EXW
-      - FCA
-      - DPU
-      - FAS
-      - FOB
-      - CFR
-      - PPD
-      - COL
-      - DAF
-      - DDU
-      - DEQ
-      - DES
+          description: C.H. Robinson online number that was associated to the order.
+    specialRequirementOrder:
+      type: object
+      properties:
+        liftGate:
+          type: boolean
+          description: Indicates that a lift gate is needed.
+        insidePickup:
+          type: boolean
+          description: Indicates that inside pickup is needed. **Only used on the origin/pick stop**
+        insideDelivery:
+          type: boolean
+          description: Indicates that inside delivery is needed. **Only used on the destination/drop stop**
+        residentialNonCommercial:
+          type: boolean
+          description: Indicates that a stop is residential non-commercial.
+        limitedAccess:
+          type: boolean
+          description: Indicates that stop has limited access.
+        tradeShoworConvention:
+          type: boolean
+          description: Indicates that stop is a trade show or convention.
+        constructionSite:
+          type: boolean
+          description: Indicates that stop is a construction site.
+        dropOffAtCarrierTerminal:
+          type: boolean
+          description: Indicates that customer will drop off at carrier terminal. **Only used on the origin/pick stop**
+        pickupAtCarrierTerminal:
+          type: boolean
+          description: Indicates that customer will pickup at carrier terminal. **Only used on the destination/drop stop**
+        appointmentNotification:
+          type: boolean
+          description: Indicates that stop has an appointment notification. **Only used on the destination/drop stop**
+        sortAndSegregate:
+          type: boolean
+          description: Indicates that items will need to be sorted at stop. **Only used on the destination/drop stop**
     countryCodeEnum:
       type: string
       description: "Indicate the country of the location. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CountryCodes.xlsx\" target=\"_blank\">here</a>."
@@ -3854,229 +1858,250 @@ components:
       - IC
       - XC
       - XL
-    quoteOrderResponse:
-      type: object
-      description: Object containing the quote order response.
-      properties:
-        quoteId:
-          type: integer
-          format: int64
-          description: ID that was used to submit the order using the quote route.
-        orderNumber:
-          type: integer
-          description: C.H. Robinson order number that was created.
-        trackingNumber:
-          type: string
-          description: C.H. Robinson online number that was associated to the order.
-    quoteBillTo:
-      type: object
-      description: Object containing bill to information.
-      properties:
-        currencyCode:
-          $ref: '#/components/schemas/currencyCodeEnum'
-        contacts:
-          type: array
-          description: Contacts
-          items:
-            $ref: '#/components/schemas/contact'
-        referenceNumbers:
-          type: array
-          description: Additional reference number objects pertaining to this bill to object.
-          items:
-            $ref: '#/components/schemas/referenceNumber'
-    hazardousProperties:
-      type: object
-      description: Object containing hazardous material information.
+    PartyType:
+      enum:
+      - Consignee
+      - BillTo
+      - Shipper
+      - NotifyParty
+      type: string
+      description: Party type enumeration.
+    ReferenceNumber:
       required:
-      - description
+      - type
+      - value
+      type: object
       properties:
-        description:
+        type:
+          $ref: '#/components/schemas/BookingReferenceNumberType'
+        value:
+          maxLength: 100
+          minLength: 1
           type: string
-          minimum: 1
-          maximum: 500
-          description: Description of the hazardous material.
-        technicalName:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Technical name of the hazardous material.
-        unNumber:
-          type: string
-          minimum: 1
-          maximum: 10
-          description: Four-digit numbers that identify dangerous goods, hazardous substances and articles (such as explosives, flammable liquids, toxic substances, etc.) in the framework of international transport.
-          example: '2796'
-        classCode:
-          type: string
-          minimum: 1
-          maximum: 10
-          description: Code for hazardous material in the framework of international transport.
-        packagingGroup:
-          $ref: '#/components/schemas/hazardousGroupEnum'
-        emergencyPhone:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Emergency phone number.
-        authCode:
-          $ref: '#/components/schemas/hazmatCodeEnum'
-        isPlacarded:
-          type: boolean
-          description: Does hazardous material have a placard.
-        isReportableQuantity:
-          type: boolean
-          description: Hazardous material is defined as a reportable quantity.
-        isPrimaryCommodity:
-          type: boolean
-          description: Is hazardous material considered a primary commodity.
-        isNOSCommodity:
-          type: boolean
-          description: Is hazardous material considered a NOS commodity.
-        flashpoint:
+          description: Indicates the actual value of the reference number (maximum 100 characters).
+      additionalProperties: false
+      description: Represents a reference number with type and value.
+    sellModeEnum:
+      type: string
+      description: "Defines the mode:\n  * `LTL` - Less than Truckload Transportation\n  * `TL` - Truckload Transportation\n  * `DomesticAir` - Domestic Air Transportation\n  * `Ocean` - Ocean Transportation\n  * `IMDL` - Intermodal Full Container Transportation\n  * `Bulk` - Bulk Transportation\n  * `Consolidated` - Consolidated Transportation\n  * `LTLFlatbed` - Less than Truckload Flatbed Transportation\n  * `TLFlatbed` - Truckload Flatbed Transportation\n  * `SmallParcel` - Small Parcel Transportation\n  * `Tautliner` - Tatliner Transportation\n"
+      enum:
+      - LTL
+      - TL
+      - LTLFlatbed
+      - TLFlatbed
+      - IMDL
+      - Bulk
+      - Consolidated
+      - DomesticAir
+      - SmallParcel,
+      - Ocean
+      - Tautliner
+    charge:
+      type: object
+      description: Object relating to the charges for the order.
+      required:
+      - rate
+      - rateCode
+      properties:
+        rate:
           type: number
           format: float
-          description: Hazmat flash point is the minimum temperature at which a liquid gives off vapor within a test vessel in sufficient concentration to form an ignitable mixture with air near the surface of the liquid.
-        flashpointTemperatureUnit:
-          $ref: '#/components/schemas/temperatureUomEnum'
-        isEnvironmentallyHazardous:
-          type: boolean
-          description: Is hazardous material considered environmentally hazardous.
-        subsidiaryHazmatClasses:
+          description: Monetary amount of this rate type.
+        rateCode:
+          $ref: '#/components/schemas/rateCodeEnum'
+        quantity:
+          type: number
+          format: float
+          description: Quantity of the rate. Multiplying `rate` by `quantity` will give the total charge for this rate line item.
+          default: 1
+        alternateDescription:
           type: string
           minimum: 1
-          maximum: 50
-          description: Subsidiary Code for hazardous material in the framework of international transport.
-        vesselStowageCategory:
-          $ref: '#/components/schemas/vesselStowageCategoryEnum'
-        specialProvisions:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Indicates the Special Provisions for Hazardous Materials.
-        marinePollutantCategory:
-          type: string
-          description: Indicates the Marine Pollutant Category for Hazardous Materials.
-          $ref: '#/components/schemas/marinePollutantCategory'
-          enum:
-          - SevereMarinePollutant
-          - MarinePollutant
-        emergencyResponseGuidePage:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Indicates the Emergency Response Guidebook Page for first responders during the initial Phase of Hazardous Materials Transportation Incident.
-        passengerLimitation:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Indicates the passenger limitation for Hazardous Materials.
-        cargoAircraftLimitation:
-          type: string
-          minimum: 1
-          maximum: 50
-          description: Indicates the Cargo Aircraft Limitation for Hazardous Materials.
-        exemptionNotes:
-          type: string
-          minimum: 1
-          maximum: 4000
-          description: Indicates the exemption notes for Hazardous Materials.
-    orderService:
-      type: object
-      description: Object containing service information.
-      required:
-      - locations
-      - items
-      properties:
-        dateCalculationRule:
-          type: string
-          description: "Selected promise date.\n\n* `promisedShipDate` - Identifies the pick up date as promised to customer. \n* `promisedDeliveryDate` - Identifies the delivery date as promised to customer."
-          enum:
-          - promisedShipDate
-          - promisedDeliveryDate
-        serviceLevel:
-          $ref: '#/components/schemas/serviceLevelEnum'
-        suggestedScac:
-          type: string
-          minimum: 1
-          maximum: 10
-          description: Indicates a specific carrier SCAC customer wishes to associate to the order.
-        isCritical:
-          type: boolean
-          description: Indicates if the order is critical.
-        isDangerous:
-          type: boolean
-          description: Indicates if the order contains dangerous item.
-        isHot:
-          type: boolean
-          description: Indicates if the item is hot.
-        isHighValue:
-          type: boolean
-          description: Indicates if the item is high value.
-        isPartial:
-          type: boolean
-          description: Indicates if the item is partial.
-        suggestedCarrierPartyCode:
-          type: string
-          minimum: 1
-          maximum: 25
-          description: C.H. Robinson identifier for a carrier customer wishes to associate to the order.
-        routeCode:
-          type: string
-          description: Identifies the routing pattern needed to deliver this order.
-        sellMode:
-          $ref: '#/components/schemas/sellModeEnum'
-        locations:
-          type: array
-          minimum: 2
-          maximum: 2
-          description: The locations on the order.
-          items:
-            $ref: '#/components/schemas/orderLocation'
-        items:
-          type: array
-          description: The item(s) on the order.
-          items:
-            $ref: '#/components/schemas/orderItem'
-        packages:
-          type: array
-          description: The package(s) on the order.
-          items:
-            $ref: '#/components/schemas/orderPackage'
-        collectOnDelivered:
-          type: array
-          description: Collect on Deliver
-          items:
-            $ref: '#/components/schemas/collectOnDelivered'
-        referenceNumbers:
-          type: array
-          description: Additional reference number objects pertaining to this service.
-          items:
-            $ref: '#/components/schemas/referenceNumber'
-        isTeam:
-          type: boolean
-          description: Indicates if the order requires team service.
-        incoTerms:
-          $ref: '#/components/schemas/incoTermsEnum'
-        incoTermsNamedLocation:
-          type: string
-          description: Name of Inco term location.
-        customEquipmentType:
-          type: string
-          description: This field represents a custom value used to describe equipment. The list is specific to each customer and is coordinated with the C.H Robinson account team. Only agreed upon values will function properly in Navisphere®.  It is the responsibility of the customer to supply correct values. This field is used primarily by TMC customers. Reach out to your TMC Representative for more information.
-        parcelDeliveryServices:
-          type: object
-          description: Used to specify special delivery service options (these services may incur additional charges).
-          properties:
-            saturdayDelivery:
-              type: boolean
-              description: Used to indicate Saturday Delivery Service (this service may incur additional charges).
-            deliveryConfirmation:
-              type: string
-              description: Used on specify if signature is required on delivery (this service may incur additional charges).
-              enum:
-              - SignatureRequired
-              - AdultSignatureRequired
-              - NotRequired
+          maximum: 20
+          description: Description of the charge.
+    BookingReferenceNumberType:
+      enum:
+      - SHID
+      - MBOL
+      - PO
+      - BOL
+      - CFRM
+      - CRID
+      - CUSTPO
+      - DEL
+      - DIST
+      - FIN
+      - GL
+      - JNO
+      - PU
+      - RANumber
+      - RLPRO
+      - MREF
+      - Empty
+      - PRO
+      - CCN
+      - SBOL
+      - CON
+      - APPT
+      - CHRW_ID
+      - FDA
+      - IREF
+      - LIC
+      - ORD
+      - PLU
+      - SCAC
+      - SEAL
+      - SKU
+      - SREF
+      - STCC
+      - TEB
+      - VPO
+      - WB
+      - XXXX
+      - TRIA
+      - TRANS
+      - GCC
+      - SDATE
+      - CDATE
+      - ACCT
+      - CCTR
+      - IGM
+      - GIGM
+      - LIGM
+      - SMTP
+      - PERMIT
+      - RNO
+      - DVCN
+      - PRCL
+      - CPUC
+      - SHPMD
+      - AFR
+      - BUYID
+      - VNDID
+      - DIV
+      - DEPT
+      - POTYPE
+      - GRGI
+      - DUNS
+      - PALLETREF
+      - CITTN
+      - CIN
+      - SHIPWITH
+      - PN
+      - UPC
+      - PRCD
+      - VESSEL
+      - VOYAGE
+      - FN
+      - FEEDVESS
+      - FEEDVOY
+      - SHIPREF
+      - CBL
+      - SPAC
+      - POLN
+      - VPOLN
+      - EIN
+      - CNSG
+      - PROFITCTR
+      - MFGPART
+      - PACKSLIP
+      - THIRDPRTY
+      - DEFATTR
+      - FSTRK
+      - FOItemID
+      - POLineNum
+      - PARCELSPC
+      - CNS1
+      - CNS2
+      - CNS3
+      - CNS4
+      - CNS5
+      - CNS6
+      - CNS7
+      - TREF
+      - VREF
+      - UPRICE
+      - FWPARTY
+      - BYPARTY
+      - HBL
+      - CBP
+      - TRANSFER
+      - SO
+      - ORDTRK
+      - QUOTEID
+      - EQT
+      - BOOTH
+      - TS
+      - OH
+      - CNTNR
+      - VAS
+      - Size
+      - Color
+      - Style
+      - HCERT
+      - B
+      - ETMSID
+      - 214-IMO
+      - SHPWeight
+      - SHPVolume
+      - SHPDims
+      - SERIALIZED
+      - SERIALNUM
+      - CPSIA
+      - EDIINVREF
+      - SQID
+      - QSeqNum
+      - OuterPkStu
+      - GLC
+      - COMP
+      - COST
+      - DTYGL
+      - DTYCC
+      - BRKGL
+      - BRKCC
+      - GPS
+      - IAC
+      - WHRCT
+      - ERGUID
+      - SONUM
+      - CCNUM
+      - PrimCCNUM
+      - PrevCCNUM
+      - CMRN
+      - TRANSSHIP
+      - PGIDATE
+      - AESFIL
+      - CUSTQUOTID
+      - QUOTETRACE
+      - ODATE
+      - FRCLS
+      - NMFC
+      - EXTQUOTEID
+      - KSMS
+      - LVSCONSOLID
+      - REN
+      - NCCID
+      - 'OH #'
+      - B#
+      - OJobNum
+      - Plant
+      - TRNSPRTID
+      - VCTe
+      type: string
+      description: C.H. Robinson defined code for reference number types.
+    labelReferenceData1:
+      type: string
+      description: First piece of reference data to be used on the package label. This is used as the customer/shipper reference number on the label for FedEx, UPS, DHL, and TNT.
+      minLength: 1
+      maxLength: 35
+    BookingLocationType:
+      enum:
+      - Pickup
+      - OriginPort
+      - DestinationPort
+      - Delivery
+      type: string
+      description: Location type enumeration.
     gfBooking:
       required:
       - customerCode
@@ -4162,6 +2187,456 @@ components:
       description: Represents a GF Booking in C.H. Robinson's Navisphere®.
       discriminator:
         propertyName: type
+    orderItem:
+      required:
+      - packagingType
+      - quantity
+      type: object
+      properties:
+        packagingType:
+          $ref: '#/components/schemas/packageCodeEnum'
+        itemId:
+          type: integer
+          description: Indicates the itemId. Distinct value by item that should only be used when sending shippingContainers, to link containers to their respective items.
+        quantity:
+          type: number
+          format: float
+          description: Quantity is the number of packagingType's.
+        description:
+          type: string
+          minimum: 1
+          maximum: 200
+          description: Customer defined description of the item.
+        productCode:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Customer defined code of the item.
+        freightClass:
+          $ref: '#/components/schemas/freightClassEnum'
+        weight:
+          type: number
+          description: Total Weight of the line item. This represents to total weight of the all quantities. For example, if the indvidual weight of 1 quantity is 100 pounds, and the quantity of the line item is 2, then 200 is the value for this field.
+          format: float
+        weightUnitOfMeasure:
+          $ref: '#/components/schemas/weightUomEnum'
+        packagingLength:
+          type: number
+          description: The length of the line item packaging.
+          format: float
+        packagingWidth:
+          type: number
+          description: The width of the line item packaging.
+          format: float
+        packagingHeight:
+          type: number
+          description: The height of the line item packaging.
+          format: float
+        packagingUnitOfMeasure:
+          $ref: '#/components/schemas/linearUomEnum'
+        relationships:
+          $ref: '#/components/schemas/relationships'
+        equipmentLength:
+          type: number
+          format: float
+          description: Indicates the length of the equipment needed to transport the item.
+        equipmentHeight:
+          type: number
+          format: float
+          description: Indicates the height of the equipment needed to transport the item.
+        equipmentWidth:
+          type: number
+          format: float
+          description: Indicates the width of the equipment needed to transport the item.
+        equipmentUnitOfMeasure:
+          $ref: '#/components/schemas/linearUomEnum'
+        totalTrailerFeetUsed:
+          type: integer
+          description: Total feet item(s) will utilize inside the trailer.
+        itemEquipment:
+          $ref: '#/components/schemas/itemEquipment'
+        packagingVolume:
+          type: number
+          format: float
+          description: Volume of the item.
+        packagingVolumeUnitOfMeasure:
+          $ref: '#/components/schemas/volumeUomEnum'
+        insuranceValue:
+          type: number
+          format: float
+          description: Customer specified declared value of the item.
+        pallets:
+          type: number
+          format: float
+          description: Identifies how many pallets for the item.
+        palletSpaces:
+          type: number
+          format: float
+          description: Indentifies how many pallet spaces the item will use in the cargo space.
+        nationalMotorFreightClass:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: The National Motor Freight Traffic Association publishes the National Motor Freight Classification® (NMFC®), a standard that provides a comparison of commodities moving in commerce. The NMFC® is developed and maintained by the Commodity Classification Standards Board (CCSB).
+        hazardousProperties:
+          $ref: '#/components/schemas/hazardousProperties'
+        upcNumber:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Universal Product Code. The barcode consists of a five digit manufacturer number and a five digit product number.
+        skuNumber:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Stock Keeping Unit. A number assigned to a product by a the customer.
+        pluNumber:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Price Look-up Number. A system of numbers the customer uses that uniquely identifies bulk produce
+        isStackable:
+          type: boolean
+          description: Parameter to indicate if item(s) can be stacked one on top of the other.
+        isTemperatureSensitive:
+          type: boolean
+          description: Parameter to indicate if item(s) needs to be kept between specific temperatures.
+        temperatureType:
+          $ref: '#/components/schemas/temperatureSensitiveEnum'
+        temperatureUnit:
+          $ref: '#/components/schemas/temperatureUomEnum'
+        requiredTemperatureHigh:
+          type: number
+          description: The highest temperature the item(s) can be.
+          format: float
+        requiredTemperatureLow:
+          type: number
+          description: The lowest temperature the item(s) can be.
+          format: float
+        notes:
+          type: string
+          minimum: 1
+          maximum: 4000
+          description: Allows customer to add notes about the item.
+        referenceNumbers:
+          type: array
+          description: Additional reference number objects pertaining to this item.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    dutyPayerAccountNumber:
+      type: string
+      description: Account number of the party paying the duty charges; Required for a dutyPayerType of Third_Party or if C.H. Robinson does not have the billing account to use on file.
+    BookingVolumeUom:
+      enum:
+      - CubicInches
+      - CubicFeet
+      - CubicMeters
+      - CubicCentimeters
+      type: string
+      description: Unit of measure for volume parameters.
+    payerTypeEnum:
+      type: string
+      description: Indicates which party involved in the shipment is responsible for payment.
+      enum:
+      - Sender
+      - Recipient
+      - Third_Party
+    vesselStowageCategoryEnum:
+      type: string
+      description: "Indicates the HazMat Stowage category code according stowage requirements listed in the IMDG Code Dangerous Goods List.\n  * `A`  - Stowage category code A\n  * `B`  - Stowage category code B\n  * `C`  - Stowage category code C\n  * `D`  - Stowage category code D\n  * `E`  - Stowage category code E\n  * `01` - Stowage category code 1\n  * `02` - Stowage category code 2\n  * `03` - Stowage category code 3\n  * `04` - Stowage category code 4\n  * `05` - Stowage category code 5\n"
+      enum:
+      - A
+      - B
+      - C
+      - D
+      - E
+      - '01'
+      - '02'
+      - '03'
+      - '04'
+      - '05'
+    BookingPackageCode:
+      enum:
+      - BAG
+      - BAL
+      - BDL
+      - BIN
+      - BLK
+      - BOT
+      - BOX
+      - BXT
+      - CAR
+      - CAS
+      - CRT
+      - DRM
+      - DZ
+      - EAC
+      - GOH
+      - GYL
+      - HDW
+      - IBC
+      - JAR
+      - KG
+      - LBS
+      - LNFT
+      - LSE
+      - LUG
+      - M
+      - OTHR
+      - PAL
+      - PCS
+      - PKG
+      - PLT
+      - PR
+      - RCK
+      - REL
+      - ROL
+      - SAK
+      - SET
+      - SHT
+      - SKD
+      - SKE
+      - SLP
+      - TH
+      - TOT
+      - TRY
+      - YD
+      - AST
+      - ENV
+      - IMDLTRL
+      - JRYCN
+      - M2
+      - TUBE
+      type: string
+      description: C.H. Robinson defined code for packaging type/code.
+    additionalLocationTypeEnum:
+      type: string
+      description: "The additional locations types on the order.\n * `BailmentWarehouse` - Bailment Warehouse\n * `BillToParty` - Bill To Party\n * `Consignee` - Consignee\n * `DeliveryAddress` - Delivery Address\n * `Depositor` - Depositor\n * `Exporter` - Exporter\n * `NotifyParty1` - Notify Party 1\n * `NotifyParty2` - Notify Party 2\n * `PickupAddress` - Pickup Address\n * `Plant` - Plant\n * `SellingParty` - Selling Party\n * `ShipFrom` - Ship From\n * `ShipTo` - Ship To\n * `Shipper` - Shipper\n * `SoldToandShipTo` - Sold To and Ship To\n * `SoldTo` - Sold To if different from Bill To\n * `Supplier` - Supplier\n * `ThirdPartyAdministrator` - Third Party Administrator\n * `UltimateConsignee` - Ultimate Consignee\n * `Vendor` - Vendor\n * `Warehouse` - Warehouse\n"
+    hazardousGroupEnum:
+      type: string
+      description: "Dangerous goods are assigned into 3 packing groups (also known as UN Packing Group) in accordance with the degree of danger they present.\n  * `I` - Group I - Major Danger\n  * `II` - Group II - Medium Danger\n  * `III` - Group III - Minor Danger\n"
+      enum:
+      - I
+      - II
+      - III
+    quoteBillTo:
+      type: object
+      description: Object containing bill to information.
+      properties:
+        currencyCode:
+          $ref: '#/components/schemas/currencyCodeEnum'
+        contacts:
+          type: array
+          description: Contacts
+          items:
+            $ref: '#/components/schemas/contact'
+        referenceNumbers:
+          type: array
+          description: Additional reference number objects pertaining to this bill to object.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    Stackable:
+      enum:
+      - 'Yes'
+      - 'No'
+      - _1x
+      - _2x
+      - _3x
+      - TopLoadable
+      type: string
+      description: Indicates whether packages are stackable.
+    tarpTypeEnum:
+      type: string
+      description: "Details the type of tarp required for flat bed trailer.\n  * `10` - Ten Feet\n  * `2` - Two Feet\n  * `4` - Four Feet\n  * `6` - Six Feet\n  * `8` - Eight Feet\n  * `MESH` - Nursery/Mesh\n  * `NO TARP` - No Tarp Required\n  * `SMOKE` - Smoke Tarp\n  * `TOP` - Top\n"
+      enum:
+      - '10'
+      - '2'
+      - '4'
+      - '6'
+      - '8'
+      - MESH
+      - NO TARP
+      - SMOKE
+      - TOP
+    volumeUomEnum:
+      type: string
+      description: Unit of measure for volume parameters.
+      enum:
+      - CubicFeet
+      - CubicMeters
+    BookingLocation:
+      required:
+      - type
+      type: object
+      properties:
+        customerLocationId:
+          maxLength: 50
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: 'Indicates the customer defined identifier associated to a specific location.
+
+            If C.H. Robinson maintains a list of the customer''s location IDs, then customerLocationId can be provided in lieu of address information.'
+        type:
+          $ref: '#/components/schemas/BookingLocationType'
+        name:
+          maxLength: 100
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: 'Indicates the name of the location (maximum 100 characters).
+
+            If the address of the location is not in C.H. Robinson''s system, it is mandatory to include the name parameter so C.H. Robinson can auto-create the location in our system on order create.'
+        openDateTime:
+          type:
+          - string
+          - 'null'
+          description: Indicates the Customer-preferred earliest date and time for location activity. ISO8601 format.
+          format: date-time
+        closeDateTime:
+          type:
+          - string
+          - 'null'
+          description: Indicates the Customer-preferred latest date and time for location activity. ISO8601 format.
+          format: date-time
+        address:
+          $ref: '#/components/schemas/BookingAddress'
+        referenceNumbers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ReferenceNumber'
+          description: Indicates additional reference number objects pertaining to this location.
+      additionalProperties: false
+      description: List of locations where freight is being transferred for this Booking.
+    BookingShipmentContainerType:
+      enum:
+      - 20DR
+      - 20FC
+      - 20FG
+      - 20FR
+      - 20FT
+      - 20GH
+      - 20HC
+      - 20HD
+      - 20IT
+      - 20OT
+      - 20PF
+      - 20RF
+      - 20RH
+      - 20SL
+      - 40DR
+      - 40FG
+      - 40FR
+      - 40FT
+      - 40GH
+      - 40HC
+      - 40HF
+      - 40HH
+      - 40HL
+      - 40HR
+      - 40HS
+      - 40IN
+      - 40OT
+      - 40RF
+      - 40RH
+      - 40RQ
+      - 40TK
+      - 45DR
+      - 45FR
+      - 45GP
+      - 45HC
+      - 45HD
+      - 45HT
+      - 45RF
+      - 45RH
+      - 45TR
+      - 48HC
+      - 48TR
+      - 53HC
+      - 53TR
+      - BBLK
+      - LCL
+      - RORO
+      type: string
+      description: Type of shipping container.
+    BookingAddress:
+      type: object
+      properties:
+        address1:
+          maxLength: 200
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates address line one of the location (maximum 200 characters).
+        address2:
+          maxLength: 200
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates address line two of the location (maximum 200 characters).
+        address3:
+          maxLength: 200
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates address line three of the location (maximum 200 characters).
+        address4:
+          maxLength: 200
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates address line four of the location (maximum 200 characters).
+        city:
+          maxLength: 100
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates the city of the location (maximum 100 characters).
+        county:
+          maxLength: 100
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates the county of the location (maximum 100 characters).
+        lat:
+          maximum: 90
+          minimum: -90
+          type:
+          - string
+          - 'null'
+          description: Indicates the latitude of the location (minimum -90, maximum 90).
+          format: float
+        long:
+          maximum: 180
+          minimum: -180
+          type:
+          - string
+          - 'null'
+          description: Indicates the longitude of the location (minimum -180, maximum 180).
+          format: float
+        stateProvinceCode:
+          $ref: '#/components/schemas/stateProvinceCodeEnum'
+        postalCode:
+          maxLength: 20
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates the postal code of the location, sometimes referred to as the zip code (maximum 20 characters).
+        countryCode:
+          $ref: '#/components/schemas/countryCodeEnum'
+      additionalProperties: false
+      description: Object that contains address specific information.
     rateCodeEnum:
       type: string
       description: "C.H. Robinson defined code for rating code. Here is a list of the most commonly used rate codes: \n\n`400` - Line Haul, `405` - Fuel Surchage, `260` - Deliver Surchage, `IDL` - Inside Delivery, `IPU` - Inside Pickup \n`LFT` - Lift Gate or Forklift Service, `DET` - Detention, `DLA` - Delivery Limited Access, `PLA` - Pickup Limited Access \n`RES` - Residential Delivery Fee, `REP` - Residential Pickup Fee, `CSD` - Construction Site Delivery <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/RateCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
@@ -4951,6 +3426,243 @@ components:
       - '919'
       - '923'
       - WTT
+    error401:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 401
+        error:
+          type: string
+          description: Detail about the error status code
+        message:
+          type: string
+          description: Specifies issue
+        attributes:
+          type: object
+          properties:
+            error:
+              type: string
+    quote:
+      type: object
+      description: Object containing information for quote order.
+      required:
+      - quoteId
+      properties:
+        quoteId:
+          type: integer
+          format: int64
+          description: Quote ID that was received from the rating API call.
+        customer:
+          $ref: '#/components/schemas/orderCustomer'
+        billTo:
+          $ref: '#/components/schemas/quoteBillTo'
+        service:
+          $ref: '#/components/schemas/quoteService'
+        origin:
+          $ref: '#/components/schemas/quoteLocation'
+        destination:
+          $ref: '#/components/schemas/quoteLocation'
+        onlineParties:
+          type: array
+          description: Contains data which allows a third party visibility to an order belonging to their associated shipper via the Navisphere Online 2.0 product.
+          items:
+            type: object
+            properties:
+              partyType:
+                type: string
+                description: Represents the type of order party requesting visibility for the third party.
+                enum:
+                - CUSTOMER
+                - BILLTO
+              partyCode:
+                type: string
+                description: Represents the CHR customer code linked to the online/third party.
+              relationshipIdentifier:
+                type: string
+                description: An identifier mutually recognized by all concerned parties interested in the progress of the shipment.
+        notes:
+          type: string
+          minimum: 1
+          maximum: 4000
+          description: A place for customer to put quote order level notes.
+        referenceNumbers:
+          type: array
+          description: Additional reference number objects pertaining to the order.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    BookingContainer:
+      required:
+      - quantity
+      - type
+      type: object
+      properties:
+        containerId:
+          type:
+          - integer
+          - 'null'
+          description: Indicates the identifier for a single container within the shipment and serves as the key used to group all related data elements.
+          format: int32
+        type:
+          $ref: '#/components/schemas/BookingShipmentContainerType'
+        quantity:
+          type: integer
+          description: Indicates the quantity, identifying how many containers need to be shipped.
+          format: int32
+        containerNumber:
+          type:
+          - string
+          - 'null'
+          description: Indicates the industry identifying number assigned to the container. Format is SCAC######-CheckDigit.
+        referenceNumbers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ReferenceNumber'
+          description: Indicates additional reference number objects pertaining to the container.
+      additionalProperties: false
+      description: Container data.
+    contactMethod:
+      type: object
+      description: Object defining contact method.
+      required:
+      - method
+      - value
+      properties:
+        method:
+          $ref: '#/components/schemas/contactMethodEnum'
+        value:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Actual content of contact information.
+    orderLocation:
+      type: object
+      required:
+      - type
+      description: Indicates the locations assigned to this service. All service objects only have two location objects. If you have multiple stops, they need to broken into single pick, single drop pairs, each under its own service object.
+      properties:
+        customerLocationId:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: "Customer defined identifier associated to a specific location. \n\n### If C.H. Robinson maintains a list of the customer's location IDs, then customerLocationId can be provided in lieu of address information."
+        type:
+          type: string
+          description: Indicates the type of stop.
+          enum:
+          - origin
+          - destination
+        name:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: "Name of the location. If the address of the location is not in C.H. Robinson's system, it is mandatory to include the `name` parameter so\n  C.H. Robinson can auto-create the location in our system on order create.\n"
+        address:
+          $ref: '#/components/schemas/orderAddress'
+        blindLocation:
+          $ref: '#/components/schemas/blindLocation'
+        openDateTime:
+          type: string
+          format: date-time
+          description: ISO8601 UTC date-time of the earliest time carrier can arrive at the stop.
+        closeDateTime:
+          type: string
+          format: date-time
+          description: ISO8601 UTC date-time of the latest time carrier can arrive at the stop.
+        arrivalDate:
+          type: string
+          format: date-time
+          description: "ISO8601 UTC date-time that carrier has arrived. \n\n ### <span style=\"color:DeepPink\">Would only ever be sent on an order update if customer received the information instead of C.H. Robinson.</span>"
+        departureDate:
+          type: string
+          format: date-time
+          description: "ISO8601 UTC date-time that carrier has departed. \n\n ### <span style=\"color:DeepPink\">Would only ever be sent on an order update if customer received the information instead of C.H. Robinson.</span>"
+        scheduledOpenDateTime:
+          type: string
+          format: date-time
+          description: ISO8601 UTC date-time of the earliest recommended appointment time for your carrier.
+        scheduledCloseDateTime:
+          type: string
+          format: date-time
+          description: ISO8601 UTC date-time of the latest recommended appointment time for your carrier.
+        readyAvailableDateTime:
+          type: string
+          format: date-time
+          description: "ISO8601 UTC date-time when location is ready to receive the shipment. \n\n ### <span style=\"color:DeepPink\">Would only be sent if the location type is destination.</span>"
+        rsDateTime:
+          type: string
+          format: date-time
+          description: "An ISO8601 UTC date-time when location is ready for shipment to be picked up.\n\n ### <span style=\"color:DeepPink\">Would only be sent if the location type is origin.</span>"
+        specialRequirement:
+          $ref: '#/components/schemas/specialRequirementOrder'
+        scalesRequired:
+          type: boolean
+          description: Indicates if order requires weighing at this location.
+        hasDropTrailer:
+          type: boolean
+          description: Indicates if this location is drop trailer.
+        loadingTypeCode:
+          $ref: '#/components/schemas/loadingTypeEnum'
+        specialInstructions:
+          type: string
+          minimum: 1
+          maximum: 500
+          description: Customer defined instructions for this location.
+        contacts:
+          type: array
+          description: Contacts
+          items:
+            $ref: '#/components/schemas/contact'
+        referenceNumbers:
+          type: array
+          description: Additional reference number objects pertaining to this location.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+        isResidential:
+          $ref: '#/components/schemas/isResidential'
+        sequenceNumber:
+          type: integer
+          description: Drives sequence of multistop orders; 1-based (does not start with 0)
+    orderBillTo:
+      type: object
+      description: Object containing bill to information.
+      required:
+      - customerCode
+      - currencyCode
+      properties:
+        customerCode:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: C.H. Robinson defined bill to customer code. **This will be provided by your C.H. Robinson rep**.
+        charges:
+          type: array
+          description: Charges
+          items:
+            $ref: '#/components/schemas/charge'
+        currencyCode:
+          $ref: '#/components/schemas/currencyCodeEnum'
+        freightTerms:
+          $ref: '#/components/schemas/freightTermEnum'
+        contacts:
+          type: array
+          description: Contacts
+          items:
+            $ref: '#/components/schemas/contact'
+        referenceNumbers:
+          type: array
+          description: Additional reference number objects pertaining to this bill to object.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    bookingNumber:
+      type: string
+      description: The booking number for FedEx heavy air shipments.
     orderAddress:
       type: object
       description: Object that contains address specific information.
@@ -5012,93 +3724,6 @@ components:
           description: Indicate the postal code of the location, sometime refered to as the zip code.
         country:
           $ref: '#/components/schemas/countryCodeEnum'
-    BookingLocationType:
-      enum:
-      - Pickup
-      - OriginPort
-      - DestinationPort
-      - Delivery
-      type: string
-      description: Location type enumeration.
-    BookingLocation:
-      required:
-      - type
-      type: object
-      properties:
-        customerLocationId:
-          maxLength: 50
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: 'Indicates the customer defined identifier associated to a specific location.
-
-            If C.H. Robinson maintains a list of the customer''s location IDs, then customerLocationId can be provided in lieu of address information.'
-        type:
-          $ref: '#/components/schemas/BookingLocationType'
-        name:
-          maxLength: 100
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: 'Indicates the name of the location (maximum 100 characters).
-
-            If the address of the location is not in C.H. Robinson''s system, it is mandatory to include the name parameter so C.H. Robinson can auto-create the location in our system on order create.'
-        openDateTime:
-          type:
-          - string
-          - 'null'
-          description: Indicates the Customer-preferred earliest date and time for location activity. ISO8601 format.
-          format: date-time
-        closeDateTime:
-          type:
-          - string
-          - 'null'
-          description: Indicates the Customer-preferred latest date and time for location activity. ISO8601 format.
-          format: date-time
-        address:
-          $ref: '#/components/schemas/BookingAddress'
-        referenceNumbers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ReferenceNumber'
-          description: Indicates additional reference number objects pertaining to this location.
-      additionalProperties: false
-      description: List of locations where freight is being transferred for this Booking.
-    quoteService:
-      type: object
-      description: Object containing quote service information.
-      properties:
-        referenceNumbers:
-          type: array
-          description: Additional reference number objects pertaining to this service.
-          items:
-            $ref: '#/components/schemas/referenceNumber'
-        suggestedScac:
-          type: string
-          minimum: 1
-          maximum: 10
-          description: Indicates a specific carrier SCAC customer wishes to associate to the order.
-        suggestedCarrierPartyCode:
-          type: string
-          minimum: 1
-          maximum: 25
-          description: C.H. Robinson identifier for a carrier customer wishes to associate to the order.
-        isHot:
-          type: boolean
-          description: Indicates if the item is hot.
-    freightTermEnum:
-      type: string
-      description: "Code to indicate the freight term type:\n\n* `CL` - Collect\n* `PP` - Prepaid \n* `TP` - Third Party\n* `PC` - Prepaid and Add\n* `CC` - The Bill To is paying via a Credit Card\n\n"
-      enum:
-      - CL
-      - PP
-      - TP
-      - PC
-      - CC
     error404:
       required:
       - statusCode
@@ -5117,312 +3742,639 @@ components:
           type: string
           description: Specifies issue
           example: Not Found
-    itemEquipment:
-      type: object
-      description: Additional information as to the specific equipment needs.
-      properties:
-        itemEquipmentCode:
-          $ref: '#/components/schemas/itemEquipmentTypeEnum'
-        maxTrailerAge:
-          type: integer
-          description: Defines the how old a trailer can be to ship items.
-        tarpTypeCode:
-          $ref: '#/components/schemas/tarpTypeEnum'
-        loadingTypeCode:
-          $ref: '#/components/schemas/loadingTypeEnum'
-        requiredStrapsCount:
-          type: integer
-          description: Indicates number of straps needed.
-        requiredChainsCount:
-          type: integer
-          description: Indicates number of chains needed
-        coilRacks:
-          type: integer
-          description: Indicates number of coil racks needed.
-        locksBars:
-          type: integer
-          description: Indicates number of locks or bars needed.
-        isOwOd:
-          type: boolean
-          description: Indicates overweight or over dimensional.
-        safetyEquipmentRequired:
-          type: boolean
-          description: Indicates if safety equipment is required.
-    additionalLocationTypeEnum:
+    labelReferenceData3:
       type: string
-      description: "The additional locations types on the order.\n * `BailmentWarehouse` - Bailment Warehouse\n * `BillToParty` - Bill To Party\n * `Consignee` - Consignee\n * `DeliveryAddress` - Delivery Address\n * `Depositor` - Depositor\n * `Exporter` - Exporter\n * `NotifyParty1` - Notify Party 1\n * `NotifyParty2` - Notify Party 2\n * `PickupAddress` - Pickup Address\n * `Plant` - Plant\n * `SellingParty` - Selling Party\n * `ShipFrom` - Ship From\n * `ShipTo` - Ship To\n * `Shipper` - Shipper\n * `SoldToandShipTo` - Sold To and Ship To\n * `SoldTo` - Sold To if different from Bill To\n * `Supplier` - Supplier\n * `ThirdPartyAdministrator` - Third Party Administrator\n * `UltimateConsignee` - Ultimate Consignee\n * `Vendor` - Vendor\n * `Warehouse` - Warehouse\n"
-    error401:
-      required:
-      - statusCode
-      - error
-      - message
-      properties:
-        statusCode:
-          type: integer
-          description: Error code
-          example: 401
-        error:
-          type: string
-          description: Detail about the error status code
-        message:
-          type: string
-          description: Specifies issue
-        attributes:
-          type: object
-          properties:
-            error:
-              type: string
-    contact:
+      description: Third piece of reference data to be used on the package label. This is used as the Invoice Number for FedEx (not used for UPS, DHL, or TNT).
+      minLength: 1
+      maxLength: 35
+    packageCodeEnum:
+      type: string
+      description: "C.H. Robinson defined code for packaging type/code. Here is a list of the most commonly used packagingCodes: \n\n`BAL` - Bale, `BAG` - Bags, `BIN` - Bin, `BOX` - Boxes, `CTN` - Cartons  \n`CAS` - Case, `CRT` - Crates, `PKG` - Package, `EAC` - Eaches, `PLT` - Pallet, `PCS` - Pieces \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/PackageDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - BAL
+      - BIN
+      - BOT
+      - BXT
+      - JAR
+      - LSE
+      - LUG
+      - OTHR
+      - REL
+      - SAK
+      - SKD
+      - SKE
+      - SLP
+      - TLD
+      - TRY
+      - Empty
+      - BAG
+      - BOX
+      - BDL
+      - CTN
+      - CAS
+      - CRT
+      - DZ
+      - DRM
+      - EAC
+      - GYL
+      - HDW
+      - LNFT
+      - PKG
+      - PAL
+      - PLT
+      - PCS
+      - LBS
+      - ROL
+      - TOT
+      - YD
+      - Skids
+      - GAL
+      - KIT
+      - FT
+      - PAD
+      - PR
+      - SET
+      - SHT
+      - M
+      - KG
+      - IBC
+      - BAT
+      - AST
+      - CUB
+      - RKS
+      - PCK
+      - TH
+      - 24BIN
+      - 30BIN
+      - 36BIN
+      - 40BIN
+      - BSHL
+      - CLLPK
+      - DRC
+      - ECO
+      - EURO
+      - FLAT
+      - HFBIN
+      - HFCTN
+      - HVYPK
+      - IFCO
+      - I6408
+      - I6411
+      - I6413
+      - I6416
+      - I6419
+      - I6423
+      - I6425
+      - I6428
+      - ORBIS
+      - O6409
+      - O6411
+      - O6413
+      - O6416
+      - O6419
+      - O6425
+      - O6428
+      - P4311
+      - P4317
+      - P6408
+      - P6411
+      - P6413
+      - P6416
+      - P6419
+      - P6423
+      - P6425
+      - P6428
+      - RPC
+      - R6411
+      - R6413
+      - R6416
+      - TNBIN
+      - TOSCA
+      - T6408
+      - T6411
+      - T6413
+      - T6416
+      - T6419
+      - T6423
+      - T6425
+      - T6428
+      - WDCRT
+      - BRL
+      - RCK
+      - TUB
+      - CG
+      - DSP
+      - SQF
+      - CYL
+      - KEG
+      - IFCLB
+      - PLT1
+      - PLT2
+      - PLT3
+      - CAR
+      - COIL
+      - PI
+      - GOH
+      - BLK
+      - POG
+      - L
+      - IPLT
+      - RORO
+      - 45HC
+      - 45HR
+      - 40HC
+      - 40
+      - 40OT
+      - 40HR
+      - 40RF
+      - 40FR
+      - 20HC
+      - 20
+      - 20OT
+      - 20FR
+      - 45GP
+    referenceNumber:
       type: object
-      description: Object containing contact information.
       required:
-      - name
       - type
-      - companyName
-      - contactMethods
+      - value
       properties:
-        name:
-          type: string
-          minimum: 1
-          maximum: 200
-          description: Name of the contact.
         type:
-          $ref: '#/components/schemas/contactTypeEnum'
-        companyName:
+          type: string
+          description: "C.H. Robinson defined code for reference number types. Here is a list of the most commonly used reference number types: \n\n`SHID` - Shipment ID #, `MBOL` - Master Bill of Lading #, `PO` - Purchase Order #, `BOL` - Bill of Lading #, `CRID` - Customer Specific Ref Number, `CUSTPO` - Customer PO Number, `DEL` - Delivery #, `JNO` - Job Number, `PU` - Pickup #, `CON` - Customer Order Number, `APPT` - Appointment Number \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ReferenceNumberTypes.xlsx\" target=\"_blank\">here</a>."
+          enum:
+          - SHID
+          - MBOL
+          - PO
+          - BOL
+          - CFRM
+          - CRID
+          - CUSTPO
+          - DEL
+          - DIST
+          - FIN
+          - GL
+          - JNO
+          - PU
+          - RANumber
+          - RLPRO
+          - MREF
+          - Empty
+          - PRO
+          - CCN
+          - SBOL
+          - CON
+          - APPT
+          - CHRW_ID
+          - FDA
+          - IREF
+          - LIC
+          - ORD
+          - PLU
+          - SCAC
+          - SEAL
+          - SKU
+          - SREF
+          - STCC
+          - TEB
+          - VPO
+          - WB
+          - XXXX
+          - TRIA
+          - TRANS
+          - GCC
+          - SDATE
+          - CDATE
+          - ACCT
+          - CCTR
+          - IGM
+          - GIGM
+          - LIGM
+          - SMTP
+          - PERMIT
+          - RNO
+          - DVCN
+          - PRCL
+          - CPUC
+          - SHPMD
+          - AFR
+          - BUYID
+          - VNDID
+          - DIV
+          - DEPT
+          - POTYPE
+          - GRGI
+          - DUNS
+          - PALLETREF
+          - CITTN
+          - CIN
+          - SHIPWITH
+          - PN
+          - UPC
+          - PRCD
+          - VESSEL
+          - VOYAGE
+          - FN
+          - FEEDVESS
+          - FEEDVOY
+          - SHIPREF
+          - CBL
+          - SPAC
+          - POLN
+          - VPOLN
+          - EIN
+          - CNSG
+          - PROFITCTR
+          - MFGPART
+          - PACKSLIP
+          - THIRDPRTY
+          - DEFATTR
+          - FSTRK
+          - FOItemID
+          - POLineNum
+          - PARCELSPC
+          - CNS1
+          - CNS2
+          - CNS3
+          - CNS4
+          - CNS5
+          - CNS6
+          - CNS7
+          - TREF
+          - VREF
+          - UPRICE
+          - FWPARTY
+          - BYPARTY
+          - HBL
+          - CBP
+          - TRANSFER
+          - SO
+          - ORDTRK
+          - QUOTEID
+          - EQT
+          - BOOTH
+          - TS
+          - 'OH #'
+          - CNTNR
+          - VAS
+          - Size
+          - Color
+          - Style
+          - HCERT
+          - B#
+          - ETMSID
+          - 214-IMO
+          - SHPWeight
+          - SHPVolume
+          - SHPDims
+          - SERIALIZED
+          - SERIALNUM
+          - CPSIA
+          - EDIINVREF
+          - SQID
+          - QSeqNum
+          - OuterPkStu
+          - GLC
+          - COMP
+          - COST
+          - DTYGL
+          - DTYCC
+          - BRKGL
+          - BRKCC
+          - GPS
+          - IAC
+          - WHRCT
+          - ERGUID
+          - SONUM
+          - CCNUM
+          - PrimCCNUM
+          - PrevCCNUM
+          - CMRN
+          - TRANSSHIP
+          - PGIDATE
+          - AESFIL
+          - CUSTQUOTID
+          - QUOTETRACE
+          - ODATE
+          - FRCLS
+          - NMFC
+          - OrderItemId
+        value:
           type: string
           minimum: 1
           maximum: 100
-          description: Company name of the contact.
-        contactMethods:
-          type: array
-          description: Contact Methods
-          items:
-            $ref: '#/components/schemas/contactMethod'
-    temperatureUomEnum:
+          description: The actual value of the reference number.
+    incoTermsEnum:
       type: string
-      description: Unit of measure for temperature parameters.
+      description: "The Incoterms or International Commercial Terms are a series of pre-defined commercial terms published by the International Chamber of Commerce (ICC) relating to international commercial law.\n  * `DAT` - Delivered at Terminal\n  * `DAP` - Delivered at Place\n  * `CIF` - Cost Insurance & Freight\n  * `CPT` - Carriage Paid To\n  * `CIP` - Carriage & Insurance Paid To\n  * `DDP` - Delivered duty paid\n  * `EXW` - EX works\n  * `FCA` - Free carrier at\n  * `DPU` - Delivered at place unloaded\n  * `FAS` - Free alongside ship\n  * `FOB` - Free on Board\n  * `CFR` - Cost and Freight\n  * `PPD` - Prepaid\n  * `COL` - Collect\n  * `DAF` - Delivery at Frontier\n  * `DDU` - Delivery Duty Unpaid\n  * `DEQ` - Delivery Ex-Quay, Duty Unpaid\n  * `DES` - Delivery Ex-Ship\n"
       enum:
-      - Fahrenheit
-      - Celsius
-      - Empty
-    BookingShipmentContainerType:
-      enum:
-      - 20DR
-      - 20FC
-      - 20FG
-      - 20FR
-      - 20FT
-      - 20GH
-      - 20HC
-      - 20HD
-      - 20IT
-      - 20OT
-      - 20PF
-      - 20RF
-      - 20RH
-      - 20SL
-      - 40DR
-      - 40FG
-      - 40FR
-      - 40FT
-      - 40GH
-      - 40HC
-      - 40HF
-      - 40HH
-      - 40HL
-      - 40HR
-      - 40HS
-      - 40IN
-      - 40OT
-      - 40RF
-      - 40RH
-      - 40RQ
-      - 40TK
-      - 45DR
-      - 45FR
-      - 45GP
-      - 45HC
-      - 45HD
-      - 45HT
-      - 45RF
-      - 45RH
-      - 45TR
-      - 48HC
-      - 48TR
-      - 53HC
-      - 53TR
-      - BBLK
-      - LCL
-      - RORO
-      type: string
-      description: Type of shipping container.
-    quotes:
-      type: array
-      minimum: 1
-      items:
-        $ref: '#/components/schemas/quote'
-    orderResponse:
+      - DAT
+      - DAP
+      - CIF
+      - CPT
+      - CIP
+      - DDP
+      - EXW
+      - FCA
+      - DPU
+      - FAS
+      - FOB
+      - CFR
+      - PPD
+      - COL
+      - DAF
+      - DDU
+      - DEQ
+      - DES
+    collectOnDelivered:
       type: object
-      description: Object containg the order response.
+      description: Information relating to payment.
+      required:
+      - amount
+      - paymentType
+      - payableTo
+      - mailTo
+      - address
       properties:
-        orderNumber:
+        amount:
+          type: number
+          description: The currency amount to be paid.
+          format: float
+        paymentType:
           type: string
-          description: C.H. Robinson order number that was created.
-          example: '81134516'
-    currencyCodeEnum:
+          minimum: 1
+          maximum: 25
+          description: Method of payment.
+        payableTo:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Individual or entity receiving payment.
+        mailTo:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Individual or entity payment is mailed to.
+        address:
+          $ref: '#/components/schemas/orderAddress'
+        referenceNumbers:
+          type: array
+          description: Additional reference number objects pertaining to this service.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    temperatureSensitiveEnum:
       type: string
-      description: "Code to indicate the currency being used. The most common currently in use with C.H. Robinson:\n\n* `USD` - US Dollar\n* `CAD` - Canadian Dollar \n* `MXN` - Mexican Peso\n* `EUR` - European Euro\n\n\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CurrencyCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
+      description: "Indicates if temperature control is needed, and what level:\n  * `Dry` - Dry\n  * `Fresh` - Fresh (25 to 32 degrees)\n  * `Frozen` - Frozen (-10 to 0 degrees)\n  * `Chilled` - Chilled (40 to 60 degrees)\n  * `DeepFrozen` - Deep Frozen (-20 to -20 degrees)\n  * `Refrigerated` - Refrigerated (33 to 39 degrees)\n  * `Protect` - Protect (33 to 60 degrees)\n  * `Custom` - Custom\n  * `Produce` - Produce\n  * `Mixed` - Mixed\n  * `Empty` - Empty\n"
       enum:
-      - USD
-      - CAD
-      - EUR
-      - MXN
-      - CHF
-      - GBP
-      - HUF
-      - CZK
-      - NZD
-      - PLN
-      - ZAR
-      - VEB
-      - VND
-      - TWD
-      - TRY
-      - SEK
-      - SGD
-      - RUB
-      - NOK
-      - HKD
-      - INR
-      - JPY
-      - CLP
-      - CNY
-      - DKK
-      - AUD
-      - BRL
-      - AED
-      - PEN
-      - THB
-      - ARS
-      - MYR
-      - VEF
-      - SAR
-      - BBD
-      - BHD
-      - BMD
-      - BSD
-      - ILS
-      - ISK
-      - KES
-      - KRW
-      - KWD
-      - OMR
-      - PHP
-      - PKR
-      - QAR
-      - RON
-      - TTD
-      - UAH
-      - LKR
-      - XPF
-      - UYU
-      - COP
-      - CRC
-      - FJD
-    vesselStowageCategoryEnum:
+      - Dry
+      - Fresh
+      - Frozen
+      - Chilled
+      - DeepFrozen
+      - Refrigerated
+      - Protect
+      - Produce
+      - Mixed
+      - Empty
+    loadingTypeEnum:
       type: string
-      description: "Indicates the HazMat Stowage category code according stowage requirements listed in the IMDG Code Dangerous Goods List.\n  * `A`  - Stowage category code A\n  * `B`  - Stowage category code B\n  * `C`  - Stowage category code C\n  * `D`  - Stowage category code D\n  * `E`  - Stowage category code E\n  * `01` - Stowage category code 1\n  * `02` - Stowage category code 2\n  * `03` - Stowage category code 3\n  * `04` - Stowage category code 4\n  * `05` - Stowage category code 5\n"
+      description: "Describes how trailer will need to be loaded.\n  * `CRANE` - Top/crane\n  * `REAR` - Rear\n  * `SIDE` - Side\n  * `REAR/SIDE` - Rear/side\n  * `TOP/SIDE` - Top/side\n  * `DOCK` - Dock\n  * `STRING` - String\n  * `STRING/TOW` - String/tow\n"
       enum:
-      - A
-      - B
-      - C
-      - D
-      - E
-      - '01'
-      - '02'
-      - '03'
-      - '04'
-      - '05'
-    exportReasonCode:
-      type: string
-      description: A value required for DHL international shipments indicating why the shipment is being exported.
-      enum:
-      - Permanent
-      - Temporary
-      - Re_Export
-    BookingHazardousProperties:
+      - CRANE
+      - REAR
+      - SIDE
+      - REAR/SIDE
+      - TOP/SIDE
+      - DOCK
+      - STRING
+      - STRING/TOW
+    CommodityItem:
+      required:
+      - grossWeight
+      - grossWeightUnitOfMeasure
+      - packagingType
+      - quantity
       type: object
       properties:
-        properName:
-          maxLength: 500
-          minLength: 1
+        containerId:
           type:
-          - string
+          - integer
           - 'null'
-          description: Indicates the Proper Shipping Name (PSN) - the often broad name mandated for documentation and packaging.
-        technicalName:
-          maxLength: 50
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates the technical name - required for n.o.s. (Not Otherwise Specified) or generic entries. Also known as Chemical Name.
-        subsidiaryHazmatClasses:
-          maxLength: 15
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates the subsidiary hazmat classes (maximum 15 characters).
-        unNumber:
-          maxLength: 10
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: 'Four-digit numbers prepended with ''UN'' that identify dangerous goods, hazardous substances and articles
-
-            (such as explosives, flammable liquids, toxic substances, etc.) in the framework of international transport.'
-        classCode:
-          maxLength: 10
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates the code for hazardous material in the framework of international transport.
-        packingGroup:
-          $ref: '#/components/schemas/hazardousGroupEnum'
-        packingDetails:
-          maxLength: 15
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates details about packing (maximum 15 characters).
-        emergencyPhone:
-          maxLength: 50
-          minLength: 1
-          type:
-          - string
-          - 'null'
-          description: Indicates the emergency phone number (maximum 50 characters).
-        isLimitedQuantities:
-          type:
-          - boolean
-          - 'null'
-          description: Indicates a value indicating whether the hazardous goods shipment is transported under the Limited Quantities (LQ) provisions.
-        flashpoint:
+          description: References the container to which this commodity group belongs.
+          format: int32
+        packagingType:
+          $ref: '#/components/schemas/BookingPackageCode'
+        quantity:
+          type: number
+          description: Indicates the total number of shipping units.
+          format: float
+        pallets:
           type:
           - number
           - 'null'
-          description: Indicates the hazmat flash point.
+          description: Indicates the number of pallets for the item.
           format: float
-        flashpointTemperatureUnit:
+        grossWeight:
+          type:
+          - number
+          - 'null'
+          description: Indicates the total weight of the line item. This represents the total weight of all quantities.
+          format: float
+        grossWeightUnitOfMeasure:
+          $ref: '#/components/schemas/weightUomEnum'
+        totalVolume:
+          type:
+          - number
+          - 'null'
+          description: Indicates the volume of the item.
+          format: float
+        totalVolumeUnitOfMeasure:
+          $ref: '#/components/schemas/BookingVolumeUom'
+        description:
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates the general classification of the goods being shipped.
+        descriptionOfGoods:
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates the full description of the cargo contents.
+        marksAndNumbers:
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates the labeling or identifying marks printed on the cargo.
+        skuNumber:
+          maxLength: 50
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates the Stock Keeping Unit - a number assigned to a product by the customer (maximum 50 characters).
+        htCode:
+          type:
+          - string
+          - 'null'
+          description: Indicates the Harmonized Tariff Code for customs classification. This field can accept an HTS Code or an HS Code.
+        isTemperatureSensitive:
+          type:
+          - boolean
+          - 'null'
+          description: Indicates a value indicating whether the item(s) need to be kept between specific temperatures.
+        temperatureUnitOfMeasure:
           $ref: '#/components/schemas/temperatureUomEnum'
-        marinePollutantCategory:
-          $ref: '#/components/schemas/marinePollutantCategory'
+        requiredTemperatureHigh:
+          type:
+          - number
+          - 'null'
+          description: Indicates the highest temperature the item(s) can be.
+          format: float
+        requiredTemperatureLow:
+          type:
+          - number
+          - 'null'
+          description: Indicates the lowest temperature the item(s) can be.
+          format: float
+        isHazardous:
+          type:
+          - boolean
+          - 'null'
+          description: Indicates a value indicating whether the item is hazardous.
+        packagesDimensions:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/PackagesDimensions'
+          description: Indicates the packages dimensions.
+        hazardousProperties:
+          $ref: '#/components/schemas/BookingHazardousProperties'
+        referenceNumbers:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ReferenceNumber'
+          description: Indicates additional reference number objects pertaining to this item.
       additionalProperties: false
-      description: Object containing hazardous material information.
+      description: Represents a commodity item in the shipment.
+    AESTransactionNumber:
+      type: string
+      description: AES ITN may be required if shipping internationally from the US and the value is over 2,500.00 USD; must be exactly 14 digits and prefixed with X.
+    BookingFreightTerm:
+      enum:
+      - CL
+      - PP
+      type: string
+      description: Code to indicate the freight term type.
+    additionalLocation:
+      type: object
+      description: List of additional Locations for Ocean/Air transport Mode.
+      required:
+      - additionalLocationType.
+      properties:
+        additionalLocationType:
+          $ref: '#/components/schemas/additionalLocationTypeEnum'
+        customerAPILocationNumber:
+          type: string
+          minimum: 1
+          maximum: 80
+          description: Customer defined identifier associated to a specific location. If C.H. Robinson maintains a list of the customer's location IDs, then customerLocationId can be provided in lieu of address information.
+        locationName:
+          type: string
+          minimum: 1
+          maximum: 200
+          description: Name of the location.
+        address1:
+          type: string
+          minimum: 1
+          maximum: 200
+          description: Indicate address line one of the location.
+        address2:
+          type: string
+          minimum: 1
+          maximum: 200
+          description: Indicate address line two of the location.
+        address3:
+          type: string
+          minimum: 1
+          maximum: 200
+          description: Indicate address line three of the location.
+        address4:
+          type: string
+          minimum: 1
+          maximum: 200
+          description: Indicate address line four of the location.
+        city:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Indicate the city of the location.
+        county:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Indicate the county of the location.
+        lat:
+          type: number
+          format: float
+          minimum: -90
+          maximum: 90
+          description: Indicate the latitude of the location.
+        long:
+          type: number
+          format: float
+          minimum: -180
+          maximum: 180
+          description: Indicate the longitude of the location
+        stateProvinceCode:
+          $ref: '#/components/schemas/stateProvinceCodeEnum'
+        postalCode:
+          type: string
+          minimum: 1
+          maximum: 20
+          description: Indicate the postal code of the location, sometime refered to as the zip code.
+        country:
+          $ref: '#/components/schemas/countryCodeEnum'
+    orderCustomer:
+      type: object
+      description: Object containing customer information.
+      required:
+      - customerCode
+      properties:
+        customerCode:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: C.H. Robinson defined customer code. **This will be provided by your C.H. Robinson rep**.
+        contacts:
+          type: array
+          description: Contacts
+          items:
+            $ref: '#/components/schemas/contact'
+        referenceNumbers:
+          type: array
+          description: Additional reference number objects pertaining to the customer object.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+    relationships:
+      type: object
+      description: Object to specify master and inner pack qantities.
+      properties:
+        innerPackQuantity:
+          type: number
+          format: float
+          description: Indicates smallest unit that will be sold.
+        innerPackUomCode:
+          $ref: '#/components/schemas/packageCodeEnum'
+        masterPackQuantity:
+          type: number
+          format: float
+          description: Indicates quantity that contains total quantity of innerpack items.
     BookingParty:
       required:
       - type
@@ -5457,316 +4409,407 @@ components:
           $ref: '#/components/schemas/BookingAddress'
       additionalProperties: false
       description: Represents a party involved in the shipment.
-    BookingVolumeUom:
-      enum:
-      - CubicInches
-      - CubicFeet
-      - CubicMeters
-      - CubicCentimeters
-      type: string
-      description: Unit of measure for volume parameters.
-    freightClassEnum:
-      type: string
-      description: Indicates the freight class on this shipment. (Freight Class is a voluntary standard that provides a comparison of commodities moving in interstate, intrastate and foreign commerce. It is similar in concept to the groupings or grading systems that serve many other industries.)
-      enum:
-      - '50'
-      - '55'
-      - '60'
-      - '65'
-      - '70'
-      - '77.5'
-      - '85'
-      - '92.5'
-      - '100'
-      - '110'
-      - '125'
-      - '150'
-      - '175'
-      - '200'
-      - '250'
-      - '300'
-      - '400'
-      - '500'
-    shippingContainerItems:
-      type: object
+    error403:
       required:
-      - containerId
-      - itemId
+      - statusCode
+      - error
+      - message
       properties:
-        containerId:
+        statusCode:
           type: integer
-          description: ID of the container.
-        itemId:
-          type: integer
-          description: Indicates the item ID.
-    quote:
+          description: Error code
+          example: 403
+        error:
+          type: string
+          description: detail about the error status code
+          example: Forbidden
+        message:
+          type: string
+          description: Specifies issue
+          example: Invalid customerCode
+    contact:
       type: object
-      description: Object containing information for quote order.
+      description: Object containing contact information.
       required:
-      - quoteId
+      - name
+      - type
+      - companyName
+      - contactMethods
       properties:
-        quoteId:
-          type: integer
-          format: int64
-          description: Quote ID that was received from the rating API call.
-        customer:
-          $ref: '#/components/schemas/orderCustomer'
-        billTo:
-          $ref: '#/components/schemas/quoteBillTo'
-        service:
-          $ref: '#/components/schemas/quoteService'
-        origin:
-          $ref: '#/components/schemas/quoteLocation'
-        destination:
-          $ref: '#/components/schemas/quoteLocation'
-        onlineParties:
-          type: array
-          description: Contains data which allows a third party visibility to an order belonging to their associated shipper via the Navisphere Online 2.0 product.
-          items:
-            type: object
-            properties:
-              partyType:
-                type: string
-                description: Represents the type of order party requesting visibility for the third party.
-                enum:
-                - CUSTOMER
-                - BILLTO
-              partyCode:
-                type: string
-                description: Represents the CHR customer code linked to the online/third party.
-              relationshipIdentifier:
-                type: string
-                description: An identifier mutually recognized by all concerned parties interested in the progress of the shipment.
-        notes:
+        name:
           type: string
           minimum: 1
-          maximum: 4000
-          description: A place for customer to put quote order level notes.
-        referenceNumbers:
+          maximum: 200
+          description: Name of the contact.
+        type:
+          $ref: '#/components/schemas/contactTypeEnum'
+        companyName:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Company name of the contact.
+        contactMethods:
           type: array
-          description: Additional reference number objects pertaining to the order.
+          description: Contact Methods
           items:
-            $ref: '#/components/schemas/referenceNumber'
-    specialRequirementOrder:
-      type: object
-      properties:
-        liftGate:
-          type: boolean
-          description: Indicates that a lift gate is needed.
-        insidePickup:
-          type: boolean
-          description: Indicates that inside pickup is needed. **Only used on the origin/pick stop**
-        insideDelivery:
-          type: boolean
-          description: Indicates that inside delivery is needed. **Only used on the destination/drop stop**
-        residentialNonCommercial:
-          type: boolean
-          description: Indicates that a stop is residential non-commercial.
-        limitedAccess:
-          type: boolean
-          description: Indicates that stop has limited access.
-        tradeShoworConvention:
-          type: boolean
-          description: Indicates that stop is a trade show or convention.
-        constructionSite:
-          type: boolean
-          description: Indicates that stop is a construction site.
-        dropOffAtCarrierTerminal:
-          type: boolean
-          description: Indicates that customer will drop off at carrier terminal. **Only used on the origin/pick stop**
-        pickupAtCarrierTerminal:
-          type: boolean
-          description: Indicates that customer will pickup at carrier terminal. **Only used on the destination/drop stop**
-        appointmentNotification:
-          type: boolean
-          description: Indicates that stop has an appointment notification. **Only used on the destination/drop stop**
-        sortAndSegregate:
-          type: boolean
-          description: Indicates that items will need to be sorted at stop. **Only used on the destination/drop stop**
-    labelReferenceData3:
-      type: string
-      description: Third piece of reference data to be used on the package label. This is used as the Invoice Number for FedEx (not used for UPS, DHL, or TNT).
-      minLength: 1
-      maxLength: 35
-    BookingReferenceNumberType:
+            $ref: '#/components/schemas/contactMethod'
+    BookingMode:
       enum:
-      - SHID
-      - MBOL
-      - PO
-      - BOL
-      - CFRM
-      - CRID
-      - CUSTPO
-      - DEL
-      - DIST
-      - FIN
-      - GL
-      - JNO
-      - PU
-      - RANumber
-      - RLPRO
-      - MREF
-      - Empty
-      - PRO
-      - CCN
-      - SBOL
-      - CON
-      - APPT
-      - CHRW_ID
-      - FDA
-      - IREF
-      - LIC
-      - ORD
-      - PLU
-      - SCAC
-      - SEAL
-      - SKU
-      - SREF
-      - STCC
-      - TEB
-      - VPO
-      - WB
-      - XXXX
-      - TRIA
-      - TRANS
-      - GCC
-      - SDATE
-      - CDATE
-      - ACCT
-      - CCTR
-      - IGM
-      - GIGM
-      - LIGM
-      - SMTP
-      - PERMIT
-      - RNO
-      - DVCN
-      - PRCL
-      - CPUC
-      - SHPMD
-      - AFR
-      - BUYID
-      - VNDID
-      - DIV
-      - DEPT
-      - POTYPE
-      - GRGI
-      - DUNS
-      - PALLETREF
-      - CITTN
-      - CIN
-      - SHIPWITH
-      - PN
-      - UPC
-      - PRCD
-      - VESSEL
-      - VOYAGE
-      - FN
-      - FEEDVESS
-      - FEEDVOY
-      - SHIPREF
-      - CBL
-      - SPAC
-      - POLN
-      - VPOLN
-      - EIN
-      - CNSG
-      - PROFITCTR
-      - MFGPART
-      - PACKSLIP
-      - THIRDPRTY
-      - DEFATTR
-      - FSTRK
-      - FOItemID
-      - POLineNum
-      - PARCELSPC
-      - CNS1
-      - CNS2
-      - CNS3
-      - CNS4
-      - CNS5
-      - CNS6
-      - CNS7
-      - TREF
-      - VREF
-      - UPRICE
-      - FWPARTY
-      - BYPARTY
-      - HBL
-      - CBP
-      - TRANSFER
-      - SO
-      - ORDTRK
-      - QUOTEID
-      - EQT
-      - BOOTH
-      - TS
-      - OH
-      - CNTNR
-      - VAS
-      - Size
-      - Color
-      - Style
-      - HCERT
+      - Ocean
+      - Air
+      type: string
+      description: Indicates the requested mode of transportation.
+    stateProvinceCodeEnum:
+      type: string
+      description: "Indicate the state or province of the location. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/StateProvinceCodes.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - '1'
+      - '10'
+      - '11'
+      - '12'
+      - '13'
+      - '14'
+      - '15'
+      - '16'
+      - '17'
+      - '18'
+      - '19'
+      - '2'
+      - '20'
+      - '21'
+      - '22'
+      - '23'
+      - '24'
+      - '25'
+      - '26'
+      - '27'
+      - '28'
+      - '29'
+      - '3'
+      - '30'
+      - '31'
+      - '32'
+      - '33'
+      - '34'
+      - '35'
+      - '36'
+      - '37'
+      - '38'
+      - '39'
+      - '4'
+      - '40'
+      - '41'
+      - '42'
+      - '43'
+      - '44'
+      - '45'
+      - '46'
+      - '47'
+      - '48'
+      - '49'
+      - '5'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '6'
+      - '61'
+      - '62'
+      - '63'
+      - '64'
+      - '65'
+      - '67'
+      - '7'
+      - '71'
+      - '76'
+      - '79'
+      - '8'
+      - '81'
+      - '84'
+      - '86'
+      - '89'
+      - '9'
+      - '91'
+      - '92'
+      - '95'
+      - A
+      - AA
+      - AB
+      - AC
+      - AE
+      - AG
+      - AGU
+      - AI
+      - AK
+      - AL
+      - AM
+      - AN
+      - AO
+      - AP
+      - AQ
+      - AR
+      - AS
+      - AT
+      - AUK
+      - AV
+      - AZ
       - B
-      - ETMSID
-      - 214-IMO
-      - SHPWeight
-      - SHPVolume
-      - SHPDims
-      - SERIALIZED
-      - SERIALNUM
-      - CPSIA
-      - EDIINVREF
-      - SQID
-      - QSeqNum
-      - OuterPkStu
-      - GLC
-      - COMP
-      - COST
-      - DTYGL
-      - DTYCC
-      - BRKGL
-      - BRKCC
-      - GPS
-      - IAC
-      - WHRCT
-      - ERGUID
-      - SONUM
-      - CCNUM
-      - PrimCCNUM
-      - PrevCCNUM
-      - CMRN
-      - TRANSSHIP
-      - PGIDATE
-      - AESFIL
-      - CUSTQUOTID
-      - QUOTETRACE
-      - ODATE
-      - FRCLS
-      - NMFC
-      - EXTQUOTEID
-      - KSMS
-      - LVSCONSOLID
-      - REN
-      - NCCID
-      - 'OH #'
-      - B#
-      - OJobNum
-      - Plant
-      - TRNSPRTID
-      - VCTe
+      - BA
+      - BC
+      - BCN
+      - BCS
+      - BG
+      - BI
+      - BL
+      - BM
+      - BN
+      - BO
+      - BOP
+      - BR
+      - BS
+      - BT
+      - BZ
+      - C
+      - CA
+      - CAM
+      - CAN
+      - CB
+      - CE
+      - CH
+      - CHH
+      - CHP
+      - CI
+      - CL
+      - CN
+      - CO
+      - COA
+      - COL
+      - CR
+      - CS
+      - CT
+      - CZ
+      - D
+      - DC
+      - DD
+      - DE
+      - DF
+      - DL
+      - DN
+      - DUR
+      - E
+      - EN
+      - ES
+      - F
+      - FC
+      - FE
+      - FG
+      - FI
+      - FL
+      - FM
+      - FR
+      - G
+      - GA
+      - GE
+      - GIS
+      - GJ
+      - GO
+      - GR
+      - GRO
+      - GU
+      - GUA
+      - H
+      - HI
+      - HID
+      - HKB
+      - HP
+      - HR
+      - IA
+      - ID
+      - IL
+      - IM
+      - IN
+      - IS
+      - J
+      - JAL
+      - JH
+      - JK
+      - K
+      - KA
+      - KL
+      - KR
+      - KS
+      - KY
+      - L
+      - LA
+      - LC
+      - LD
+      - LE
+      - LI
+      - LL
+      - LO
+      - LT
+      - LU
+      - M
+      - MA
+      - MB
+      - MBH
+      - MC
+      - MD
+      - ME
+      - MEX
+      - MG
+      - MH
+      - MI
+      - MIC
+      - ML
+      - MN
+      - MO
+      - MOR
+      - MP
+      - MS
+      - MT
+      - MWT
+      - MZ
+      - N
+      - NA
+      - NAY
+      - NB
+      - NC
+      - ND
+      - NE
+      - NH
+      - NJ
+      - NL
+      - NLE
+      - NM
+      - 'NO'
+      - NS
+      - NSN
+      - NSW
+      - NT
+      - NTL
+      - NU
+      - NV
+      - NY
+      - O
+      - OAX
+      - OG
+      - OH
+      - OI
+      - OK
+      - 'ON'
+      - OR
+      - OT
+      - OTA
+      - P
+      - PA
+      - PB
+      - PC
+      - PD
+      - PE
+      - PG
+      - PI
+      - PN
+      - PO
+      - PR
+      - PT
+      - PU
+      - PUE
+      - PV
+      - PY
+      - PZ
+      - Q
+      - QC
+      - QLD
+      - QU
+      - QUE
+      - R
+      - RA
+      - RC
+      - RE
+      - RG
+      - RI
+      - RJ
+      - RM
+      - RN
+      - RO
+      - ROO
+      - RR
+      - RS
+      - S
+      - SA
+      - SC
+      - SD
+      - SE
+      - SI
+      - SIN
+      - SJ
+      - SK
+      - SLP
+      - SO
+      - SON
+      - SP
+      - SR
+      - SS
+      - STL
+      - SV
+      - T
+      - TA
+      - TAB
+      - TAM
+      - TAS
+      - TE
+      - TG
+      - TKI
+      - TLA
+      - TN
+      - TO
+      - TP
+      - TR
+      - TS
+      - TV
+      - TX
+      - U
+      - UD
+      - UL
+      - UM
+      - UP
+      - UT
+      - V
+      - VA
+      - VB
+      - VC
+      - VE
+      - VER
+      - VI
+      - VIC
+      - VR
+      - VS
+      - VT
+      - VV
+      - W
+      - WA
+      - WB
+      - WGN
+      - WI
+      - WKO
+      - WTC
+      - WV
+      - WY
+      - X
+      - Y
+      - YT
+      - YUC
+      - Z
+      - ZAC
+    temperatureUomEnum:
       type: string
-      description: C.H. Robinson defined code for reference number types.
-    weightUomEnum:
-      type: string
-      description: Unit of measure for weight parameters.
+      description: Unit of measure for temperature parameters.
       enum:
-      - Pounds
-      - Kilograms
-    dutyPayerAccountNumber:
-      type: string
-      description: Account number of the party paying the duty charges; Required for a dutyPayerType of Third_Party or if C.H. Robinson does not have the billing account to use on file.
+      - Fahrenheit
+      - Celsius
+      - Empty
     shipmentContainerTypeEnum:
       type: string
       description: "Type of shipping container. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ShipmentContainerTypeEnum.xlsx\" target=\"_blank\">here</a>."
@@ -5855,6 +4898,625 @@ components:
       - 45PH
       - 40OH
       - 28TR
+    error400:
+      properties:
+        message:
+          type: string
+        path:
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+        context:
+          type: object
+          properties:
+            child:
+              type: string
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+            key:
+              type: string
+            label:
+              type: string
+    freightClassEnum:
+      type: string
+      description: Indicates the freight class on this shipment. (Freight Class is a voluntary standard that provides a comparison of commodities moving in interstate, intrastate and foreign commerce. It is similar in concept to the groupings or grading systems that serve many other industries.)
+      enum:
+      - '50'
+      - '55'
+      - '60'
+      - '65'
+      - '70'
+      - '77.5'
+      - '85'
+      - '92.5'
+      - '100'
+      - '110'
+      - '125'
+      - '150'
+      - '175'
+      - '200'
+      - '250'
+      - '300'
+      - '400'
+      - '500'
+    itemEquipmentTypeEnum:
+      type: string
+      description: 'Indicates the equipment type needed to move the item.
+
+
+        For a detailed description of all enumerated codes please find them <a href="https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/OrderEquipmentCodeDescriptions.xlsx" target="_blank">here</a>.'
+      enum:
+      - B
+      - BT
+      - CN
+      - CV
+      - DD
+      - F
+      - FA
+      - FD
+      - FO
+      - FS
+      - HS
+      - MX
+      - RGN
+      - SD
+      - SF
+      - ST
+      - SDC
+      - DDC
+      - V
+      - W
+      - STR
+      - SS
+      - TK
+      - P
+      - FV
+      - R
+      - IC
+      - IR
+      - IT
+      - RM
+      - BDPT
+      - BEND
+      - BFGD
+      - BHOP
+      - BST
+      - BVT
+      - BLAT
+      - BLFGT
+      - BLFRPT
+      - BLRL
+      - BLSS
+      - PU
+      - OT
+      - TT
+      - MF
+      - SA
+      - TP
+      - TM
+      - SSD
+      - PRT
+      - SETT
+      - BEAM
+      - BLADE
+      - BARGE
+      - VS
+    isResidential:
+      type: boolean
+      description: A flag indicating whether or not this is a residential location. Used ONLY FOR PARCEL Shipments. For FedEx, FedEx_Ground_Home_Delivery or Fedex_Home_Delivery must be used if the destination is residential.
+    linearUomEnum:
+      type: string
+      description: Unit of measure for height, width, and length parameters.
+      enum:
+      - Inches
+      - Feet
+      - Centimeters
+      - Meters
+    quotes:
+      type: array
+      minimum: 1
+      items:
+        $ref: '#/components/schemas/quote'
+    BookingIncoTerms:
+      enum:
+      - DAT
+      - DAP
+      - CIF
+      - CPT
+      - CIP
+      - DDP
+      - EXW
+      - FCA
+      - DPU
+      - FAS
+      - FOB
+      - CFR
+      - DAF
+      - DDU
+      - DEQ
+      - DES
+      type: string
+      description: The Incoterms or International Commercial Terms.
+    currencyCodeEnum:
+      type: string
+      description: "Code to indicate the currency being used. The most common currently in use with C.H. Robinson:\n\n* `USD` - US Dollar\n* `CAD` - Canadian Dollar \n* `MXN` - Mexican Peso\n* `EUR` - European Euro\n\n\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CurrencyCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - USD
+      - CAD
+      - EUR
+      - MXN
+      - CHF
+      - GBP
+      - HUF
+      - CZK
+      - NZD
+      - PLN
+      - ZAR
+      - VEB
+      - VND
+      - TWD
+      - TRY
+      - SEK
+      - SGD
+      - RUB
+      - NOK
+      - HKD
+      - INR
+      - JPY
+      - CLP
+      - CNY
+      - DKK
+      - AUD
+      - BRL
+      - AED
+      - PEN
+      - THB
+      - ARS
+      - MYR
+      - VEF
+      - SAR
+      - BBD
+      - BHD
+      - BMD
+      - BSD
+      - ILS
+      - ISK
+      - KES
+      - KRW
+      - KWD
+      - OMR
+      - PHP
+      - PKR
+      - QAR
+      - RON
+      - TTD
+      - UAH
+      - LKR
+      - XPF
+      - UYU
+      - COP
+      - CRC
+      - FJD
+    contactTypeEnum:
+      type: string
+      description: "Indicates the type of contact specified:\n  * `Vendor` - Vendor party (Non Transportation Supplier)\n  * `Buyer` - Buyer Party\n  * `Contact` - Contact Party\n  * `OrderedBy` - Ordered By Party on the Order or Load\n  * `NotifyParty` - Notify Party\n  * `OnlineContact` - CHRWOnline Contact\n  * `SchedWith` - Scheduled With\n  * `POCustomer` - Customer on the Purchase Order\n"
+      enum:
+      - Vendor
+      - Buyer
+      - Contact
+      - OrderedBy
+      - NotifyParty
+      - OnlineContact
+      - SchedWith
+      - POCustomer
+    freightTermEnum:
+      type: string
+      description: "Code to indicate the freight term type:\n\n* `CL` - Collect\n* `PP` - Prepaid \n* `TP` - Third Party\n* `PC` - Prepaid and Add\n* `CC` - The Bill To is paying via a Credit Card\n\n"
+      enum:
+      - CL
+      - PP
+      - TP
+      - PC
+      - CC
+    contactMethodEnum:
+      type: string
+      description: 'Indicates the best method for reaching the specified contact.
+
+        '
+      enum:
+      - Email
+      - Phone
+      - Fax
+    shippingContainerItems:
+      type: object
+      required:
+      - containerId
+      - itemId
+      properties:
+        containerId:
+          type: integer
+          description: ID of the container.
+        itemId:
+          type: integer
+          description: Indicates the item ID.
+    quoteService:
+      type: object
+      description: Object containing quote service information.
+      properties:
+        referenceNumbers:
+          type: array
+          description: Additional reference number objects pertaining to this service.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+        suggestedScac:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: Indicates a specific carrier SCAC customer wishes to associate to the order.
+        suggestedCarrierPartyCode:
+          type: string
+          minimum: 1
+          maximum: 25
+          description: C.H. Robinson identifier for a carrier customer wishes to associate to the order.
+        isHot:
+          type: boolean
+          description: Indicates if the item is hot.
+    PackagesDimensions:
+      required:
+      - packagingType
+      type: object
+      properties:
+        packagingType:
+          $ref: '#/components/schemas/BookingPackageCode'
+        quantity:
+          type:
+          - integer
+          - 'null'
+          description: Indicates the quantity, identifying how many containers need to be shipped.
+          format: int32
+        length:
+          type:
+          - number
+          - 'null'
+          description: Indicates the length of the line item packaging.
+          format: float
+        width:
+          type:
+          - number
+          - 'null'
+          description: Indicates the width of the line item packaging.
+          format: float
+        height:
+          type:
+          - number
+          - 'null'
+          description: Indicates the height of the line item packaging.
+          format: float
+        linearUnitOfMeasure:
+          $ref: '#/components/schemas/linearUomEnum'
+        volume:
+          type:
+          - number
+          - 'null'
+          description: Indicates the volume of the line item packaging.
+          format: float
+        volumeOfMeasure:
+          $ref: '#/components/schemas/BookingVolumeUom'
+        stackable:
+          $ref: '#/components/schemas/Stackable'
+      additionalProperties: false
+      description: Details for packaging contained within each commodity item handling unit.
+    shippingContainers:
+      type: object
+      required:
+      - containerId
+      properties:
+        containerId:
+          type: integer
+          description: ID of the container.
+        containerType:
+          $ref: '#/components/schemas/shipmentContainerTypeEnum'
+        containerStatus:
+          type: string
+          description: Indicates the container status.
+          enum:
+          - Booking Confirmed
+          - Arrived Pick Up Location
+          - Departed Pick Up Location
+          - In-Gate
+          - Rail Departure
+          - Loaded On Vessel
+          - Vessel Arrived
+          - Vessel Departed
+          - Unloaded from Vessel
+          - Out Gate
+          - Loaded on Rail
+          - Rail Arrived at Destination
+          - Arrived at Delivery Location
+          - Unloaded at Delivery Location
+          - Ordered
+          - Wheels Up
+          - Wheels Down
+        declaredValue:
+          type: number
+          format: currency
+          description: Indicates the container declared value.
+        weightNet:
+          type: number
+          format: float
+          description: indicates the container net weight.
+        weightGross:
+          type: number
+          format: float
+          description: Indicates the container gross weight.
+        vgm:
+          type: number
+          format: float
+          description: VGM
+        sealNum:
+          type: string
+          description: Indicates the container seal number.
+        containerNumber:
+          type: string
+          description: Indicates the container number.
+        weightUnit:
+          $ref: '#/components/schemas/weightUomEnum'
+        currency:
+          $ref: '#/components/schemas/currencyCodeEnum'
+        referenceNumbers:
+          $ref: '#/components/schemas/referenceNumber'
+    labelReferenceData2:
+      type: string
+      description: Second piece of reference data to be used on the package label. This is used as the PO Number for FedEx or Reference Number 2 for UPS (not used for DHL or TNT).
+      minLength: 1
+      maxLength: 35
+    BookingHazardousProperties:
+      type: object
+      properties:
+        properName:
+          maxLength: 500
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates the Proper Shipping Name (PSN) - the often broad name mandated for documentation and packaging.
+        technicalName:
+          maxLength: 50
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates the technical name - required for n.o.s. (Not Otherwise Specified) or generic entries. Also known as Chemical Name.
+        subsidiaryHazmatClasses:
+          maxLength: 15
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates the subsidiary hazmat classes (maximum 15 characters).
+        unNumber:
+          maxLength: 10
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: 'Four-digit numbers prepended with ''UN'' that identify dangerous goods, hazardous substances and articles
+
+            (such as explosives, flammable liquids, toxic substances, etc.) in the framework of international transport.'
+        classCode:
+          maxLength: 10
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates the code for hazardous material in the framework of international transport.
+        packingGroup:
+          $ref: '#/components/schemas/hazardousGroupEnum'
+        packingDetails:
+          maxLength: 15
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates details about packing (maximum 15 characters).
+        emergencyPhone:
+          maxLength: 50
+          minLength: 1
+          type:
+          - string
+          - 'null'
+          description: Indicates the emergency phone number (maximum 50 characters).
+        isLimitedQuantities:
+          type:
+          - boolean
+          - 'null'
+          description: Indicates a value indicating whether the hazardous goods shipment is transported under the Limited Quantities (LQ) provisions.
+        flashpoint:
+          type:
+          - number
+          - 'null'
+          description: Indicates the hazmat flash point.
+          format: float
+        flashpointTemperatureUnit:
+          $ref: '#/components/schemas/temperatureUomEnum'
+        marinePollutantCategory:
+          $ref: '#/components/schemas/marinePollutantCategory'
+      additionalProperties: false
+      description: Object containing hazardous material information.
+    weightUomEnum:
+      type: string
+      description: Unit of measure for weight parameters.
+      enum:
+      - Pounds
+      - Kilograms
+    hazmatCodeEnum:
+      type: string
+      description: "Defines the authorizing entity:\n  * `C` - HazMat Canadian Regulatory Authority Codes\n  * `D` - HazMat US Regulatory Authority Codes\n  * `I` - HazMat MX/International Regulatory Authority Codes\n"
+      enum:
+      - C
+      - D
+      - I
+    orderPackage:
+      required:
+      - packagingType
+      type: object
+      properties:
+        packageType:
+          $ref: '#/components/schemas/packageCodeEnum'
+        parcelPackageType:
+          $ref: '#/components/schemas/parcelPackageCodeEnum'
+        weight:
+          type: number
+          description: Total weight of the package.
+          format: float
+        length:
+          type: number
+          description: The length of the package.
+          format: float
+        width:
+          type: number
+          description: The width of the package.
+          format: float
+        height:
+          type: number
+          description: The height of the package.
+          format: float
+        packageUnitOfMeasure:
+          $ref: '#/components/schemas/linearUomEnum'
+        volume:
+          type: number
+          format: float
+          description: Volume of the package.
+        packageVolumeUnitOfMeasure:
+          $ref: '#/components/schemas/volumeUomEnum'
+        weightLb:
+          type: number
+          description: Total weight of the package in standard pounds.
+          format: float
+        declaredValue:
+          type: number
+          format: float
+          description: Insurance valuation of package.
+        codAmount:
+          type: number
+          format: float
+          description: Cash on deliver amount for the package.
+        trackingNumber:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: Tracking number assigned to package.
+        notes:
+          type: string
+          minimum: 1
+          maximum: 100
+          description: A place for customer to put package level notes.
+    orderService:
+      type: object
+      description: Object containing service information.
+      required:
+      - locations
+      - items
+      properties:
+        dateCalculationRule:
+          type: string
+          description: "Selected promise date.\n\n* `promisedShipDate` - Identifies the pick up date as promised to customer. \n* `promisedDeliveryDate` - Identifies the delivery date as promised to customer."
+          enum:
+          - promisedShipDate
+          - promisedDeliveryDate
+        serviceLevel:
+          $ref: '#/components/schemas/serviceLevelEnum'
+        suggestedScac:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: Indicates a specific carrier SCAC customer wishes to associate to the order.
+        isCritical:
+          type: boolean
+          description: Indicates if the order is critical.
+        isDangerous:
+          type: boolean
+          description: Indicates if the order contains dangerous item.
+        isHot:
+          type: boolean
+          description: Indicates if the item is hot.
+        isHighValue:
+          type: boolean
+          description: Indicates if the item is high value.
+        isPartial:
+          type: boolean
+          description: Indicates if the item is partial.
+        suggestedCarrierPartyCode:
+          type: string
+          minimum: 1
+          maximum: 25
+          description: C.H. Robinson identifier for a carrier customer wishes to associate to the order.
+        routeCode:
+          type: string
+          description: Identifies the routing pattern needed to deliver this order.
+        sellMode:
+          $ref: '#/components/schemas/sellModeEnum'
+        locations:
+          type: array
+          minimum: 2
+          maximum: 2
+          description: The locations on the order.
+          items:
+            $ref: '#/components/schemas/orderLocation'
+        items:
+          type: array
+          description: The item(s) on the order.
+          items:
+            $ref: '#/components/schemas/orderItem'
+        packages:
+          type: array
+          description: The package(s) on the order.
+          items:
+            $ref: '#/components/schemas/orderPackage'
+        collectOnDelivered:
+          type: array
+          description: Collect on Deliver
+          items:
+            $ref: '#/components/schemas/collectOnDelivered'
+        referenceNumbers:
+          type: array
+          description: Additional reference number objects pertaining to this service.
+          items:
+            $ref: '#/components/schemas/referenceNumber'
+        isTeam:
+          type: boolean
+          description: Indicates if the order requires team service.
+        incoTerms:
+          $ref: '#/components/schemas/incoTermsEnum'
+        incoTermsNamedLocation:
+          type: string
+          description: Name of Inco term location.
+        customEquipmentType:
+          type: string
+          description: This field represents a custom value used to describe equipment. The list is specific to each customer and is coordinated with the C.H Robinson account team. Only agreed upon values will function properly in Navisphere®.  It is the responsibility of the customer to supply correct values. This field is used primarily by TMC customers. Reach out to your TMC Representative for more information.
+        parcelDeliveryServices:
+          type: object
+          description: Used to specify special delivery service options (these services may incur additional charges).
+          properties:
+            saturdayDelivery:
+              type: boolean
+              description: Used to indicate Saturday Delivery Service (this service may incur additional charges).
+            deliveryConfirmation:
+              type: string
+              description: Used on specify if signature is required on delivery (this service may incur additional charges).
+              enum:
+              - SignatureRequired
+              - AdultSignatureRequired
+              - NotRequired
     quoteLocation:
       type: object
       description: Object containing quote location information.
@@ -5906,23 +5568,272 @@ components:
           description: Additional reference number objects pertaining to this location.
           items:
             $ref: '#/components/schemas/referenceNumber'
-    loadingTypeEnum:
+    itemEquipment:
+      type: object
+      description: Additional information as to the specific equipment needs.
+      properties:
+        itemEquipmentCode:
+          $ref: '#/components/schemas/itemEquipmentTypeEnum'
+        maxTrailerAge:
+          type: integer
+          description: Defines the how old a trailer can be to ship items.
+        tarpTypeCode:
+          $ref: '#/components/schemas/tarpTypeEnum'
+        loadingTypeCode:
+          $ref: '#/components/schemas/loadingTypeEnum'
+        requiredStrapsCount:
+          type: integer
+          description: Indicates number of straps needed.
+        requiredChainsCount:
+          type: integer
+          description: Indicates number of chains needed
+        coilRacks:
+          type: integer
+          description: Indicates number of coil racks needed.
+        locksBars:
+          type: integer
+          description: Indicates number of locks or bars needed.
+        isOwOd:
+          type: boolean
+          description: Indicates overweight or over dimensional.
+        safetyEquipmentRequired:
+          type: boolean
+          description: Indicates if safety equipment is required.
+    serviceLevelEnum:
       type: string
-      description: "Describes how trailer will need to be loaded.\n  * `CRANE` - Top/crane\n  * `REAR` - Rear\n  * `SIDE` - Side\n  * `REAR/SIDE` - Rear/side\n  * `TOP/SIDE` - Top/side\n  * `DOCK` - Dock\n  * `STRING` - String\n  * `STRING/TOW` - String/tow\n"
+      description: 'C.H. Robinson defined code for a service offering.
+
+
+        For a detailed description of all enumerated codes please find them <a href="https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ServiceOfferingDescriptions.xlsx" target="_blank">here</a>.'
       enum:
-      - CRANE
-      - REAR
-      - SIDE
-      - REAR/SIDE
-      - TOP/SIDE
-      - DOCK
-      - STRING
-      - STRING/TOW
-    labelReferenceData2:
+      - S
+      - P
+      - EXP
+      - T/R
+      - DED
+      - TD
+      - SD-NFO
+      - SD-CH
+      - ND-AM
+      - ND-PM
+      - 3RD
+      - ECON
+      - BOX
+      - BTC
+      - HOP
+      - ISO
+      - COFC
+      - TOFC
+      - LB
+      - PC
+      - S-AIR
+      - FCL
+      - LCL
+      - MCL
+      - RORO
+      - NFO
+      - SAMEDAY
+      - NEXT-CARGO
+      - PRTY AM
+      - SD-CARGO
+      - SD-AM
+      - SD-PM
+      - TD-NEXT
+      - TD-2D
+      - TD-3D
+      - TD-ECO
+      - CHARTER
+      - CORP-ND
+      - SEC-ND
+      - ECON-ND
+      - DEF
+      - PRTY
+      - DC
+      - OGC
+      - CARGO
+      - COMM
+      - SD-US
+      - ND-8
+      - ND-10
+      - ND-3
+      - 2D-AM
+      - 2D-PM
+      - 3D
+      - DEF-R
+      - DEF-G
+      - DEF-CAD
+      - INTL-S
+      - INTL-3
+      - INTL-5
+      - FDXSTNDRDVRNGHT
+      - FDXFRSTVRNGHT
+      - FDX2DY
+      - FDXXPRSSSVR
+      - FDXINTLPRRTY
+      - FDXINTLCNMY
+      - FDXINTLFRST
+      - FDX1DYFRGHT
+      - FDX2DYFRGHT
+      - FDX3DYFRGHT
+      - FDXGRND
+      - FDXGRNDHMDLVRY
+      - FDXINTLPRRTYFRGHT
+      - FDXINTLCNMYFRGHT
+      - FDXRPFRSTINTLPRRTY
+      - UPSNXTDYR
+      - UPS2NDDYR
+      - UPSGRUND
+      - UPSWRLDWDXPRSSSM
+      - UPSWRLDWDXPDTDSM
+      - UPSSTNDRD
+      - UPS3DYSLCT
+      - UPSNXTDYRSVR
+      - UPSNXTDYRRLY.M.
+      - UPSWRLDWDXPRSSPLUSSM
+      - UPS2NDDYR.M.
+      - UPSSVR
+      - USPSFRST-CLSSML
+      - USPSPRRTYML
+      - USPSMDML(SNGL-PC)
+      - USPSNTLRMLM-BGS
+      - USPSPRRTYMLINTL
+      - USPSXPRSSML
+      - DHLINTLDOCSRVC
+      - DHLINTLDOCLTTRSRVC
+      - DHLWRLDWDPRRTYXPRSS
+      - PRLTRAIR9:00A
+      - PRLTRAIR10:30A
+      - PRLTRR
+      - PRLTRGRND
+      - PRLTRGRND9:00A
+      - PRLTRGRND10:30A
+      - PRLTRAIRUSA
+      - PRLTRGRNDUSA
+      - PRLTRINTLAIR
+      - FDXPRRTYVRNGHT
+      - Same
+      - Next
+      - 2Day
+      - 3Day
+      - Ground
+      - FDXHOMEDEL
+      - FDX2DYAM
+      - UPSWRLDWDXPRSSS
+      - UPSBSC
+      - UPSSP
+      - UPSSPU1LB
+      - UPSSPM
+      - UPSSPBPM
+      - UPSRTRNSFLEX
+      - USPSLibraryMail
+      - USPSStandardPost
+      - USPSFirstClassMailInt
+      - USPSPriorityMailInt
+      - USPSParcelSelect
+      - USPSStandardMail
+      - USPSCriticalMail
+      - USPSFirstClassPkgInt
+      - FDXSMPSTSELECT
+      - FDXSMPSTMEDIA
+      - FDXSMPSTBOUND
+      - FDXSMPSTPRESORT
+      - BARTOLINIXPRSS
+      - SEURXPRSS
+      - DHLDOMXPRSS
+      - DHLDOMXPRSS9
+      - DHLDOMXPRSS12
+      - DHLXPRSS9
+      - DHLXPRSS12
+      - DHLECONSELECT
+      - DHLXPRSSWWDOCECX
+      - DHLXPRSSWWDOCDOX
+      - DHLECONSELECTDOC
+      - DHLXPRSS9DOC
+      - DHLXPRSS12DOC
+      - FDXINTLPRRTYDIRECT
+      - TNTXPRSS9
+      - TNTXPRSS10
+      - TNTXPRSS12
+      - TNTXPRSS
+      - TNTECONXPRSS
+      - TNTDOMXPRSS
+      - TNTECONXPRSS12
+      - TNTNEXTDAY9
+      - TNTNEXTDAY10
+      - TNTNEXTDAY12
+      - TNTNEXTDAY
+      - DHLPEPFORYOU
+      - DHLPEPEUROPACK
+      - DHLPEPEUROPLUS
+      - DHLDOMECONSELECT
+      - UPSEXPEDITED
+      - SINGPOST
+      - CORREIOS
+      - TNTXPRSS8
+      - TNTBUSPAK8
+      - TNTBUSPAK9
+      - TNTBUSPAK10
+      - TNTBUSPAK12
+      - TH
+      - IHRC
+      - IHPR
+      - IHPA
+      - QSEZPRRTYDM
+      - SPPRRTYSGI
+      - SPPRRTYSGO
+      - SFXSTANDARD
+      - SFXSSAMEDAY
+      - SFXNEXTDAY
+      - SFXECON
+      - QSDSTD
+      - CHD
+      - OHD
+    parcelPackageCodeEnum:
       type: string
-      description: Second piece of reference data to be used on the package label. This is used as the PO Number for FedEx or Reference Number 2 for UPS (not used for DHL or TNT).
-      minLength: 1
-      maxLength: 35
+      default: CUSTPKG
+      description: "Used to specify if carrier-specific branded packaging is used for a parcel shipment. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ParcelPackagingDescription.xlsx\" target=\"_blank\">here</a>."
+      enum:
+      - FDXNVLP
+      - FDXPK
+      - FDXBX
+      - FDXTB
+      - FDX10KGBX
+      - FDX25KGBX
+      - UPSLTTR
+      - UPSTUB
+      - UPSPK
+      - UPSXPRSSBX
+      - UPS25KGBX
+      - UPS10KGBX
+      - UPSPLLT
+      - USPSPCKG
+      - USPSCRD
+      - USPSLTTR
+      - USPSPRCL
+      - USPSMDUMFLTRTBX
+      - USPSFLTRTNVLP
+      - USPSRRGULRPRCL
+      - USPSLRGFLTRTBX
+      - USPSLRGPRCL
+      - USPSVRSZDPRCL
+      - USPSSMLLFLTRTBX
+      - USPSFLTRTLGLNVLP
+      - USPSFLTRTPDDDNVLP
+      - USPSFLTRTGFTCRDNVLP
+      - USPSFLTRTWNDWNVLP
+      - USPSFLTRTCRDBRDNVLP
+      - USPSSMLLFLTRTNVLP
+      - USPSDVDFLTRTBX
+      - USPSLRGVDFLTRTBX
+      - USPSRGNLRTBX
+      - USPSRGNLRTBXB
+      - DHLLBPK
+      - DHLBX
+      - DHLLTTR
+      - CUSTPKG
+      - UPSSmallExpressBox
+      - UPSMediumExpressBox
+      - UPSLargeExpressBox
     BookingServiceLevel:
       enum:
       - DD
@@ -5931,60 +5842,149 @@ components:
       - PD
       type: string
       description: Specifies movement type of the shipment.
-    temperatureSensitiveEnum:
-      type: string
-      description: "Indicates if temperature control is needed, and what level:\n  * `Dry` - Dry\n  * `Fresh` - Fresh (25 to 32 degrees)\n  * `Frozen` - Frozen (-10 to 0 degrees)\n  * `Chilled` - Chilled (40 to 60 degrees)\n  * `DeepFrozen` - Deep Frozen (-20 to -20 degrees)\n  * `Refrigerated` - Refrigerated (33 to 39 degrees)\n  * `Protect` - Protect (33 to 60 degrees)\n  * `Custom` - Custom\n  * `Produce` - Produce\n  * `Mixed` - Mixed\n  * `Empty` - Empty\n"
-      enum:
-      - Dry
-      - Fresh
-      - Frozen
-      - Chilled
-      - DeepFrozen
-      - Refrigerated
-      - Protect
-      - Produce
-      - Mixed
-      - Empty
-    BookingContainer:
-      required:
-      - quantity
-      - type
+    hazardousProperties:
       type: object
+      description: Object containing hazardous material information.
+      required:
+      - description
       properties:
-        containerId:
-          type:
-          - integer
-          - 'null'
-          description: Indicates the identifier for a single container within the shipment and serves as the key used to group all related data elements.
-          format: int32
-        type:
-          $ref: '#/components/schemas/BookingShipmentContainerType'
-        quantity:
-          type: integer
-          description: Indicates the quantity, identifying how many containers need to be shipped.
-          format: int32
-        containerNumber:
-          type:
-          - string
-          - 'null'
-          description: Indicates the industry identifying number assigned to the container. Format is SCAC######-CheckDigit.
-        referenceNumbers:
-          type:
-          - array
-          - 'null'
-          items:
-            $ref: '#/components/schemas/ReferenceNumber'
-          description: Indicates additional reference number objects pertaining to the container.
-      additionalProperties: false
-      description: Container data.
-    linearUomEnum:
+        description:
+          type: string
+          minimum: 1
+          maximum: 500
+          description: Description of the hazardous material.
+        technicalName:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Technical name of the hazardous material.
+        unNumber:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: Four-digit numbers that identify dangerous goods, hazardous substances and articles (such as explosives, flammable liquids, toxic substances, etc.) in the framework of international transport.
+          example: '2796'
+        classCode:
+          type: string
+          minimum: 1
+          maximum: 10
+          description: Code for hazardous material in the framework of international transport.
+        packagingGroup:
+          $ref: '#/components/schemas/hazardousGroupEnum'
+        emergencyPhone:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Emergency phone number.
+        authCode:
+          $ref: '#/components/schemas/hazmatCodeEnum'
+        isPlacarded:
+          type: boolean
+          description: Does hazardous material have a placard.
+        isReportableQuantity:
+          type: boolean
+          description: Hazardous material is defined as a reportable quantity.
+        isPrimaryCommodity:
+          type: boolean
+          description: Is hazardous material considered a primary commodity.
+        isNOSCommodity:
+          type: boolean
+          description: Is hazardous material considered a NOS commodity.
+        flashpoint:
+          type: number
+          format: float
+          description: Hazmat flash point is the minimum temperature at which a liquid gives off vapor within a test vessel in sufficient concentration to form an ignitable mixture with air near the surface of the liquid.
+        flashpointTemperatureUnit:
+          $ref: '#/components/schemas/temperatureUomEnum'
+        isEnvironmentallyHazardous:
+          type: boolean
+          description: Is hazardous material considered environmentally hazardous.
+        subsidiaryHazmatClasses:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Subsidiary Code for hazardous material in the framework of international transport.
+        vesselStowageCategory:
+          $ref: '#/components/schemas/vesselStowageCategoryEnum'
+        specialProvisions:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Indicates the Special Provisions for Hazardous Materials.
+        marinePollutantCategory:
+          type: string
+          description: Indicates the Marine Pollutant Category for Hazardous Materials.
+          $ref: '#/components/schemas/marinePollutantCategory'
+          enum:
+          - SevereMarinePollutant
+          - MarinePollutant
+        emergencyResponseGuidePage:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Indicates the Emergency Response Guidebook Page for first responders during the initial Phase of Hazardous Materials Transportation Incident.
+        passengerLimitation:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Indicates the passenger limitation for Hazardous Materials.
+        cargoAircraftLimitation:
+          type: string
+          minimum: 1
+          maximum: 50
+          description: Indicates the Cargo Aircraft Limitation for Hazardous Materials.
+        exemptionNotes:
+          type: string
+          minimum: 1
+          maximum: 4000
+          description: Indicates the exemption notes for Hazardous Materials.
+    movementTypeEnum:
       type: string
-      description: Unit of measure for height, width, and length parameters.
+      description: "Specifies movement type of the shipment:\n  * `OD` - \"Origin Dray\"\n  * `DD` - \"Destination Dray\"\n  * `OPDP` - \"Origin Port to Destination Port\"\n  * `OPDD` - \"Origin Port to Destination Door\"\n  * `ODDP` - \"Origin Door to Destination Port\"\n  * `ODDD` - \"Origin Door to Destination Door\"\n  * `ORDP` - \"Origin Ramp to Destination Port\"\n  * `OPDR` - \"Origin Port to Destination Ramp\"\n  * `ORDD` - \"Origin Ramp to Destination Door \"\n  * `ODDR` - \"Origin Door to Destination Ramp\"\n  * `ORDR` - \"Origin Ramp to Destination Ramp\"\n  * `OADA` - \"Origin Airport to Destination Airport\"\n  * `OADD` - \"Origin Airport to Destination Door\"\n  * `ODDA` - \"Origin Door to Destination Airport\"\n  * `ODOC` - \"Origin Door to Origin CFS\"\n  * `ODDC` - \"Origin Door to Destination CFS\"\n  * `OCDC` - \"Origin CFS to Destination CFS\"\n  * `OCDD` - \"Origin CFS to Destination Door\"\n  * `DCDD` - \"Destination CFS to Destination Door\"\n  * `OCDP` - \"Origin CFS to Destination Port\"\n  * `OPDC` - \"Origin Port to Destination CFS\"\n"
       enum:
-      - Inches
-      - Feet
-      - Centimeters
-      - Meters
+      - OD
+      - DD
+      - OPDP
+      - OPDD
+      - ODDP
+      - ODDD
+      - ORDP
+      - OPDR
+      - ORDD
+      - ODDR
+      - ORDR
+      - OADA
+      - OADD
+      - ODDA
+      - ODOC
+      - ODDC
+      - OCDC
+      - OCDD
+      - DCDD
+      - OCDP
+      - OPDC
+    blindLocation:
+      type: object
+      description: A "blind shipment" is a shipment, regardless of mode, in which the party paying the freight charges requests that either the actual "shipper" or actual "consignee" not be disclosed on the bill of lading or other shipping documentation in order to shield such party's identity from another party. This is the address that will be displayed on the Bill of Lading.
+      properties:
+        blindName:
+          type: string
+          description: Indicate name of blind location.
+        blindAddress:
+          type: string
+          description: Indicate address of blind location.
+        blindCity:
+          type: string
+          description: Indicate city of blind location.
+        blindState:
+          type: string
+          description: indicate state of blind location.
+    marinePollutantCategory:
+      type: string
+      description: "Indicates the Marine Pollutant Category for Hazardous Materials.\n  * `Severe Marine Pollutant`\n  * `Marine Pollutant`\n"
+      enum:
+      - SevereMarinePollutant
+      - MarinePollutant
   securitySchemes:
     sandbox:
       type: http

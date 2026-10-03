@@ -99,34 +99,6 @@ components:
           type: string
           description: Specifies issue
           example: Not Found
-    error400:
-      properties:
-        message:
-          type: string
-        path:
-          type: array
-          items:
-            type: string
-        type:
-          type: string
-        context:
-          type: object
-          properties:
-            child:
-              type: string
-            value:
-              type: array
-              items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                  value:
-                    type: string
-            key:
-              type: string
-            label:
-              type: string
     error403:
       required:
       - statusCode
@@ -206,6 +178,34 @@ components:
           type: object
           properties:
             error:
+              type: string
+    error400:
+      properties:
+        message:
+          type: string
+        path:
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+        context:
+          type: object
+          properties:
+            child:
+              type: string
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+            key:
+              type: string
+            label:
               type: string
   securitySchemes:
     sandbox:
