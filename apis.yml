@@ -301,6 +301,9 @@ apis:
   - type: Overview
     url: https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
 common:
+- type: CapabilityMap
+  url: capabilities/ch-robinson-worldwide-capability-edges.yml
+  name: C.H. Robinson Business Capability Map
 - type: AgenticAccess
   url: agentic-access/ch-robinson-worldwide-agentic-access.yml
 - type: Authentication

@@ -1,0 +1,57 @@
+slug: ch-robinson-worldwide
+provider: C.H. Robinson
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 4
+edges:
+- tag: Shipments
+  spec_file: ch-robinson-worldwide-shipments-api-openapi.yml
+  capability_id: BC-520.50
+  capability_id_l1: BC-520
+  capability_name: Logistics Operations Management
+  confidence: 0.8
+  evidence: Available shipment search; Load offer; Load book; Milestone updates; schemas rateConfirmation,
+    railDetail, specializedEquipmentCodeNAEnum
+  reason: Carrier-facing load search, tendering/offer, booking and milestone reporting are core freight
+    transportation execution operations.
+- tag: Documents
+  spec_file: ch-robinson-worldwide-documents-api-openapi.yml
+  capability_id: BC-520.50
+  capability_id_l1: BC-520
+  capability_name: Logistics Operations Management
+  confidence: 0.75
+  evidence: GENERATED BOL RETRIEVAL order level; Load document retrieval; Carrier document upload; schema
+    docTypeEnum
+  reason: Bills of lading, load documents and carrier document uploads are freight transportation execution
+    artefacts in a 3PL TMS, i.e. logistics operations. Invoice document retrieval is a minor secondary
+    theme, so not fully certain on the L2.
+- tag: Labels
+  spec_file: ch-robinson-worldwide-labels-api-openapi.yml
+  capability_id: BC-520.50
+  capability_id_l1: BC-520
+  capability_name: Logistics Operations Management
+  confidence: 0.75
+  evidence: POST /v1/labels GenerateLabel; schemas packageLabel, hazardousPackageInformation, carrierEnum,
+    billTo
+  reason: Shipping label generation with carrier, package and hazardous-material detail is a shipping/transport
+    execution function, i.e. logistics operations.
+- tag: Events
+  spec_file: ch-robinson-worldwide-events-api-openapi.yml
+  capability_id: BC-520.50
+  capability_id_l1: BC-520
+  capability_name: Logistics Operations Management
+  confidence: 0.7
+  evidence: GET /v2/events EventRetrieval; schemas packageInTransitEvent, globalForwardingStopTypeEnum,
+    globalForwardingNzCustoms, orderEventMode
+  reason: Event retrieval here surfaces shipment/forwarding status events (in-transit, stop types, customs)
+    — transportation execution tracking, not generic eventing. Maps to logistics operations within supply
+    chain management; the callback mechanics are plumbing but the payload is clearly freight.
