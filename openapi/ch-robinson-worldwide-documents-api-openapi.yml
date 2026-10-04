@@ -717,137 +717,6 @@ paths:
       x-operation-id-original: Carrier Document Upload
 components:
   schemas:
-    documentIdResults:
-      type: array
-      description: Document ID results.
-      items:
-        type: object
-        properties:
-          doumentType:
-            $ref: '#/components/schemas/docTypeEnum'
-          documentId:
-            type: integer
-            description: Identifing ID that matches to a specific image.
-          documentEnteredDateTime:
-            type: string
-            format: date-time
-            description: The date/time in ISO8601 format when the document was attached to the load.
-    loadDocumentCallback:
-      type: object
-      description: Object containing the search event response.
-      properties:
-        billToReferenceNumber:
-          type: string
-          description: Primary bill to reference number
-        customerReferenceNumber:
-          type: string
-          description: Primary customer reference number
-        event:
-          type: object
-          description: Object containing document saved detail
-          properties:
-            billTos:
-              type: array
-              description: Array containing bill to entities and references by customerCode
-              items:
-                type: object
-                properties:
-                  customerCode:
-                    type: string
-                    description: CHR defined Bill to customerCode
-                  referenceNumbers:
-                    description: Array containing bill to references
-                    items:
-                      $ref: '#/components/schemas/referenceNumber'
-            customer:
-              type: array
-              description: Array containing customer entities and references by customerCode
-              items:
-                type: object
-                properties:
-                  customerCode:
-                    type: string
-                    description: CHR defined customer code
-                  referenceNumbers:
-                    description: Array containing customer references
-                    items:
-                      $ref: '#/components/schemas/referenceNumber'
-            documentFileName:
-              type: string
-              description: Filename and extension of the carrier document
-            documentType:
-              type: string
-              enum:
-              - BOL
-              - POD
-              - LUMPER
-              - INTL_BOL
-              - INTL_POD
-              description: Defines type of carrier document, such as POD (Proof of Delivery), BOL (Bill of Lading), LMP (Lumper Receipt) - see enums
-            eventType:
-              type: string
-              description: DOCUMENT SAVED
-            loadNumber:
-              type: string
-              description: CHR load number
-        eventTime:
-          type: string
-          format: date-time
-          description: The date/time in ISO8601 UTC format when the event was reported to have occured.
-        time:
-          type: string
-          format: date-time
-          description: The date/time in ISO8601 UTC format when the event was written to the Enterprise API database.
-        documentFileData:
-          type: object
-          description: Object containing image byte array and contentType
-          properties:
-            document:
-              type: string
-              description: Base64 encoded carrier document
-            contentType:
-              type: string
-              description: String showing Content-type of the document, such as application/pdf
-              enum:
-              - application/pdf
-              - application/tif
-              - application/jpeg
-    error403:
-      required:
-      - statusCode
-      - error
-      - message
-      properties:
-        statusCode:
-          type: integer
-          description: Error code
-          example: 403
-        error:
-          type: string
-          description: detail about the error status code
-          example: Forbidden
-        message:
-          type: string
-          description: Specifies issue
-          example: Invalid customerCode
-    error404:
-      required:
-      - statusCode
-      - error
-      - message
-      properties:
-        statusCode:
-          type: integer
-          description: Error code
-          example: 404
-        error:
-          type: string
-          description: Detail about the error status code
-          example: Not Found
-        message:
-          type: string
-          description: Specifies issue
-          example: Not Found
     docTypeEnum:
       type: string
       description: "C.H. Robinson codes for the different types of documents. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/DocTypeDescriptions.xlsx\" target=\"_blank\">here</a>."
@@ -1024,6 +893,186 @@ components:
       - WHSE_OSD
       - WOODPACK
       - WT
+    error404:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 404
+        error:
+          type: string
+          description: Detail about the error status code
+          example: Not Found
+        message:
+          type: string
+          description: Specifies issue
+          example: Not Found
+    error400:
+      properties:
+        message:
+          type: string
+        path:
+          type: array
+          items:
+            type: string
+        type:
+          type: string
+        context:
+          type: object
+          properties:
+            child:
+              type: string
+            value:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  value:
+                    type: string
+            key:
+              type: string
+            label:
+              type: string
+    loadDocumentCallback:
+      type: object
+      description: Object containing the search event response.
+      properties:
+        billToReferenceNumber:
+          type: string
+          description: Primary bill to reference number
+        customerReferenceNumber:
+          type: string
+          description: Primary customer reference number
+        event:
+          type: object
+          description: Object containing document saved detail
+          properties:
+            billTos:
+              type: array
+              description: Array containing bill to entities and references by customerCode
+              items:
+                type: object
+                properties:
+                  customerCode:
+                    type: string
+                    description: CHR defined Bill to customerCode
+                  referenceNumbers:
+                    description: Array containing bill to references
+                    items:
+                      $ref: '#/components/schemas/referenceNumber'
+            customer:
+              type: array
+              description: Array containing customer entities and references by customerCode
+              items:
+                type: object
+                properties:
+                  customerCode:
+                    type: string
+                    description: CHR defined customer code
+                  referenceNumbers:
+                    description: Array containing customer references
+                    items:
+                      $ref: '#/components/schemas/referenceNumber'
+            documentFileName:
+              type: string
+              description: Filename and extension of the carrier document
+            documentType:
+              type: string
+              enum:
+              - BOL
+              - POD
+              - LUMPER
+              - INTL_BOL
+              - INTL_POD
+              description: Defines type of carrier document, such as POD (Proof of Delivery), BOL (Bill of Lading), LMP (Lumper Receipt) - see enums
+            eventType:
+              type: string
+              description: DOCUMENT SAVED
+            loadNumber:
+              type: string
+              description: CHR load number
+        eventTime:
+          type: string
+          format: date-time
+          description: The date/time in ISO8601 UTC format when the event was reported to have occured.
+        time:
+          type: string
+          format: date-time
+          description: The date/time in ISO8601 UTC format when the event was written to the Enterprise API database.
+        documentFileData:
+          type: object
+          description: Object containing image byte array and contentType
+          properties:
+            document:
+              type: string
+              description: Base64 encoded carrier document
+            contentType:
+              type: string
+              description: String showing Content-type of the document, such as application/pdf
+              enum:
+              - application/pdf
+              - application/tif
+              - application/jpeg
+    documentIdResults:
+      type: array
+      description: Document ID results.
+      items:
+        type: object
+        properties:
+          doumentType:
+            $ref: '#/components/schemas/docTypeEnum'
+          documentId:
+            type: integer
+            description: Identifing ID that matches to a specific image.
+          documentEnteredDateTime:
+            type: string
+            format: date-time
+            description: The date/time in ISO8601 format when the document was attached to the load.
+    error403:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 403
+        error:
+          type: string
+          description: detail about the error status code
+          example: Forbidden
+        message:
+          type: string
+          description: Specifies issue
+          example: Invalid customerCode
+    error401:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 401
+        error:
+          type: string
+          description: Detail about the error status code
+        message:
+          type: string
+          description: Specifies issue
+        attributes:
+          type: object
+          properties:
+            error:
+              type: string
     referenceNumber:
       type: object
       required:
@@ -1195,55 +1244,6 @@ components:
           minimum: 1
           maximum: 100
           description: The actual value of the reference number.
-    error401:
-      required:
-      - statusCode
-      - error
-      - message
-      properties:
-        statusCode:
-          type: integer
-          description: Error code
-          example: 401
-        error:
-          type: string
-          description: Detail about the error status code
-        message:
-          type: string
-          description: Specifies issue
-        attributes:
-          type: object
-          properties:
-            error:
-              type: string
-    error400:
-      properties:
-        message:
-          type: string
-        path:
-          type: array
-          items:
-            type: string
-        type:
-          type: string
-        context:
-          type: object
-          properties:
-            child:
-              type: string
-            value:
-              type: array
-              items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                  value:
-                    type: string
-            key:
-              type: string
-            label:
-              type: string
   securitySchemes:
     sandbox:
       type: http
