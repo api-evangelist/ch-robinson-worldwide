@@ -81,3 +81,27 @@ gates:
   public_price_list: false
   onboarding_carrier: https://developer.chrobinson.com/carrier
   onboarding_customer: https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/Customer_Integration.docx
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - subscription
+  units:
+  - negotiated
+  plans:
+  - name: Shipper API Access
+    access: enterprise
+    model: subscription
+    model_how: derived
+    units:
+    - negotiated
+    periods:
+    - month
+  - name: Carrier API Access
+    access: enterprise
+    model: subscription
+    model_how: derived
+    units:
+    - negotiated
+    periods:
+    - month
