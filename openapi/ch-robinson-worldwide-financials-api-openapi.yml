@@ -317,61 +317,6 @@ paths:
       x-operation-id-original: Invoice Retrieval
 components:
   schemas:
-    error404:
-      required:
-      - statusCode
-      - error
-      - message
-      properties:
-        statusCode:
-          type: integer
-          description: Error code
-          example: 404
-        error:
-          type: string
-          description: Detail about the error status code
-          example: Not Found
-        message:
-          type: string
-          description: Specifies issue
-          example: Not Found
-    invoiceShipments:
-      type: array
-      description: Contains high level shipment charge information.
-      items:
-        type: object
-        properties:
-          branchCode:
-            type: string
-            description: C.H Robinson code identifying the internal C.H. Robinson owning branch.
-          chrOrderNumber:
-            type: integer
-            description: C.H. Robinson defined order number.
-          currencyCode:
-            $ref: '#/components/schemas/currencyCodeEnum'
-          customerReferenceNumber:
-            type: string
-            description: Customer defined reference number.
-          invoiceAmount:
-            type: integer
-            description: Total currency amount of shipment.
-          invoiceBalance:
-            type: integer
-            description: Remaining currency amount left to be paid on the shipment.
-          loadNumber:
-            type: integer
-            format: base32 integer
-            description: C.H. Robinson provided shipment identifier.
-          printDate:
-            type: string
-            format: date-time
-            description: An ISO8601 UTC date-time indicating when the invoice was provided to the customer.
-          receivedAmount:
-            type: integer
-            description: Currency amount C.H. Robinson has received as payment for the charge.
-          salesRep:
-            type: string
-            description: C.H. Robinson representative's 7 letter.
     invoiceSummary:
       type: object
       description: All properties returned on the invoice get call.
@@ -408,21 +353,32 @@ components:
           description: An ISO8601 UTC date-time indicating when the invoice was provided to the customer.
         invoiceShipments:
           $ref: '#/components/schemas/invoiceShipmentsWithRates'
-    payments:
+    invoiceRates:
       type: array
-      description: All properties returned on the payment's get call.
+      description: Defines all charges properties
       items:
         type: object
         properties:
-          shipmentNumber:
+          balance:
             type: integer
-            description: C.H. Robinson defined shipment number.
-          billingStatus:
+            description: Currency amount left to pay.
+          notes:
             type: string
-            description: The Status of the Bill that is being requested
-          carrierInvoiceNumber:
+            description: Notes about the charge.
+          totalRateAmount:
+            type: number
+            description: Total currency amount of specific charge.
+          rateCode:
+            $ref: '#/components/schemas/rateCodeEnum'
+          ratePerUnit:
+            type: number
+            description: Amount of each unit.
+          rateType:
             type: string
-            description: Carrier invoice number.
+            description: Rate type
+          units:
+            type: number
+            description: Total count of units per rate.
     error400:
       properties:
         message:
@@ -1275,6 +1231,82 @@ components:
       - '919'
       - '923'
       - WTT
+    invoiceShipments:
+      type: array
+      description: Contains high level shipment charge information.
+      items:
+        type: object
+        properties:
+          branchCode:
+            type: string
+            description: C.H Robinson code identifying the internal C.H. Robinson owning branch.
+          chrOrderNumber:
+            type: integer
+            description: C.H. Robinson defined order number.
+          currencyCode:
+            $ref: '#/components/schemas/currencyCodeEnum'
+          customerReferenceNumber:
+            type: string
+            description: Customer defined reference number.
+          invoiceAmount:
+            type: integer
+            description: Total currency amount of shipment.
+          invoiceBalance:
+            type: integer
+            description: Remaining currency amount left to be paid on the shipment.
+          loadNumber:
+            type: integer
+            format: base32 integer
+            description: C.H. Robinson provided shipment identifier.
+          printDate:
+            type: string
+            format: date-time
+            description: An ISO8601 UTC date-time indicating when the invoice was provided to the customer.
+          receivedAmount:
+            type: integer
+            description: Currency amount C.H. Robinson has received as payment for the charge.
+          salesRep:
+            type: string
+            description: C.H. Robinson representative's 7 letter.
+    error401:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 401
+        error:
+          type: string
+          description: Detail about the error status code
+        message:
+          type: string
+          description: Specifies issue
+        attributes:
+          type: object
+          properties:
+            error:
+              type: string
+    error404:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 404
+        error:
+          type: string
+          description: Detail about the error status code
+          example: Not Found
+        message:
+          type: string
+          description: Specifies issue
+          example: Not Found
     currencyCodeEnum:
       type: string
       description: "Code to indicate the currency being used. The most common currently in use with C.H. Robinson:\n\n* `USD` - US Dollar\n* `CAD` - Canadian Dollar \n* `MXN` - Mexican Peso\n* `EUR` - European Euro\n\n\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CurrencyCodeDescriptions.xlsx\" target=\"_blank\">here</a>."
@@ -1373,27 +1405,6 @@ components:
             description: An ISO8601 UTC date-time indicating when the invoice was provided to the customer.
           invoiceShipments:
             $ref: '#/components/schemas/invoiceShipments'
-    error401:
-      required:
-      - statusCode
-      - error
-      - message
-      properties:
-        statusCode:
-          type: integer
-          description: Error code
-          example: 401
-        error:
-          type: string
-          description: Detail about the error status code
-        message:
-          type: string
-          description: Specifies issue
-        attributes:
-          type: object
-          properties:
-            error:
-              type: string
     error403:
       required:
       - statusCode
@@ -1412,32 +1423,21 @@ components:
           type: string
           description: Specifies issue
           example: Invalid customerCode
-    invoiceRates:
+    payments:
       type: array
-      description: Defines all charges properties
+      description: All properties returned on the payment's get call.
       items:
         type: object
         properties:
-          balance:
+          shipmentNumber:
             type: integer
-            description: Currency amount left to pay.
-          notes:
+            description: C.H. Robinson defined shipment number.
+          billingStatus:
             type: string
-            description: Notes about the charge.
-          totalRateAmount:
-            type: number
-            description: Total currency amount of specific charge.
-          rateCode:
-            $ref: '#/components/schemas/rateCodeEnum'
-          ratePerUnit:
-            type: number
-            description: Amount of each unit.
-          rateType:
+            description: The Status of the Bill that is being requested
+          carrierInvoiceNumber:
             type: string
-            description: Rate type
-          units:
-            type: number
-            description: Total count of units per rate.
+            description: Carrier invoice number.
   securitySchemes:
     sandbox:
       type: http
