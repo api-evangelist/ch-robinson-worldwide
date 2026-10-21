@@ -1,0 +1,1263 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/main/json-schema/ch-robinson-worldwide-shipment-detail-schema.json",
+  "title": "shipmentDetail",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/ch-robinson-worldwide-shipments-api-openapi.yml#/components/schemas/shipmentDetail",
+  "type": "object",
+  "properties": {
+    "time": {
+      "type": "string",
+      "format": "date",
+      "description": "The date/time in ISO8601 format when the event was written to the Enterprise API database."
+    },
+    "carrierCode": {
+      "type": "string",
+      "description": "C.H. Robinson defined carrier code."
+    },
+    "scac": {
+      "type": "string",
+      "description": "Standard carrier alpha code."
+    },
+    "loadNumber": {
+      "type": "string",
+      "description": "C.H. Robinson shipment number."
+    },
+    "clientId": {
+      "type": "string",
+      "description": "API clientId tied to the profile of the carrier."
+    },
+    "eventTime": {
+      "type": "string",
+      "format": "date",
+      "description": "The date/time in ISO8601 format when the event was reported to have occured."
+    },
+    "event": {
+      "$ref": "#/$defs/shipmentDetailEvent"
+    }
+  },
+  "$defs": {
+    "dimension": {
+      "type": "object",
+      "description": "Dimensions.",
+      "properties": {
+        "standard": {
+          "type": "number",
+          "format": "float",
+          "description": "Dimension in standard format."
+        },
+        "metric": {
+          "type": "number",
+          "format": "float",
+          "description": "Dimension in metric format."
+        }
+      }
+    },
+    "freightTermEnum": {
+      "type": "string",
+      "description": "Code to indicate the freight term type:\n\n* `CL` - Collect\n* `PP` - Prepaid \n* `TP` - Third Party\n* `PC` - Prepaid and Add\n* `CC` - The Bill To is paying via a Credit Card\n\n",
+      "enum": [
+        "CL",
+        "PP",
+        "TP",
+        "PC",
+        "CC"
+      ]
+    },
+    "loadingTypeEnum": {
+      "type": "string",
+      "description": "Describes how trailer will need to be loaded.\n  * `CRANE` - Top/crane\n  * `REAR` - Rear\n  * `SIDE` - Side\n  * `REAR/SIDE` - Rear/side\n  * `TOP/SIDE` - Top/side\n  * `DOCK` - Dock\n  * `STRING` - String\n  * `STRING/TOW` - String/tow\n",
+      "enum": [
+        "CRANE",
+        "REAR",
+        "SIDE",
+        "REAR/SIDE",
+        "TOP/SIDE",
+        "DOCK",
+        "STRING",
+        "STRING/TOW"
+      ]
+    },
+    "packageCodeEnum": {
+      "type": "string",
+      "description": "C.H. Robinson defined code for packaging type/code. Here is a list of the most commonly used packagingCodes: \n\n`BAL` - Bale, `BAG` - Bags, `BIN` - Bin, `BOX` - Boxes, `CTN` - Cartons  \n`CAS` - Case, `CRT` - Crates, `PKG` - Package, `EAC` - Eaches, `PLT` - Pallet, `PCS` - Pieces \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/PackageDescriptions.xlsx\" target=\"_blank\">here</a>.",
+      "enum": [
+        "BAL",
+        "BIN",
+        "BOT",
+        "BXT",
+        "JAR",
+        "LSE",
+        "LUG",
+        "OTHR",
+        "REL",
+        "SAK",
+        "SKD",
+        "SKE",
+        "SLP",
+        "TLD",
+        "TRY",
+        "Empty",
+        "BAG",
+        "BOX",
+        "BDL",
+        "CTN",
+        "CAS",
+        "CRT",
+        "DZ",
+        "DRM",
+        "EAC",
+        "GYL",
+        "HDW",
+        "LNFT",
+        "PKG",
+        "PAL",
+        "PLT",
+        "PCS",
+        "LBS",
+        "ROL",
+        "TOT",
+        "YD",
+        "Skids",
+        "GAL",
+        "KIT",
+        "FT",
+        "PAD",
+        "PR",
+        "SET",
+        "SHT",
+        "M",
+        "KG",
+        "IBC",
+        "BAT",
+        "AST",
+        "CUB",
+        "RKS",
+        "PCK",
+        "TH",
+        "24BIN",
+        "30BIN",
+        "36BIN",
+        "40BIN",
+        "BSHL",
+        "CLLPK",
+        "DRC",
+        "ECO",
+        "EURO",
+        "FLAT",
+        "HFBIN",
+        "HFCTN",
+        "HVYPK",
+        "IFCO",
+        "I6408",
+        "I6411",
+        "I6413",
+        "I6416",
+        "I6419",
+        "I6423",
+        "I6425",
+        "I6428",
+        "ORBIS",
+        "O6409",
+        "O6411",
+        "O6413",
+        "O6416",
+        "O6419",
+        "O6425",
+        "O6428",
+        "P4311",
+        "P4317",
+        "P6408",
+        "P6411",
+        "P6413",
+        "P6416",
+        "P6419",
+        "P6423",
+        "P6425",
+        "P6428",
+        "RPC",
+        "R6411",
+        "R6413",
+        "R6416",
+        "TNBIN",
+        "TOSCA",
+        "T6408",
+        "T6411",
+        "T6413",
+        "T6416",
+        "T6419",
+        "T6423",
+        "T6425",
+        "T6428",
+        "WDCRT",
+        "BRL",
+        "RCK",
+        "TUB",
+        "CG",
+        "DSP",
+        "SQF",
+        "CYL",
+        "KEG",
+        "IFCLB",
+        "PLT1",
+        "PLT2",
+        "PLT3",
+        "CAR",
+        "COIL",
+        "PI",
+        "GOH",
+        "BLK",
+        "POG",
+        "L",
+        "IPLT",
+        "RORO",
+        "45HC",
+        "45HR",
+        "40HC",
+        40,
+        "40OT",
+        "40HR",
+        "40RF",
+        "40FR",
+        "20HC",
+        20,
+        "20OT",
+        "20FR",
+        "45GP"
+      ]
+    },
+    "referenceNumber": {
+      "type": "object",
+      "required": [
+        "type",
+        "value"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "C.H. Robinson defined code for reference number types. Here is a list of the most commonly used reference number types: \n\n`SHID` - Shipment ID #, `MBOL` - Master Bill of Lading #, `PO` - Purchase Order #, `BOL` - Bill of Lading #, `CRID` - Customer Specific Ref Number, `CUSTPO` - Customer PO Number, `DEL` - Delivery #, `JNO` - Job Number, `PU` - Pickup #, `CON` - Customer Order Number, `APPT` - Appointment Number \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ReferenceNumberTypes.xlsx\" target=\"_blank\">here</a>.",
+          "enum": [
+            "SHID",
+            "MBOL",
+            "PO",
+            "BOL",
+            "CFRM",
+            "CRID",
+            "CUSTPO",
+            "DEL",
+            "DIST",
+            "FIN",
+            "GL",
+            "JNO",
+            "PU",
+            "RANumber",
+            "RLPRO",
+            "MREF",
+            "Empty",
+            "PRO",
+            "CCN",
+            "SBOL",
+            "CON",
+            "APPT",
+            "CHRW_ID",
+            "FDA",
+            "IREF",
+            "LIC",
+            "ORD",
+            "PLU",
+            "SCAC",
+            "SEAL",
+            "SKU",
+            "SREF",
+            "STCC",
+            "TEB",
+            "VPO",
+            "WB",
+            "XXXX",
+            "TRIA",
+            "TRANS",
+            "GCC",
+            "SDATE",
+            "CDATE",
+            "ACCT",
+            "CCTR",
+            "IGM",
+            "GIGM",
+            "LIGM",
+            "SMTP",
+            "PERMIT",
+            "RNO",
+            "DVCN",
+            "PRCL",
+            "CPUC",
+            "SHPMD",
+            "AFR",
+            "BUYID",
+            "VNDID",
+            "DIV",
+            "DEPT",
+            "POTYPE",
+            "GRGI",
+            "DUNS",
+            "PALLETREF",
+            "CITTN",
+            "CIN",
+            "SHIPWITH",
+            "PN",
+            "UPC",
+            "PRCD",
+            "VESSEL",
+            "VOYAGE",
+            "FN",
+            "FEEDVESS",
+            "FEEDVOY",
+            "SHIPREF",
+            "CBL",
+            "SPAC",
+            "POLN",
+            "VPOLN",
+            "EIN",
+            "CNSG",
+            "PROFITCTR",
+            "MFGPART",
+            "PACKSLIP",
+            "THIRDPRTY",
+            "DEFATTR",
+            "FSTRK",
+            "FOItemID",
+            "POLineNum",
+            "PARCELSPC",
+            "CNS1",
+            "CNS2",
+            "CNS3",
+            "CNS4",
+            "CNS5",
+            "CNS6",
+            "CNS7",
+            "TREF",
+            "VREF",
+            "UPRICE",
+            "FWPARTY",
+            "BYPARTY",
+            "HBL",
+            "CBP",
+            "TRANSFER",
+            "SO",
+            "ORDTRK",
+            "QUOTEID",
+            "EQT",
+            "BOOTH",
+            "TS",
+            "OH #",
+            "CNTNR",
+            "VAS",
+            "Size",
+            "Color",
+            "Style",
+            "HCERT",
+            "B#",
+            "ETMSID",
+            "214-IMO",
+            "SHPWeight",
+            "SHPVolume",
+            "SHPDims",
+            "SERIALIZED",
+            "SERIALNUM",
+            "CPSIA",
+            "EDIINVREF",
+            "SQID",
+            "QSeqNum",
+            "OuterPkStu",
+            "GLC",
+            "COMP",
+            "COST",
+            "DTYGL",
+            "DTYCC",
+            "BRKGL",
+            "BRKCC",
+            "GPS",
+            "IAC",
+            "WHRCT",
+            "ERGUID",
+            "SONUM",
+            "CCNUM",
+            "PrimCCNUM",
+            "PrevCCNUM",
+            "CMRN",
+            "TRANSSHIP",
+            "PGIDATE",
+            "AESFIL",
+            "CUSTQUOTID",
+            "QUOTETRACE",
+            "ODATE",
+            "FRCLS",
+            "NMFC",
+            "OrderItemId"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 100,
+          "description": "The actual value of the reference number."
+        }
+      }
+    },
+    "shipmentContainerTypeEnum": {
+      "type": "string",
+      "description": "Type of shipping container. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ShipmentContainerTypeEnum.xlsx\" target=\"_blank\">here</a>.",
+      "enum": [
+        "20CO",
+        "20FR",
+        "20FT",
+        "20HC",
+        "20HD",
+        "20HP",
+        "20IS",
+        "20IT",
+        "20NR",
+        "20OT",
+        "20PL",
+        "20RE",
+        "20RF",
+        "20SD",
+        "20SO",
+        "20UG",
+        "24FT",
+        "24HC",
+        "28FB",
+        "30IS",
+        "40CA",
+        "40CO",
+        "40DR",
+        "40FB",
+        "40FR",
+        "40FT",
+        "40H0",
+        "40HC",
+        "40HD",
+        "40HP",
+        "40MA",
+        "40NR",
+        "40OT",
+        "40RE",
+        "40RF",
+        "40RH",
+        "40RR",
+        "43FT",
+        "45HC",
+        "45HR",
+        "45RF",
+        "45TR",
+        "48FB",
+        "48TR",
+        "53TR",
+        "55TR",
+        "BBLK",
+        "LCL",
+        "PAR",
+        "RORO",
+        "20GH",
+        "40GH",
+        "20FC",
+        "20DR",
+        "20FG",
+        "20RH",
+        "40FG",
+        "40HF",
+        "40HH",
+        "40HL",
+        "40HS",
+        "40IN",
+        "40RQ",
+        "40TK",
+        "42GP",
+        "45DR",
+        "45FR",
+        "45GP",
+        "45HD",
+        "45HT",
+        "45RH",
+        "48HC",
+        "53HC",
+        "20PF",
+        "20SL",
+        "40HR",
+        "42TR",
+        "LOLO",
+        "20PW",
+        "40PW",
+        "40PH",
+        "45PH",
+        "40OH",
+        "28TR"
+      ]
+    },
+    "shipmentDetailEvent": {
+      "type": "object",
+      "properties": {
+        "eventType": {
+          "type": "string",
+          "description": "Indicates the type of update for the load.",
+          "enum": [
+            "LOAD DETAIL CHANGED"
+          ]
+        },
+        "eventSubType": {
+          "type": "string",
+          "description": "Additional detail on event type.",
+          "enum": [
+            "Stop Created",
+            "Stop Removed",
+            "Shipment Booked",
+            "Activity Date Changed",
+            "Expected Weight Changed",
+            "Hazardous Condition Changed",
+            "Appointment Set",
+            "Appointment Changed",
+            "Shipment Cancelled"
+          ]
+        },
+        "loadNumber": {
+          "type": "string",
+          "description": "C.H. Robinson provided identifier for the load."
+        },
+        "rate": {
+          "type": "number",
+          "description": "Rate for the load."
+        },
+        "activityDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "An ISO8601 UTC date-time when load is expected to be picked up."
+        },
+        "pickUpByDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "An ISO8601 UTC date-time indicating latest pick up date."
+        },
+        "pickUpReadyByDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "An ISO8601 UTC date-time indicating earliest pick up date."
+        },
+        "deliverByDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "An ISO8601 UTC date-time indicating latest delivery date."
+        },
+        "deliveryReadyByDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "An ISO8601 UTC date-time indicating earliest delivery date."
+        },
+        "mode": {
+          "type": "string",
+          "description": "Mode of the load",
+          "enum": [
+            "V",
+            "R",
+            "F",
+            "H",
+            "B",
+            "Z",
+            "L"
+          ]
+        },
+        "totalCommodityValue": {
+          "type": "integer",
+          "description": "Value of the shipment."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Notes pertaining to the load."
+        },
+        "distance": {
+          "type": "object",
+          "description": "The point-to-point distance of the haul",
+          "properties": {
+            "kilometers": {
+              "type": "number",
+              "description": "Distance from origin to destination in kilometers"
+            },
+            "miles": {
+              "type": "number",
+              "description": "Distance from origin to destination in miles"
+            }
+          }
+        },
+        "sourceUnitOfMeasure": {
+          "type": "string",
+          "description": "Unit of measurement pertaining to shipment.",
+          "enum": [
+            "standard",
+            "metric"
+          ]
+        },
+        "chargeableWeight": {
+          "type": "integer",
+          "description": "Total chargeable weight for the shipment."
+        },
+        "flags": {
+          "type": "object",
+          "description": "Potential flagged details important to the shipment.",
+          "properties": {
+            "isTeamOperated": {
+              "type": "boolean",
+              "description": "Whether or not the load is a team driver shipment."
+            },
+            "isHazMat": {
+              "type": "boolean",
+              "description": "Whether or not the shipment contains hazardous materials."
+            },
+            "isRegulatedByStf": {
+              "type": "boolean",
+              "description": "Whether or not the shipment is regulated by FDA for sanitary food transportation."
+            },
+            "isTankerEndorsed": {
+              "type": "boolean",
+              "description": "Whether or not the shipment requires a tanker endorsement."
+            },
+            "hasOpenClaims": {
+              "type": "boolean",
+              "description": "Whether or not the shipment contains open damage claims."
+            },
+            "hasOpenEvents": {
+              "type": "boolean",
+              "description": "Whether or not there are open events for the shipment."
+            },
+            "isControl": {
+              "type": "boolean",
+              "description": "CH Robinson control flag."
+            },
+            "isForwardingHouse": {
+              "type": "boolean",
+              "description": "Whether or not the shipment is a House Shipment."
+            }
+          }
+        },
+        "itemContainers": {
+          "type": "array",
+          "description": "List of container details for those used to hold shipment.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "containerDetails": {
+                "type": "object",
+                "description": "Details for each container used in shipment",
+                "properties": {
+                  "containerCondition": {
+                    "type": "string",
+                    "description": "The status of movement for a shipment container.",
+                    "enum": [
+                      "A",
+                      "F",
+                      "R",
+                      "X"
+                    ]
+                  },
+                  "containerEmptyReturnDate": {
+                    "type": "date-time",
+                    "description": "Any date required to return an empty container"
+                  },
+                  "containerLastFreeDayForEmptyReturn": {
+                    "type": "date-time",
+                    "description": "The last free day at a warehouse or PAD for container storage"
+                  },
+                  "containerNumber": {
+                    "type": "string",
+                    "description": "Container identifier."
+                  },
+                  "containerStatus": {
+                    "type": "integer",
+                    "description": "Status of container."
+                  },
+                  "containerType": {
+                    "$ref": "#/$defs/shipmentContainerTypeEnum"
+                  },
+                  "isHot": {
+                    "type": "boolean",
+                    "description": "Whether or not the container is flagged as hot/priority movement"
+                  },
+                  "vgmAcceptedDate": {
+                    "type": "date-time",
+                    "description": "The Verified Gross Mass cutoff datetime for the container"
+                  }
+                }
+              },
+              "itemContainerId": {
+                "type": "integer",
+                "description": "ID for shipping container."
+              },
+              "itemContainerType": {
+                "type": "integer",
+                "description": "ID for container type."
+              },
+              "packageDetails": {
+                "type": "object",
+                "description": "Details for each package in the shipment",
+                "properties": {
+                  "packageType": {
+                    "type": null,
+                    "description": null,
+                    "enum": [
+                      "P",
+                      "S"
+                    ]
+                  },
+                  "signedBy": {
+                    "type": "string",
+                    "description": "Name of package signer."
+                  },
+                  "trackingNumber": {
+                    "type": "integer",
+                    "description": "Tracking number for package"
+                  }
+                }
+              },
+              "referenceNumbers": {
+                "$ref": "#/$defs/referenceNumber"
+              },
+              "stopActivityIds": {
+                "type": "array",
+                "description": "List of stop activity ID strings.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "requiredShipmentEquipment": {
+          "type": "object",
+          "description": "Equipment required to move the shipment.",
+          "properties": {
+            "description": {
+              "type": "string",
+              "description": "Description of equipment"
+            },
+            "height": {
+              "$ref": "#/$defs/dimension"
+            },
+            "length": {
+              "$ref": "#/$defs/dimension"
+            },
+            "width": {
+              "$ref": "#/$defs/dimension"
+            },
+            "temperature": {
+              "$ref": "#/$defs/dimension"
+            },
+            "referenceNumbers": {
+              "$ref": "#/$defs/referenceNumber"
+            }
+          }
+        },
+        "items": {
+          "type": "array",
+          "description": "Details for all items included in the shipment.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "User-entered commodity code for load item."
+              },
+              "executionOrderReferenceNumber": {
+                "type": "string",
+                "description": "C.H. Robinson customer order number origin for item."
+              },
+              "expectedHeight": {
+                "$ref": "#/$defs/dimension"
+              },
+              "expectedLength": {
+                "$ref": "#/$defs/dimension"
+              },
+              "expectedWidth": {
+                "$ref": "#/$defs/dimension"
+              },
+              "expectedMaximumWeight": {
+                "$ref": "#/$defs/dimension"
+              },
+              "expectedMinimumWeight": {
+                "$ref": "#/$defs/dimension"
+              },
+              "expectedPackagingCode": {
+                "$ref": "#/$defs/packageCodeEnum"
+              },
+              "expectedPallets": {
+                "type": "integer",
+                "description": "Expected count of pallets if used in shipment."
+              },
+              "expectedQuantity": {
+                "type": "integer",
+                "description": "Expected piece count"
+              },
+              "expectedTrailerSpace": {
+                "$ref": "#/$defs/dimension"
+              },
+              "hazMatDetails": {
+                "type": "object",
+                "description": "Additional item detail for hazardous materials.",
+                "properties": {
+                  "class": {
+                    "type": "string",
+                    "description": null,
+                    "enum": [
+                      "1.4G",
+                      "2",
+                      "2.1",
+                      "2.2",
+                      "2.3",
+                      "3",
+                      "4.1",
+                      "4.2",
+                      "4.3",
+                      "5.1",
+                      "5.2",
+                      "6.1",
+                      "7",
+                      "8",
+                      "9",
+                      "COMBUST",
+                      "Combustibl",
+                      "Consumer",
+                      "ORM-D"
+                    ]
+                  },
+                  "emergencyPhone": {
+                    "type": "integer",
+                    "description": "Emergency phone number for HazMat item."
+                  },
+                  "unNumberWithPrefix": {
+                    "type": "string",
+                    "description": "United Nations HazMat identifier with prefix."
+                  },
+                  "unNumber": {
+                    "type": "integer",
+                    "description": "United Nations HazMat identifier."
+                  }
+                }
+              },
+              "itemContainerId": {
+                "type": "integer",
+                "description": "Identifier for item container."
+              },
+              "itemEquipment": {
+                "type": "object",
+                "description": "Additional detail for equipment used to move the shipment",
+                "properties": {
+                  "coilRacksCount": {
+                    "type": "integer",
+                    "description": "The total coil racks required"
+                  },
+                  "flatBedEquipmentCode": {
+                    "type": "string",
+                    "description": "Code associated to the type of flatbed equipment. \"SD\" (StepDeck), \"RGN\" (GooseNeck), \"HS\" (HotShot), \"CN\" (Conestoga), \"CUST\" (Custom), \"DD\" (DoubleDrop), \"F\" (Flatbed), \"FO\" (FlatbedOnly), \"FD\" (Flatbed or Stepdeck)",
+                    "enum": [
+                      "SD",
+                      "RGN",
+                      "HS",
+                      "CN",
+                      "CUST",
+                      "DD",
+                      "F",
+                      "FO",
+                      "FD"
+                    ]
+                  },
+                  "flatBedEquipmentDescription": {
+                    "type": "string",
+                    "description": "A description of the required flatbed equipment."
+                  },
+                  "loadingTypeDescription": {
+                    "type": "string",
+                    "description": "A description of loading type."
+                  },
+                  "maxTrailerAge": {
+                    "type": "integer",
+                    "description": "A requirement for trailer age in years."
+                  },
+                  "requiredChainsCount": {
+                    "type": "integer",
+                    "description": "The total chains required."
+                  },
+                  "requiredLocksCount": {
+                    "type": "integer",
+                    "description": "The total locks required."
+                  },
+                  "requiredSquaresCount": {
+                    "type": "integer",
+                    "description": "The total squares required."
+                  },
+                  "requiredStrapsCount": {
+                    "type": "integer",
+                    "description": "The total straps required."
+                  },
+                  "requiredTimbersCount": {
+                    "type": "integer",
+                    "description": "The total timbers required."
+                  },
+                  "tarpDescription": {
+                    "type": "string",
+                    "description": "A description of tarp requirement."
+                  }
+                }
+              },
+              "itemSourceUnitOfMeasure": {
+                "type": "integer",
+                "description": "Whether item weight is measured as Metric or Imperial units"
+              },
+              "name": {
+                "type": "string",
+                "description": "A name for the item."
+              },
+              "orderNumber": {
+                "type": "integer",
+                "description": "Order number associated to item."
+              },
+              "referenceNumber": {
+                "type": "integer",
+                "description": "A top-level reference number associated to the item"
+              },
+              "referenceNumbers": {
+                "$ref": "#/$defs/referenceNumber"
+              },
+              "temperature": {
+                "type": "integer",
+                "description": "Required temperature of item"
+              },
+              "value": {
+                "type": "decimal",
+                "description": "Value of item"
+              },
+              "volume": {
+                "type": "integer",
+                "description": "Volume of item"
+              }
+            }
+          }
+        },
+        "books": {
+          "type": "array",
+          "description": "All booking records for the updated carrier.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "bookedDateTime": {
+                "type": "date-time",
+                "description": "The date and time the carrier was booked."
+              },
+              "bookId": {
+                "type": "integer",
+                "description": "The type of book."
+              },
+              "distance": {
+                "type": "object",
+                "description": "The point-to-point distance of the haul",
+                "properties": {
+                  "kilometers": {
+                    "type": "number",
+                    "description": "Distance from origin to destination in kilometers"
+                  },
+                  "miles": {
+                    "type": "number",
+                    "description": "Distance from origin to destination in miles"
+                  }
+                }
+              },
+              "expectedPickupDateTime": {
+                "type": "date-time",
+                "description": "The carrier's expected pickup date."
+              },
+              "expectedDeliveryDateTime": {
+                "type": "date-time",
+                "description": "The carrier's expected delivery date."
+              },
+              "referenceNumbers": {
+                "$ref": "#/$defs/referenceNumber"
+              }
+            }
+          }
+        },
+        "stops": {
+          "type": "array",
+          "description": "All stops on the load associated to the carrier receiving event messages.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "activities": {
+                "type": "array",
+                "description": "Details associated to activities at the stop.",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "appointment": {
+                      "type": "object",
+                      "description": "Details for pickup or delivery appointments.",
+                      "properties": {
+                        "closeDateTime": {
+                          "type": "date-time",
+                          "description": "The end time of the appointment window."
+                        },
+                        "isClostTimeSet": {
+                          "type": "boolean",
+                          "description": "Flag for whether or not an appointment end window is scheduled."
+                        },
+                        "isOpenTimeSet": {
+                          "type": "boolean",
+                          "description": "Flag for whether or not an appointment start window is scheduled"
+                        },
+                        "openDateTime": {
+                          "type": "date-time",
+                          "description": "The start time of the appointment window."
+                        },
+                        "schedulingOptionsCode": {
+                          "type": "string",
+                          "description": "The code denoting what type of appointment is scheduled."
+                        }
+                      }
+                    },
+                    "bookIds": {
+                      "type": "array",
+                      "description": "Individual carrier book IDs associated to the stop.",
+                      "items": {
+                        "type": "integer"
+                      }
+                    },
+                    "isDropTrailer": {
+                      "type": "boolean",
+                      "description": "Whether or not the stop requires a drop trailer activity."
+                    },
+                    "isRequestedTimeSet": {
+                      "type": "boolean",
+                      "description": "Flag for whether or not a drop trailer appointment time is scheduled."
+                    },
+                    "itemContainerId": {
+                      "type": "string",
+                      "description": "Identifier for item container picked or dropped at this stop"
+                    },
+                    "itemIds": {
+                      "type": "array",
+                      "description": "List of all itemIds associated to the stop.",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "requestedDateTime": {
+                      "type": "date-time",
+                      "description": "Requested activity datetime."
+                    },
+                    "stopActivityId": {
+                      "type": "string",
+                      "description": "Association of stop to activity on the stop."
+                    },
+                    "stopId": {
+                      "type": "integer",
+                      "description": "A C.H. Robinson identifier for the specific stop."
+                    }
+                  }
+                }
+              },
+              "billOfLading": {
+                "type": "string",
+                "description": "Bill of Lading flag."
+              },
+              "billTos": {
+                "type": "array",
+                "description": null,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "billToId": {
+                      "type": "string",
+                      "description": "Identifier for BillTo party."
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "CH Robinson identifier associated to BillTo party."
+                    },
+                    "referenceNumber": {
+                      "type": "string",
+                      "description": "Reference number for BillTo party"
+                    },
+                    "referenceNumbers": {
+                      "$ref": "#/$defs/referenceNumber"
+                    },
+                    "freightTerms": {
+                      "$ref": "#/$defs/freightTermEnum"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Name associated to the BillTo party."
+                    },
+                    "address1": {
+                      "type": "string",
+                      "description": "First address line associated to the BillTo party."
+                    },
+                    "address2": {
+                      "type": "string",
+                      "description": "Second address line associated to the BillTo party."
+                    },
+                    "city": {
+                      "type": "string",
+                      "description": "City associated to the BillTo party."
+                    },
+                    "state": {
+                      "type": "string",
+                      "description": "State associated to the BillTo party."
+                    },
+                    "postalCode": {
+                      "type": "string",
+                      "description": "Postal Code associated to the BillTo party."
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "Contact email address associated to the BillTo party."
+                    }
+                  }
+                }
+              },
+              "contact": {
+                "type": "string",
+                "description": "Contact name for this stop."
+              },
+              "contactEmail": {
+                "type": "string",
+                "description": "Contact email for this stop."
+              },
+              "customerIds": {
+                "type": "array",
+                "description": "List of all Customer IDs associated to this stop.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "isBlind": {
+                "type": "boolean",
+                "description": "Whether or not the consignee can see info for the shipper."
+              },
+              "note": {
+                "type": "string",
+                "description": "An internal note pertaining to the stop."
+              },
+              "loadingType": {
+                "$ref": "#/$defs/loadingTypeEnum"
+              },
+              "referenceNumber": {
+                "type": "string",
+                "description": "Top-level reference number associated to the stop."
+              },
+              "referenceNumbers": {
+                "$ref": "#/$defs/referenceNumber"
+              },
+              "stopId": {
+                "type": "integer",
+                "description": "The C.H. Robinson ID associated to the stop"
+              },
+              "stopLocation": {
+                "type": "object",
+                "description": "Information associated to the stop location.",
+                "properties": {
+                  "address1": {
+                    "type": "string",
+                    "description": "The first address line for the stop."
+                  },
+                  "address2": {
+                    "type": "string",
+                    "description": "The second address line for the stop."
+                  },
+                  "location": {
+                    "type": "object",
+                    "description": "Information associated to the stop location.",
+                    "properties": {
+                      "city": {
+                        "type": "string",
+                        "description": "The city for the stop."
+                      },
+                      "coordinate": {
+                        "type": "object",
+                        "description": "The geolocation for the stop.",
+                        "properties": {
+                          "lat": {
+                            "type": "number",
+                            "description": "The latitude coordinate for the stop."
+                          },
+                          "lon": {
+                            "type": "number",
+                            "description": "The longitude coordinate for the stop."
+                          }
+                        }
+                      },
+                      "countryCode": {
+                        "type": "string",
+                        "description": "The country for the stop."
+                      },
+                      "county": {
+                        "type": "string",
+                        "description": "The county for the stop."
+                      },
+                      "postalCode": {
+                        "type": "string",
+                        "description": "The postal code for the stop."
+                      },
+                      "stateCode": {
+                        "type": "string",
+                        "description": "The state abbreviation for the stop."
+                      }
+                    }
+                  },
+                  "warehouseCloseTime": {
+                    "type": "string",
+                    "description": "The time the location opens as defined by the ISO 8601 duration standard https://en.wikipedia.org/wiki/ISO_8601#Durations.."
+                  },
+                  "warehouseCode": {
+                    "type": "string",
+                    "description": "The C.H. Robinson code for the warehouse at the stop."
+                  },
+                  "warehouseCustomerLocationNumber": {
+                    "type": "string",
+                    "description": "A number linking Customer to warehouse"
+                  },
+                  "warehouseName": {
+                    "type": "string",
+                    "description": "The name of the warehouse at the stop."
+                  },
+                  "warehouseOpenTime": {
+                    "type": "string",
+                    "description": "The time the location closes defined by the ISO 8601 duration standard https://en.wikipedia.org/wiki/ISO_8601#Durations."
+                  },
+                  "warehousePhoneNumber": {
+                    "type": "string",
+                    "description": "The contact phone for the warehouse."
+                  }
+                }
+              },
+              "stopNumber": {
+                "type": "integer",
+                "description": "Identifies the stop order, beginning at 0 for the first pick."
+              },
+              "stopType": {
+                "type": "integer",
+                "description": "Identifier for type of location of the stop."
+              },
+              "timezoneOffsetInMinutes": {
+                "type": "integer",
+                "description": "Offset in minutes from GMT."
+              },
+              "needWeightScale": {
+                "type": "boolean",
+                "description": "Indicates if weight scale is needed."
+              }
+            }
+          }
+        },
+        "referenceNumbers": {
+          "$ref": "#/$defs/referenceNumber"
+        }
+      }
+    }
+  }
+}

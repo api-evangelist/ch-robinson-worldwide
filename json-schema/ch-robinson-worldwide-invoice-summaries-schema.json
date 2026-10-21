@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/main/json-schema/ch-robinson-worldwide-invoice-summaries-schema.json",
+  "title": "invoiceSummaries",
+  "description": "All properties returned on the invoice get call.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/ch-robinson-worldwide-financials-api-openapi.yml#/components/schemas/invoiceSummaries",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "invoiceNumber": {
+        "type": "integer",
+        "description": "C.H. Robinson defined invoice number."
+      },
+      "customerCode": {
+        "type": "string",
+        "description": "C.H. Robinson defined code for a given customer i.e. C124516."
+      },
+      "currencyCode": {
+        "$ref": "#/$defs/currencyCodeEnum"
+      },
+      "invoiceAmount": {
+        "type": "integer",
+        "description": "Currency amount of entire invoice."
+      },
+      "invoiceBalance": {
+        "type": "integer",
+        "description": "Remaining currency amount to be paid of entire invoice."
+      },
+      "receivedAmount": {
+        "type": "integer",
+        "description": "Currency amount C.H. Robinson has received as payment for the entire invoice."
+      },
+      "invoiceDate": {
+        "type": "string",
+        "description": "An ISO8601 UTC date-time indicating when order was invoiced."
+      },
+      "dueDate": {
+        "type": "string",
+        "description": "An ISO8601 UTC date-time indicating the date invoice must be paid."
+      },
+      "releasedDate": {
+        "type": "string",
+        "description": "An ISO8601 UTC date-time indicating when invoice was available."
+      },
+      "printDate": {
+        "type": "string",
+        "format": "date-time",
+        "description": "An ISO8601 UTC date-time indicating when the invoice was provided to the customer."
+      },
+      "invoiceShipments": {
+        "$ref": "#/$defs/invoiceShipments"
+      }
+    }
+  },
+  "$defs": {
+    "currencyCodeEnum": {
+      "type": "string",
+      "description": "Code to indicate the currency being used. The most common currently in use with C.H. Robinson:\n\n* `USD` - US Dollar\n* `CAD` - Canadian Dollar \n* `MXN` - Mexican Peso\n* `EUR` - European Euro\n\n\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CurrencyCodeDescriptions.xlsx\" target=\"_blank\">here</a>.",
+      "enum": [
+        "USD",
+        "CAD",
+        "EUR",
+        "MXN",
+        "CHF",
+        "GBP",
+        "HUF",
+        "CZK",
+        "NZD",
+        "PLN",
+        "ZAR",
+        "VEB",
+        "VND",
+        "TWD",
+        "TRY",
+        "SEK",
+        "SGD",
+        "RUB",
+        "NOK",
+        "HKD",
+        "INR",
+        "JPY",
+        "CLP",
+        "CNY",
+        "DKK",
+        "AUD",
+        "BRL",
+        "AED",
+        "PEN",
+        "THB",
+        "ARS",
+        "MYR",
+        "VEF",
+        "SAR",
+        "BBD",
+        "BHD",
+        "BMD",
+        "BSD",
+        "ILS",
+        "ISK",
+        "KES",
+        "KRW",
+        "KWD",
+        "OMR",
+        "PHP",
+        "PKR",
+        "QAR",
+        "RON",
+        "TTD",
+        "UAH",
+        "LKR",
+        "XPF",
+        "UYU",
+        "COP",
+        "CRC",
+        "FJD"
+      ]
+    },
+    "invoiceShipments": {
+      "type": "array",
+      "description": "Contains high level shipment charge information.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "branchCode": {
+            "type": "string",
+            "description": "C.H Robinson code identifying the internal C.H. Robinson owning branch."
+          },
+          "chrOrderNumber": {
+            "type": "integer",
+            "description": "C.H. Robinson defined order number."
+          },
+          "currencyCode": {
+            "$ref": "#/$defs/currencyCodeEnum"
+          },
+          "customerReferenceNumber": {
+            "type": "string",
+            "description": "Customer defined reference number."
+          },
+          "invoiceAmount": {
+            "type": "integer",
+            "description": "Total currency amount of shipment."
+          },
+          "invoiceBalance": {
+            "type": "integer",
+            "description": "Remaining currency amount left to be paid on the shipment."
+          },
+          "loadNumber": {
+            "type": "integer",
+            "format": "base32 integer",
+            "description": "C.H. Robinson provided shipment identifier."
+          },
+          "printDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "An ISO8601 UTC date-time indicating when the invoice was provided to the customer."
+          },
+          "receivedAmount": {
+            "type": "integer",
+            "description": "Currency amount C.H. Robinson has received as payment for the charge."
+          },
+          "salesRep": {
+            "type": "string",
+            "description": "C.H. Robinson representative's 7 letter."
+          }
+        }
+      }
+    }
+  }
+}

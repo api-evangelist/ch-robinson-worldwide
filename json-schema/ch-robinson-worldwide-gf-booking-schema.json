@@ -1,0 +1,1715 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/main/json-schema/ch-robinson-worldwide-gf-booking-schema.json",
+  "title": "gfBooking",
+  "description": "Represents a GF Booking in C.H. Robinson's Navisphere®.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/ch-robinson-worldwide-orders-and-booking-api-openapi.yml#/components/schemas/gfBooking",
+  "required": [
+    "customerCode",
+    "customerReferenceNumber",
+    "sellMode"
+  ],
+  "type": "object",
+  "properties": {
+    "customerReferenceNumber": {
+      "minLength": 1,
+      "type": "string",
+      "description": "Indicates the customer's primary reference number."
+    },
+    "sellMode": {
+      "$ref": "#/$defs/BookingMode"
+    },
+    "customerCode": {
+      "maxLength": 50,
+      "minLength": 1,
+      "type": "string",
+      "description": "Indicates the customer's code."
+    },
+    "incoTerms": {
+      "$ref": "#/$defs/BookingIncoTerms"
+    },
+    "incoTermsNamedLocation": {
+      "minLength": 1,
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Indicates the Incoterms named location (e.g. Shanghai)."
+    },
+    "serviceLevel": {
+      "$ref": "#/$defs/BookingServiceLevel"
+    },
+    "freightTerms": {
+      "$ref": "#/$defs/BookingFreightTerm"
+    },
+    "shipperReadyByDateTime": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Indicates the date the shipper will have goods ready to ship in ISO8601 format.",
+      "format": "date-time"
+    },
+    "notes": {
+      "maxLength": 2000,
+      "minLength": 1,
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Indicates the booking level notes (maximum 2000 characters)."
+    },
+    "parties": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/BookingParty"
+      },
+      "description": "Indicates the parties on the order."
+    },
+    "locations": {
+      "maxItems": 4,
+      "minItems": 2,
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/BookingLocation"
+      },
+      "description": "Indicates the locations on the order (minimum 2, maximum 4)."
+    },
+    "containers": {
+      "minItems": 1,
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/BookingContainer"
+      },
+      "description": "Indicates the list of containers (minimum 1)."
+    },
+    "commodityItems": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/CommodityItem"
+      },
+      "description": "Indicates the item(s) on the order."
+    },
+    "referenceNumbers": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/ReferenceNumber"
+      },
+      "description": "Indicates additional reference number objects pertaining to the whole order."
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "BookingAddress": {
+      "type": "object",
+      "properties": {
+        "address1": {
+          "maxLength": 200,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates address line one of the location (maximum 200 characters)."
+        },
+        "address2": {
+          "maxLength": 200,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates address line two of the location (maximum 200 characters)."
+        },
+        "address3": {
+          "maxLength": 200,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates address line three of the location (maximum 200 characters)."
+        },
+        "address4": {
+          "maxLength": 200,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates address line four of the location (maximum 200 characters)."
+        },
+        "city": {
+          "maxLength": 100,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the city of the location (maximum 100 characters)."
+        },
+        "county": {
+          "maxLength": 100,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the county of the location (maximum 100 characters)."
+        },
+        "lat": {
+          "maximum": 90,
+          "minimum": -90,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the latitude of the location (minimum -90, maximum 90).",
+          "format": "float"
+        },
+        "long": {
+          "maximum": 180,
+          "minimum": -180,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the longitude of the location (minimum -180, maximum 180).",
+          "format": "float"
+        },
+        "stateProvinceCode": {
+          "$ref": "#/$defs/stateProvinceCodeEnum"
+        },
+        "postalCode": {
+          "maxLength": 20,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the postal code of the location, sometimes referred to as the zip code (maximum 20 characters)."
+        },
+        "countryCode": {
+          "$ref": "#/$defs/countryCodeEnum"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Object that contains address specific information."
+    },
+    "BookingContainer": {
+      "required": [
+        "quantity",
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "containerId": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Indicates the identifier for a single container within the shipment and serves as the key used to group all related data elements.",
+          "format": "int32"
+        },
+        "type": {
+          "$ref": "#/$defs/BookingShipmentContainerType"
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "Indicates the quantity, identifying how many containers need to be shipped.",
+          "format": "int32"
+        },
+        "containerNumber": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the industry identifying number assigned to the container. Format is SCAC######-CheckDigit."
+        },
+        "referenceNumbers": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/ReferenceNumber"
+          },
+          "description": "Indicates additional reference number objects pertaining to the container."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Container data."
+    },
+    "BookingFreightTerm": {
+      "enum": [
+        "CL",
+        "PP"
+      ],
+      "type": "string",
+      "description": "Code to indicate the freight term type."
+    },
+    "BookingHazardousProperties": {
+      "type": "object",
+      "properties": {
+        "properName": {
+          "maxLength": 500,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the Proper Shipping Name (PSN) - the often broad name mandated for documentation and packaging."
+        },
+        "technicalName": {
+          "maxLength": 50,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the technical name - required for n.o.s. (Not Otherwise Specified) or generic entries. Also known as Chemical Name."
+        },
+        "subsidiaryHazmatClasses": {
+          "maxLength": 15,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the subsidiary hazmat classes (maximum 15 characters)."
+        },
+        "unNumber": {
+          "maxLength": 10,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Four-digit numbers prepended with 'UN' that identify dangerous goods, hazardous substances and articles\n(such as explosives, flammable liquids, toxic substances, etc.) in the framework of international transport."
+        },
+        "classCode": {
+          "maxLength": 10,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the code for hazardous material in the framework of international transport."
+        },
+        "packingGroup": {
+          "$ref": "#/$defs/hazardousGroupEnum"
+        },
+        "packingDetails": {
+          "maxLength": 15,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates details about packing (maximum 15 characters)."
+        },
+        "emergencyPhone": {
+          "maxLength": 50,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the emergency phone number (maximum 50 characters)."
+        },
+        "isLimitedQuantities": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Indicates a value indicating whether the hazardous goods shipment is transported under the Limited Quantities (LQ) provisions."
+        },
+        "flashpoint": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Indicates the hazmat flash point.",
+          "format": "float"
+        },
+        "flashpointTemperatureUnit": {
+          "$ref": "#/$defs/temperatureUomEnum"
+        },
+        "marinePollutantCategory": {
+          "$ref": "#/$defs/marinePollutantCategory"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Object containing hazardous material information."
+    },
+    "BookingIncoTerms": {
+      "enum": [
+        "DAT",
+        "DAP",
+        "CIF",
+        "CPT",
+        "CIP",
+        "DDP",
+        "EXW",
+        "FCA",
+        "DPU",
+        "FAS",
+        "FOB",
+        "CFR",
+        "DAF",
+        "DDU",
+        "DEQ",
+        "DES"
+      ],
+      "type": "string",
+      "description": "The Incoterms or International Commercial Terms."
+    },
+    "BookingLocation": {
+      "required": [
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "customerLocationId": {
+          "maxLength": 50,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the customer defined identifier associated to a specific location.\nIf C.H. Robinson maintains a list of the customer's location IDs, then customerLocationId can be provided in lieu of address information."
+        },
+        "type": {
+          "$ref": "#/$defs/BookingLocationType"
+        },
+        "name": {
+          "maxLength": 100,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the name of the location (maximum 100 characters).\nIf the address of the location is not in C.H. Robinson's system, it is mandatory to include the name parameter so C.H. Robinson can auto-create the location in our system on order create."
+        },
+        "openDateTime": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the Customer-preferred earliest date and time for location activity. ISO8601 format.",
+          "format": "date-time"
+        },
+        "closeDateTime": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the Customer-preferred latest date and time for location activity. ISO8601 format.",
+          "format": "date-time"
+        },
+        "address": {
+          "$ref": "#/$defs/BookingAddress"
+        },
+        "referenceNumbers": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/ReferenceNumber"
+          },
+          "description": "Indicates additional reference number objects pertaining to this location."
+        }
+      },
+      "additionalProperties": false,
+      "description": "List of locations where freight is being transferred for this Booking."
+    },
+    "BookingLocationType": {
+      "enum": [
+        "Pickup",
+        "OriginPort",
+        "DestinationPort",
+        "Delivery"
+      ],
+      "type": "string",
+      "description": "Location type enumeration."
+    },
+    "BookingMode": {
+      "enum": [
+        "Ocean",
+        "Air"
+      ],
+      "type": "string",
+      "description": "Indicates the requested mode of transportation."
+    },
+    "BookingPackageCode": {
+      "enum": [
+        "BAG",
+        "BAL",
+        "BDL",
+        "BIN",
+        "BLK",
+        "BOT",
+        "BOX",
+        "BXT",
+        "CAR",
+        "CAS",
+        "CRT",
+        "DRM",
+        "DZ",
+        "EAC",
+        "GOH",
+        "GYL",
+        "HDW",
+        "IBC",
+        "JAR",
+        "KG",
+        "LBS",
+        "LNFT",
+        "LSE",
+        "LUG",
+        "M",
+        "OTHR",
+        "PAL",
+        "PCS",
+        "PKG",
+        "PLT",
+        "PR",
+        "RCK",
+        "REL",
+        "ROL",
+        "SAK",
+        "SET",
+        "SHT",
+        "SKD",
+        "SKE",
+        "SLP",
+        "TH",
+        "TOT",
+        "TRY",
+        "YD",
+        "AST",
+        "ENV",
+        "IMDLTRL",
+        "JRYCN",
+        "M2",
+        "TUBE"
+      ],
+      "type": "string",
+      "description": "C.H. Robinson defined code for packaging type/code."
+    },
+    "BookingParty": {
+      "required": [
+        "type"
+      ],
+      "type": "object",
+      "properties": {
+        "customerPartyId": {
+          "maxLength": 50,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the customer defined identifier associated to a specific Party.\nIf C.H. Robinson maintains a list of the customer's party IDs, then customerPartyId can be provided to identify the party on the shipment."
+        },
+        "customerCode": {
+          "maxLength": 20,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the CHR Internal Customer Code."
+        },
+        "type": {
+          "$ref": "#/$defs/PartyType"
+        },
+        "name": {
+          "maxLength": 100,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the name of the party (maximum 100 characters)."
+        },
+        "address": {
+          "$ref": "#/$defs/BookingAddress"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Represents a party involved in the shipment."
+    },
+    "BookingReferenceNumberType": {
+      "enum": [
+        "SHID",
+        "MBOL",
+        "PO",
+        "BOL",
+        "CFRM",
+        "CRID",
+        "CUSTPO",
+        "DEL",
+        "DIST",
+        "FIN",
+        "GL",
+        "JNO",
+        "PU",
+        "RANumber",
+        "RLPRO",
+        "MREF",
+        "Empty",
+        "PRO",
+        "CCN",
+        "SBOL",
+        "CON",
+        "APPT",
+        "CHRW_ID",
+        "FDA",
+        "IREF",
+        "LIC",
+        "ORD",
+        "PLU",
+        "SCAC",
+        "SEAL",
+        "SKU",
+        "SREF",
+        "STCC",
+        "TEB",
+        "VPO",
+        "WB",
+        "XXXX",
+        "TRIA",
+        "TRANS",
+        "GCC",
+        "SDATE",
+        "CDATE",
+        "ACCT",
+        "CCTR",
+        "IGM",
+        "GIGM",
+        "LIGM",
+        "SMTP",
+        "PERMIT",
+        "RNO",
+        "DVCN",
+        "PRCL",
+        "CPUC",
+        "SHPMD",
+        "AFR",
+        "BUYID",
+        "VNDID",
+        "DIV",
+        "DEPT",
+        "POTYPE",
+        "GRGI",
+        "DUNS",
+        "PALLETREF",
+        "CITTN",
+        "CIN",
+        "SHIPWITH",
+        "PN",
+        "UPC",
+        "PRCD",
+        "VESSEL",
+        "VOYAGE",
+        "FN",
+        "FEEDVESS",
+        "FEEDVOY",
+        "SHIPREF",
+        "CBL",
+        "SPAC",
+        "POLN",
+        "VPOLN",
+        "EIN",
+        "CNSG",
+        "PROFITCTR",
+        "MFGPART",
+        "PACKSLIP",
+        "THIRDPRTY",
+        "DEFATTR",
+        "FSTRK",
+        "FOItemID",
+        "POLineNum",
+        "PARCELSPC",
+        "CNS1",
+        "CNS2",
+        "CNS3",
+        "CNS4",
+        "CNS5",
+        "CNS6",
+        "CNS7",
+        "TREF",
+        "VREF",
+        "UPRICE",
+        "FWPARTY",
+        "BYPARTY",
+        "HBL",
+        "CBP",
+        "TRANSFER",
+        "SO",
+        "ORDTRK",
+        "QUOTEID",
+        "EQT",
+        "BOOTH",
+        "TS",
+        "OH",
+        "CNTNR",
+        "VAS",
+        "Size",
+        "Color",
+        "Style",
+        "HCERT",
+        "B",
+        "ETMSID",
+        "214-IMO",
+        "SHPWeight",
+        "SHPVolume",
+        "SHPDims",
+        "SERIALIZED",
+        "SERIALNUM",
+        "CPSIA",
+        "EDIINVREF",
+        "SQID",
+        "QSeqNum",
+        "OuterPkStu",
+        "GLC",
+        "COMP",
+        "COST",
+        "DTYGL",
+        "DTYCC",
+        "BRKGL",
+        "BRKCC",
+        "GPS",
+        "IAC",
+        "WHRCT",
+        "ERGUID",
+        "SONUM",
+        "CCNUM",
+        "PrimCCNUM",
+        "PrevCCNUM",
+        "CMRN",
+        "TRANSSHIP",
+        "PGIDATE",
+        "AESFIL",
+        "CUSTQUOTID",
+        "QUOTETRACE",
+        "ODATE",
+        "FRCLS",
+        "NMFC",
+        "EXTQUOTEID",
+        "KSMS",
+        "LVSCONSOLID",
+        "REN",
+        "NCCID",
+        "OH #",
+        "B#",
+        "OJobNum",
+        "Plant",
+        "TRNSPRTID",
+        "VCTe"
+      ],
+      "type": "string",
+      "description": "C.H. Robinson defined code for reference number types."
+    },
+    "BookingServiceLevel": {
+      "enum": [
+        "DD",
+        "PP",
+        "DP",
+        "PD"
+      ],
+      "type": "string",
+      "description": "Specifies movement type of the shipment."
+    },
+    "BookingShipmentContainerType": {
+      "enum": [
+        "20DR",
+        "20FC",
+        "20FG",
+        "20FR",
+        "20FT",
+        "20GH",
+        "20HC",
+        "20HD",
+        "20IT",
+        "20OT",
+        "20PF",
+        "20RF",
+        "20RH",
+        "20SL",
+        "40DR",
+        "40FG",
+        "40FR",
+        "40FT",
+        "40GH",
+        "40HC",
+        "40HF",
+        "40HH",
+        "40HL",
+        "40HR",
+        "40HS",
+        "40IN",
+        "40OT",
+        "40RF",
+        "40RH",
+        "40RQ",
+        "40TK",
+        "45DR",
+        "45FR",
+        "45GP",
+        "45HC",
+        "45HD",
+        "45HT",
+        "45RF",
+        "45RH",
+        "45TR",
+        "48HC",
+        "48TR",
+        "53HC",
+        "53TR",
+        "BBLK",
+        "LCL",
+        "RORO"
+      ],
+      "type": "string",
+      "description": "Type of shipping container."
+    },
+    "BookingVolumeUom": {
+      "enum": [
+        "CubicInches",
+        "CubicFeet",
+        "CubicMeters",
+        "CubicCentimeters"
+      ],
+      "type": "string",
+      "description": "Unit of measure for volume parameters."
+    },
+    "CommodityItem": {
+      "required": [
+        "grossWeight",
+        "grossWeightUnitOfMeasure",
+        "packagingType",
+        "quantity"
+      ],
+      "type": "object",
+      "properties": {
+        "containerId": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "References the container to which this commodity group belongs.",
+          "format": "int32"
+        },
+        "packagingType": {
+          "$ref": "#/$defs/BookingPackageCode"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Indicates the total number of shipping units.",
+          "format": "float"
+        },
+        "pallets": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Indicates the number of pallets for the item.",
+          "format": "float"
+        },
+        "grossWeight": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Indicates the total weight of the line item. This represents the total weight of all quantities.",
+          "format": "float"
+        },
+        "grossWeightUnitOfMeasure": {
+          "$ref": "#/$defs/weightUomEnum"
+        },
+        "totalVolume": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Indicates the volume of the item.",
+          "format": "float"
+        },
+        "totalVolumeUnitOfMeasure": {
+          "$ref": "#/$defs/BookingVolumeUom"
+        },
+        "description": {
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the general classification of the goods being shipped."
+        },
+        "descriptionOfGoods": {
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the full description of the cargo contents."
+        },
+        "marksAndNumbers": {
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the labeling or identifying marks printed on the cargo."
+        },
+        "skuNumber": {
+          "maxLength": 50,
+          "minLength": 1,
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the Stock Keeping Unit - a number assigned to a product by the customer (maximum 50 characters)."
+        },
+        "htCode": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Indicates the Harmonized Tariff Code for customs classification. This field can accept an HTS Code or an HS Code."
+        },
+        "isTemperatureSensitive": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Indicates a value indicating whether the item(s) need to be kept between specific temperatures."
+        },
+        "temperatureUnitOfMeasure": {
+          "$ref": "#/$defs/temperatureUomEnum"
+        },
+        "requiredTemperatureHigh": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Indicates the highest temperature the item(s) can be.",
+          "format": "float"
+        },
+        "requiredTemperatureLow": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Indicates the lowest temperature the item(s) can be.",
+          "format": "float"
+        },
+        "isHazardous": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "description": "Indicates a value indicating whether the item is hazardous."
+        },
+        "packagesDimensions": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/PackagesDimensions"
+          },
+          "description": "Indicates the packages dimensions."
+        },
+        "hazardousProperties": {
+          "$ref": "#/$defs/BookingHazardousProperties"
+        },
+        "referenceNumbers": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/$defs/ReferenceNumber"
+          },
+          "description": "Indicates additional reference number objects pertaining to this item."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Represents a commodity item in the shipment."
+    },
+    "PackagesDimensions": {
+      "required": [
+        "packagingType"
+      ],
+      "type": "object",
+      "properties": {
+        "packagingType": {
+          "$ref": "#/$defs/BookingPackageCode"
+        },
+        "quantity": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "Indicates the quantity, identifying how many containers need to be shipped.",
+          "format": "int32"
+        },
+        "length": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Indicates the length of the line item packaging.",
+          "format": "float"
+        },
+        "width": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Indicates the width of the line item packaging.",
+          "format": "float"
+        },
+        "height": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Indicates the height of the line item packaging.",
+          "format": "float"
+        },
+        "linearUnitOfMeasure": {
+          "$ref": "#/$defs/linearUomEnum"
+        },
+        "volume": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Indicates the volume of the line item packaging.",
+          "format": "float"
+        },
+        "volumeOfMeasure": {
+          "$ref": "#/$defs/BookingVolumeUom"
+        },
+        "stackable": {
+          "$ref": "#/$defs/Stackable"
+        }
+      },
+      "additionalProperties": false,
+      "description": "Details for packaging contained within each commodity item handling unit."
+    },
+    "PartyType": {
+      "enum": [
+        "Consignee",
+        "BillTo",
+        "Shipper",
+        "NotifyParty"
+      ],
+      "type": "string",
+      "description": "Party type enumeration."
+    },
+    "ReferenceNumber": {
+      "required": [
+        "type",
+        "value"
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/BookingReferenceNumberType"
+        },
+        "value": {
+          "maxLength": 100,
+          "minLength": 1,
+          "type": "string",
+          "description": "Indicates the actual value of the reference number (maximum 100 characters)."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Represents a reference number with type and value."
+    },
+    "Stackable": {
+      "enum": [
+        "Yes",
+        "No",
+        "_1x",
+        "_2x",
+        "_3x",
+        "TopLoadable"
+      ],
+      "type": "string",
+      "description": "Indicates whether packages are stackable."
+    },
+    "countryCodeEnum": {
+      "type": "string",
+      "description": "Indicate the country of the location. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/CountryCodes.xlsx\" target=\"_blank\">here</a>.",
+      "enum": [
+        "AD",
+        "AE",
+        "AF",
+        "AG",
+        "AI",
+        "AL",
+        "AM",
+        "AO",
+        "AQ",
+        "AR",
+        "AS",
+        "AT",
+        "AU",
+        "AW",
+        "AZ",
+        "BA",
+        "BB",
+        "BD",
+        "BE",
+        "BF",
+        "BG",
+        "BH",
+        "BI",
+        "BJ",
+        "BM",
+        "BN",
+        "BO",
+        "BR",
+        "BS",
+        "BT",
+        "MM",
+        "BV",
+        "BW",
+        "BY",
+        "BZ",
+        "CA",
+        "CC",
+        "CD",
+        "CF",
+        "CG",
+        "CH",
+        "CI",
+        "CK",
+        "CL",
+        "CM",
+        "CN",
+        "CO",
+        "CR",
+        "RS",
+        "CU",
+        "CV",
+        "CX",
+        "CY",
+        "CZ",
+        "DE",
+        "DJ",
+        "DK",
+        "DM",
+        "DO",
+        "DZ",
+        "EC",
+        "EE",
+        "EG",
+        "EH",
+        "ER",
+        "ES",
+        "ET",
+        "FI",
+        "FJ",
+        "FK",
+        "FM",
+        "FO",
+        "FR",
+        "GA",
+        "GD",
+        "GE",
+        "GF",
+        "GH",
+        "GI",
+        "GL",
+        "GM",
+        "GN",
+        "GP",
+        "GQ",
+        "GR",
+        "GS",
+        "GT",
+        "GU",
+        "GW",
+        "GY",
+        "HK",
+        "HM",
+        "HN",
+        "HR",
+        "HT",
+        "HU",
+        "ID",
+        "IE",
+        "IL",
+        "IN",
+        "IO",
+        "IQ",
+        "IR",
+        "IS",
+        "IT",
+        "JM",
+        "JO",
+        "JP",
+        "KE",
+        "KG",
+        "KH",
+        "KI",
+        "KM",
+        "KN",
+        "KP",
+        "KR",
+        "KW",
+        "KY",
+        "KZ",
+        "LA",
+        "LB",
+        "LC",
+        "LI",
+        "LK",
+        "LR",
+        "LS",
+        "LT",
+        "LU",
+        "LV",
+        "LY",
+        "MA",
+        "MC",
+        "MD",
+        "MG",
+        "MH",
+        "MK",
+        "ML",
+        "MN",
+        "MO",
+        "MP",
+        "MQ",
+        "MR",
+        "MS",
+        "MT",
+        "MU",
+        "MV",
+        "MW",
+        "MX",
+        "MY",
+        "MZ",
+        "NA",
+        "NC",
+        "NE",
+        "NF",
+        "NG",
+        "NI",
+        "NL",
+        "NO",
+        "NP",
+        "NR",
+        "NU",
+        "NZ",
+        "OM",
+        "PA",
+        "PE",
+        "PF",
+        "PG",
+        "PH",
+        "PK",
+        "PL",
+        "PM",
+        "PN",
+        "PR",
+        "PS",
+        "PT",
+        "PW",
+        "PY",
+        "QA",
+        "RE",
+        "RO",
+        "RU",
+        "RW",
+        "SA",
+        "SB",
+        "SC",
+        "SD",
+        "SE",
+        "SG",
+        "SH",
+        "SI",
+        "SJ",
+        "SK",
+        "SL",
+        "SM",
+        "SN",
+        "SO",
+        "SR",
+        "ST",
+        "SV",
+        "SY",
+        "SZ",
+        "TC",
+        "TD",
+        "TF",
+        "TG",
+        "TH",
+        "TJ",
+        "TK",
+        "TL",
+        "TM",
+        "TN",
+        "TO",
+        "TP",
+        "TR",
+        "TT",
+        "TV",
+        "TW",
+        "TZ",
+        "UA",
+        "UG",
+        "GB",
+        "UM",
+        "US",
+        "UY",
+        "UZ",
+        "VA",
+        "VC",
+        "VE",
+        "VG",
+        "VI",
+        "VN",
+        "VU",
+        "WF",
+        "WS",
+        "YE",
+        "YT",
+        "ZA",
+        "ZM",
+        "ZR",
+        "ZW",
+        "AX",
+        "GG",
+        "IM",
+        "JE",
+        "ME",
+        "MF",
+        "CW",
+        "SX",
+        "SS",
+        "IC",
+        "XC",
+        "XL"
+      ]
+    },
+    "hazardousGroupEnum": {
+      "type": "string",
+      "description": "Dangerous goods are assigned into 3 packing groups (also known as UN Packing Group) in accordance with the degree of danger they present.\n  * `I` - Group I - Major Danger\n  * `II` - Group II - Medium Danger\n  * `III` - Group III - Minor Danger\n",
+      "enum": [
+        "I",
+        "II",
+        "III"
+      ]
+    },
+    "linearUomEnum": {
+      "type": "string",
+      "description": "Unit of measure for height, width, and length parameters.",
+      "enum": [
+        "Inches",
+        "Feet",
+        "Centimeters",
+        "Meters"
+      ]
+    },
+    "marinePollutantCategory": {
+      "type": "string",
+      "description": "Indicates the Marine Pollutant Category for Hazardous Materials.\n  * `Severe Marine Pollutant`\n  * `Marine Pollutant`\n",
+      "enum": [
+        "SevereMarinePollutant",
+        "MarinePollutant"
+      ]
+    },
+    "stateProvinceCodeEnum": {
+      "type": "string",
+      "description": "Indicate the state or province of the location. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/StateProvinceCodes.xlsx\" target=\"_blank\">here</a>.",
+      "enum": [
+        "1",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18",
+        "19",
+        "2",
+        "20",
+        "21",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "3",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "4",
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45",
+        "46",
+        "47",
+        "48",
+        "49",
+        "5",
+        "50",
+        "51",
+        "52",
+        "53",
+        "54",
+        "6",
+        "61",
+        "62",
+        "63",
+        "64",
+        "65",
+        "67",
+        "7",
+        "71",
+        "76",
+        "79",
+        "8",
+        "81",
+        "84",
+        "86",
+        "89",
+        "9",
+        "91",
+        "92",
+        "95",
+        "A",
+        "AA",
+        "AB",
+        "AC",
+        "AE",
+        "AG",
+        "AGU",
+        "AI",
+        "AK",
+        "AL",
+        "AM",
+        "AN",
+        "AO",
+        "AP",
+        "AQ",
+        "AR",
+        "AS",
+        "AT",
+        "AUK",
+        "AV",
+        "AZ",
+        "B",
+        "BA",
+        "BC",
+        "BCN",
+        "BCS",
+        "BG",
+        "BI",
+        "BL",
+        "BM",
+        "BN",
+        "BO",
+        "BOP",
+        "BR",
+        "BS",
+        "BT",
+        "BZ",
+        "C",
+        "CA",
+        "CAM",
+        "CAN",
+        "CB",
+        "CE",
+        "CH",
+        "CHH",
+        "CHP",
+        "CI",
+        "CL",
+        "CN",
+        "CO",
+        "COA",
+        "COL",
+        "CR",
+        "CS",
+        "CT",
+        "CZ",
+        "D",
+        "DC",
+        "DD",
+        "DE",
+        "DF",
+        "DL",
+        "DN",
+        "DUR",
+        "E",
+        "EN",
+        "ES",
+        "F",
+        "FC",
+        "FE",
+        "FG",
+        "FI",
+        "FL",
+        "FM",
+        "FR",
+        "G",
+        "GA",
+        "GE",
+        "GIS",
+        "GJ",
+        "GO",
+        "GR",
+        "GRO",
+        "GU",
+        "GUA",
+        "H",
+        "HI",
+        "HID",
+        "HKB",
+        "HP",
+        "HR",
+        "IA",
+        "ID",
+        "IL",
+        "IM",
+        "IN",
+        "IS",
+        "J",
+        "JAL",
+        "JH",
+        "JK",
+        "K",
+        "KA",
+        "KL",
+        "KR",
+        "KS",
+        "KY",
+        "L",
+        "LA",
+        "LC",
+        "LD",
+        "LE",
+        "LI",
+        "LL",
+        "LO",
+        "LT",
+        "LU",
+        "M",
+        "MA",
+        "MB",
+        "MBH",
+        "MC",
+        "MD",
+        "ME",
+        "MEX",
+        "MG",
+        "MH",
+        "MI",
+        "MIC",
+        "ML",
+        "MN",
+        "MO",
+        "MOR",
+        "MP",
+        "MS",
+        "MT",
+        "MWT",
+        "MZ",
+        "N",
+        "NA",
+        "NAY",
+        "NB",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NL",
+        "NLE",
+        "NM",
+        "NO",
+        "NS",
+        "NSN",
+        "NSW",
+        "NT",
+        "NTL",
+        "NU",
+        "NV",
+        "NY",
+        "O",
+        "OAX",
+        "OG",
+        "OH",
+        "OI",
+        "OK",
+        "ON",
+        "OR",
+        "OT",
+        "OTA",
+        "P",
+        "PA",
+        "PB",
+        "PC",
+        "PD",
+        "PE",
+        "PG",
+        "PI",
+        "PN",
+        "PO",
+        "PR",
+        "PT",
+        "PU",
+        "PUE",
+        "PV",
+        "PY",
+        "PZ",
+        "Q",
+        "QC",
+        "QLD",
+        "QU",
+        "QUE",
+        "R",
+        "RA",
+        "RC",
+        "RE",
+        "RG",
+        "RI",
+        "RJ",
+        "RM",
+        "RN",
+        "RO",
+        "ROO",
+        "RR",
+        "RS",
+        "S",
+        "SA",
+        "SC",
+        "SD",
+        "SE",
+        "SI",
+        "SIN",
+        "SJ",
+        "SK",
+        "SLP",
+        "SO",
+        "SON",
+        "SP",
+        "SR",
+        "SS",
+        "STL",
+        "SV",
+        "T",
+        "TA",
+        "TAB",
+        "TAM",
+        "TAS",
+        "TE",
+        "TG",
+        "TKI",
+        "TLA",
+        "TN",
+        "TO",
+        "TP",
+        "TR",
+        "TS",
+        "TV",
+        "TX",
+        "U",
+        "UD",
+        "UL",
+        "UM",
+        "UP",
+        "UT",
+        "V",
+        "VA",
+        "VB",
+        "VC",
+        "VE",
+        "VER",
+        "VI",
+        "VIC",
+        "VR",
+        "VS",
+        "VT",
+        "VV",
+        "W",
+        "WA",
+        "WB",
+        "WGN",
+        "WI",
+        "WKO",
+        "WTC",
+        "WV",
+        "WY",
+        "X",
+        "Y",
+        "YT",
+        "YUC",
+        "Z",
+        "ZAC"
+      ]
+    },
+    "temperatureUomEnum": {
+      "type": "string",
+      "description": "Unit of measure for temperature parameters.",
+      "enum": [
+        "Fahrenheit",
+        "Celsius",
+        "Empty"
+      ]
+    },
+    "weightUomEnum": {
+      "type": "string",
+      "description": "Unit of measure for weight parameters.",
+      "enum": [
+        "Pounds",
+        "Kilograms"
+      ]
+    }
+  }
+}

@@ -69,6 +69,7 @@ entities:
   - Generate Token
   property_count: 4
   references: []
+  name: tokenRequest
 - entity: tokenSuccessResponse
   tags:
   - Authentication
@@ -78,6 +79,7 @@ entities:
   - Generate Token
   property_count: 4
   references: []
+  name: tokenSuccessResponse
 - entity: error400
   tags:
   - Authentication
@@ -125,6 +127,7 @@ entities:
   - Visibility Shipment Delete
   property_count: 4
   references: []
+  name: error400
 - entity: error401
   tags:
   - Authentication
@@ -172,6 +175,7 @@ entities:
   - Visibility Shipment Delete
   property_count: 4
   references: []
+  name: error401
 - entity: error403
   tags:
   - Authentication
@@ -219,6 +223,7 @@ entities:
   - Visibility Shipment Delete
   property_count: 3
   references: []
+  name: error403
 - entity: error404
   tags:
   - Authentication
@@ -266,6 +271,7 @@ entities:
   - Visibility Shipment Delete
   property_count: 3
   references: []
+  name: error404
 - entity: ratingPost
   tags:
   - Rating
@@ -280,6 +286,7 @@ entities:
   - referenceNumber
   - specialServicesEnum
   - transportMode
+  name: ratingPost
 - entity: quoteSummaries
   tags:
   - Rating
@@ -295,6 +302,7 @@ entities:
   - equipmentCodeEnum
   - rates
   - transportModeEnum
+  name: quoteSummaries
 - entity: freightClassEstimate
   tags:
   - Rating
@@ -307,6 +315,7 @@ entities:
   - countryCodeEnum
   - linearUomEnum
   - weightUomEnum
+  name: freightClassEstimate
 - entity: freightClassEstimateResponse
   tags:
   - Rating
@@ -317,6 +326,7 @@ entities:
   property_count: 1
   references:
   - freightEstimateResponseEnum
+  name: freightClassEstimateResponse
 - entity: order
   tags:
   - Orders and Booking
@@ -344,6 +354,7 @@ entities:
   - referenceNumber
   - shippingContainerItems
   - shippingContainers
+  name: order
 - entity: orderResponse
   tags:
   - Orders and Booking
@@ -353,6 +364,7 @@ entities:
   - Order Create
   property_count: 1
   references: []
+  name: orderResponse
 - entity: quotes
   tags:
   - Orders and Booking
@@ -363,6 +375,7 @@ entities:
   property_count: 0
   references:
   - quote
+  name: quotes
 - entity: quoteOrderResponse
   tags:
   - Orders and Booking
@@ -372,6 +385,7 @@ entities:
   - Order Create with Quote ID
   property_count: 3
   references: []
+  name: quoteOrderResponse
 - entity: gfBooking
   tags:
   - Orders and Booking
@@ -391,6 +405,7 @@ entities:
   - BookingServiceLevel
   - CommodityItem
   - ReferenceNumber
+  name: gfBooking
 - entity: eventResponse
   tags:
   - Events
@@ -409,6 +424,7 @@ entities:
   - packageStopEvent
   - stopEvent
   - trackingNumberEvent
+  name: eventResponse
 - entity: eventResponses
   tags:
   - Events
@@ -419,6 +435,7 @@ entities:
   property_count: 2
   references:
   - eventResponse
+  name: eventResponses
 - entity: payments
   tags:
   - Financials
@@ -428,6 +445,7 @@ entities:
   - Payment Status Retrieval
   property_count: 0
   references: []
+  name: payments
 - entity: invoiceSummaries
   tags:
   - Financials
@@ -439,6 +457,7 @@ entities:
   references:
   - currencyCodeEnum
   - invoiceShipments
+  name: invoiceSummaries
 - entity: invoiceSummary
   tags:
   - Financials
@@ -450,6 +469,7 @@ entities:
   references:
   - currencyCodeEnum
   - invoiceShipmentsWithRates
+  name: invoiceSummary
 - entity: documentIdResults
   tags:
   - Documents
@@ -460,6 +480,7 @@ entities:
   property_count: 0
   references:
   - docTypeEnum
+  name: documentIdResults
 - entity: loadDocumentCallback
   tags:
   - Documents
@@ -470,6 +491,7 @@ entities:
   property_count: 6
   references:
   - referenceNumber
+  name: loadDocumentCallback
 - entity: docTypeEnum
   tags:
   - Documents
@@ -479,6 +501,7 @@ entities:
   - Carrier Document Upload
   property_count: 0
   references: []
+  name: docTypeEnum
 - entity: availableShipmentsSearchV2
   tags:
   - Shipments
@@ -493,6 +516,7 @@ entities:
   - specializedEquipmentCodeEUEnum
   - specializedEquipmentCodeNAEnum
   - unitOfMeasure
+  name: availableShipmentsSearchV2
 - entity: availableShipmentsResponseV2
   tags:
   - Shipments
@@ -503,6 +527,7 @@ entities:
   property_count: 2
   references:
   - availableShipmentV2
+  name: availableShipmentsResponseV2
 - entity: loadOffer
   tags:
   - Shipments
@@ -512,6 +537,7 @@ entities:
   - Load Offer
   property_count: 4
   references: []
+  name: loadOffer
 - entity: offerAcknowledgment
   tags:
   - Shipments
@@ -521,6 +547,7 @@ entities:
   - Load Offer
   property_count: 1
   references: []
+  name: offerAcknowledgment
 - entity: error422
   tags:
   - Shipments
@@ -531,6 +558,7 @@ entities:
   - Load Offer
   property_count: 3
   references: []
+  name: error422
 - entity: offerResponse
   tags:
   - Shipments
@@ -540,6 +568,7 @@ entities:
   - Offer Response Callback
   property_count: 8
   references: []
+  name: offerResponse
 - entity: loadBookV2
   tags:
   - Shipments
@@ -552,6 +581,7 @@ entities:
   - binCost
   - emptyLocationV2
   - rateConfirmation
+  name: loadBookV2
 - entity: shipmentDetail
   tags:
   - Shipments
@@ -562,6 +592,7 @@ entities:
   property_count: 7
   references:
   - shipmentDetailEvent
+  name: shipmentDetail
 - entity: milestone
   tags:
   - Shipments
@@ -581,6 +612,7 @@ entities:
   - roadMilestoneEventCodeEnum
   - shipmentIdentifier
   - supplementalInformation
+  name: milestone
 - entity: shipments
   tags:
   - Visibility
@@ -596,6 +628,7 @@ entities:
   - incoTermsEnum
   - referenceNumber
   - stop
+  name: shipments
 - entity: invoice
   tags:
   - Visibility
@@ -608,6 +641,7 @@ entities:
   - referenceNumber
   - visibilityCharge
   - weightUomEnum
+  name: invoice
 - entity: visibilityOrder
   tags:
   - Visibility
@@ -623,6 +657,7 @@ entities:
   - visibilityLocation
   - volumeUomEnum
   - weightUomEnum
+  name: visibilityOrder
 - entity: label
   tags:
   - Labels
@@ -644,6 +679,7 @@ entities:
   - payer
   - referenceNumber
   - serviceLevelLabelsEnum
+  name: label
 - entity: successLabelCreate
   tags:
   - Labels
@@ -660,6 +696,7 @@ entities:
   - packageShippingInfo
   - referenceNumber
   - serviceLevelEnum
+  name: successLabelCreate
 - entity: error424
   tags:
   - Labels
@@ -669,6 +706,7 @@ entities:
   - Generate label
   property_count: 4
   references: []
+  name: error424
 relationships:
 - from: ratingPost
   to: ratingItem

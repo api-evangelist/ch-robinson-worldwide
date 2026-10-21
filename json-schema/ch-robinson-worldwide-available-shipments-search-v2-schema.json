@@ -1,0 +1,475 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/main/json-schema/ch-robinson-worldwide-available-shipments-search-v2-schema.json",
+  "title": "availableShipmentsSearchV2",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/ch-robinson-worldwide-shipments-api-openapi.yml#/components/schemas/availableShipmentsSearchV2",
+  "type": "object",
+  "required": [
+    "regionCode"
+  ],
+  "properties": {
+    "pageIndex": {
+      "type": "integer",
+      "description": "Sets the page of results.",
+      "default": 0
+    },
+    "pageSize": {
+      "type": "integer",
+      "description": "Sets the amount of results on the page.",
+      "maximum": 100,
+      "default": 100
+    },
+    "regionCode": {
+      "type": "string",
+      "description": "Indicates the region code for the request.",
+      "enum": [
+        "NA",
+        "EU"
+      ]
+    },
+    "carrierCode": {
+      "type": "string",
+      "description": "C.H. Robinson define code that identifies a carrier."
+    },
+    "originRadiusSearch": {
+      "$ref": "#/$defs/radiusSearch"
+    },
+    "destinationRadiusSearch": {
+      "$ref": "#/$defs/radiusSearch"
+    },
+    "origins": {
+      "type": "array",
+      "description": "Indicates the country and state(s) to be considered for the origin. Only use this if originRadiusSearch isn't being used.",
+      "items": {
+        "type": "object",
+        "required": [
+          "countryCode",
+          "stateCodes"
+        ],
+        "properties": {
+          "countryCode": {
+            "type": "string",
+            "description": "Indicate the country code."
+          },
+          "stateCodes": {
+            "type": "array",
+            "description": "Indicate state code(s) wanting to be considered.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "destinations": {
+      "type": "array",
+      "description": "Indicates the country and state(s) to be considered for the destination. Only use this if destinationRadiusSearch isn't being used.",
+      "items": {
+        "type": "object",
+        "required": [
+          "countryCode",
+          "stateCodes"
+        ],
+        "properties": {
+          "countryCode": {
+            "type": "string",
+            "description": "Indicate the country code."
+          },
+          "stateCodes": {
+            "type": "array",
+            "description": "Indicate state code(s) wanting to be considered.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "modes": {
+      "$ref": "#/$defs/availableShipmentsModeEnum"
+    },
+    "excludedModes": {
+      "$ref": "#/$defs/availableShipmentsModeEnum"
+    },
+    "loadDistanceRange": {
+      "type": "object",
+      "required": [
+        "unitOfMeasure",
+        "min",
+        "max"
+      ],
+      "description": "Indicates min/max distance wanted.",
+      "properties": {
+        "unitOfMeasure": {
+          "$ref": "#/$defs/unitOfMeasure"
+        },
+        "min": {
+          "type": "integer",
+          "description": "Minimum distance desired."
+        },
+        "max": {
+          "type": "integer",
+          "description": "Maximum distance desired."
+        }
+      }
+    },
+    "loadWeightRange": {
+      "type": "object",
+      "required": [
+        "unitOfMeasure",
+        "min",
+        "max"
+      ],
+      "description": "Indicates min/max weight wanted.",
+      "properties": {
+        "unitOfMeasure": {
+          "$ref": "#/$defs/unitOfMeasure"
+        },
+        "min": {
+          "type": "integer",
+          "description": "Minimum weight desired."
+        },
+        "max": {
+          "type": "integer",
+          "description": "Maximum weight desired."
+        }
+      }
+    },
+    "equipmentLengthRange": {
+      "type": "object",
+      "required": [
+        "unitOfMeasure",
+        "min",
+        "max"
+      ],
+      "description": "Indicates min/max equipment length wanted.",
+      "properties": {
+        "unitOfMeasure": {
+          "$ref": "#/$defs/unitOfMeasure"
+        },
+        "min": {
+          "type": "integer",
+          "description": "Minimum length desired."
+        },
+        "max": {
+          "type": "integer",
+          "description": "Maximum length desired."
+        }
+      }
+    },
+    "availableForPickUpByDateRange": {
+      "type": "object",
+      "description": "Set earliest and latest date window for a load to be ready by.",
+      "properties": {
+        "min": {
+          "type": "string",
+          "format": "date",
+          "description": "An ISO8601 UTC date used to indicate the earliest ready by date."
+        },
+        "max": {
+          "type": "string",
+          "format": "date",
+          "description": "An ISO8601 UTC date used to indicate the latest ready by date."
+        }
+      }
+    },
+    "specializedEquipmentCode": {
+      "description": "Depending on the region code you will use a code from one of the lists below.",
+      "oneOf": [
+        {
+          "$ref": "#/$defs/specializedEquipmentCodeNAEnum"
+        },
+        {
+          "$ref": "#/$defs/specializedEquipmentCodeEUEnum"
+        }
+      ]
+    },
+    "teamLoad": {
+      "type": "boolean",
+      "description": "Indicate if team loads are returned in results alongside non-teamLoad loads. If exluding these types of loads is desired, \"false\" must be sent.",
+      "default": true
+    },
+    "stfLoad": {
+      "type": "boolean",
+      "description": "Indicate if STF loads are returned in results alongside non-STF loads. If exluding these types of loads is desired, \"false\" must be sent.",
+      "default": true
+    },
+    "hazMatLoad": {
+      "type": "boolean",
+      "description": "Indicate if Hazmat loads are returned in results alongside non-hazmat loads. If exluding these types of loads is desired, \"false\" must be sent.",
+      "default": true
+    },
+    "tankerLoad": {
+      "type": "boolean",
+      "default": true,
+      "description": "Indicate if Tanker loads are returned in results alongside non-tanker loads. If exluding these types of loads is desired, \"false\" must be sent."
+    },
+    "chemicalSolutionLoad": {
+      "type": "boolean",
+      "description": "Indicate if Chemical Solution loads are returned in results alongside non-Chemical solution loads. If exluding these types of loads is desired, \"false\" must be sent.",
+      "default": true
+    },
+    "highValueLoad": {
+      "type": "boolean",
+      "description": "Indicate if High Value loads are returned in results alongside non-High value loads. If exluding these types of loads is desired, \"false\" must be sent.",
+      "default": true
+    },
+    "sortCriteria": {
+      "type": "object",
+      "description": "Allows user to sort results.",
+      "required": [
+        "field",
+        "direction"
+      ],
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "Selection the criteria for sorting results.",
+          "enum": [
+            "LoadNumber",
+            "OriginCity",
+            "CalculatedPickupByDateTime",
+            "Distance",
+            "DestinationCity",
+            "CalculatedDeliverByDateTime",
+            "Weight",
+            "Mode",
+            "OriginDeadHeadDistance"
+          ]
+        },
+        "direction": {
+          "type": "string",
+          "description": "Select either Ascending or Descending.",
+          "enum": [
+            "ascending",
+            "descending"
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "availableShipmentsModeEnum": {
+      "type": "array",
+      "description": "C.H. Robinson defined code for mode.\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/AvailableShipmentsModeCodeDescription.xlsx\" target=\"_blank\">here</a>.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "A",
+          "B",
+          "D",
+          "F",
+          "H",
+          "I",
+          "J",
+          "L",
+          "M",
+          "O",
+          "P",
+          "R",
+          "S",
+          "T",
+          "V",
+          "W",
+          "Y"
+        ]
+      }
+    },
+    "coordinate": {
+      "type": "object",
+      "required": [
+        "lat",
+        "lon"
+      ],
+      "properties": {
+        "lat": {
+          "type": "number",
+          "format": "float",
+          "minimum": -90,
+          "maximum": 90,
+          "description": "Latitude of given location."
+        },
+        "lon": {
+          "type": "number",
+          "format": "float",
+          "minimum": -180,
+          "maximum": 180,
+          "description": "Longitude of given location."
+        }
+      }
+    },
+    "radiusSearch": {
+      "type": "object",
+      "required": [
+        "coordinate",
+        "radius"
+      ],
+      "description": "Sets the coordinates and radial distance.",
+      "properties": {
+        "coordinate": {
+          "$ref": "#/$defs/coordinate"
+        },
+        "radius": {
+          "type": "object",
+          "required": [
+            "value",
+            "unitOfMeasure"
+          ],
+          "description": "Allows the setting of radius with the lat/long being the center of the radius.",
+          "properties": {
+            "value": {
+              "type": "number",
+              "format": "float",
+              "description": "Indicates the distance of radial circle around lat/lon point."
+            },
+            "unitOfMeasure": {
+              "$ref": "#/$defs/unitOfMeasure"
+            }
+          }
+        }
+      }
+    },
+    "specializedEquipmentCodeEUEnum": {
+      "type": "string",
+      "description": "Code to indicate specialized equipment for EU. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/SpecializedEquipmentCodeDescription.xlsx\" target=\"_blank\">here</a>.",
+      "enum": [
+        "AIR",
+        "B",
+        "BOAT",
+        "BX",
+        "CAR",
+        "COIL",
+        "DD",
+        "DDF",
+        "F",
+        "FO",
+        "FRI",
+        "IC",
+        "IR",
+        "IT",
+        "LTL",
+        "MT",
+        "MTIL",
+        "PT",
+        "RD",
+        "SIL",
+        "STK",
+        "T",
+        "TCOI",
+        "TIL",
+        "TIP",
+        "TK",
+        "TNK",
+        "V",
+        "WK"
+      ]
+    },
+    "specializedEquipmentCodeNAEnum": {
+      "type": "string",
+      "description": "Code to indicate specialized equipment for NA. \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/SpecializedEquipmentCodeDescription.xlsx\" target=\"_blank\">here</a>.",
+      "enum": [
+        "2T",
+        "B",
+        "BARGE",
+        "BDPT",
+        "BEAM",
+        "BEND",
+        "BFGD",
+        "BHOP",
+        "BISO",
+        "BLADE",
+        "BLAT",
+        "BLFGT",
+        "BLFRPT",
+        "BLRL",
+        "BLSS",
+        "BST",
+        "BSTR",
+        "BT",
+        "BVT",
+        "BX50",
+        "BX50100S",
+        "BX50100SH",
+        "BX60",
+        "BX6070SC",
+        "CH",
+        "CN",
+        "CO",
+        "CT",
+        "CV",
+        "D",
+        "DAIR",
+        "DD",
+        "DDC",
+        "DR",
+        "ET",
+        "F",
+        "FC",
+        "FD",
+        "FO",
+        "FS",
+        "FV",
+        "GNDL",
+        "HFD",
+        "HFM",
+        "HOP",
+        "HS",
+        "IC",
+        "IR",
+        "IT",
+        "LT",
+        "LTL",
+        "MF",
+        "MT",
+        "MX",
+        "OCEAN",
+        "OT",
+        "P",
+        "PB",
+        "PLT",
+        "PO",
+        "PT",
+        "PU",
+        "QA",
+        "R",
+        "RGN",
+        "RM",
+        "SA",
+        "SD",
+        "SDC",
+        "SDD",
+        "SETT",
+        "SF",
+        "SFD",
+        "SFM",
+        "SRGN",
+        "SS",
+        "SSD",
+        "STR",
+        "TA",
+        "TK",
+        "TKR",
+        "TM",
+        "TP",
+        "TT",
+        "UC",
+        "V",
+        "VI",
+        "VS",
+        "VV"
+      ]
+    },
+    "unitOfMeasure": {
+      "type": "string",
+      "description": "Indicates Standard or Metric.",
+      "default": "Standard",
+      "enum": [
+        "Standard",
+        "Metric"
+      ]
+    }
+  }
+}

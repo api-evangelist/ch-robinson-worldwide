@@ -1,5 +1,5 @@
 ---
-name: Track C.H. Robinson shipments and reconcile invoices
+name: ch-robinson-worldwide-track-and-reconcile
 description: Consume C.H. Robinson order and shipment events (webhook or polling), pull visibility milestones, and reconcile the invoice and its PDF.
 api: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
 operations:

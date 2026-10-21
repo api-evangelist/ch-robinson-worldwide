@@ -1,0 +1,529 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/main/json-schema/ch-robinson-worldwide-success-label-create-schema.json",
+  "title": "successLabelCreate",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/ch-robinson-worldwide-labels-api-openapi.yml#/components/schemas/successLabelCreate",
+  "properties": {
+    "labelResponseId": {
+      "type": "string"
+    },
+    "orderNumber": {
+      "description": "C.H. Robinson order number received on successful order create.",
+      "type": "number"
+    },
+    "carrier": {
+      "$ref": "#/$defs/carrierEnum"
+    },
+    "serviceLevel": {
+      "$ref": "#/$defs/serviceLevelEnum"
+    },
+    "shipDate": {
+      "description": "The date on which the shipment will be picked up.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "scheduledDeliveryDate": {
+      "description": "The date on which the shipment should be delivered.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "shippingPackages": {
+      "description": "Shipping info about the packages included in the shipment.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/packageShippingInfo"
+      }
+    },
+    "airWaybillNumber": {
+      "description": "The air waybill number for the shipment.",
+      "type": "string"
+    },
+    "bookingNumber": {
+      "$ref": "#/$defs/bookingNumber"
+    },
+    "shippingDocuments": {
+      "description": "Metadata returned from the carrier for any uploaded documents.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/documentInfo"
+      }
+    },
+    "referenceNumbers": {
+      "description": "Reference number objects pertaining to the whole order.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/referenceNumber"
+      }
+    },
+    "carrierMessages": {
+      "description": "Messages returned from the carrier(s).",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/carrierMessage"
+      }
+    }
+  },
+  "$defs": {
+    "bookingNumber": {
+      "type": "string",
+      "description": "The booking number for FedEx heavy air shipments."
+    },
+    "carrierEnum": {
+      "type": "string",
+      "description": "The list of supported small parcel carriers",
+      "enum": [
+        "UPS",
+        "FDX",
+        "DHL",
+        "TNT",
+        "SNGPST",
+        "SFX",
+        "PUR",
+        "DPD",
+        "TGE",
+        "CEX",
+        "USPS"
+      ]
+    },
+    "carrierMessage": {
+      "properties": {
+        "source": {
+          "type": "string"
+        },
+        "carrier": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "documentInfo": {
+      "properties": {
+        "fileName": {
+          "type": "string"
+        },
+        "documentId": {
+          "type": "string"
+        },
+        "documentGroupId": {
+          "type": "string"
+        }
+      }
+    },
+    "packageLabel": {
+      "properties": {
+        "labelData": {
+          "description": "The base 64 encoded label data.",
+          "type": "string"
+        },
+        "labelFormat": {
+          "description": "The format (PNG image, PDF document, etc.) of the label data.",
+          "type": "string",
+          "enum": [
+            "PDF",
+            "PNG",
+            "GIF",
+            "ZPL",
+            "EPL",
+            "DPL"
+          ]
+        },
+        "mimeType": {
+          "description": "The MIME type of the label data.",
+          "type": "string"
+        }
+      }
+    },
+    "packageShippingInfo": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "labels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/packageLabel"
+          }
+        },
+        "rate": {
+          "type": "string"
+        },
+        "rateCurrencyCode": {
+          "type": "string"
+        },
+        "trackingNumber": {
+          "type": "string"
+        }
+      }
+    },
+    "referenceNumber": {
+      "type": "object",
+      "required": [
+        "type",
+        "value"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "C.H. Robinson defined code for reference number types. Here is a list of the most commonly used reference number types: \n\n`SHID` - Shipment ID #, `MBOL` - Master Bill of Lading #, `PO` - Purchase Order #, `BOL` - Bill of Lading #, `CRID` - Customer Specific Ref Number, `CUSTPO` - Customer PO Number, `DEL` - Delivery #, `JNO` - Job Number, `PU` - Pickup #, `CON` - Customer Order Number, `APPT` - Appointment Number \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ReferenceNumberTypes.xlsx\" target=\"_blank\">here</a>.",
+          "enum": [
+            "SHID",
+            "MBOL",
+            "PO",
+            "BOL",
+            "CFRM",
+            "CRID",
+            "CUSTPO",
+            "DEL",
+            "DIST",
+            "FIN",
+            "GL",
+            "JNO",
+            "PU",
+            "RANumber",
+            "RLPRO",
+            "MREF",
+            "Empty",
+            "PRO",
+            "CCN",
+            "SBOL",
+            "CON",
+            "APPT",
+            "CHRW_ID",
+            "FDA",
+            "IREF",
+            "LIC",
+            "ORD",
+            "PLU",
+            "SCAC",
+            "SEAL",
+            "SKU",
+            "SREF",
+            "STCC",
+            "TEB",
+            "VPO",
+            "WB",
+            "XXXX",
+            "TRIA",
+            "TRANS",
+            "GCC",
+            "SDATE",
+            "CDATE",
+            "ACCT",
+            "CCTR",
+            "IGM",
+            "GIGM",
+            "LIGM",
+            "SMTP",
+            "PERMIT",
+            "RNO",
+            "DVCN",
+            "PRCL",
+            "CPUC",
+            "SHPMD",
+            "AFR",
+            "BUYID",
+            "VNDID",
+            "DIV",
+            "DEPT",
+            "POTYPE",
+            "GRGI",
+            "DUNS",
+            "PALLETREF",
+            "CITTN",
+            "CIN",
+            "SHIPWITH",
+            "PN",
+            "UPC",
+            "PRCD",
+            "VESSEL",
+            "VOYAGE",
+            "FN",
+            "FEEDVESS",
+            "FEEDVOY",
+            "SHIPREF",
+            "CBL",
+            "SPAC",
+            "POLN",
+            "VPOLN",
+            "EIN",
+            "CNSG",
+            "PROFITCTR",
+            "MFGPART",
+            "PACKSLIP",
+            "THIRDPRTY",
+            "DEFATTR",
+            "FSTRK",
+            "FOItemID",
+            "POLineNum",
+            "PARCELSPC",
+            "CNS1",
+            "CNS2",
+            "CNS3",
+            "CNS4",
+            "CNS5",
+            "CNS6",
+            "CNS7",
+            "TREF",
+            "VREF",
+            "UPRICE",
+            "FWPARTY",
+            "BYPARTY",
+            "HBL",
+            "CBP",
+            "TRANSFER",
+            "SO",
+            "ORDTRK",
+            "QUOTEID",
+            "EQT",
+            "BOOTH",
+            "TS",
+            "OH #",
+            "CNTNR",
+            "VAS",
+            "Size",
+            "Color",
+            "Style",
+            "HCERT",
+            "B#",
+            "ETMSID",
+            "214-IMO",
+            "SHPWeight",
+            "SHPVolume",
+            "SHPDims",
+            "SERIALIZED",
+            "SERIALNUM",
+            "CPSIA",
+            "EDIINVREF",
+            "SQID",
+            "QSeqNum",
+            "OuterPkStu",
+            "GLC",
+            "COMP",
+            "COST",
+            "DTYGL",
+            "DTYCC",
+            "BRKGL",
+            "BRKCC",
+            "GPS",
+            "IAC",
+            "WHRCT",
+            "ERGUID",
+            "SONUM",
+            "CCNUM",
+            "PrimCCNUM",
+            "PrevCCNUM",
+            "CMRN",
+            "TRANSSHIP",
+            "PGIDATE",
+            "AESFIL",
+            "CUSTQUOTID",
+            "QUOTETRACE",
+            "ODATE",
+            "FRCLS",
+            "NMFC",
+            "OrderItemId"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 100,
+          "description": "The actual value of the reference number."
+        }
+      }
+    },
+    "serviceLevelEnum": {
+      "type": "string",
+      "description": "C.H. Robinson defined code for a service offering.\n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ServiceOfferingDescriptions.xlsx\" target=\"_blank\">here</a>.",
+      "enum": [
+        "S",
+        "P",
+        "EXP",
+        "T/R",
+        "DED",
+        "TD",
+        "SD-NFO",
+        "SD-CH",
+        "ND-AM",
+        "ND-PM",
+        "3RD",
+        "ECON",
+        "BOX",
+        "BTC",
+        "HOP",
+        "ISO",
+        "COFC",
+        "TOFC",
+        "LB",
+        "PC",
+        "S-AIR",
+        "FCL",
+        "LCL",
+        "MCL",
+        "RORO",
+        "NFO",
+        "SAMEDAY",
+        "NEXT-CARGO",
+        "PRTY AM",
+        "SD-CARGO",
+        "SD-AM",
+        "SD-PM",
+        "TD-NEXT",
+        "TD-2D",
+        "TD-3D",
+        "TD-ECO",
+        "CHARTER",
+        "CORP-ND",
+        "SEC-ND",
+        "ECON-ND",
+        "DEF",
+        "PRTY",
+        "DC",
+        "OGC",
+        "CARGO",
+        "COMM",
+        "SD-US",
+        "ND-8",
+        "ND-10",
+        "ND-3",
+        "2D-AM",
+        "2D-PM",
+        "3D",
+        "DEF-R",
+        "DEF-G",
+        "DEF-CAD",
+        "INTL-S",
+        "INTL-3",
+        "INTL-5",
+        "FDXSTNDRDVRNGHT",
+        "FDXFRSTVRNGHT",
+        "FDX2DY",
+        "FDXXPRSSSVR",
+        "FDXINTLPRRTY",
+        "FDXINTLCNMY",
+        "FDXINTLFRST",
+        "FDX1DYFRGHT",
+        "FDX2DYFRGHT",
+        "FDX3DYFRGHT",
+        "FDXGRND",
+        "FDXGRNDHMDLVRY",
+        "FDXINTLPRRTYFRGHT",
+        "FDXINTLCNMYFRGHT",
+        "FDXRPFRSTINTLPRRTY",
+        "UPSNXTDYR",
+        "UPS2NDDYR",
+        "UPSGRUND",
+        "UPSWRLDWDXPRSSSM",
+        "UPSWRLDWDXPDTDSM",
+        "UPSSTNDRD",
+        "UPS3DYSLCT",
+        "UPSNXTDYRSVR",
+        "UPSNXTDYRRLY.M.",
+        "UPSWRLDWDXPRSSPLUSSM",
+        "UPS2NDDYR.M.",
+        "UPSSVR",
+        "USPSFRST-CLSSML",
+        "USPSPRRTYML",
+        "USPSMDML(SNGL-PC)",
+        "USPSNTLRMLM-BGS",
+        "USPSPRRTYMLINTL",
+        "USPSXPRSSML",
+        "DHLINTLDOCSRVC",
+        "DHLINTLDOCLTTRSRVC",
+        "DHLWRLDWDPRRTYXPRSS",
+        "PRLTRAIR9:00A",
+        "PRLTRAIR10:30A",
+        "PRLTRR",
+        "PRLTRGRND",
+        "PRLTRGRND9:00A",
+        "PRLTRGRND10:30A",
+        "PRLTRAIRUSA",
+        "PRLTRGRNDUSA",
+        "PRLTRINTLAIR",
+        "FDXPRRTYVRNGHT",
+        "Same",
+        "Next",
+        "2Day",
+        "3Day",
+        "Ground",
+        "FDXHOMEDEL",
+        "FDX2DYAM",
+        "UPSWRLDWDXPRSSS",
+        "UPSBSC",
+        "UPSSP",
+        "UPSSPU1LB",
+        "UPSSPM",
+        "UPSSPBPM",
+        "UPSRTRNSFLEX",
+        "USPSLibraryMail",
+        "USPSStandardPost",
+        "USPSFirstClassMailInt",
+        "USPSPriorityMailInt",
+        "USPSParcelSelect",
+        "USPSStandardMail",
+        "USPSCriticalMail",
+        "USPSFirstClassPkgInt",
+        "FDXSMPSTSELECT",
+        "FDXSMPSTMEDIA",
+        "FDXSMPSTBOUND",
+        "FDXSMPSTPRESORT",
+        "BARTOLINIXPRSS",
+        "SEURXPRSS",
+        "DHLDOMXPRSS",
+        "DHLDOMXPRSS9",
+        "DHLDOMXPRSS12",
+        "DHLXPRSS9",
+        "DHLXPRSS12",
+        "DHLECONSELECT",
+        "DHLXPRSSWWDOCECX",
+        "DHLXPRSSWWDOCDOX",
+        "DHLECONSELECTDOC",
+        "DHLXPRSS9DOC",
+        "DHLXPRSS12DOC",
+        "FDXINTLPRRTYDIRECT",
+        "TNTXPRSS9",
+        "TNTXPRSS10",
+        "TNTXPRSS12",
+        "TNTXPRSS",
+        "TNTECONXPRSS",
+        "TNTDOMXPRSS",
+        "TNTECONXPRSS12",
+        "TNTNEXTDAY9",
+        "TNTNEXTDAY10",
+        "TNTNEXTDAY12",
+        "TNTNEXTDAY",
+        "DHLPEPFORYOU",
+        "DHLPEPEUROPACK",
+        "DHLPEPEUROPLUS",
+        "DHLDOMECONSELECT",
+        "UPSEXPEDITED",
+        "SINGPOST",
+        "CORREIOS",
+        "TNTXPRSS8",
+        "TNTBUSPAK8",
+        "TNTBUSPAK9",
+        "TNTBUSPAK10",
+        "TNTBUSPAK12",
+        "TH",
+        "IHRC",
+        "IHPR",
+        "IHPA",
+        "QSEZPRRTYDM",
+        "SPPRRTYSGI",
+        "SPPRRTYSGO",
+        "SFXSTANDARD",
+        "SFXSSAMEDAY",
+        "SFXNEXTDAY",
+        "SFXECON",
+        "QSDSTD",
+        "CHD",
+        "OHD"
+      ]
+    }
+  }
+}

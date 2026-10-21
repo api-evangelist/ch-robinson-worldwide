@@ -1,5 +1,5 @@
 ---
-name: Quote to order with C.H. Robinson
+name: ch-robinson-worldwide-quote-to-order
 description: Get a freight rate from C.H. Robinson and turn the quote into a booked order, using the quote ID so the price you were shown is the price you tender.
 api: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
 operations:

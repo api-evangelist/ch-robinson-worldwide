@@ -1,0 +1,1462 @@
+{
+  "@context": {
+    "@vocab": "https://chrobinson.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "ch": "https://chrobinson.com/schema#",
+    "tokenRequest": "ch:tokenRequest",
+    "client_id": {
+      "@id": "ch:client_id",
+      "@type": "xsd:string"
+    },
+    "client_secret": {
+      "@id": "ch:client_secret",
+      "@type": "xsd:string"
+    },
+    "audience": {
+      "@id": "ch:audience",
+      "@type": "xsd:string"
+    },
+    "grant_type": {
+      "@id": "ch:grant_type",
+      "@type": "xsd:string"
+    },
+    "error400": "ch:error400",
+    "message": {
+      "@id": "ch:message",
+      "@type": "xsd:string"
+    },
+    "path": {
+      "@id": "ch:path",
+      "@container": "@list"
+    },
+    "type": {
+      "@id": "ch:type",
+      "@type": "xsd:string"
+    },
+    "context": {
+      "@id": "ch:context"
+    },
+    "error401": "ch:error401",
+    "statusCode": {
+      "@id": "ch:statusCode",
+      "@type": "xsd:integer"
+    },
+    "error": {
+      "@id": "ch:error",
+      "@type": "xsd:string"
+    },
+    "attributes": {
+      "@id": "ch:attributes"
+    },
+    "error404": "ch:error404",
+    "tokenSuccessResponse": "ch:tokenSuccessResponse",
+    "token_type": {
+      "@id": "ch:token_type",
+      "@type": "xsd:string"
+    },
+    "expires_in": {
+      "@id": "ch:expires_in",
+      "@type": "xsd:integer"
+    },
+    "access_token": {
+      "@id": "ch:access_token",
+      "@type": "xsd:string"
+    },
+    "scope": {
+      "@id": "ch:scope",
+      "@type": "xsd:string"
+    },
+    "error403": "ch:error403",
+    "loadDocumentCallback": "ch:loadDocumentCallback",
+    "billToReferenceNumber": {
+      "@id": "ch:billToReferenceNumber",
+      "@type": "xsd:string"
+    },
+    "customerReferenceNumber": {
+      "@id": "ch:customerReferenceNumber",
+      "@type": "xsd:string"
+    },
+    "event": {
+      "@id": "ch:event"
+    },
+    "eventTime": {
+      "@id": "ch:eventTime",
+      "@type": "xsd:dateTime"
+    },
+    "time": {
+      "@id": "ch:time",
+      "@type": "xsd:dateTime"
+    },
+    "documentFileData": {
+      "@id": "ch:documentFileData"
+    },
+    "referenceNumber": "ch:referenceNumber",
+    "value": {
+      "@id": "ch:value",
+      "@type": "xsd:string"
+    },
+    "docTypeEnum": "ch:docTypeEnum",
+    "orderDetail": "ch:orderDetail",
+    "orderNumber": {
+      "@id": "ch:orderNumber",
+      "@type": "xsd:integer"
+    },
+    "customerOrderReferenceNumber": {
+      "@id": "ch:customerOrderReferenceNumber",
+      "@type": "xsd:string"
+    },
+    "navisphereTrackingNumber": {
+      "@id": "ch:navisphereTrackingNumber",
+      "@type": "xsd:string"
+    },
+    "navisphereTrackingLink": {
+      "@id": "ch:navisphereTrackingLink",
+      "@type": "xsd:string"
+    },
+    "referenceNumbers": {
+      "@id": "ch:referenceNumbers",
+      "@container": "@list"
+    },
+    "vesselStowageCategoryEnum": "ch:vesselStowageCategoryEnum",
+    "ordersEventsHazardousProperties": "ch:ordersEventsHazardousProperties",
+    "description": {
+      "@id": "ch:description",
+      "@type": "xsd:string"
+    },
+    "technicalName": {
+      "@id": "ch:technicalName",
+      "@type": "xsd:string"
+    },
+    "unNumber": {
+      "@id": "ch:unNumber",
+      "@type": "xsd:string"
+    },
+    "classCode": {
+      "@id": "ch:classCode",
+      "@type": "xsd:string"
+    },
+    "packagingGroup": {
+      "@id": "ch:packagingGroup",
+      "@type": "@id"
+    },
+    "emergencyPhone": {
+      "@id": "ch:emergencyPhone",
+      "@type": "xsd:string"
+    },
+    "authCode": {
+      "@id": "ch:authCode",
+      "@type": "@id"
+    },
+    "isPlacarded": {
+      "@id": "ch:isPlacarded",
+      "@type": "xsd:boolean"
+    },
+    "isReportableQuantity": {
+      "@id": "ch:isReportableQuantity",
+      "@type": "xsd:boolean"
+    },
+    "isPrimaryCommodity": {
+      "@id": "ch:isPrimaryCommodity",
+      "@type": "xsd:boolean"
+    },
+    "isNOSCommodity": {
+      "@id": "ch:isNOSCommodity",
+      "@type": "xsd:boolean"
+    },
+    "flashpoint": {
+      "@id": "ch:flashpoint",
+      "@type": "xsd:decimal"
+    },
+    "flashpointTemperatureUnitOfMeasure": {
+      "@id": "ch:flashpointTemperatureUnitOfMeasure",
+      "@type": "xsd:string"
+    },
+    "isEnvironmentallyHazardous": {
+      "@id": "ch:isEnvironmentallyHazardous",
+      "@type": "xsd:boolean"
+    },
+    "subsidiaryHazmatClasses": {
+      "@id": "ch:subsidiaryHazmatClasses",
+      "@type": "xsd:string"
+    },
+    "vesselStowageCategory": {
+      "@id": "ch:vesselStowageCategory",
+      "@type": "@id"
+    },
+    "specialProvisions": {
+      "@id": "ch:specialProvisions",
+      "@type": "xsd:string"
+    },
+    "marinePollutantCategory": {
+      "@id": "ch:marinePollutantCategory",
+      "@type": "@id"
+    },
+    "emergencyResponseGuidePage": {
+      "@id": "ch:emergencyResponseGuidePage",
+      "@type": "xsd:string"
+    },
+    "passengerLimitation": {
+      "@id": "ch:passengerLimitation",
+      "@type": "xsd:string"
+    },
+    "cargoAircraftLimitation": {
+      "@id": "ch:cargoAircraftLimitation",
+      "@type": "xsd:string"
+    },
+    "exemptionNotes": {
+      "@id": "ch:exemptionNotes",
+      "@type": "xsd:string"
+    },
+    "globalForwardingShipmentStatusEnum": "ch:globalForwardingShipmentStatusEnum",
+    "globalForwardingServiceLevelEnum": "ch:globalForwardingServiceLevelEnum",
+    "lateCodeEnum": "ch:lateCodeEnum",
+    "currencyCodeEnum": "ch:currencyCodeEnum",
+    "bookedCustomer": "ch:bookedCustomer",
+    "customerCode": {
+      "@id": "ch:customerCode",
+      "@type": "xsd:string"
+    },
+    "customerName": {
+      "@id": "ch:customerName",
+      "@type": "xsd:string"
+    },
+    "contacts": {
+      "@id": "ch:contacts",
+      "@container": "@list"
+    },
+    "ebolEnabledWithCarrier": {
+      "@id": "ch:ebolEnabledWithCarrier",
+      "@type": "xsd:boolean"
+    },
+    "globalForwardingFlight": "ch:globalForwardingFlight",
+    "flightNumber": {
+      "@id": "ch:flightNumber",
+      "@type": "xsd:string"
+    },
+    "sequence": {
+      "@id": "ch:sequence",
+      "@type": "xsd:integer"
+    },
+    "fromAirport": {
+      "@id": "ch:fromAirport",
+      "@type": "@id"
+    },
+    "toAirport": {
+      "@id": "ch:toAirport",
+      "@type": "@id"
+    },
+    "contactPosition": "ch:contactPosition",
+    "name": {
+      "@id": "ch:name",
+      "@type": "xsd:string"
+    },
+    "companyName": {
+      "@id": "ch:companyName",
+      "@type": "xsd:string"
+    },
+    "contactMethods": {
+      "@id": "ch:contactMethods",
+      "@container": "@list"
+    },
+    "globalForwardingStopTypeEnum": "ch:globalForwardingStopTypeEnum",
+    "orderEventServiceLevel": "ch:orderEventServiceLevel",
+    "hazmatCodeEnum": "ch:hazmatCodeEnum",
+    "globalForwardingNzCustomsStatusEnum": "ch:globalForwardingNzCustomsStatusEnum",
+    "eventAddress": "ch:eventAddress",
+    "addressLine1": {
+      "@id": "ch:addressLine1",
+      "@type": "xsd:string"
+    },
+    "addressLine2": {
+      "@id": "ch:addressLine2",
+      "@type": "xsd:string"
+    },
+    "city": {
+      "@id": "ch:city",
+      "@type": "xsd:string"
+    },
+    "stateProvinceCode": {
+      "@id": "ch:stateProvinceCode",
+      "@type": "@id"
+    },
+    "postalCode": {
+      "@id": "ch:postalCode",
+      "@type": "xsd:string"
+    },
+    "country": {
+      "@id": "ch:country",
+      "@type": "@id"
+    },
+    "latitude": {
+      "@id": "ch:latitude",
+      "@type": "xsd:decimal"
+    },
+    "longitude": {
+      "@id": "ch:longitude",
+      "@type": "xsd:decimal"
+    },
+    "globalForwardingCustomsEntry": "ch:globalForwardingCustomsEntry",
+    "entryNumber": {
+      "@id": "ch:entryNumber",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "ch:status"
+    },
+    "releaseDate": {
+      "@id": "ch:releaseDate",
+      "@type": "xsd:dateTime"
+    },
+    "usCustomsEntry": {
+      "@id": "ch:usCustomsEntry",
+      "@type": "@id"
+    },
+    "loadStopInformation": "ch:loadStopInformation",
+    "stopType": {
+      "@id": "ch:stopType",
+      "@type": "xsd:string"
+    },
+    "stopStyle": {
+      "@id": "ch:stopStyle",
+      "@type": "xsd:string"
+    },
+    "stopSequenceNumber": {
+      "@id": "ch:stopSequenceNumber",
+      "@type": "xsd:integer"
+    },
+    "warehouseCode": {
+      "@id": "ch:warehouseCode",
+      "@type": "xsd:string"
+    },
+    "volumeUomEnum": "ch:volumeUomEnum",
+    "orderEventOrderDetail": "ch:orderEventOrderDetail",
+    "condition": {
+      "@id": "ch:condition",
+      "@type": "@id"
+    },
+    "services": {
+      "@id": "ch:services",
+      "@container": "@list"
+    },
+    "contactMethodEnum": "ch:contactMethodEnum",
+    "carrier": "ch:carrier",
+    "carrierCode": {
+      "@id": "ch:carrierCode",
+      "@type": "xsd:string"
+    },
+    "scac": {
+      "@id": "ch:scac",
+      "@type": "xsd:string"
+    },
+    "proNumber": {
+      "@id": "ch:proNumber",
+      "@type": "xsd:string"
+    },
+    "driverName": {
+      "@id": "ch:driverName",
+      "@type": "xsd:string"
+    },
+    "driverPhone": {
+      "@id": "ch:driverPhone",
+      "@type": "xsd:string"
+    },
+    "secondDriverName": {
+      "@id": "ch:secondDriverName",
+      "@type": "xsd:string"
+    },
+    "sealNumber": {
+      "@id": "ch:sealNumber",
+      "@type": "xsd:string"
+    },
+    "licensePlate": {
+      "@id": "ch:licensePlate",
+      "@type": "xsd:string"
+    },
+    "tractorNumber": {
+      "@id": "ch:tractorNumber",
+      "@type": "xsd:string"
+    },
+    "trailerNumber": {
+      "@id": "ch:trailerNumber",
+      "@type": "xsd:string"
+    },
+    "dotNumber": {
+      "@id": "ch:dotNumber",
+      "@type": "xsd:string"
+    },
+    "barcodeType": {
+      "@id": "ch:barcodeType",
+      "@type": "xsd:string"
+    },
+    "ebolEnabled": {
+      "@id": "ch:ebolEnabled",
+      "@type": "xsd:boolean"
+    },
+    "orderEventLocationStyle": "ch:orderEventLocationStyle",
+    "rateCodeEnum": "ch:rateCodeEnum",
+    "orderEventLocation": "ch:orderEventLocation",
+    "chrLocationId": {
+      "@id": "ch:chrLocationId",
+      "@type": "xsd:string"
+    },
+    "customerLocationId": {
+      "@id": "ch:customerLocationId",
+      "@type": "xsd:string"
+    },
+    "style": {
+      "@id": "ch:style",
+      "@type": "@id"
+    },
+    "address": {
+      "@id": "ch:address",
+      "@type": "@id"
+    },
+    "inTransitEvent": "ch:inTransitEvent",
+    "eventType": {
+      "@id": "ch:eventType",
+      "@type": "xsd:string"
+    },
+    "orderDetails": {
+      "@id": "ch:orderDetails",
+      "@container": "@list"
+    },
+    "loadNumber": {
+      "@id": "ch:loadNumber",
+      "@type": "xsd:integer"
+    },
+    "location": {
+      "@id": "ch:location",
+      "@type": "@id"
+    },
+    "loadStops": {
+      "@id": "ch:loadStops",
+      "@container": "@list"
+    },
+    "items": {
+      "@id": "ch:items",
+      "@container": "@list"
+    },
+    "deliveryEta": {
+      "@id": "ch:deliveryEta",
+      "@type": "xsd:string"
+    },
+    "nextStop": {
+      "@id": "ch:nextStop",
+      "@type": "@id"
+    },
+    "loadDetails": {
+      "@id": "ch:loadDetails",
+      "@type": "@id"
+    },
+    "notes": {
+      "@id": "ch:notes",
+      "@type": "xsd:string"
+    },
+    "packageCodeEnum": "ch:packageCodeEnum",
+    "globalForwardingAirMainlineCarrier": "ch:globalForwardingAirMainlineCarrier",
+    "carrierName": {
+      "@id": "ch:carrierName",
+      "@type": "xsd:string"
+    },
+    "carrierScac": {
+      "@id": "ch:carrierScac",
+      "@type": "xsd:string"
+    },
+    "bookingNumber": {
+      "@id": "ch:bookingNumber",
+      "@type": "xsd:string"
+    },
+    "flights": {
+      "@id": "ch:flights",
+      "@container": "@list"
+    },
+    "globalForwardingContainerTypeEnum": "ch:globalForwardingContainerTypeEnum",
+    "bookedBillTo": "ch:bookedBillTo",
+    "currencyCode": {
+      "@id": "ch:currencyCode",
+      "@type": "@id"
+    },
+    "invoiceMethod": {
+      "@id": "ch:invoiceMethod",
+      "@type": "@id"
+    },
+    "milesBilled": {
+      "@id": "ch:milesBilled",
+      "@type": "xsd:string"
+    },
+    "exchangeRate": {
+      "@id": "ch:exchangeRate"
+    },
+    "charges": {
+      "@id": "ch:charges",
+      "@container": "@list"
+    },
+    "eventLocation": "ch:eventLocation",
+    "sequenceNumber": {
+      "@id": "ch:sequenceNumber",
+      "@type": "xsd:integer"
+    },
+    "pickUpNumber": {
+      "@id": "ch:pickUpNumber",
+      "@type": "xsd:string"
+    },
+    "deliveryNumber": {
+      "@id": "ch:deliveryNumber",
+      "@type": "xsd:string"
+    },
+    "locationContact": {
+      "@id": "ch:locationContact"
+    },
+    "globalForwardingAuCustomsN10": "ch:globalForwardingAuCustomsN10",
+    "dateOfClearance": {
+      "@id": "ch:dateOfClearance",
+      "@type": "xsd:date"
+    },
+    "globalForwardingNzCustoms": "ch:globalForwardingNzCustoms",
+    "n10": {
+      "@id": "ch:n10",
+      "@type": "@id"
+    },
+    "globalForwardingAuCustomsStatusEnum": "ch:globalForwardingAuCustomsStatusEnum",
+    "orderEventService": "ch:orderEventService",
+    "mode": {
+      "@id": "ch:mode",
+      "@type": "@id"
+    },
+    "serviceLevel": {
+      "@id": "ch:serviceLevel",
+      "@type": "@id"
+    },
+    "locations": {
+      "@id": "ch:locations",
+      "@container": "@list"
+    },
+    "suggestedScac": {
+      "@id": "ch:suggestedScac",
+      "@type": "xsd:string"
+    },
+    "suggestedCarrierPartyCode": {
+      "@id": "ch:suggestedCarrierPartyCode",
+      "@type": "xsd:string"
+    },
+    "globalForwardingShipmentEvent": "ch:globalForwardingShipmentEvent",
+    "shipmentNumber": {
+      "@id": "ch:shipmentNumber",
+      "@type": "xsd:string"
+    },
+    "agentReferenceNumber": {
+      "@id": "ch:agentReferenceNumber",
+      "@type": "xsd:string"
+    },
+    "shipmentType": {
+      "@id": "ch:shipmentType"
+    },
+    "purchaseOrderNumbers": {
+      "@id": "ch:purchaseOrderNumbers",
+      "@container": "@list"
+    },
+    "servicesProvidedByChr": {
+      "@id": "ch:servicesProvidedByChr",
+      "@container": "@list"
+    },
+    "incoLocation": {
+      "@id": "ch:incoLocation",
+      "@type": "xsd:string"
+    },
+    "incoTerms": {
+      "@id": "ch:incoTerms"
+    },
+    "freightTerms": {
+      "@id": "ch:freightTerms"
+    },
+    "customer": {
+      "@id": "ch:customer"
+    },
+    "shipper": {
+      "@id": "ch:shipper"
+    },
+    "consignee": {
+      "@id": "ch:consignee"
+    },
+    "oceanShipment": {
+      "@id": "ch:oceanShipment",
+      "@type": "@id"
+    },
+    "airShipment": {
+      "@id": "ch:airShipment",
+      "@type": "@id"
+    },
+    "shipmentCreatedDate": {
+      "@id": "ch:shipmentCreatedDate",
+      "@type": "xsd:dateTime"
+    },
+    "estimatedCargoReadyDate": {
+      "@id": "ch:estimatedCargoReadyDate"
+    },
+    "estimatedDeliverByDate": {
+      "@id": "ch:estimatedDeliverByDate"
+    },
+    "customsEntry": {
+      "@id": "ch:customsEntry",
+      "@type": "@id"
+    },
+    "customs": {
+      "@id": "ch:customs",
+      "@type": "@id"
+    },
+    "globalForwardingPgaStatusEnum": "ch:globalForwardingPgaStatusEnum",
+    "eventPackage": "ch:eventPackage",
+    "trackingNumber": {
+      "@id": "ch:trackingNumber",
+      "@type": "xsd:string"
+    },
+    "packageType": {
+      "@id": "ch:packageType",
+      "@type": "xsd:string"
+    },
+    "ediCode": {
+      "@id": "ch:ediCode",
+      "@type": "xsd:string"
+    },
+    "note": {
+      "@id": "ch:note",
+      "@type": "xsd:string"
+    },
+    "appointmentEvent": "ch:appointmentEvent",
+    "appointment": {
+      "@id": "ch:appointment"
+    },
+    "globalForwardingUsCustomsEntry": "ch:globalForwardingUsCustomsEntry",
+    "pgaStatuses": {
+      "@id": "ch:pgaStatuses",
+      "@container": "@list"
+    },
+    "globalForwardingShipmentTypeEnum": "ch:globalForwardingShipmentTypeEnum",
+    "hazardousGroupEnum": "ch:hazardousGroupEnum",
+    "loadEventOrderDetail": "ch:loadEventOrderDetail",
+    "ordersPlannedOnLoad": {
+      "@id": "ch:ordersPlannedOnLoad",
+      "@container": "@list"
+    },
+    "orderEventItem": "ch:orderEventItem",
+    "packagingType": {
+      "@id": "ch:packagingType",
+      "@type": "@id"
+    },
+    "productCode": {
+      "@id": "ch:productCode",
+      "@type": "xsd:string"
+    },
+    "freightClass": {
+      "@id": "ch:freightClass",
+      "@type": "@id"
+    },
+    "upcNumber": {
+      "@id": "ch:upcNumber",
+      "@type": "xsd:string"
+    },
+    "skuNumber": {
+      "@id": "ch:skuNumber",
+      "@type": "xsd:string"
+    },
+    "pluNumber": {
+      "@id": "ch:pluNumber",
+      "@type": "xsd:string"
+    },
+    "insuranceValue": {
+      "@id": "ch:insuranceValue",
+      "@type": "xsd:decimal"
+    },
+    "minWeight": {
+      "@id": "ch:minWeight",
+      "@type": "xsd:decimal"
+    },
+    "minWeightUnitOfMeasure": {
+      "@id": "ch:minWeightUnitOfMeasure",
+      "@type": "@id"
+    },
+    "maxWeight": {
+      "@id": "ch:maxWeight",
+      "@type": "xsd:decimal"
+    },
+    "maxWeightUnitOfMeasure": {
+      "@id": "ch:maxWeightUnitOfMeasure",
+      "@type": "@id"
+    },
+    "length": {
+      "@id": "ch:length",
+      "@type": "xsd:decimal"
+    },
+    "lengthUnitOfMeasure": {
+      "@id": "ch:lengthUnitOfMeasure",
+      "@type": "@id"
+    },
+    "height": {
+      "@id": "ch:height",
+      "@type": "xsd:decimal"
+    },
+    "heightUnitOfMeasure": {
+      "@id": "ch:heightUnitOfMeasure",
+      "@type": "@id"
+    },
+    "width": {
+      "@id": "ch:width",
+      "@type": "xsd:decimal"
+    },
+    "widthUnitOfMeasure": {
+      "@id": "ch:widthUnitOfMeasure",
+      "@type": "@id"
+    },
+    "volume": {
+      "@id": "ch:volume",
+      "@type": "xsd:decimal"
+    },
+    "volumeUnitOfMeasure": {
+      "@id": "ch:volumeUnitOfMeasure",
+      "@type": "@id"
+    },
+    "pallets": {
+      "@id": "ch:pallets",
+      "@type": "xsd:decimal"
+    },
+    "palletSpaces": {
+      "@id": "ch:palletSpaces",
+      "@type": "xsd:decimal"
+    },
+    "trailerLengthUsed": {
+      "@id": "ch:trailerLengthUsed",
+      "@type": "xsd:decimal"
+    },
+    "trailerLengthUsedUnitOfMeasure": {
+      "@id": "ch:trailerLengthUsedUnitOfMeasure",
+      "@type": "@id"
+    },
+    "isHazardous": {
+      "@id": "ch:isHazardous",
+      "@type": "xsd:boolean"
+    },
+    "hazardousProperties": {
+      "@id": "ch:hazardousProperties",
+      "@type": "@id"
+    },
+    "packageStopEvent": "ch:packageStopEvent",
+    "packages": {
+      "@id": "ch:packages",
+      "@container": "@list"
+    },
+    "globalForwardingOceanMainlineCarrier": "ch:globalForwardingOceanMainlineCarrier",
+    "vesselImo": {
+      "@id": "ch:vesselImo",
+      "@type": "xsd:string"
+    },
+    "vesselName": {
+      "@id": "ch:vesselName",
+      "@type": "xsd:string"
+    },
+    "voyageNumber": {
+      "@id": "ch:voyageNumber",
+      "@type": "xsd:string"
+    },
+    "globalForwardingAuCustoms": "ch:globalForwardingAuCustoms",
+    "eventItem": "ch:eventItem",
+    "innerPackQuantity": {
+      "@id": "ch:innerPackQuantity"
+    },
+    "primaryReferenceNumber": {
+      "@id": "ch:primaryReferenceNumber",
+      "@type": "xsd:string"
+    },
+    "poNumber": {
+      "@id": "ch:poNumber",
+      "@type": "xsd:string"
+    },
+    "actualQuantity": {
+      "@id": "ch:actualQuantity",
+      "@type": "xsd:string"
+    },
+    "actualWeight": {
+      "@id": "ch:actualWeight",
+      "@type": "xsd:string"
+    },
+    "actualWeightUnitOfMeasure": {
+      "@id": "ch:actualWeightUnitOfMeasure",
+      "@type": "@id"
+    },
+    "actualPallets": {
+      "@id": "ch:actualPallets",
+      "@type": "xsd:string"
+    },
+    "actualVolume": {
+      "@id": "ch:actualVolume",
+      "@type": "xsd:string"
+    },
+    "actualVolumeUnitOfMeasure": {
+      "@id": "ch:actualVolumeUnitOfMeasure",
+      "@type": "@id"
+    },
+    "actualPackagingLength": {
+      "@id": "ch:actualPackagingLength",
+      "@type": "xsd:string"
+    },
+    "actualPackagingHeight": {
+      "@id": "ch:actualPackagingHeight",
+      "@type": "xsd:string"
+    },
+    "actualPackagingWidth": {
+      "@id": "ch:actualPackagingWidth",
+      "@type": "xsd:string"
+    },
+    "actualPackagingUnitOfMeasure": {
+      "@id": "ch:actualPackagingUnitOfMeasure",
+      "@type": "@id"
+    },
+    "globalForwardingNzCustomsN10": "ch:globalForwardingNzCustomsN10",
+    "globalForwardingCustomsEntryStatusEnum": "ch:globalForwardingCustomsEntryStatusEnum",
+    "globalForwardingUnitOfMeasureEnum": "ch:globalForwardingUnitOfMeasureEnum",
+    "proposedCarrier": "ch:proposedCarrier",
+    "contactPositionEnum": "ch:contactPositionEnum",
+    "eventLoadPackage": "ch:eventLoadPackage",
+    "inTransitNextStop": "ch:inTransitNextStop",
+    "eta": {
+      "@id": "ch:eta",
+      "@type": "xsd:string"
+    },
+    "stopId": {
+      "@id": "ch:stopId",
+      "@type": "xsd:string"
+    },
+    "state": {
+      "@id": "ch:state",
+      "@type": "xsd:string"
+    },
+    "globalForwardingFreightTermsEnum": "ch:globalForwardingFreightTermsEnum",
+    "globalForwardingQuantity": "ch:globalForwardingQuantity",
+    "unitOfMeasure": {
+      "@id": "ch:unitOfMeasure"
+    },
+    "orderEvent": "ch:orderEvent",
+    "eventSubType": {
+      "@id": "ch:eventSubType",
+      "@type": "xsd:string"
+    },
+    "loadNumbers": {
+      "@id": "ch:loadNumbers",
+      "@container": "@list"
+    },
+    "contact": "ch:contact",
+    "globalForwardingEventTypeEnum": "ch:globalForwardingEventTypeEnum",
+    "weightUomEnum": "ch:weightUomEnum",
+    "stopEventLocation": "ch:stopEventLocation",
+    "isOrderStop": {
+      "@id": "ch:isOrderStop",
+      "@type": "xsd:boolean"
+    },
+    "inTransitAddress": "ch:inTransitAddress",
+    "globalForwardingIncoTermsEnum": "ch:globalForwardingIncoTermsEnum",
+    "linearUomEnum": "ch:linearUomEnum",
+    "stateProvinceCodeEnum": "ch:stateProvinceCodeEnum",
+    "stopEvent": "ch:stopEvent",
+    "deliveryAvailableByDate": {
+      "@id": "ch:deliveryAvailableByDate",
+      "@type": "xsd:dateTime"
+    },
+    "deliveryByDate": {
+      "@id": "ch:deliveryByDate",
+      "@type": "xsd:dateTime"
+    },
+    "proofOfDelivery": {
+      "@id": "ch:proofOfDelivery",
+      "@type": "xsd:string"
+    },
+    "loadEvent": "ch:loadEvent",
+    "equipmentType": {
+      "@id": "ch:equipmentType",
+      "@type": "xsd:string"
+    },
+    "serviceOffering": {
+      "@id": "ch:serviceOffering",
+      "@type": "xsd:string"
+    },
+    "readyByDate": {
+      "@id": "ch:readyByDate",
+      "@type": "xsd:dateTime"
+    },
+    "pickupByDate": {
+      "@id": "ch:pickupByDate",
+      "@type": "xsd:dateTime"
+    },
+    "billTos": {
+      "@id": "ch:billTos",
+      "@container": "@list"
+    },
+    "customers": {
+      "@id": "ch:customers",
+      "@container": "@list"
+    },
+    "contactMethod": "ch:contactMethod",
+    "method": {
+      "@id": "ch:method",
+      "@type": "@id"
+    },
+    "freightClassEnum": "ch:freightClassEnum",
+    "globalForwardingContainer": "ch:globalForwardingContainer",
+    "isAffectedByEvent": {
+      "@id": "ch:isAffectedByEvent",
+      "@type": "xsd:boolean"
+    },
+    "containerNumber": {
+      "@id": "ch:containerNumber",
+      "@type": "xsd:string"
+    },
+    "containerType": {
+      "@id": "ch:containerType"
+    },
+    "innerPacks": {
+      "@id": "ch:innerPacks",
+      "@container": "@list"
+    },
+    "outerPacks": {
+      "@id": "ch:outerPacks",
+      "@container": "@list"
+    },
+    "totalGrossWeight": {
+      "@id": "ch:totalGrossWeight"
+    },
+    "totalNetWeight": {
+      "@id": "ch:totalNetWeight"
+    },
+    "totalVolume": {
+      "@id": "ch:totalVolume"
+    },
+    "stops": {
+      "@id": "ch:stops",
+      "@container": "@list"
+    },
+    "requestedPickupDate": {
+      "@id": "ch:requestedPickupDate"
+    },
+    "requestedDeliveryDate": {
+      "@id": "ch:requestedDeliveryDate"
+    },
+    "estimatedPickupDate": {
+      "@id": "ch:estimatedPickupDate"
+    },
+    "estimatedDeliveryDate": {
+      "@id": "ch:estimatedDeliveryDate"
+    },
+    "actualPickupDate": {
+      "@id": "ch:actualPickupDate"
+    },
+    "lastFreeDay": {
+      "@id": "ch:lastFreeDay"
+    },
+    "actualDeliveryDate": {
+      "@id": "ch:actualDeliveryDate"
+    },
+    "lastFreeDayForEmptyReturn": {
+      "@id": "ch:lastFreeDayForEmptyReturn"
+    },
+    "emptyPickupDate": {
+      "@id": "ch:emptyPickupDate"
+    },
+    "emptyReturnDate": {
+      "@id": "ch:emptyReturnDate"
+    },
+    "trackingNumberEvent": "ch:trackingNumberEvent",
+    "chrTrackingNumber": {
+      "@id": "ch:chrTrackingNumber",
+      "@type": "xsd:string"
+    },
+    "trackingType": {
+      "@id": "ch:trackingType",
+      "@type": "xsd:string"
+    },
+    "countryCodeEnum": "ch:countryCodeEnum",
+    "globalForwardingAddress": "ch:globalForwardingAddress",
+    "address1": {
+      "@id": "ch:address1",
+      "@type": "xsd:string"
+    },
+    "address2": {
+      "@id": "ch:address2",
+      "@type": "xsd:string"
+    },
+    "orderEventMode": "ch:orderEventMode",
+    "eventResponse": "ch:eventResponse",
+    "globalForwardingCustoms": "ch:globalForwardingCustoms",
+    "auCustoms": {
+      "@id": "ch:auCustoms",
+      "@type": "@id"
+    },
+    "nzCustoms": {
+      "@id": "ch:nzCustoms",
+      "@type": "@id"
+    },
+    "globalForwardingChrServiceEnum": "ch:globalForwardingChrServiceEnum",
+    "globalForwardingOceanShipment": "ch:globalForwardingOceanShipment",
+    "houseBillNumber": {
+      "@id": "ch:houseBillNumber",
+      "@type": "xsd:string"
+    },
+    "masterBillNumber": {
+      "@id": "ch:masterBillNumber",
+      "@type": "xsd:string"
+    },
+    "oceanMainlineCarrier": {
+      "@id": "ch:oceanMainlineCarrier",
+      "@type": "@id"
+    },
+    "containers": {
+      "@id": "ch:containers",
+      "@container": "@list"
+    },
+    "estimatedVesselDepartureDate": {
+      "@id": "ch:estimatedVesselDepartureDate"
+    },
+    "actualVesselDepartureDate": {
+      "@id": "ch:actualVesselDepartureDate"
+    },
+    "estimatedVesselArrivalDate": {
+      "@id": "ch:estimatedVesselArrivalDate"
+    },
+    "actualVesselArrivalDate": {
+      "@id": "ch:actualVesselArrivalDate"
+    },
+    "globalForwardingLocation": "ch:globalForwardingLocation",
+    "locationCode": {
+      "@id": "ch:locationCode",
+      "@type": "xsd:string"
+    },
+    "unlocode": {
+      "@id": "ch:unlocode",
+      "@type": "xsd:string"
+    },
+    "globalForwardingModeEnum": "ch:globalForwardingModeEnum",
+    "packageInTransitAddress": "ch:packageInTransitAddress",
+    "invoiceMethodEnum": "ch:invoiceMethodEnum",
+    "orderEventLocationType": "ch:orderEventLocationType",
+    "eventCharge": "ch:eventCharge",
+    "rate": {
+      "@id": "ch:rate",
+      "@type": "xsd:decimal"
+    },
+    "rateCode": {
+      "@id": "ch:rateCode",
+      "@type": "@id"
+    },
+    "quantity": {
+      "@id": "ch:quantity",
+      "@type": "xsd:decimal"
+    },
+    "alternateDescription": {
+      "@id": "ch:alternateDescription",
+      "@type": "xsd:string"
+    },
+    "chargeType": {
+      "@id": "ch:chargeType",
+      "@type": "xsd:string"
+    },
+    "contactTypeEnum": "ch:contactTypeEnum",
+    "packageInTransitEvent": "ch:packageInTransitEvent",
+    "globalForwardingAirShipment": "ch:globalForwardingAirShipment",
+    "houseAirwayBillNumber": {
+      "@id": "ch:houseAirwayBillNumber",
+      "@type": "xsd:string"
+    },
+    "masterAirwayBillNumber": {
+      "@id": "ch:masterAirwayBillNumber",
+      "@type": "xsd:string"
+    },
+    "airMainlineCarrier": {
+      "@id": "ch:airMainlineCarrier",
+      "@type": "@id"
+    },
+    "estimatedFlightDepartureFromOriginAirport": {
+      "@id": "ch:estimatedFlightDepartureFromOriginAirport"
+    },
+    "actualFlightDepartureFromOriginAirport": {
+      "@id": "ch:actualFlightDepartureFromOriginAirport"
+    },
+    "estimatedFlightArrivalAtDestinationAirport": {
+      "@id": "ch:estimatedFlightArrivalAtDestinationAirport"
+    },
+    "actualFlightArrivalAtDestinationAirport": {
+      "@id": "ch:actualFlightArrivalAtDestinationAirport"
+    },
+    "totalWeight": {
+      "@id": "ch:totalWeight"
+    },
+    "chargeableWeight": {
+      "@id": "ch:chargeableWeight"
+    },
+    "globalForwardingPgaStatus": "ch:globalForwardingPgaStatus",
+    "agency": {
+      "@id": "ch:agency",
+      "@type": "xsd:string"
+    },
+    "wasReleased": {
+      "@id": "ch:wasReleased",
+      "@type": "xsd:boolean"
+    },
+    "eventResponses": "ch:eventResponses",
+    "totalCount": {
+      "@id": "ch:totalCount",
+      "@type": "xsd:integer"
+    },
+    "results": {
+      "@id": "ch:results",
+      "@container": "@list"
+    },
+    "invoiceSummary": "ch:invoiceSummary",
+    "invoiceNumber": {
+      "@id": "ch:invoiceNumber",
+      "@type": "xsd:integer"
+    },
+    "invoiceAmount": {
+      "@id": "ch:invoiceAmount",
+      "@type": "xsd:integer"
+    },
+    "invoiceBalance": {
+      "@id": "ch:invoiceBalance",
+      "@type": "xsd:integer"
+    },
+    "receivedAmount": {
+      "@id": "ch:receivedAmount",
+      "@type": "xsd:integer"
+    },
+    "invoiceDate": {
+      "@id": "ch:invoiceDate",
+      "@type": "xsd:string"
+    },
+    "dueDate": {
+      "@id": "ch:dueDate",
+      "@type": "xsd:string"
+    },
+    "releasedDate": {
+      "@id": "ch:releasedDate",
+      "@type": "xsd:string"
+    },
+    "printDate": {
+      "@id": "ch:printDate",
+      "@type": "xsd:dateTime"
+    },
+    "invoiceShipments": {
+      "@id": "ch:invoiceShipments",
+      "@type": "@id"
+    },
+    "billTo": "ch:billTo",
+    "content": "ch:content",
+    "countryOfOriginCode": {
+      "@id": "ch:countryOfOriginCode",
+      "@type": "@id"
+    },
+    "commodityCode": {
+      "@id": "ch:commodityCode",
+      "@type": "xsd:string"
+    },
+    "quantityUnitOfMeasure": {
+      "@id": "ch:quantityUnitOfMeasure",
+      "@type": "xsd:string"
+    },
+    "weight": {
+      "@id": "ch:weight",
+      "@type": "xsd:decimal"
+    },
+    "weightUnitOfMeasure": {
+      "@id": "ch:weightUnitOfMeasure",
+      "@type": "xsd:string"
+    },
+    "eccn": {
+      "@id": "ch:eccn",
+      "@type": "xsd:string"
+    },
+    "document": "ch:document",
+    "fileName": {
+      "@id": "ch:fileName",
+      "@type": "xsd:string"
+    },
+    "documentUploadType": {
+      "@id": "ch:documentUploadType",
+      "@type": "xsd:string"
+    },
+    "documentUploadCategory": {
+      "@id": "ch:documentUploadCategory",
+      "@type": "xsd:string"
+    },
+    "expirationDate": {
+      "@id": "ch:expirationDate",
+      "@type": "xsd:dateTime"
+    },
+    "documentInfo": "ch:documentInfo",
+    "documentId": {
+      "@id": "ch:documentId",
+      "@type": "xsd:string"
+    },
+    "documentGroupId": {
+      "@id": "ch:documentGroupId",
+      "@type": "xsd:string"
+    },
+    "serviceLevelEnum": "ch:serviceLevelEnum",
+    "error424": "ch:error424",
+    "packageShippingInfo": "ch:packageShippingInfo",
+    "id": {
+      "@id": "ch:id",
+      "@type": "xsd:string"
+    },
+    "labels": {
+      "@id": "ch:labels",
+      "@container": "@list"
+    },
+    "rateCurrencyCode": {
+      "@id": "ch:rateCurrencyCode",
+      "@type": "xsd:string"
+    },
+    "additionalLocationLabels": "ch:additionalLocationLabels",
+    "additionalLocationType": {
+      "@id": "ch:additionalLocationType",
+      "@type": "xsd:string"
+    },
+    "contactName": {
+      "@id": "ch:contactName",
+      "@type": "xsd:string"
+    },
+    "contactPhoneNumber": {
+      "@id": "ch:contactPhoneNumber",
+      "@type": "xsd:string"
+    },
+    "packageLabel": "ch:packageLabel",
+    "labelData": {
+      "@id": "ch:labelData",
+      "@type": "xsd:string"
+    },
+    "labelFormat": {
+      "@id": "ch:labelFormat",
+      "@type": "xsd:string"
+    },
+    "mimeType": {
+      "@id": "ch:mimeType",
+      "@type": "xsd:string"
+    },
+    "carrierEnum": "ch:carrierEnum",
+    "hazardousPackageInformation": "ch:hazardousPackageInformation",
+    "hazardousMaterials": {
+      "@id": "ch:hazardousMaterials",
+      "@container": "@list"
+    },
+    "signatory": {
+      "@id": "ch:signatory",
+      "@type": "@id"
+    },
+    "isOverpack": {
+      "@id": "ch:isOverpack",
+      "@type": "xsd:boolean"
+    },
+    "isAllPackedInOne": {
+      "@id": "ch:isAllPackedInOne",
+      "@type": "xsd:boolean"
+    },
+    "qValue": {
+      "@id": "ch:qValue",
+      "@type": "xsd:string"
+    },
+    "offeror": {
+      "@id": "ch:offeror",
+      "@type": "xsd:string"
+    },
+    "package": "ch:package",
+    "contents": {
+      "@id": "ch:contents",
+      "@container": "@list"
+    },
+    "deliveryConfirmation": {
+      "@id": "ch:deliveryConfirmation",
+      "@type": "xsd:string"
+    },
+    "documentsOnly": {
+      "@id": "ch:documentsOnly",
+      "@type": "xsd:boolean"
+    },
+    "declaredValue": {
+      "@id": "ch:declaredValue",
+      "@type": "xsd:decimal"
+    },
+    "declaredValueCurrencyCode": {
+      "@id": "ch:declaredValueCurrencyCode",
+      "@type": "xsd:string"
+    },
+    "collectOnDelivery": {
+      "@id": "ch:collectOnDelivery",
+      "@type": "xsd:string"
+    },
+    "collectOnDeliveryAmount": {
+      "@id": "ch:collectOnDeliveryAmount",
+      "@type": "xsd:decimal"
+    },
+    "collectOnDeliveryCurrencyCode": {
+      "@id": "ch:collectOnDeliveryCurrencyCode",
+      "@type": "xsd:string"
+    },
+    "linearUnitOfMeasure": {
+      "@id": "ch:linearUnitOfMeasure",
+      "@type": "xsd:string"
+    },
+    "labelReferenceData1": {
+      "@id": "ch:labelReferenceData1",
+      "@type": "@id"
+    },
+    "labelReferenceData2": {
+      "@id": "ch:labelReferenceData2",
+      "@type": "@id"
+    },
+    "labelReferenceData3": {
+      "@id": "ch:labelReferenceData3",
+      "@type": "@id"
+    },
+    "countryCodeLabelsEnum": "ch:countryCodeLabelsEnum",
+    "carrierMessage": "ch:carrierMessage",
+    "source": {
+      "@id": "ch:source",
+      "@type": "xsd:string"
+    },
+    "hazardousMaterial": "ch:hazardousMaterial",
+    "massCapacity": {
+      "@id": "ch:massCapacity",
+      "@type": "xsd:decimal"
+    },
+    "massCapacityUnitOfMeasure": {
+      "@id": "ch:massCapacityUnitOfMeasure",
+      "@type": "xsd:string"
+    },
+    "containerQuantity": {
+      "@id": "ch:containerQuantity",
+      "@type": "xsd:string"
+    },
+    "outerPackagingType": {
+      "@id": "ch:outerPackagingType",
+      "@type": "xsd:string"
+    },
+    "outerPackagingQuantity": {
+      "@id": "ch:outerPackagingQuantity",
+      "@type": "xsd:string"
+    },
+    "regulationSet": {
+      "@id": "ch:regulationSet",
+      "@type": "xsd:string"
+    },
+    "regulatoryIdNumber": {
+      "@id": "ch:regulatoryIdNumber",
+      "@type": "xsd:string"
+    },
+    "hazardClassDivisionNumber": {
+      "@id": "ch:hazardClassDivisionNumber",
+      "@type": "@id"
+    },
+    "subHazardClassDivisions": {
+      "@id": "ch:subHazardClassDivisions",
+      "@container": "@list"
+    },
+    "packingGroup": {
+      "@id": "ch:packingGroup",
+      "@type": "xsd:string"
+    },
+    "packagingInstructionCode": {
+      "@id": "ch:packagingInstructionCode",
+      "@type": "xsd:string"
+    },
+    "properShippingName": {
+      "@id": "ch:properShippingName",
+      "@type": "xsd:string"
+    },
+    "isAccessible": {
+      "@id": "ch:isAccessible",
+      "@type": "xsd:boolean"
+    },
+    "commodityRegulationLevel": {
+      "@id": "ch:commodityRegulationLevel",
+      "@type": "xsd:string"
+    },
+    "transportationMode": {
+      "@id": "ch:transportationMode",
+      "@type": "xsd:string"
+    },
+    "emergencyContact": {
+      "@id": "ch:emergencyContact",
+      "@type": "xsd:string"
+    },
+    "emergencyPhoneNumber": {
+      "@id": "ch:emergencyPhoneNumber",
+      "@type": "xsd:string"
+    },
+    "additionalDescription": {
+      "@id": "ch:additionalDescription",
+      "@type": "xsd:string"
+    },
+    "chemicalRecordIdentifier": {
+      "@id": "ch:chemicalRecordIdentifier",
+      "@type": "xsd:string"
+    },
+    "hazardousMaterialType": {
+      "@id": "ch:hazardousMaterialType",
+      "@type": "xsd:string"
+    },
+    "hazardousContentDescription": {
+      "@id": "ch:hazardousContentDescription",
+      "@type": "xsd:string"
+    },
+    "currencyCodeLabelsEnum": "ch:currencyCodeLabelsEnum",
+    "hazardousClassDivisionNumberEnum": "ch:hazardousClassDivisionNumberEnum",
+    "successLabelCreate": "ch:successLabelCreate",
+    "labelResponseId": {
+      "@id": "ch:labelResponseId",
+      "@type": "xsd:string"
+    },
+    "shipDate": {
+      "@id": "ch:shipDate",
+      "@type": "xsd:dateTime"
+    },
+    "scheduledDeliveryDate": {
+      "@id": "ch:scheduledDeliveryDate",
+      "@type": "xsd:dateTime"
+    },
+    "shippingPackages": {
+      "@id": "ch:shippingPackages",
+      "@container": "@list"
+    },
+    "airWaybillNumber": {
+      "@id": "ch:airWaybillNumber",
+      "@type": "xsd:string"
+    },
+    "shippingDocuments": {
+      "@id": "ch:shippingDocuments",
+      "@container": "@list"
+    },
+    "carrierMessages": {
+      "@id": "ch:carrierMessages",
+      "@container": "@list"
+    },
+    "payerTypeEnum": "ch:payerTypeEnum",
+    "payer": "ch:payer",
+    "accountNumber": {
+      "@id": "ch:accountNumber",
+      "@type": "xsd:string"
+    },
+    "countryCode": {
+      "@id": "ch:countryCode",
+      "@type": "@id"
+    },
+    "exportReasonCode": "ch:exportReasonCode"
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "C.H. Robinson API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects C.H. Robinson's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-20) from openapi/ch-robinson-worldwide-authentication-api-openapi.yml, openapi/ch-robinson-worldwide-documents-api-openapi.yml, openapi/ch-robinson-worldwide-events-api-openapi.yml.",
+  "dcterms:created": "2026-10-20",
+  "dcterms:source": [
+    "openapi/ch-robinson-worldwide-authentication-api-openapi.yml",
+    "openapi/ch-robinson-worldwide-documents-api-openapi.yml",
+    "openapi/ch-robinson-worldwide-events-api-openapi.yml",
+    "openapi/ch-robinson-worldwide-financials-api-openapi.yml",
+    "openapi/ch-robinson-worldwide-labels-api-openapi.yml"
+  ]
+}

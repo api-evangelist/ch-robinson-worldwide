@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/main/json-schema/ch-robinson-worldwide-quote-order-response-schema.json",
+  "title": "quoteOrderResponse",
+  "description": "Object containing the quote order response.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/ch-robinson-worldwide-orders-and-booking-api-openapi.yml#/components/schemas/quoteOrderResponse",
+  "type": "object",
+  "properties": {
+    "quoteId": {
+      "type": "integer",
+      "format": "int64",
+      "description": "ID that was used to submit the order using the quote route."
+    },
+    "orderNumber": {
+      "type": "integer",
+      "description": "C.H. Robinson order number that was created."
+    },
+    "trackingNumber": {
+      "type": "string",
+      "description": "C.H. Robinson online number that was associated to the order."
+    }
+  }
+}

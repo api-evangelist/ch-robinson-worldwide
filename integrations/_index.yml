@@ -37,6 +37,6 @@
     - Third Party Logistics (3PL)
     signal_note: 'participation only: a directory listing, never a count'
     detected_by: sweep-consumer-goods.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
   status: not-a-workflow
   arazzo: null

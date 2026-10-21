@@ -1,5 +1,5 @@
 ---
-name: Find and book a C.H. Robinson load as a carrier
+name: ch-robinson-worldwide-carrier-find-and-book
 description: Search C.H. Robinson's available shipment store, offer on a load or book it outright, then keep the load updated with milestones and documents.
 api: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
 operations:

@@ -1,0 +1,451 @@
+generated: '2026-10-20'
+method: derived
+generator: derive-vocabulary.py
+source:
+- openapi/ch-robinson-worldwide-authentication-api-openapi.yml
+- openapi/ch-robinson-worldwide-documents-api-openapi.yml
+- openapi/ch-robinson-worldwide-events-api-openapi.yml
+- openapi/ch-robinson-worldwide-financials-api-openapi.yml
+- openapi/ch-robinson-worldwide-labels-api-openapi.yml
+vocabulary:
+  name: C.H. Robinson Domain Vocabulary
+  description: 'Terms declared by C.H. Robinson''s own API contract: its resource groups, objects and enumerations, with the contract''s definitions.
+    Derived, not authored.'
+  version: '2026-10-20'
+  terms:
+  - term: Authentication
+    definition: C.H.
+    tags:
+    - Resource Group
+    source: openapi/ch-robinson-worldwide-authentication-api-openapi.yml
+  - term: Documents
+    definition: C.H. Robinson's Documents product allows our partners to generate, post, and retrieve documents. C.H. Robinson currently offers
+      customers the ability to generate blank BOLs and retrieve signed BOLs, PODs, and Lumper receipts. Additionally, carriers can post documents
+      to their shipments.
+    tags:
+    - Resource Group
+    source: openapi/ch-robinson-worldwide-documents-api-openapi.yml
+  - term: Events
+    definition: 'C.H. Robinson''s Events product gives complete, near real-time order and shipment information, including all transportation updates.
+      Integrating with C.H. Robinson''s Events API give partners near visibility into their supply chain directly to their own TMS or ERP system.
+      There are two ways to integrate with C.H. Robinson events: via a callback/webhook (preferred and most real-time) or via a periodi'
+    tags:
+    - Resource Group
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml
+  - term: Financials
+    definition: C.H. Robinson's financial product provides customers and carriers insight into their invoicing. Currently, customers can retrieve
+      their invoice information from the Financials product. C.H. Robinson gives customers the ability to retrieve all active invoices in a single
+      call along with the flexibility to retrieve detailed information from each invoice if desired. Carries can use C.H. Robinsons Fin
+    tags:
+    - Resource Group
+    source: openapi/ch-robinson-worldwide-financials-api-openapi.yml
+  - term: Labels
+    definition: 'A service for generating small parcel shipping labels. An associated C.H. Robinson order is also created to track the package
+      updates through Navisphere®. Note: Configuration of your company’s parcel carrier account details within Navisphere® is required as a prerequisite
+      for using this API. Contact your C.H. Robinson or TMC account representative to begin this process.'
+    tags:
+    - Resource Group
+    source: openapi/ch-robinson-worldwide-labels-api-openapi.yml
+  - term: Orders and Booking
+    definition: C.H. Robinson’s Orders and Bookings products are the starting point for all freight execution in Navisphere®. They provide a unified
+      gateway for customers to submit and manage shipment and booking details—whether leveraging C.H. Robinson’s brokerage services or using Navisphere®
+      for tracking and transportation management.
+    tags:
+    - Resource Group
+    source: openapi/ch-robinson-worldwide-orders-and-booking-api-openapi.yml
+  - term: Rating
+    definition: C.H.
+    tags:
+    - Resource Group
+    source: openapi/ch-robinson-worldwide-rating-api-openapi.yml
+  - term: Shipments
+    definition: C.H. Robinson's Shipments product allows our partner base to access C.H. Robinson's available shipments, send offers on those
+      shipments, and book those shipments. Additionally, our partners can update C.H. Robinson on any shipments that C.H. Robinson is responsible
+      for, as well as view status of payment.
+    tags:
+    - Resource Group
+    source: openapi/ch-robinson-worldwide-shipments-api-openapi.yml
+  - term: Visibility
+    definition: Navisphere® Vision and Visibility tool is a global visibility technology that allows select customers to view and proactively
+      manage their supply chain movements from a single platform. The tool combines real-time order and shipment information with transportation
+      updates and external factors that can influence a supply chain, including weather, traffic, and current events to help customers preven
+    tags:
+    - Resource Group
+    source: openapi/ch-robinson-worldwide-visibility-api-openapi.yml
+  - term: tokenRequest
+    definition: 'Object declared by the contract with fields: client_id, client_secret, audience, grant_type.'
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-authentication-api-openapi.yml#/components/schemas/tokenRequest
+  - term: error400
+    definition: 'Object declared by the contract with fields: message, path, type, context.'
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-authentication-api-openapi.yml#/components/schemas/error400
+  - term: error401
+    definition: 'Object declared by the contract with fields: statusCode, error, message, attributes.'
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-authentication-api-openapi.yml#/components/schemas/error401
+  - term: error404
+    definition: 'Object declared by the contract with fields: statusCode, error, message.'
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-authentication-api-openapi.yml#/components/schemas/error404
+  - term: tokenSuccessResponse
+    definition: 'Object declared by the contract with fields: token_type, expires_in, access_token, scope.'
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-authentication-api-openapi.yml#/components/schemas/tokenSuccessResponse
+  - term: error403
+    definition: 'Object declared by the contract with fields: statusCode, error, message.'
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-authentication-api-openapi.yml#/components/schemas/error403
+  - term: documentIdResults
+    definition: Document ID results.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-documents-api-openapi.yml#/components/schemas/documentIdResults
+  - term: loadDocumentCallback
+    definition: Object containing the search event response.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-documents-api-openapi.yml#/components/schemas/loadDocumentCallback
+  - term: referenceNumber
+    definition: 'Object declared by the contract with fields: type, value.'
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-documents-api-openapi.yml#/components/schemas/referenceNumber
+  - term: docTypeEnum
+    definition: C.H. Robinson codes for the different types of documents. For a detailed description of all enumerated codes please find them
+      here.
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-documents-api-openapi.yml#/components/schemas/docTypeEnum
+  - term: orderDetail
+    definition: Contains order number and order tracking information.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/orderDetail
+  - term: vesselStowageCategoryEnum
+    definition: Indicates the HazMat Stowage category code according stowage requirements listed in the IMDG Code Dangerous Goods List. * `A`
+      - Stowage category code A * `B` - Stowage category code B * `C` - Stowage category code C * `D` - Stowage category code D * `E` - Stowage
+      category code E * `01` - Stowage category code 1 * `02` - Stowage category code 2 * `03` - Stowage category code 3 * `04` - Stowage cate
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/vesselStowageCategoryEnum
+  - term: globalForwardingUnknownPgaStatusValue
+    definition: This represents a new PGA status value that has been implemented, but it not yet ready for public consumption.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingUnknownPgaStatusValue
+  - term: ordersEventsHazardousProperties
+    definition: Object containing hazardous material information.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/ordersEventsHazardousProperties
+  - term: globalForwardingShipmentStatusEnum
+    definition: 'Enumeration declared by the contract with values: Financial Only, Ordered, Consolidated, Assigned to Rep, Tendered to Carrier,
+      Booked, Carrier Directed, Checked In, Waybilled to Railroad, Booking Completed, Loading, Arrived at Terminal. (14 more)'
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingShipmentStatusEnum
+  - term: globalForwardingServiceLevelEnum
+    definition: 'Enumeration declared by the contract with values: Door to Door, Port to Port, Door to Destination Port, Door to Destination Ramp,
+      Door to Destination Terminal, Origin Port to Door, Origin Port to Destination Ramp, Origin Port to Destination Terminal, Origin Ramp to
+      Door, Origin Ramp to Destination Port, Origin Ramp to Destination Ramp, Origin Terminal to Destination Port. (9 more)'
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingServiceLevelEnum
+  - term: lateCodeEnum
+    definition: 'C.H. Robinson defined code for a carrier being late to a stop or reason to schedule new appiontment. Here is a list of the most
+      commonly used late reason codes: * `1` - Missed Delivery - Transportation carrier missed customer delivery * `3` - Returned to Shipper *
+      `9` - Mechanical breakdown * `14` - Weather or Natural Disaster Related - Shipment delayed by natural disaster or severe weather For a '
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/lateCodeEnum
+  - term: currencyCodeEnum
+    definition: 'Code to indicate the currency being used. The most common currently in use with C.H. Robinson: * `USD` - US Dollar * `CAD` -
+      Canadian Dollar * `MXN` - Mexican Peso * `EUR` - European Euro For a detailed description of all enumerated codes please find them here.'
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/currencyCodeEnum
+  - term: bookedCustomer
+    definition: The customer(s) on the shipment.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/bookedCustomer
+  - term: globalForwardingFlight
+    definition: A flight that is used to transport the shipment.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingFlight
+  - term: globalForwardingUnknownShipmentTypeValue
+    definition: This represents a new shipment type that has been implemented, but it not yet ready for public consumption.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingUnknownShipmentTypeValue
+  - term: contactPosition
+    definition: Object containing contact information.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/contactPosition
+  - term: globalForwardingStopTypeEnum
+    definition: Indicates the type of the stop.
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingStopTypeEnum
+  - term: globalForwardingUnknownChrServiceValue
+    definition: This represents a new service level that has been implemented, but it not yet ready for public consumption.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingUnknownChrServiceValue
+  - term: orderEventServiceLevel
+    definition: Identifies the level of service.
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/orderEventServiceLevel
+  - term: hazmatCodeEnum
+    definition: 'Defines the authorizing entity: * `C` - HazMat Canadian Regulatory Authority Codes * `D` - HazMat US Regulatory Authority Codes
+      * `I` - HazMat MX/International Regulatory Authority Codes'
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/hazmatCodeEnum
+  - term: globalForwardingNzCustomsStatusEnum
+    definition: This represents a New Zealand customs statuses that have been implemented and available for use.
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingNzCustomsStatusEnum
+  - term: eventAddress
+    definition: Contains address information
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/eventAddress
+  - term: globalForwardingCustomsEntry
+    definition: The customs entry for the shipment.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingCustomsEntry
+  - term: loadStopInformation
+    definition: Stop information specific to the load.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/loadStopInformation
+  - term: volumeUomEnum
+    definition: Unit of measure for volume parameters.
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/volumeUomEnum
+  - term: orderEventOrderDetail
+    definition: Contains order number and order tracking information.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/orderEventOrderDetail
+  - term: contactMethodEnum
+    definition: Indicates the best method for reaching the specified contact.
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/contactMethodEnum
+  - term: carrier
+    definition: Object containing carrier information.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/carrier
+  - term: orderEventLocationStyle
+    definition: identifies the style of the stop.
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/orderEventLocationStyle
+  - term: rateCodeEnum
+    definition: 'C.H. Robinson defined code for rating code. Here is a list of the most commonly used rate codes: `400` - Line Haul, `405` - Fuel
+      Surchage, `260` - Deliver Surchage, `IDL` - Inside Delivery, `IPU` - Inside Pickup `LFT` - Lift Gate or Forklift Service, `DET` - Detention,
+      `DLA` - Delivery Limited Access, `PLA` - Pickup Limited Access `RES` - Residential Delivery Fee, `REP` - Residential Pickup Fee, `'
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/rateCodeEnum
+  - term: orderEventLocation
+    definition: Location information specific to the service.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/orderEventLocation
+  - term: inTransitEvent
+    definition: 'Object declared by the contract with fields: eventType, orderDetails, loadNumber, carrier, location, loadStops, items, deliveryEta,
+      nextStop, loadDetails, notes.'
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/inTransitEvent
+  - term: packageCodeEnum
+    definition: 'C.H. Robinson defined code for packaging type/code. Here is a list of the most commonly used packagingCodes: `BAL` - Bale, `BAG`
+      - Bags, `BIN` - Bin, `BOX` - Boxes, `CTN` - Cartons `CAS` - Case, `CRT` - Crates, `PKG` - Package, `EAC` - Eaches, `PLT` - Pallet, `PCS`
+      - Pieces For a detailed description of all enumerated codes please find them here.'
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/packageCodeEnum
+  - term: marinePollutantCategory
+    definition: Indicates the Marine Pollutant Category for Hazardous Materials. * `Severe Marine Pollutant` * `Marine Pollutant`
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/marinePollutantCategory
+  - term: globalForwardingAirMainlineCarrier
+    definition: The mainline carrier that transports the shipment over air.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingAirMainlineCarrier
+  - term: globalForwardingContainerTypeEnum
+    definition: 'Enumeration declared by the contract with values: 20FR, 20FT, 20IT, 20OT, 20RF, 40FR, 40FT, 40HC, 40OT, 40RF, 40RH, 45HC. (3
+      more)'
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingContainerTypeEnum
+  - term: bookedBillTo
+    definition: The bill to(s) on the shipment.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/bookedBillTo
+  - term: eventLocation
+    definition: Location information specific to the event.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/eventLocation
+  - term: globalForwardingAuCustomsN10
+    definition: This represents the N10 document for Australia customs entry.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingAuCustomsN10
+  - term: globalForwardingNzCustoms
+    definition: This represents the customs entries for New Zealand.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingNzCustoms
+  - term: globalForwardingAuCustomsStatusEnum
+    definition: This represents a Australia customs statuses that have been implemented and available for use.
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingAuCustomsStatusEnum
+  - term: orderEventService
+    definition: 'Object declared by the contract with fields: condition, mode, description, serviceLevel, locations, items, suggestedScac, suggestedCarrierPartyCode.'
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/orderEventService
+  - term: loadDetails
+    definition: Contains load specific information and reference numbers.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/loadDetails
+  - term: globalForwardingShipmentEvent
+    definition: Represents a Global Forwarding shipment event.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingShipmentEvent
+  - term: globalForwardingUnknownStopTypeValue
+    definition: This represents a new stop type that has been implemented, but it not yet ready for public consumption.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingUnknownStopTypeValue
+  - term: globalForwardingUnknownServiceLevelValue
+    definition: This represents a new service level that has been implemented, but it not yet ready for public consumption.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingUnknownServiceLevelValue
+  - term: globalForwardingUnknownShipmentStatusValue
+    definition: This represents a new shipment status that has been implemented, but it not yet ready for public consumption.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingUnknownShipmentStatusValue
+  - term: globalForwardingPgaStatusEnum
+    definition: 'Enumeration declared by the contract with values: Ex-Works, Free Carrier, Free Alongside Ship, Free On-Board Vessel, Cost & Freight,
+      Cost Insurance & Freight, Carriage Paid To, Carriage & Insurance Paid To, Delivery At Frontier, Delivered Ex-Ship, Delivered Ex-Quay, Duty
+      Unpaid, Delivered Duty Unpaid. (4 more)'
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingPgaStatusEnum
+  - term: eventPackage
+    definition: Package object.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/eventPackage
+  - term: appointmentEvent
+    definition: 'Object declared by the contract with fields: eventType, orderDetails, loadNumber, location, carrier, appointment, items.'
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/appointmentEvent
+  - term: globalForwardingUsCustomsEntry
+    definition: The US customs entry for the shipment.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingUsCustomsEntry
+  - term: globalForwardingShipmentTypeEnum
+    definition: 'Enumeration declared by the contract with values: FCL, LCL.'
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingShipmentTypeEnum
+  - term: hazardousGroupEnum
+    definition: Dangerous goods are assigned into 3 packing groups (also known as UN Packing Group) in accordance with the degree of danger they
+      present. * `I` - Group I - Major Danger * `II` - Group II - Medium Danger * `III` - Group III - Minor Danger
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/hazardousGroupEnum
+  - term: loadEventOrderDetail
+    definition: Contains order number and order tracking information.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/loadEventOrderDetail
+  - term: orderEventItem
+    definition: Items tied to the service.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/orderEventItem
+  - term: packageStopEvent
+    definition: 'Object declared by the contract with fields: eventType, orderDetails, loadNumber, carrier, location, packages.'
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/packageStopEvent
+  - term: globalForwardingUnknownUnitOfMeasureValue
+    definition: This represents a new unit of measure that has been implemented, but it not yet ready for public consumption.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingUnknownUnitOfMeasureValue
+  - term: globalForwardingOceanMainlineCarrier
+    definition: The mainline carrier that transports the shipment over the ocean.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingOceanMainlineCarrier
+  - term: globalForwardingAuCustoms
+    definition: This represents the customs entries for Australia.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingAuCustoms
+  - term: eventItem
+    definition: 'Object declared by the contract with fields: packagingType, description, productCode, freightClass, insuranceValue, innerPackQuantity,
+      primaryReferenceNumber, poNumber, skuNumber, pluNumber, actualQuantity, actualWeight. (9 more)'
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/eventItem
+  - term: globalForwardingUnknownContainerTypeValue
+    definition: This represents a new container type that has been implemented, but it not yet ready for public consumption.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingUnknownContainerTypeValue
+  - term: globalForwardingNzCustomsN10
+    definition: This represents the N10 document for a New Zealand customs entry.
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingNzCustomsN10
+  - term: orderNumber
+    definition: 'Object declared by the contract with fields: orderNumber.'
+    tags:
+    - Object
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/orderNumber
+  - term: globalForwardingCustomsEntryStatusEnum
+    definition: 'Enumeration declared by the contract with values: Pending, Intensive Exam, Admissible, NotReleased, DocumentRequired, RequiresBrokerReview,
+      Cancelled, Released.'
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingCustomsEntryStatusEnum
+  - term: globalForwardingUnitOfMeasureEnum
+    definition: 'Enumeration declared by the contract with values: Bale, Bin, Bottle, Bucket, Jar, Loose, Lug, Other, Reels, Sack, Skid, Skid
+      elevating or lift truck. (124 more)'
+    tags:
+    - Enumeration
+    source: openapi/ch-robinson-worldwide-events-api-openapi.yml#/components/schemas/globalForwardingUnitOfMeasureEnum

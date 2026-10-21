@@ -4,7 +4,43 @@ info:
   title: A guide to C.H. Robinson's REST Authentication API
   description: '# Introduction
 
-    Welcome to C.H.'
+    Welcome to C.H. Robinson''s API reference page!
+
+
+    Our modern REST APIs enable partners to leverage the vast C.H. Robinson transportation and supply chain expertise and technology capabilities. C.H. Robinson APIs bring everything you love about our business directly into your ERP or TMS system.
+
+    ### **How we drive customer success:**
+
+    * Allow our customers to retrieve real-time quotes, and if desired, turn those quotes into orders.
+
+    * Customers can submit, update, and delete orders.
+
+    * Provide our customers with real-time order and shipment tracking events.
+
+    * Allow customers to retrieve summary and detail invoice data while also providing the physical invoice document.
+
+    * Allow customers to retrive any documents needed for their orders and shipments.
+
+
+    **For the customers interested in starting the onboarding process please click here.**
+
+
+    ### **How we drive carrier connectivity:**
+
+    * Allow carriers to search the C.H. Robinson available shipment store.
+
+    * Allow carriers to make offers on loads from the available shipment store.
+
+    * Allow carriers to book loads from the available shipment store when there are load costs attached.
+
+    * Allow carriers to provide stop and location updates on the load(s) they are transporting.
+
+    * Allow carriers to post relevant documents directly to C.H. Robinson.
+
+    * We provide Load Details through a callback upon booking to allow carriers to electronically build the load in their TMS platform.
+
+
+    **For the carriers interested in starting the onboarding process please click here.**'
 servers:
 - url: https://sandbox-api.navisphere.com
   description: Test environment.
@@ -14,7 +50,16 @@ security:
 - sandbox: []
 tags:
 - name: Authentication
-  description: C.H.
+  description: 'C.H. Robinson uses OAuth v2.0 to secure connections to its APIs. oAuth v2 works by delegating user authentication to the service that hosts the user account and authorizing third-party applications to access the user account. For a user to authenticate and use any of C.H. Robinson''s APIs, the user must generate a token.
+
+
+    **Special Note**
+
+
+    Generated tokens are valid for 24 hours. Users should only be hitting the C.H. Robinson authentication endpoint once every 24 hours. Calling the authentication endpoint multiple times within the same 24 hour period may result in users being subjected to rate limiting.
+
+
+    Click the image to open it in a new tab to resize it.'
 paths:
   /v1/oauth/token:
     post:
@@ -81,29 +126,24 @@ paths:
       x-operation-id-original: Generate Token
 components:
   schemas:
-    tokenRequest:
+    error404:
       required:
-      - client_id
-      - client_secret
-      - audience
-      - grant_type
+      - statusCode
+      - error
+      - message
       properties:
-        client_id:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 404
+        error:
           type: string
-          description: ID that will be provided by C.H. Robinson used to retrieve authorization tokens.
-          example: Partner client_id
-        client_secret:
+          description: Detail about the error status code
+          example: Not Found
+        message:
           type: string
-          description: Secret that will be provided by C.H. Robinson used to retrieve authorization tokens.
-          example: Partner client_secret
-        audience:
-          type: string
-          description: Static audience URL allowing authorization token to be created. "https://inavisphere.chrobinson.com"
-          example: https://inavisphere.chrobinson.com
-        grant_type:
-          type: string
-          description: Static identifier allowing authorization token to be created. "client_credentials"
-          example: client_credentials
+          description: Specifies issue
+          example: Not Found
     error400:
       properties:
         message:
@@ -132,6 +172,24 @@ components:
               type: string
             label:
               type: string
+    error403:
+      required:
+      - statusCode
+      - error
+      - message
+      properties:
+        statusCode:
+          type: integer
+          description: Error code
+          example: 403
+        error:
+          type: string
+          description: detail about the error status code
+          example: Forbidden
+        message:
+          type: string
+          description: Specifies issue
+          example: Invalid customerCode
     error401:
       required:
       - statusCode
@@ -153,24 +211,6 @@ components:
           properties:
             error:
               type: string
-    error404:
-      required:
-      - statusCode
-      - error
-      - message
-      properties:
-        statusCode:
-          type: integer
-          description: Error code
-          example: 404
-        error:
-          type: string
-          description: Detail about the error status code
-          example: Not Found
-        message:
-          type: string
-          description: Specifies issue
-          example: Not Found
     tokenSuccessResponse:
       properties:
         token_type:
@@ -189,24 +229,29 @@ components:
           type: string
           description: Defines token access.
           example: read:status
-    error403:
+    tokenRequest:
       required:
-      - statusCode
-      - error
-      - message
+      - client_id
+      - client_secret
+      - audience
+      - grant_type
       properties:
-        statusCode:
-          type: integer
-          description: Error code
-          example: 403
-        error:
+        client_id:
           type: string
-          description: detail about the error status code
-          example: Forbidden
-        message:
+          description: ID that will be provided by C.H. Robinson used to retrieve authorization tokens.
+          example: Partner client_id
+        client_secret:
           type: string
-          description: Specifies issue
-          example: Invalid customerCode
+          description: Secret that will be provided by C.H. Robinson used to retrieve authorization tokens.
+          example: Partner client_secret
+        audience:
+          type: string
+          description: Static audience URL allowing authorization token to be created. "https://inavisphere.chrobinson.com"
+          example: https://inavisphere.chrobinson.com
+        grant_type:
+          type: string
+          description: Static identifier allowing authorization token to be created. "client_credentials"
+          example: client_credentials
   securitySchemes:
     sandbox:
       type: http

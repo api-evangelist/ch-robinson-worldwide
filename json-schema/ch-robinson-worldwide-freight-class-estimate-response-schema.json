@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/main/json-schema/ch-robinson-worldwide-freight-class-estimate-response-schema.json",
+  "title": "freightClassEstimateResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/ch-robinson-worldwide-rating-api-openapi.yml#/components/schemas/freightClassEstimateResponse",
+  "type": "object",
+  "properties": {
+    "estimatedFreightClassByDensityOnly": {
+      "$ref": "#/$defs/freightEstimateResponseEnum"
+    }
+  },
+  "$defs": {
+    "freightEstimateResponseEnum": {
+      "type": "number",
+      "description": "Estimated freight class for the request. (Freight Class is a voluntary standard that provides a comparison of commodities moving in interstate, intrastate and foreign commerce. It is similar in concept to the groupings or grading systems that serve many other industries.)",
+      "enum": [
+        50,
+        55,
+        60,
+        65,
+        70,
+        77.5,
+        85,
+        92.5,
+        100,
+        110,
+        125,
+        150,
+        175,
+        200,
+        250,
+        300,
+        400,
+        500
+      ]
+    }
+  }
+}

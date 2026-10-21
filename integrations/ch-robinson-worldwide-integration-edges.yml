@@ -1,3 +1,24 @@
+generated: '2026-10-20'
+method: searched
+source:
+- https://www.gs1.org/services/gdsn/certified-data-pools-list
+- https://www.gs1us.org/services/find-gs1-us-solution-partner/profiles
+- https://zapier.com/apps/ch-robinson-worldwide/integrations
+- https://zapier.com/apps/c-h-robinson/integrations
+- https://n8n.io/integrations/ch-robinson-worldwide/
+- https://composio.dev/toolkits/ch-robinson-worldwide
+- https://monid.ai/tools/ch-robinson-worldwide
+checked:
+- https://www.gs1.org/services/gdsn/certified-data-pools-list
+- https://www.gs1us.org/services/find-gs1-us-solution-partner/profiles
+- https://www.spscommerce.com/partner-community/directory/
+- https://composio.dev/toolkits/ch-robinson-worldwide
+- https://monid.ai/tools/ch-robinson-worldwide
+- https://n8n.io/integrations/ch-robinson-worldwide/
+- https://zapier.com/apps/c-h-robinson/integrations
+- https://zapier.com/apps/ch-robinson-worldwide/integrations
+summary: null
+marketplace_apps: []
 edges:
 - partner_name: 17track
   partner: 17track
@@ -33,15 +54,7 @@ edges:
     - Third Party Logistics (3PL)
     signal_note: 'participation only: a directory listing, never a count'
     detected_by: sweep-consumer-goods.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
   detected_by: sweep-consumer-goods.py
   first_seen: '2026-10-15'
-generated: '2026-10-12'
-method: searched
-checked:
-- https://www.gs1.org/services/gdsn/certified-data-pools-list
-- https://www.gs1us.org/services/find-gs1-us-solution-partner/profiles
-- https://www.spscommerce.com/partner-community/directory/
-source:
-- https://www.gs1.org/services/gdsn/certified-data-pools-list
-- https://www.gs1us.org/services/find-gs1-us-solution-partner/profiles
+templates: []

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/main/json-schema/ch-robinson-worldwide-payments-schema.json",
+  "title": "payments",
+  "description": "All properties returned on the payment's get call.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/ch-robinson-worldwide-financials-api-openapi.yml#/components/schemas/payments",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "shipmentNumber": {
+        "type": "integer",
+        "description": "C.H. Robinson defined shipment number."
+      },
+      "billingStatus": {
+        "type": "string",
+        "description": "The Status of the Bill that is being requested"
+      },
+      "carrierInvoiceNumber": {
+        "type": "string",
+        "description": "Carrier invoice number."
+      }
+    }
+  }
+}

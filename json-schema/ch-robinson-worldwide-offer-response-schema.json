@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/main/json-schema/ch-robinson-worldwide-offer-response-schema.json",
+  "title": "offerResponse",
+  "description": "Object with response to carrier offer.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/ch-robinson-worldwide-shipments-api-openapi.yml#/components/schemas/offerResponse",
+  "type": "object",
+  "properties": {
+    "loadNumber": {
+      "type": "string",
+      "description": "ID of the shipment the offer was made on."
+    },
+    "carrierCode": {
+      "type": "string",
+      "description": "C.H. Robinson defined code for the carrier making the offer."
+    },
+    "offerRequestId": {
+      "type": "string",
+      "description": "Unique identifier that is associated with the offer request. This is the ID received in the response when making the offer."
+    },
+    "offerId": {
+      "type": "string",
+      "description": "C.H. Robinson's internal id associated to the offer."
+    },
+    "offerResult": {
+      "type": "string",
+      "description": "Current status of the offer. Rejected and NotConsidered can both be considered declining the offer. Counter means C.H. Robinson has countered with a new price.",
+      "enum": [
+        "Accepted",
+        "Rejected",
+        "NotConsidered",
+        "Counter"
+      ]
+    },
+    "price": {
+      "type": "integer",
+      "description": "Price of the offer. If the offerResult is \"Counter\" then the price displayed is C.H. Robinson's counter offer price."
+    },
+    "currencyCode": {
+      "type": "string",
+      "description": "Currency code of the offer amount."
+    },
+    "rejectReasons": {
+      "type": "array",
+      "description": "If offer is rejected this details the reason(s).",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

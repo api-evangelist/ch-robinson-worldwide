@@ -2,7 +2,7 @@ overlay: 1.0.0
 info:
   title: API Evangelist enhancements for the C.H. Robinson REST APIs
   version: 1.0.0
-extends: openapi/ch-robinson-worldwide-rest-apis-openapi.yml
+extends: ../openapi/_original/ch-robinson-worldwide-rest-apis-openapi.yml
 x-provenance:
   generated: '2026-09-05'
   method: generated

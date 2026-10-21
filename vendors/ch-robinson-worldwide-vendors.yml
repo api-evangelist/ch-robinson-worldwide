@@ -1,0 +1,58 @@
+generated: '2026-10-20'
+method: probed
+source: pre-flight dossier (docs platform, portal detections) + CNAME chains and response headers of the hosts apis.yml names
+registry: all/0-working/vendors.yml
+areas_vocabulary:
+- documentation
+- developer-portal
+- api-gateway
+- cdn
+- hosting
+- sdk-generation
+- api-collections
+- status-page
+- support
+- community
+- identity
+- mcp-hosting
+vendors:
+- vendor: kong
+  name: Kong
+  area: api-gateway
+  host: api.navisphere.com
+  evidence: header:x-kong-
+  signal: header
+  confidence: high
+  kin_score:
+  - rate_limits_documented
+- vendor: cloudflare
+  name: Cloudflare
+  area: cdn
+  host: www.chrobinson.com
+  evidence: header:cf-ray
+  signal: header
+  confidence: high
+  kin_score:
+  - https_enforced
+  - hsts
+reliance:
+  areas_vendor_served:
+  - api-gateway
+  - cdn
+  vendor_count: 2
+  areas_observed: 12
+  share_of_observable_areas: 0.167
+  note: areas where a third party was DETECTED serving this provider; an area absent here was either self-run or not observed, and this script
+    cannot tell those apart
+checked:
+- 'docs-platform: custom'
+- www.chrobinson.com (Login)
+- www.chrobinson.com (Website)
+- developer.chrobinson.com (DeveloperPortal)
+- www.chrobinson.com (Documentation)
+- developer.chrobinson.com (APIReference)
+- developer.chrobinson.com (GettingStarted)
+- developer.chrobinson.com (Support)
+- api.navisphere.com (Postman)
+- developer.chrobinson.com (StatusPage)
+- api.navisphere.com (baseURL)

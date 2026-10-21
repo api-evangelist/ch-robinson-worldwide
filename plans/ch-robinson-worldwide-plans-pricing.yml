@@ -1,3 +1,4 @@
+name: C.H. Robinson API Plans
 specification: API Commons Plans
 specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
@@ -12,15 +13,15 @@ tags:
 - Freight
 - Transportation
 - Supply Chain
-description: 'C.H. Robinson publishes no per-call price list for its Navisphere REST APIs. Two access tracks
-  exist and they price differently. Carrier API connectivity is stated to be FREE: the carrier connectivity
-  page says carriers ''use free application programming interface (API) connectivity to find, offer, book,
-  and auto-create C.H. Robinson loads directly in your own TMS'' at ''no additional cost''. Customer/shipper
-  API access is bundled into the commercial brokerage or Navisphere TMS relationship and is negotiated, not
-  listed; onboarding begins with the Customer_Integration document rather than a signup form. The Labels product
-  additionally requires a parcel carrier account configured in Navisphere by a C.H. Robinson or TMC representative.'
-notes: No public API price list. Carrier access is free and contractual; customer access is bundled into the
-  freight/TMS agreement. Verified 2026-09-05 against the provider's own pages - not inferred.
+description: 'C.H. Robinson publishes no per-call price list for its Navisphere REST APIs. Two access tracks exist
+  and they price differently. Carrier API connectivity is stated to be FREE: the carrier connectivity page says
+  carriers ''use free application programming interface (API) connectivity to find, offer, book, and auto-create
+  C.H. Robinson loads directly in your own TMS'' at ''no additional cost''. Customer/shipper API access is bundled
+  into the commercial brokerage or Navisphere TMS relationship and is negotiated, not listed; onboarding begins
+  with the Customer_Integration document rather than a signup form. The Labels product additionally requires a parcel
+  carrier account configured in Navisphere by a C.H. Robinson or TMC representative.'
+notes: No public API price list. Carrier access is free and contractual; customer access is bundled into the freight/TMS
+  agreement. Verified 2026-09-05 against the provider's own pages - not inferred.
 sources:
 - https://www.chrobinson.com/en-us/carriers/api-connectivity/
 - https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/
@@ -30,8 +31,8 @@ plans:
   name: Shipper API Access
   type: enterprise
   description: API access for customers/shippers using Navisphere services - rating, orders and booking, events,
-    visibility, documents, financials and labels. Priced inside the brokerage / TMS agreement; no separate
-    per-call rate card is published.
+    visibility, documents, financials and labels. Priced inside the brokerage / TMS agreement; no separate per-call
+    rate card is published.
   entries:
   - label: Shipper integration
     name: shipper_integration
@@ -47,13 +48,13 @@ plans:
   - name: Quoting and booking
   - name: Shipment tracking and visibility
   - name: Documents and freight payment
-  price: contract
+  note: No price published; access is negotiated within the freight/TMS agreement.
 - id: ch-robinson-worldwide-carrier
   name: Carrier API Access
   type: enterprise
-  description: API access for contracted carriers covering available-shipment search, offers, load booking,
-    milestone/status updates, document upload and payment status. C.H. Robinson states carrier API connectivity
-    is provided free of charge; a carrier agreement and issued credentials are still prerequisites.
+  description: API access for contracted carriers covering available-shipment search, offers, load booking, milestone/status
+    updates, document upload and payment status. C.H. Robinson states carrier API connectivity is provided free
+    of charge; a carrier agreement and issued credentials are still prerequisites.
   entries:
   - label: Carrier integration
     name: carrier_integration
@@ -70,12 +71,13 @@ plans:
   - name: Status updates and visibility
   - name: Documents and settlement
   price: free
+  price_text: at no additional cost
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 generated: '2026-09-05'
 plan_count: 2
-source: https://www.chrobinson.com/en-us/carriers/api-connectivity/ and https://developer.chrobinson.com/api-reference
+source: https://www.chrobinson.com/en-us/carriers/api-connectivity/
 gates:
   self_service_signup: false
   public_price_list: false
@@ -105,3 +107,8 @@ x-canonical:
     - negotiated
     periods:
     - month
+audience: business-product
+pricing_basis: negotiated
+published: false
+delivery:
+  delivery: managed

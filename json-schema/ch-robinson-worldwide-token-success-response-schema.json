@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/main/json-schema/ch-robinson-worldwide-token-success-response-schema.json",
+  "title": "tokenSuccessResponse",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/ch-robinson-worldwide-authentication-api-openapi.yml#/components/schemas/tokenSuccessResponse",
+  "properties": {
+    "token_type": {
+      "type": "string",
+      "description": "Indicates type of token received. **Will always be a Bearer token.**"
+    },
+    "expires_in": {
+      "type": "integer",
+      "description": "Amount of time token is valid. **Will always be 86400 seconds (24 hours).**"
+    },
+    "access_token": {
+      "type": "string",
+      "description": "Returned token that will be used as the bearer token on all subsequent API calls."
+    },
+    "scope": {
+      "type": "string",
+      "description": "Defines token access."
+    }
+  }
+}

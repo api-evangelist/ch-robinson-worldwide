@@ -1,0 +1,1073 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/main/json-schema/ch-robinson-worldwide-shipments-schema.json",
+  "title": "shipments",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/ch-robinson-worldwide-visibility-api-openapi.yml#/components/schemas/shipments",
+  "type": "object",
+  "required": [
+    "shipmentNumber",
+    "orderNumbers",
+    "tenantId",
+    "stops",
+    "commodities",
+    "mode"
+  ],
+  "properties": {
+    "shipmentNumber": {
+      "type": "string",
+      "minimum": 1,
+      "maximum": 20,
+      "description": "Shipment Number associated to the shipment."
+    },
+    "tenantId": {
+      "type": "string",
+      "minimum": 1,
+      "maximum": 20,
+      "description": "This ID indicates who the underlying customer is."
+    },
+    "trackingNumber": {
+      "type": "string",
+      "minimum": 1,
+      "maximum": 150,
+      "description": "Tracking number associated to the shipment."
+    },
+    "accountCode": {
+      "type": "string",
+      "minimum": 1,
+      "maximum": 50,
+      "description": "Account code associated to the shipment."
+    },
+    "carrierName": {
+      "type": "string",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "Name of the carrier"
+    },
+    "scac": {
+      "type": "string",
+      "minimum": 1,
+      "maximum": 20,
+      "description": "SCAC code associated to the shipment."
+    },
+    "carrierProNumber": {
+      "type": "string",
+      "minimum": 1,
+      "maximum": 50,
+      "description": "Carrier Pro number"
+    },
+    "trailerNumber": {
+      "type": "string",
+      "minimum": 1,
+      "maximum": 20,
+      "description": "Trailer Number"
+    },
+    "customerName": {
+      "type": "string",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "Customer Name"
+    },
+    "equipmentType": {
+      "type": "string",
+      "minimum": 1,
+      "maximum": 50,
+      "description": "Equipment type on the shipment"
+    },
+    "mode": {
+      "type": "string",
+      "minimum": 1,
+      "maximum": 20,
+      "description": "Mode of the shipment.",
+      "enum": [
+        "AIR",
+        "OCEAN",
+        "TRUCKLOAD",
+        "LTL",
+        "OPENDECK",
+        "PARCEL",
+        "RAIL",
+        "INTERMODAL"
+      ]
+    },
+    "containerInformation": {
+      "type": "array",
+      "description": "Array of the Containers associated to the shipment.",
+      "items": {
+        "$ref": "#/$defs/containerInformation"
+      }
+    },
+    "shipmentDistance": {
+      "type": "string",
+      "minimum": 1,
+      "maximum": 20,
+      "description": "Total shipment distance as calculated by the customer's standard contracts."
+    },
+    "shipmentDistanceUnitOfMeasure": {
+      "$ref": "#/$defs/distanceUomEnum"
+    },
+    "isPremiumFreight": {
+      "type": "boolean",
+      "description": "Is the freight delivered at a premium or expedited service level by the provider?"
+    },
+    "movementType": {
+      "type": "string",
+      "description": "Indicates type of movement."
+    },
+    "isManaged": {
+      "type": "boolean",
+      "description": "Is the freight shipped in a planned, mangaged capacity?"
+    },
+    "teuCount": {
+      "type": "string",
+      "minimum": 1,
+      "maximum": 20,
+      "description": "Count of Twenty Foot Equivalent Unit(s) teid to the shipment"
+    },
+    "incoLocation": {
+      "type": "string",
+      "minimum": 1,
+      "maximum": 50,
+      "description": "Named place for incoterm"
+    },
+    "incoTerms": {
+      "$ref": "#/$defs/incoTermsEnum"
+    },
+    "orderNumbers": {
+      "type": "array",
+      "description": "Array of the Order numbers associated to the shipment.",
+      "minimum": 1,
+      "maximum": 25,
+      "items": {
+        "type": "string"
+      }
+    },
+    "canceled": {
+      "type": "boolean",
+      "description": "Is the shipment canceled?"
+    },
+    "highValue": {
+      "type": "boolean",
+      "description": "Does the shipment contain goods that are of high value?"
+    },
+    "forwarder": {
+      "type": "string",
+      "description": "The name of the forwarder",
+      "minimum": 1,
+      "maximum": 200
+    },
+    "stops": {
+      "type": "array",
+      "description": "Array of the Stops associated to the shipment.",
+      "items": {
+        "$ref": "#/$defs/stop"
+      }
+    },
+    "handlingUnits": {
+      "type": "array",
+      "description": "Array of the commodities associated to the shipment.",
+      "items": {
+        "$ref": "#/$defs/handlingUnit"
+      }
+    },
+    "referenceNumbers": {
+      "type": "array",
+      "description": "Array of the referenceNumbers associated to the shipment.",
+      "items": {
+        "$ref": "#/$defs/referenceNumber"
+      }
+    }
+  },
+  "$defs": {
+    "commodity": {
+      "required": [
+        "pickLocSequenceNumber",
+        "dropLocSequenceNumber"
+      ],
+      "type": "object",
+      "properties": {
+        "commodityId": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 20,
+          "description": "Unique identifier"
+        },
+        "orderNumber": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 20,
+          "description": "Indicates the order number associated to the item."
+        },
+        "name": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 50,
+          "description": "Name of the commodity."
+        },
+        "units": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 50,
+          "description": "Number of commodities."
+        },
+        "sku": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 50,
+          "description": "Indicates the sku of the commodity."
+        },
+        "plannerCode": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 50,
+          "description": "The Planners Code associated to the commodity."
+        },
+        "value": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 50,
+          "description": "Value of the commodity."
+        },
+        "currencyCode": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 10,
+          "description": "ISO 4217 currency code"
+        },
+        "serialNumber": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 50,
+          "description": "Serial Number of the commodity."
+        },
+        "partNumber": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 50,
+          "description": "Part Number of the commodity."
+        },
+        "isHazMat": {
+          "type": "boolean",
+          "description": "Flag indicates if the commodity is Hazmat."
+        },
+        "pickLocSequenceNumber": {
+          "type": "integer",
+          "description": "The associated pick location sequence number."
+        },
+        "dropLocSequenceNumber": {
+          "type": "integer",
+          "description": "The associated drop location sequence number."
+        },
+        "category": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 50,
+          "description": "Category of the commodity, model number or other categorization descriptor."
+        },
+        "description": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 100,
+          "description": "Description of the item."
+        },
+        "packagingType": {
+          "$ref": "#/$defs/packageCodeEnum"
+        },
+        "weight": {
+          "type": "number",
+          "description": "Total Weight of the item.",
+          "format": "float"
+        },
+        "weightUnitOfMeasure": {
+          "$ref": "#/$defs/weightUomEnum"
+        },
+        "packagingLength": {
+          "type": "number",
+          "description": "The length of the item's packaging.",
+          "format": "float"
+        },
+        "packagingWidth": {
+          "type": "number",
+          "description": "The width of the item's packaging.",
+          "format": "float"
+        },
+        "packagingHeight": {
+          "type": "number",
+          "description": "The height of the item's packaging.",
+          "format": "float"
+        },
+        "packagingUnitOfMeasure": {
+          "$ref": "#/$defs/linearUomEnum"
+        },
+        "packagingVolume": {
+          "type": "number",
+          "format": "float",
+          "description": "Volume of the item."
+        },
+        "packagingVolumeUnitOfMeasure": {
+          "$ref": "#/$defs/volumeUomEnum"
+        },
+        "packageQuantity": {
+          "type": "number",
+          "format": "float",
+          "description": "Quantity of Packages."
+        },
+        "purchaseOrderNumber": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 20,
+          "format": "float",
+          "description": "Purchase Order number for associated item."
+        },
+        "costCenterCode": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 10,
+          "format": "float",
+          "description": "Cost center code associated to the items."
+        },
+        "referenceNumbers": {
+          "type": "array",
+          "description": "Reference number associated to the given level.",
+          "items": {
+            "$ref": "#/$defs/referenceNumber"
+          }
+        }
+      }
+    },
+    "containerInformation": {
+      "type": "object",
+      "required": [
+        "containerNumber"
+      ],
+      "properties": {
+        "containerNumber": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 20,
+          "description": "Number on the container associated to the shipment."
+        },
+        "containerType": {
+          "type": "string",
+          "description": "What Type of Container is associated to the shipment",
+          "enum": [
+            "L",
+            "LCL",
+            "IPLT",
+            "20HC",
+            "20",
+            "20OT",
+            "20FR",
+            "20RF",
+            "20DC",
+            "20DV",
+            "20GP",
+            "45HC",
+            "45HR",
+            "45UI",
+            "40HC",
+            "40",
+            "40OT",
+            "40HR",
+            "40RF",
+            "40FR",
+            "40DC",
+            "40DV",
+            "40GP",
+            "40HQ",
+            "45HQ",
+            "40NOR"
+          ]
+        },
+        "containerInformation": {
+          "minimum": 1,
+          "maximum": 20,
+          "type": "string",
+          "description": "Information pertaining to the container"
+        },
+        "containerWeight": {
+          "type": "number",
+          "description": "Weight of the container"
+        },
+        "weightUnitOfMeasure": {
+          "$ref": "#/$defs/weightUomEnum"
+        }
+      }
+    },
+    "distanceUomEnum": {
+      "type": "string",
+      "description": "Unit of measure for distance parameters.",
+      "enum": [
+        "Miles",
+        "Kilometers"
+      ]
+    },
+    "freightClassEnum": {
+      "type": "string",
+      "description": "Indicates the freight class on this shipment. (Freight Class is a voluntary standard that provides a comparison of commodities moving in interstate, intrastate and foreign commerce. It is similar in concept to the groupings or grading systems that serve many other industries.)",
+      "enum": [
+        "50",
+        "55",
+        "60",
+        "65",
+        "70",
+        "77.5",
+        "85",
+        "92.5",
+        "100",
+        "110",
+        "125",
+        "150",
+        "175",
+        "200",
+        "250",
+        "300",
+        "400",
+        "500"
+      ]
+    },
+    "handlingUnit": {
+      "type": "object",
+      "description": "Object containing commodity (or group of commodities)",
+      "required": [
+        "locations",
+        "items"
+      ],
+      "properties": {
+        "handlingUnitId": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 20,
+          "description": "Handling unit ID"
+        },
+        "orderNumbers": {
+          "type": "array",
+          "description": "Array of the Order numbers associated to the handling units.",
+          "minimum": 1,
+          "maximum": 25,
+          "items": {
+            "type": "string"
+          }
+        },
+        "packagingType": {
+          "$ref": "#/$defs/packageCodeEnum"
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Quantity of handling units"
+        },
+        "freightClass": {
+          "$ref": "#/$defs/freightClassEnum"
+        },
+        "weight": {
+          "type": "number",
+          "description": "Total Weight of the item.",
+          "format": "float"
+        },
+        "weightUnitOfMeasure": {
+          "$ref": "#/$defs/weightUomEnum"
+        },
+        "packagingLength": {
+          "type": "number",
+          "description": "The length of the item's packaging.",
+          "format": "float"
+        },
+        "packagingWidth": {
+          "type": "number",
+          "description": "The width of the item's packaging.",
+          "format": "float"
+        },
+        "packagingHeight": {
+          "type": "number",
+          "description": "The height of the item's packaging.",
+          "format": "float"
+        },
+        "packagingUnitOfMeasure": {
+          "$ref": "#/$defs/linearUomEnum"
+        },
+        "packageTrackingNumber": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 150,
+          "description": "Package Tracking Number"
+        },
+        "volume": {
+          "type": "number",
+          "description": "The volume of the item's packaging"
+        },
+        "volumeUnitOfMeasure": {
+          "$ref": "#/$defs/volumeUomEnum"
+        },
+        "containerNumber": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 20,
+          "description": "Container Number"
+        },
+        "description": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 100,
+          "description": "Description of the handling unit."
+        },
+        "pickLocSequenceNumber": {
+          "type": "integer",
+          "description": "The associated stop sequence number for which this handling unit will be picked up."
+        },
+        "dropLocSequenceNumber": {
+          "type": "integer",
+          "description": "The associated stop sequence number for which this handling unit will be delivered."
+        },
+        "commodities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/commodity"
+          }
+        }
+      }
+    },
+    "incoTermsEnum": {
+      "type": "string",
+      "description": "The Incoterms or International Commercial Terms are a series of pre-defined commercial terms published by the International Chamber of Commerce (ICC) relating to international commercial law.\n  * `DAT` - Delivered at Terminal\n  * `DAP` - Delivered at Place\n  * `CIF` - Cost Insurance & Freight\n  * `CPT` - Carriage Paid To\n  * `CIP` - Carriage & Insurance Paid To\n  * `DDP` - Delivered duty paid\n  * `EXW` - EX works\n  * `FCA` - Free carrier at\n  * `DPU` - Delivered at place unloaded\n  * `FAS` - Free alongside ship\n  * `FOB` - Free on Board\n  * `CFR` - Cost and Freight\n  * `PPD` - Prepaid\n  * `COL` - Collect\n  * `DAF` - Delivery at Frontier\n  * `DDU` - Delivery Duty Unpaid\n  * `DEQ` - Delivery Ex-Quay, Duty Unpaid\n  * `DES` - Delivery Ex-Ship\n",
+      "enum": [
+        "DAT",
+        "DAP",
+        "CIF",
+        "CPT",
+        "CIP",
+        "DDP",
+        "EXW",
+        "FCA",
+        "DPU",
+        "FAS",
+        "FOB",
+        "CFR",
+        "PPD",
+        "COL",
+        "DAF",
+        "DDU",
+        "DEQ",
+        "DES"
+      ]
+    },
+    "linearUomEnum": {
+      "type": "string",
+      "description": "Unit of measure for height, width, and length parameters.",
+      "enum": [
+        "Inches",
+        "Feet",
+        "Centimeters",
+        "Meters"
+      ]
+    },
+    "packageCodeEnum": {
+      "type": "string",
+      "description": "C.H. Robinson defined code for packaging type/code. Here is a list of the most commonly used packagingCodes: \n\n`BAL` - Bale, `BAG` - Bags, `BIN` - Bin, `BOX` - Boxes, `CTN` - Cartons  \n`CAS` - Case, `CRT` - Crates, `PKG` - Package, `EAC` - Eaches, `PLT` - Pallet, `PCS` - Pieces \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/PackageDescriptions.xlsx\" target=\"_blank\">here</a>.",
+      "enum": [
+        "BAL",
+        "BIN",
+        "BOT",
+        "BXT",
+        "JAR",
+        "LSE",
+        "LUG",
+        "OTHR",
+        "REL",
+        "SAK",
+        "SKD",
+        "SKE",
+        "SLP",
+        "TLD",
+        "TRY",
+        "Empty",
+        "BAG",
+        "BOX",
+        "BDL",
+        "CTN",
+        "CAS",
+        "CRT",
+        "DZ",
+        "DRM",
+        "EAC",
+        "GYL",
+        "HDW",
+        "LNFT",
+        "PKG",
+        "PAL",
+        "PLT",
+        "PCS",
+        "LBS",
+        "ROL",
+        "TOT",
+        "YD",
+        "Skids",
+        "GAL",
+        "KIT",
+        "FT",
+        "PAD",
+        "PR",
+        "SET",
+        "SHT",
+        "M",
+        "KG",
+        "IBC",
+        "BAT",
+        "AST",
+        "CUB",
+        "RKS",
+        "PCK",
+        "TH",
+        "24BIN",
+        "30BIN",
+        "36BIN",
+        "40BIN",
+        "BSHL",
+        "CLLPK",
+        "DRC",
+        "ECO",
+        "EURO",
+        "FLAT",
+        "HFBIN",
+        "HFCTN",
+        "HVYPK",
+        "IFCO",
+        "I6408",
+        "I6411",
+        "I6413",
+        "I6416",
+        "I6419",
+        "I6423",
+        "I6425",
+        "I6428",
+        "ORBIS",
+        "O6409",
+        "O6411",
+        "O6413",
+        "O6416",
+        "O6419",
+        "O6425",
+        "O6428",
+        "P4311",
+        "P4317",
+        "P6408",
+        "P6411",
+        "P6413",
+        "P6416",
+        "P6419",
+        "P6423",
+        "P6425",
+        "P6428",
+        "RPC",
+        "R6411",
+        "R6413",
+        "R6416",
+        "TNBIN",
+        "TOSCA",
+        "T6408",
+        "T6411",
+        "T6413",
+        "T6416",
+        "T6419",
+        "T6423",
+        "T6425",
+        "T6428",
+        "WDCRT",
+        "BRL",
+        "RCK",
+        "TUB",
+        "CG",
+        "DSP",
+        "SQF",
+        "CYL",
+        "KEG",
+        "IFCLB",
+        "PLT1",
+        "PLT2",
+        "PLT3",
+        "CAR",
+        "COIL",
+        "PI",
+        "GOH",
+        "BLK",
+        "POG",
+        "L",
+        "IPLT",
+        "RORO",
+        "45HC",
+        "45HR",
+        "40HC",
+        40,
+        "40OT",
+        "40HR",
+        "40RF",
+        "40FR",
+        "20HC",
+        20,
+        "20OT",
+        "20FR",
+        "45GP"
+      ]
+    },
+    "referenceNumber": {
+      "type": "object",
+      "required": [
+        "type",
+        "value"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "C.H. Robinson defined code for reference number types. Here is a list of the most commonly used reference number types: \n\n`SHID` - Shipment ID #, `MBOL` - Master Bill of Lading #, `PO` - Purchase Order #, `BOL` - Bill of Lading #, `CRID` - Customer Specific Ref Number, `CUSTPO` - Customer PO Number, `DEL` - Delivery #, `JNO` - Job Number, `PU` - Pickup #, `CON` - Customer Order Number, `APPT` - Appointment Number \n\nFor a detailed description of all enumerated codes please find them <a href=\"https://api.navisphere.com/api/B2B/Portal/v1/documents/descriptions/ReferenceNumberTypes.xlsx\" target=\"_blank\">here</a>.",
+          "enum": [
+            "SHID",
+            "MBOL",
+            "PO",
+            "BOL",
+            "CFRM",
+            "CRID",
+            "CUSTPO",
+            "DEL",
+            "DIST",
+            "FIN",
+            "GL",
+            "JNO",
+            "PU",
+            "RANumber",
+            "RLPRO",
+            "MREF",
+            "Empty",
+            "PRO",
+            "CCN",
+            "SBOL",
+            "CON",
+            "APPT",
+            "CHRW_ID",
+            "FDA",
+            "IREF",
+            "LIC",
+            "ORD",
+            "PLU",
+            "SCAC",
+            "SEAL",
+            "SKU",
+            "SREF",
+            "STCC",
+            "TEB",
+            "VPO",
+            "WB",
+            "XXXX",
+            "TRIA",
+            "TRANS",
+            "GCC",
+            "SDATE",
+            "CDATE",
+            "ACCT",
+            "CCTR",
+            "IGM",
+            "GIGM",
+            "LIGM",
+            "SMTP",
+            "PERMIT",
+            "RNO",
+            "DVCN",
+            "PRCL",
+            "CPUC",
+            "SHPMD",
+            "AFR",
+            "BUYID",
+            "VNDID",
+            "DIV",
+            "DEPT",
+            "POTYPE",
+            "GRGI",
+            "DUNS",
+            "PALLETREF",
+            "CITTN",
+            "CIN",
+            "SHIPWITH",
+            "PN",
+            "UPC",
+            "PRCD",
+            "VESSEL",
+            "VOYAGE",
+            "FN",
+            "FEEDVESS",
+            "FEEDVOY",
+            "SHIPREF",
+            "CBL",
+            "SPAC",
+            "POLN",
+            "VPOLN",
+            "EIN",
+            "CNSG",
+            "PROFITCTR",
+            "MFGPART",
+            "PACKSLIP",
+            "THIRDPRTY",
+            "DEFATTR",
+            "FSTRK",
+            "FOItemID",
+            "POLineNum",
+            "PARCELSPC",
+            "CNS1",
+            "CNS2",
+            "CNS3",
+            "CNS4",
+            "CNS5",
+            "CNS6",
+            "CNS7",
+            "TREF",
+            "VREF",
+            "UPRICE",
+            "FWPARTY",
+            "BYPARTY",
+            "HBL",
+            "CBP",
+            "TRANSFER",
+            "SO",
+            "ORDTRK",
+            "QUOTEID",
+            "EQT",
+            "BOOTH",
+            "TS",
+            "OH #",
+            "CNTNR",
+            "VAS",
+            "Size",
+            "Color",
+            "Style",
+            "HCERT",
+            "B#",
+            "ETMSID",
+            "214-IMO",
+            "SHPWeight",
+            "SHPVolume",
+            "SHPDims",
+            "SERIALIZED",
+            "SERIALNUM",
+            "CPSIA",
+            "EDIINVREF",
+            "SQID",
+            "QSeqNum",
+            "OuterPkStu",
+            "GLC",
+            "COMP",
+            "COST",
+            "DTYGL",
+            "DTYCC",
+            "BRKGL",
+            "BRKCC",
+            "GPS",
+            "IAC",
+            "WHRCT",
+            "ERGUID",
+            "SONUM",
+            "CCNUM",
+            "PrimCCNUM",
+            "PrevCCNUM",
+            "CMRN",
+            "TRANSSHIP",
+            "PGIDATE",
+            "AESFIL",
+            "CUSTQUOTID",
+            "QUOTETRACE",
+            "ODATE",
+            "FRCLS",
+            "NMFC",
+            "OrderItemId"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 100,
+          "description": "The actual value of the reference number."
+        }
+      }
+    },
+    "stop": {
+      "type": "object",
+      "required": [
+        "type",
+        "value",
+        "orderNumbers"
+      ],
+      "properties": {
+        "orderNumbers": {
+          "type": "array",
+          "description": "Array of the Order numbers associated to the shipment.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "actualArriveDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "An ISO8601 UTC date-time"
+        },
+        "actualDepartDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "An ISO8601 UTC date-time"
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/visibilityLocation"
+          }
+        }
+      }
+    },
+    "visibilityLocation": {
+      "type": "object",
+      "description": "All locations associated with the order.",
+      "required": [
+        "locationId",
+        "sequenceNumber",
+        "stopRole",
+        "name",
+        "address1",
+        "countryCode"
+      ],
+      "properties": {
+        "locationId": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 20,
+          "description": "Unique Identifier"
+        },
+        "sequenceNumber": {
+          "type": "number",
+          "description": "Beginning at 0, increasing sequentially with each location in stop order"
+        },
+        "stopRole": {
+          "type": "string",
+          "description": "Stop role of the location",
+          "enum": [
+            "pick",
+            "drop",
+            "crossDock",
+            "destinationAirport",
+            "destinationPort",
+            "destinationTerminal",
+            "intermediaryAirport",
+            "intermediaryPort",
+            "intermediaryRamp",
+            "originAirport",
+            "originPort",
+            "originRamp",
+            "originTerminal",
+            "originForwarder",
+            "originCrossdock",
+            "destinationForwarder",
+            "destinationCrossdock",
+            "destinationRamp",
+            "dropyard",
+            "supplier",
+            "shipper",
+            "consignee",
+            "origin",
+            "destination",
+            "broker",
+            "agent",
+            "factory"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 200,
+          "description": "Name of the location"
+        },
+        "address1": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 100,
+          "description": "Indicate address line 1"
+        },
+        "address2": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 100,
+          "description": "Indicate address line 2"
+        },
+        "city": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 100,
+          "description": "Indicate City"
+        },
+        "stateProvinceCode": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 50,
+          "description": "Indicate State or Province"
+        },
+        "postalCode": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 20,
+          "description": "Indicate Postal codes"
+        },
+        "countryCode": {
+          "type": "string",
+          "minimum": 1,
+          "maximum": 2,
+          "description": "Indicate 2 digit country code utilizing ISO 3166-1 alpha-2"
+        },
+        "requested": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Order need by date, enter close date time if window time is provided in an ISO8601 format."
+        },
+        "openDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Beginning of order need by window, enter requested date if no window time is provided in an ISO8601 format."
+        },
+        "closeDateTime": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End of order need by window, enter requested date if no window time is provided in an ISO8601 format."
+        },
+        "unlocationCode": {
+          "type": "string",
+          "description": "The UN Location Code for the stop location.",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "iata": {
+          "type": "string",
+          "description": "International Air Transport Association (IATA)",
+          "minimum": 1,
+          "maximum": 10
+        },
+        "referenceNumbers": {
+          "type": "array",
+          "description": "Array of the Stops associated to the shipment.",
+          "items": {
+            "$ref": "#/$defs/referenceNumber"
+          }
+        }
+      }
+    },
+    "volumeUomEnum": {
+      "type": "string",
+      "description": "Unit of measure for volume parameters.",
+      "enum": [
+        "CubicFeet",
+        "CubicMeters"
+      ]
+    },
+    "weightUomEnum": {
+      "type": "string",
+      "description": "Unit of measure for weight parameters.",
+      "enum": [
+        "Pounds",
+        "Kilograms"
+      ]
+    }
+  }
+}

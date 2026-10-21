@@ -1,0 +1,170 @@
+generated: '2026-10-20'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 12
+  own: 7
+  other_domain: 2
+  platform: 3
+  roles:
+  - api
+  - collections
+  - marketing
+  - other
+  - portal
+  - source
+  - website
+hosts:
+- host: api.chrobinson.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: chrobinson.com
+  role: api
+  relation: own
+- host: api.navisphere.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Postman
+  serves:
+  - api
+  - api-gateway
+  vendor: kong
+  registrable_domain: navisphere.com
+  role: collections
+  relation: other-domain
+- host: developer.chrobinson.com
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - site-links
+  - docs-index
+  - contract-discovery
+  - well-known
+  types:
+  - DeveloperPortal
+  - APIReference
+  - GettingStarted
+  - Support
+  - StatusPage
+  serves:
+  - docs
+  registrable_domain: chrobinson.com
+  role: portal
+  relation: own
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrganization
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: investor.chrobinson.com
+  found_by:
+  - pointer
+  - probed
+  - site-links
+  - well-known
+  types:
+  - Investors
+  serves: []
+  registrable_domain: chrobinson.com
+  role: other
+  relation: own
+- host: jobs.chrobinson.com
+  found_by:
+  - pointer
+  - probed
+  - well-known
+  types:
+  - Careers
+  serves: []
+  registrable_domain: chrobinson.com
+  role: marketing
+  relation: own
+- host: online.chrobinson.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: chrobinson.com
+  role: other
+  relation: own
+- host: sandbox-api.navisphere.com
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: navisphere.com
+  role: other
+  relation: other-domain
+- host: wms.chrobinson.com
+  found_by:
+  - probed
+  - site-links
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: chrobinson.com
+  role: other
+  relation: own
+- host: www.chrobinson.com
+  found_by:
+  - pointer
+  - probed
+  - docs-index
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Pricing
+  - Login
+  - Leadership
+  - Website
+  - Documentation
+  - Technology
+  - Navisphere
+  - CarrierPortal
+  - About
+  - News
+  - TermsOfService
+  - PrivacyPolicy
+  - Blog
+  serves:
+  - docs
+  - cdn
+  vendor: cloudflare
+  registrable_domain: chrobinson.com
+  role: website
+  relation: own
+- host: www.linkedin.com
+  found_by:
+  - pointer
+  types:
+  - LinkedIn
+  serves: []
+  registrable_domain: linkedin.com
+  role: other
+  relation: platform
+- host: x.com
+  found_by:
+  - pointer
+  types:
+  - X
+  serves: []
+  registrable_domain: x.com
+  role: other
+  relation: platform

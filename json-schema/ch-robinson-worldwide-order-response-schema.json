@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/main/json-schema/ch-robinson-worldwide-order-response-schema.json",
+  "title": "orderResponse",
+  "description": "Object containg the order response.",
+  "x-generated": "2026-10-20",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/ch-robinson-worldwide-orders-and-booking-api-openapi.yml#/components/schemas/orderResponse",
+  "type": "object",
+  "properties": {
+    "orderNumber": {
+      "type": "string",
+      "description": "C.H. Robinson order number that was created."
+    }
+  }
+}
