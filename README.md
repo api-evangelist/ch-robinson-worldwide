@@ -1,4 +1,4 @@
-# C.H. Robinson (ch-robinson-worldwide)
+# C.H. Robinson
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,93 +66,193 @@
 
 C.H. Robinson is one of the world's largest third-party logistics (3PL) providers, offering global freight transportation, supply chain management, customs brokerage, and sourcing of fresh produce. Its Navisphere transportation management system provides end-to-end supply chain planning, purchase order management, execution, freight payment, and business intelligence. C.H. Robinson exposes APIs that allow shippers and carriers to integrate quoting, booking, tracking, documents, and payment workflows directly into their own TMS or ERP platforms.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/ch-robinson-worldwide/refs/heads/main/apis.yml)
+**Areas:** Freight · Logistics · Shipping · Supply Chain · Transportation · Transportation Management · Fortune 500
 
-## Scope
+## C.H. Robinson on APIs.io
 
-- **Type:** Index
-- **Position:** Consumer
-- **Access:** 3rd-Party
-- **x-type:** company
+Everything profiled for C.H. Robinson is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/ch-robinson-worldwide/](https://apis.io/providers/ch-robinson-worldwide/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (9)
 
-- Freight, Logistics, Shipping, Supply Chain, Transportation, Transportation Management
+- [C.H. Robinson Authentication API](https://apis.io/apis/ch-robinson-worldwide/ch-robinson-worldwide-authentication-api/) — C.H. Robinson uses OAuth v2.0 to secure connections to its APIs. oAuth v2 works by delegating user authentication to the service that hosts the user account…
+- [C.H. Robinson Documents API](https://apis.io/apis/ch-robinson-worldwide/ch-robinson-worldwide-documents-api/) — C.H. Robinson's Documents product allows our partners to generate, post, and retrieve documents. C.H. Robinson currently offers customers the ability to…
+- [C.H. Robinson Events API](https://apis.io/apis/ch-robinson-worldwide/ch-robinson-worldwide-events-api/) — C.H. Robinson's Events product gives complete, near real-time order and shipment information, including all transportation updates. Integrating with C.H.…
+- [C.H. Robinson Financials API](https://apis.io/apis/ch-robinson-worldwide/ch-robinson-worldwide-financials-api/) — C.H. Robinson's financial product provides customers and carriers insight into their invoicing. Currently, customers can retrieve their invoice information…
+- [C.H. Robinson Labels API](https://apis.io/apis/ch-robinson-worldwide/ch-robinson-worldwide-labels-api/) — A service for generating small parcel shipping labels. An associated C.H. Robinson order is also created to track the package updates through Navisphere®.…
+- [C.H. Robinson Orders and Booking API](https://apis.io/apis/ch-robinson-worldwide/ch-robinson-worldwide-orders-and-booking-api/) — C.H. Robinson’s Orders and Bookings products are the starting point for all freight execution in Navisphere®. They provide a unified gateway for customers…
+- [C.H. Robinson Rating API](https://apis.io/apis/ch-robinson-worldwide/ch-robinson-worldwide-rating-api/) — C.H. Robinson's rating product allows our customers to retrieve contractual or transactional quotes. Customers can generate quotes with nothing more than…
+- [C.H. Robinson Shipments API](https://apis.io/apis/ch-robinson-worldwide/ch-robinson-worldwide-shipments-api/) — C.H. Robinson's Shipments product allows our partner base to access C.H. Robinson's available shipments, send offers on those shipments, and book those…
+- [C.H. Robinson Visibility API](https://apis.io/apis/ch-robinson-worldwide/ch-robinson-worldwide-visibility-api/) — Navisphere® Vision and Visibility tool is a global visibility technology that allows select customers to view and proactively manage their supply chain…
 
-## Timestamps
+### Published properties
 
-- **Created:** 2025-01-01
-- **Modified:** 2026-04-23
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### AsyncAPI (1)
 
-### C.H. Robinson Carrier API
+Event-driven and webhook contracts.
 
-The C.H. Robinson Carrier API enables carriers to find, offer, book, and auto-create loads directly from their own TMS, send visibility updates, upload documents for faster invoicing, and check payment status. The API is offered free to carriers to streamline integration with C.H. Robinson's logistics network.
+- [Ch Robinson Worldwide Webhooks](https://apis.io/asyncapis/ch-robinson-worldwide/ch-robinson-worldwide-webhooks/)
 
-**Human URL:** [https://developer.chrobinson.com/carrier](https://developer.chrobinson.com/carrier)
-**Base URL:** `https://developer.chrobinson.com`
+#### MCP servers (1)
 
-#### Tags
+Model Context Protocol servers that expose the API to agents.
 
-- Booking, Carriers, Documents, Loads, Payment, Visibility
+- [ch-robinson-worldwide](https://apis.io/servers/ch-robinson-worldwide/ch-robinson-worldwide/)
 
-#### Properties
+#### Agentic access (1)
 
-- [Documentation](https://developer.chrobinson.com/carrier)
-- [Overview](https://www.chrobinson.com/en-us/carriers/api-connectivity/)
+Which operations an agent can call, which act, and which need a human in the loop.
 
-### C.H. Robinson Navisphere Shipper API
+- [Ch Robinson Worldwide Agentic Access](https://apis.io/agentic-access/ch-robinson-worldwide/ch-robinson-worldwide-agentic-access/)
 
-The Navisphere Shipper API integrates C.H. Robinson's global transportation management system into a shipper's TMS or ERP. Capabilities include real-time rate quoting, load tendering, shipment tracking and visibility, document exchange, freight audit and payment, and business intelligence access across multi-modal transportation (truckload, LTL, intermodal, ocean, air, customs).
+#### JSON Schema (30)
 
-**Human URL:** [https://www.chrobinson.com/en-us/technology/shipper-technology/navisphere/](https://www.chrobinson.com/en-us/technology/shipper-technology/navisphere/)
-**Base URL:** `https://developer.chrobinson.com`
+The data models the API reads and writes.
 
-#### Tags
+- [availableShipmentsSearchV2](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-available-shipments-search-v2/)
+- [docTypeEnum](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-doc-type-enum/)
+- [documentIdResults](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-document-id-results/)
+- [eventResponse](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-event-response/)
+- [eventResponses](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-event-responses/)
+- [freightClassEstimate](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-freight-class-estimate/)
+- [freightClassEstimateResponse](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-freight-class-estimate-response/)
+- [gfBooking](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-gf-booking/)
+- [invoice](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-invoice/)
+- [invoiceSummaries](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-invoice-summaries/)
+- [invoiceSummary](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-invoice-summary/)
+- [label](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-label/)
+- [loadBookV2](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-load-book-v2/)
+- [loadDocumentCallback](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-load-document-callback/)
+- [loadOffer](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-load-offer/)
+- [milestone](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-milestone/)
+- [offerResponse](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-offer-response/)
+- [order](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-order/)
+- [orderResponse](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-order-response/)
+- [payments](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-payments/)
+- [quoteOrderResponse](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-quote-order-response/)
+- [quoteSummaries](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-quote-summaries/)
+- [quotes](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-quotes/)
+- [ratingPost](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-rating-post/)
+- [shipmentDetail](https://apis.io/schemas/ch-robinson-worldwide/ch-robinson-worldwide-shipment-detail/)
+- …and 5 more published on APIs.io
 
-- Navisphere, Quoting, Shipments, Shippers, Tracking, TMS
+#### JSON-LD (1)
 
-#### Properties
+Linked-data contexts for the provider's vocabulary.
 
-- [Documentation](https://developer.chrobinson.com/)
-- [Overview](https://www.chrobinson.com/en-us/technology/connectivity-integrations/)
+- [Ch Robinson Worldwide Context](https://apis.io/jsonld/ch-robinson-worldwide/ch-robinson-worldwide-context/)
 
-## Common Properties
+#### Collections (1)
+
+Postman and Open Collection request collections.
+
+- [Customer API Onboarding Collection - Public](https://apis.io/collections/ch-robinson-worldwide/postman-ch-robinson-worldwide-customer-api-onboarding/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Ch Robinson Worldwide Rest Apis Overlay](https://apis.io/overlays/ch-robinson-worldwide/ch-robinson-worldwide-rest-apis-overlay/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [C.H. Robinson API Rules](https://apis.io/rules/ch-robinson-worldwide/ch-robinson-worldwide-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Ch Robinson Worldwide Authentication](https://apis.io/security/ch-robinson-worldwide/ch-robinson-worldwide-authentication/)
+- [Ch Robinson Worldwide Domain Security](https://apis.io/security/ch-robinson-worldwide/ch-robinson-worldwide-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Ch Robinson Worldwide Plans Pricing](https://apis.io/plans/ch-robinson-worldwide/ch-robinson-worldwide-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Ch Robinson Worldwide Rate Limits](https://apis.io/rate-limits/ch-robinson-worldwide/ch-robinson-worldwide-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Ch Robinson Worldwide Finops](https://apis.io/finops/ch-robinson-worldwide/ch-robinson-worldwide-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.chrobinson.com)
-- [Developer Portal](https://developer.chrobinson.com/)
-- [Documentation](https://www.chrobinson.com/en-us/technology/connectivity-integrations/)
-- [Technology](https://www.chrobinson.com/en-us/technology/)
-- [Navisphere](https://www.chrobinson.com/en-us/technology/shipper-technology/navisphere/)
-- [Carrier Portal](https://www.chrobinson.com/en-us/carriers/api-connectivity/)
-- [About](https://www.chrobinson.com/en-us/about-us/)
-- [Careers](https://jobs.chrobinson.com/)
-- [News](https://www.chrobinson.com/en-us/newsroom/)
-- [Investors](https://investor.chrobinson.com/)
-- [Terms of Service](https://www.chrobinson.com/en-us/terms-of-use/)
-- [Privacy Policy](https://www.chrobinson.com/en-us/privacy-notice/)
-- [LinkedIn](https://www.linkedin.com/company/c.h.-robinson/)
-- [X](https://x.com/CHRobinsonInc)
+- [Documentation](https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/connectivity-integrations/)
+- [Getting started](https://developer.chrobinson.com/carrier)
+- [API reference](https://developer.chrobinson.com/api-reference)
+- [Pricing](https://www.chrobinson.com/en-us/shippers/lean-ai-supply-chains/pricing-booking/)
+- [Support](https://developer.chrobinson.com/support)
+- [Blog](https://www.chrobinson.com/en-us/resources/blog/)
+- [Terms of service](https://www.chrobinson.com/en-us/terms-of-use/)
+- [Privacy policy](https://www.chrobinson.com/en-us/privacy-notice/)
+- [GitHub](https://github.com/ch-robinson)
+- [Status](https://developer.chrobinson.com/status)
 
-## Features
+## API Evangelist rating
 
-Rate Quoting, Load Booking, Load Tendering, Shipment Tracking, Real-Time Visibility, Document Exchange, Payment Status, Freight Audit, Freight Payment, Business Intelligence, EDI, XML, API Connectivity, Carrier Onboarding, Load Matching, Capacity Search, Automated Booking, Tracking Webhooks, Proof of Delivery, Invoice Upload
+**Kin Score 55.3** — strong · rubric 0.25.0 · scored 2026-10-23
 
-## Use Cases
+| Facet | Score |
+|---|---|
+| Discoverability | 75.9 |
+| Contract quality | 71.7 |
+| Contract governance | 35.6 |
+| Operational transparency | 31.6 |
+| Developer ergonomics | 37.5 |
+| Access clarity | 65.8 |
 
-TMS Integration, Carrier Load Booking, Shipper Rate Shopping, Multi-Modal Transportation, Customs Brokerage, Global Forwarding, Produce Sourcing, Managed Transportation, Supply Chain Consulting, Fresh Produce Logistics
+**Agent readiness 36.6** — agent-ready
 
-## Integrations
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | mostly |
 
-Navisphere, Axele, Beyond Trucks, SmartHop, Geotab, SOS Trucking, SAP, Oracle, NetSuite, Microsoft Dynamics, Manhattan Associates, Blue Yonder, MercuryGate, Kuebix
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
 
-## Services
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/ch-robinson-worldwide/](https://apis.io/providers/ch-robinson-worldwide/).
 
-Truckload, Less Than Truckload, Intermodal, Ocean Freight, Air Freight, Customs Brokerage, Global Forwarding, Managed Services, Supply Chain Consulting, Robinson Fresh
+## How this profile is made
 
-## Maintainers
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
 
-**FN:** Kin Lane
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for C.H. Robinson: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
 
-**Email:** info@apievangelist.com
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/ch-robinson-worldwide/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
